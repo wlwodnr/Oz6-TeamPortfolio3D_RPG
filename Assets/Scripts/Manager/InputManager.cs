@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
     public static InputManager Instance;
     public Vector3 MoveInput {  get; private set; }
-    public bool IsJumpTriggered { get; private set; }
+    public static event Action OnJumpPressed;
 
     private void Awake()
     {
@@ -24,6 +25,9 @@ public class InputManager : MonoBehaviour
         float vertical = Input.GetAxisRaw("Vertical");
 
         MoveInput = new Vector3(horizontal, 0, vertical).normalized;
-        IsJumpTriggered = Input.GetKeyDown(KeyCode.Space);
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            OnJumpPressed?.Invoke();
+        }
     }
 }

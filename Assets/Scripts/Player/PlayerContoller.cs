@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         _groundCheck.OnGrounded += HandleGrounded;
+        InputManager.OnJumpPressed += HandleJumpPressed;
     }
     private void Start()
     {
@@ -25,21 +26,11 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        MovePlayer(InputManager.Instance.MoveInput, InputManager.Instance.IsJumpTriggered);
+        MovePlayer(InputManager.Instance.MoveInput);
     }
 
-    private void MovePlayer(Vector3 direction, bool jumpTrigger)
+    private void MovePlayer(Vector3 direction)
     {
-        if (jumpTrigger && _jumpCount < 2)
-        {
-            Debug.Log($"JumpCount : {_jumpCount}");
-            _anim.SetTrigger("Jump");
-            _anim.SetBool("isGrounded", false);
-            _rb.AddForce(Vector3.up * JumpPower, ForceMode.Impulse);
-            _jumpCount++;
-        }
-
-
         if (direction != Vector3.zero)
         {
             Vector3 moveDirection = _mainCamera.transform.TransformDirection(direction);
@@ -64,5 +55,17 @@ public class PlayerController : MonoBehaviour
     {
         _anim.SetBool("isGrounded", true);
         _jumpCount = 0;
+    }
+
+    private void HandleJumpPressed()
+    {
+        if (_jumpCount < 2)
+        {
+            Debug.Log($"JumpCount : {_jumpCount}");
+            _anim.SetTrigger("Jump");
+            _anim.SetBool("isGrounded", false);
+            _rb.AddForce(Vector3.up * JumpPower, ForceMode.Impulse);
+            _jumpCount++;
+        }
     }
 }
