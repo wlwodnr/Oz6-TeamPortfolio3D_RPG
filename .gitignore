@@ -85,3 +85,9 @@ Desktop.ini
 # Keep example env files trackable
 !.env.example
 !.env.*.example
+
+# ==================================================
+# Local ThirdParty folder
+# ==================================================
+Assets/ThirdParty/
+Assets/ThirdParty.meta
