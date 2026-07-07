@@ -1,15 +1,14 @@
 ﻿using UnityEngine;
+using System;
 
 public class GroundCheck : MonoBehaviour
 {
-    public PlayerController controller;
-
+    public event Action OnGrounded;
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Ground"))
         {
-            controller.anim.SetBool("isGrounded", true);
-            controller.jumpCount = 0;
+            OnGrounded?.Invoke();
         }
     }
 }

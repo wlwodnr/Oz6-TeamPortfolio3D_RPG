@@ -1,76 +1,68 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 public class PlayerController : MonoBehaviour
 {
-    public float moveSpeed = 10;
-    public float jumpPower = 5;
-    private float horizontalInput;
-    private float verticalInput;
-    public int jumpCount;
-    private Camera mainCamera;
-    public Animator anim;
+    [SerializeField] private GroundCheck _groundCheck;
+    [SerializeField] public float MoveSpeed = 10;
+    [SerializeField] public float JumpPower = 5;
+    public int _jumpCount;
+    private Camera _mainCamera;
+    private Animator _anim;
 
-    Rigidbody rb;
+    private Rigidbody _rb;
 
+    private void Awake()
+    {
+        _groundCheck.OnGrounded += HandleGrounded;
+    }
     private void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        mainCamera = Camera.main;
-        anim = GetComponent<Animator>();
+        _rb = GetComponent<Rigidbody>();
+        _mainCamera = Camera.main;
+        _anim = GetComponent<Animator>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        Vector3 camForward = mainCamera.transform.forward;
-        camForward.y = 0;
-        camForward.Normalize();
+        MovePlayer(InputManager.Instance.MoveInput, InputManager.Instance.IsJumpTriggered);
+    }
 
-        Vector3 camRight = mainCamera.transform.right;
-        camRight.y = 0;
-        camRight.Normalize();
-
-        if (Input.GetKeyDown(KeyCode.Space) && jumpCount < 2)
+    private void MovePlayer(Vector3 direction, bool jumpTrigger)
+    {
+        if (jumpTrigger && _jumpCount < 2)
         {
-            Debug.Log($"JumpCount : {jumpCount}");
-            anim.SetTrigger("Jump");
-            anim.SetBool("isGrounded", false);
-            rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
-            jumpCount++;
+            Debug.Log($"JumpCount : {_jumpCount}");
+            _anim.SetTrigger("Jump");
+            _anim.SetBool("isGrounded", false);
+            _rb.AddForce(Vector3.up * JumpPower, ForceMode.Impulse);
+            _jumpCount++;
         }
 
-        if (Input.GetKeyDown(KeyCode.A)) horizontalInput = -1f;
-        if (Input.GetKeyDown(KeyCode.D)) horizontalInput = 1f;
 
-        if (Input.GetKeyUp(KeyCode.A)) horizontalInput = Input.GetKey(KeyCode.D) ? 1f : 0f;
-        if (Input.GetKeyUp(KeyCode.D)) horizontalInput = Input.GetKey(KeyCode.A) ? -1f : 0f;
-
-        if (Input.GetKeyDown(KeyCode.W)) verticalInput = 1f;
-        if (Input.GetKeyDown(KeyCode.S)) verticalInput = -1f;
-
-        if (Input.GetKeyUp(KeyCode.W)) verticalInput = Input.GetKey(KeyCode.S) ? -1f : 0f;
-        if (Input.GetKeyUp(KeyCode.S)) verticalInput = Input.GetKey(KeyCode.W) ? 1f : 0f;
-
-        Vector3 moveVec = (camForward * verticalInput) + (camRight * horizontalInput);
-        rb.MovePosition(rb.position + (moveVec.normalized * moveSpeed * Time.deltaTime));
-
-        anim.SetFloat("yVelocity", rb.linearVelocity.y);
-
-        if (moveVec != Vector3.zero)
+        if (direction != Vector3.zero)
         {
-            anim.SetBool("walk", true);
-            Quaternion targetRotation = Quaternion.LookRotation(moveVec);
+            Vector3 moveDirection = _mainCamera.transform.TransformDirection(direction);
+            moveDirection.y = 0f;
+            _rb.MovePosition(_rb.position + (moveDirection * MoveSpeed * Time.deltaTime));
+
+            _anim.SetFloat("MoveSpeed", 1.0f, 0.15f, Time.deltaTime);
+
+            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 0.2f);
         }
         else
         {
-            anim.SetBool("walk", false);
+            _anim.SetFloat("MoveSpeed", 0.0f, 0.02f, Time.deltaTime);
         }
+
+        _anim.SetFloat("yVelocity", _rb.linearVelocity.y);
 
     }
 
-
-
-
-
-    
+    private void HandleGrounded()
+    {
+        _anim.SetBool("isGrounded", true);
+        _jumpCount = 0;
+    }
 }
