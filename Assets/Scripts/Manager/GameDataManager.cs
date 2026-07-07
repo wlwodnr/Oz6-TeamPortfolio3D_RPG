@@ -58,7 +58,19 @@ public class GameDataManager : MonoBehaviour
 
     public void LoadAll()
     {
-        QuestDataList = LoadData<QuestData>("Quest");
+        QuestDataList = LoadData<QuestData>("QuestData");
+
+        // 방어코드
+        if (QuestDataList != null)
+        {
+            foreach(QuestData quest in QuestDataList.Values)
+            {
+                if(quest.RewardItemIdList == null)
+                {
+                    quest.RewardItemIdList = new List<string>();
+                }
+            }
+        }
     }
 
 
