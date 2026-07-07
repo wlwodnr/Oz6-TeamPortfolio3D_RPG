@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+[CreateAssetMenu(fileName = "ConsumableItem", menuName = "ItemData/ConsumableItem")]
 public class ConsumableItem : ItemBase, ITradeable, IUseable
 {
     public int BuyPrice { get; set; }

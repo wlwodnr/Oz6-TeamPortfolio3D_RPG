@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+[CreateAssetMenu(fileName = "ValuableItem", menuName = "ItemData/ValuableItem")]
 public class ValuableItem : ItemBase, ITradeable
 {
 

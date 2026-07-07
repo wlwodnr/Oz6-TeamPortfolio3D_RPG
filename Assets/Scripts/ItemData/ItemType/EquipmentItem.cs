@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+[CreateAssetMenu(fileName = "EquipmentItem", menuName = "ItemData/EquipmentItem")]
 public class EquipmentItem : ItemBase, ITradeable, IEquipable
 {
     public EquipType ItemType { get; set; }
