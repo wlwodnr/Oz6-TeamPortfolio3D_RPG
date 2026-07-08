@@ -7,7 +7,7 @@ public class MonsterData
     public string PrefabPath;
     public string IconPath;
 
-    public int BaseHP;
+    public int BaseHp;
     public int BaseAttack;
     public float MoveSpeed;
 

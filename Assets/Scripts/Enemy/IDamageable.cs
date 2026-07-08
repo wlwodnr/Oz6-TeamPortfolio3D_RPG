@@ -2,7 +2,7 @@
 
 public interface IDamageable
 {
-    bool isDead {  get; }
+    bool IsDead {  get; }
 
     void TakeDamage(DamageInfo damageInfo);
 }
