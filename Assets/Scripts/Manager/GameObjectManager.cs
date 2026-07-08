@@ -10,6 +10,8 @@ public class GameObjectManager : MonoBehaviour
 
     private Dictionary<int, GameObject> _createdGameObjectContainer = new Dictionary<int, GameObject>();
 
+    private Dictionary<int, GameObject> _prefabContainer = new Dictionary<int, GameObject>();
+
     private void Awake()
     {
         if(Instance == null)
@@ -67,6 +69,62 @@ public class GameObjectManager : MonoBehaviour
 
         return instanceId;
     }
+
+    private bool TryReuseInactiveGameObject(GameObject prefab, Vector3 spawnPosition, Quaternion spawnRotation, string dataId, out int reusedInstanceId)
+    {
+        foreach(var pair in _createdGameObjectContainer)
+        {
+            int instanceId = pair.Key;
+            GameObject pooledObject = pair.Value;
+
+            if(pooledObject == null)
+            {
+                continue;
+            }
+            if(pooledObject.activeSelf == true)
+            {
+                continue;
+            }
+
+            if(_prefabContainer.ContainsKey(instanceId) == false)
+            {
+                continue;
+            }
+
+            GameObject originPrefab = _prefabContainer[instanceId];
+
+            if(originPrefab != prefab)
+            {
+                continue;
+            }
+
+            pooledObject.transform.position = spawnPosition;
+            pooledObject.transform.rotation = spawnRotation;
+
+            IGameObjectEntity entity = pooledObject.GetComponent<IGameObjectEntity>();
+
+            if(entity != null)
+            {
+                entity.ResetEntity();
+
+                entity.InitEntity(instanceId, dataId);
+            }
+            else
+            {
+                Debug.LogWarning($"재사용할 오브젝트에 IGameObjectEntity가 없습니다. ObjectName: {pooledObject.name}");
+            }
+            pooledObject.SetActive(true);
+
+            reusedInstanceId = instanceId;
+
+            Debug.Log($"비활성화된 오브젝트 재사용 완료. InstanceId: {instanceId}, Name: {pooledObject.name}");
+
+            return true;
+        }
+        reusedInstanceId = -1;
+        return false;
+    }
+
 
     private int GenerateInstanceId()
     {
