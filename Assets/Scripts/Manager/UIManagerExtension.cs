@@ -13,7 +13,9 @@ public enum UIRootType
 public enum UIType
 {
     PlayerProfileUI,
-    PlayerStatInfoUI
+    PlayerStatInfoUI,
+
+    TestUI
 }
 
 public static class UIManagerExtension
@@ -28,29 +30,16 @@ public static class UIManagerExtension
 
     public static void ShowStartupUIOnGameStart(this UIManager uiManager)
     {
-        uiManager.OpenStartLoginUI();
+        uiManager.OpenPlayerProfileUI();
+        uiManager.OpenTestUI();
     }
 
     // ------------------------------------------------------------------
     // veryfrontUI
-    public static void OpenStartLoginUI(this UIManager uiManager)
-    {
-        var uiBase = uiManager.OpenVeryFrontUI(UIType.PlayerProfileUI);
-        if (uiBase == null)
-        {
-            Debug.LogWarning($"UI가 생성되지 않았습니다");
-            return;
-        }
-    }
-    public static void CloseStartLoginUI(this UIManager uiManager)
-    {
-        uiManager.CloseVeryFrontUI( UIType.PlayerProfileUI);
-    }
 
-
-    public static UIBase OpenLoadingUI(this UIManager uiManager)
+    public static UIBase OpenTestUI(this UIManager uiManager)
     {
-        var uiBase = uiManager.OpenVeryFrontUI(UIType.PlayerStatInfoUI);
+        var uiBase = uiManager.OpenPopupUI(UIType.TestUI);
         if (uiBase == null)
         {
             Debug.LogWarning($"UI가 생성되지 않았습니다");
@@ -58,24 +47,55 @@ public static class UIManagerExtension
         }
         return uiBase;
     }
-    public static void CloseLoadingUI(this UIManager uiManager)
+    public static void CloseTestUI(this UIManager uiManager)
     {
-        uiManager.CloseVeryFrontUI(UIType.PlayerStatInfoUI);
+        uiManager.ClosePopupUI(UIType.TestUI);
     }
+
+
 
     // ------------------------------------------------------------------
     // popupUI
 
+    public static UIBase OpenPlayerStatInfoUI(this UIManager uiManager)
+    {
+        var uiBase = uiManager.OpenPopupUI(UIType.PlayerStatInfoUI);
+        if (uiBase == null)
+        {
+            Debug.LogWarning($"UI가 생성되지 않았습니다");
+            return null;
+        }
+        return uiBase;
+    }
+    public static void ClosePlayerStatInfoUI(this UIManager uiManager)
+    {
+        uiManager.ClosePopupUI(UIType.PlayerStatInfoUI);
+    }
 
     // ------------------------------------------------------------------
     // mainUI
 
+    public static void OpenPlayerProfileUI(this UIManager uiManager)
+    {
+        var uiBase = uiManager.OpenMainUI(UIType.PlayerProfileUI);
+        if (uiBase == null)
+        {
+            Debug.LogWarning($"UI가 생성되지 않았습니다");
+            return;
+        }
+    }
+    public static void ClosePlayerProfileUI(this UIManager uiManager)
+    {
+        uiManager.CloseMainUI(UIType.PlayerProfileUI);
+    }
 
     // ------------------------------------------------------------------
     // contentUI
 
 
+
     // ------------------------------------------------------------------
     // BackgroundUI
+
 
 }

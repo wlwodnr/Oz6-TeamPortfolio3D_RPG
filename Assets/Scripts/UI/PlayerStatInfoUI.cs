@@ -9,10 +9,27 @@ public class PlayerStatInfoUI : UIBase
     [SerializeField] Text Text_MP;
     [SerializeField] Text Text_AtkSpeed;
     [SerializeField] Text Text_SkillPoint;
-    
+    [SerializeField] UIButton Btn_Close;
+
     // 뷰에서 절대 new로 VewModel을 하지 않고, 네트워크 매니저를 통해 생성된 뷰 모델을 받아야 한다
     private PlayerStatViewModel _statVm;
 
+    private void OnEnable()
+    {
+        Btn_Close.BindOnClickButtonEvent(OnClick_ClosePopup);
+
+        var statVm = NetworkManager.Inst.LocalPlayerService.GetLocalPlayerStatViewModel();
+        if (statVm != null)
+        {
+            BindViewModel(statVm);
+        }
+    }
+
+    private void OnClick_ClosePopup()
+    {
+        UIManager.Instance.ClosePlayerStatInfoUI();
+    }
+     
     public void BindViewModel(PlayerStatViewModel vm)
     {
         _statVm = vm;
@@ -36,30 +53,30 @@ public class PlayerStatInfoUI : UIBase
                 {
                     Text_Atk.text = $"Atk : {_statVm.Atk}";
                 }
-                break;
+            break;
             case nameof(PlayerStatViewModel.HP):
                 {
-                    Text_HP.text = $"Crit : {_statVm.HP}";
+                    Text_HP.text = $"HP : {_statVm.HP}";
 
                 }
-                break;
+            break;
             case nameof(PlayerStatViewModel.MP):
                 {
-                    Text_MP.text = $"Hp : {_statVm.MP}";
+                    Text_MP.text = $"MP : {_statVm.MP}";
 
                 }
-                break;
-            case nameof(PlayerStatViewModel.SkillPoint):
-                {
-                    Text_AtkSpeed.text = $"Spd : {_statVm.SkillPoint}";
-
-                }
-                break;
+            break;
             case nameof(PlayerStatViewModel.AtkSpeed):
                 {
-                    Text_SkillPoint.text = $"AtkSpd : {_statVm.AtkSpeed}%";
+                    Text_SkillPoint.text = $"AtkSpd : {_statVm.AtkSpeed}";
                 }
-                break;
+            break;
+            case nameof(PlayerStatViewModel.SkillPoint):
+                {
+                    Text_AtkSpeed.text = $"Skill Point : {_statVm.SkillPoint}";
+
+                }
+            break;
         }
     }
 }

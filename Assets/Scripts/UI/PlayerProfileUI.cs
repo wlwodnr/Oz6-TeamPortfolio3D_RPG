@@ -14,6 +14,16 @@ public class PlayerProfileUI : UIBase
     // 뷰에서 절대 new로 VewModel을 하지 않고, 네트워크 매니저를 통해 생성된 뷰 모델을 받아야 한다
     private PlayerProfileViewModel _vm;
 
+    private void OnEnable()
+    {
+        Btn_OpenStatInfoUI.BindOnClickButtonEvent(OnClick_OpenPlayerStatInfoUI);
+    }
+
+    private void OnClick_OpenPlayerStatInfoUI()
+    {
+        UIManager.Instance.OpenPlayerStatInfoUI();
+    }
+
     public void BindViewModel(PlayerProfileViewModel vm)
     {
         _vm = vm;
