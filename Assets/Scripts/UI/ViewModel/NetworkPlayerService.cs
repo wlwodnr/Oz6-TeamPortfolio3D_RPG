@@ -55,7 +55,7 @@ public class NetworkPlayerService
             var localPlayerStatVm = new PlayerStatViewModel();
             SetPlayerStatData(localPlayerStatVm, atk: 10, hp: 100, mp: 100, atkSpeed: 1, skillPoint: 10);
 
-            var playerStatData = GameDataManager.Instance.GetData<PlayerStatData>("stat_dummy");
+            var playerStatData = GameDataManager.Instance.GetPlayerStatData("stat_dummy");
             if (playerStatData == null)
             {
                 Debug.LogError("플레이어 데이터를 찾을 수 없습니다. : NetworkPlayerService");

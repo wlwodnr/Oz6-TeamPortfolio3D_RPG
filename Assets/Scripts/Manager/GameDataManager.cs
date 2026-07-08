@@ -21,6 +21,9 @@ public class GameDataManager : MonoBehaviour
     }
 
     public Dictionary<string, QuestData> QuestDataList { get; private set; } = new Dictionary<string, QuestData>();
+    public Dictionary<string, PlayerStatData> PlayerStatDataList { get; private set; } = new Dictionary<string, PlayerStatData>();
+
+    //-----------------------------------------------------------------------------------------
 
     private Dictionary<string, T> LoadData<T>(string tableName) where T : GameDataBase
     {
@@ -55,14 +58,14 @@ public class GameDataManager : MonoBehaviour
         return new Dictionary<string, T>();
     }
 
-
     public void LoadAll()
     {
 
         QuestDataList = LoadData<QuestData>("QuestData");
+        PlayerStatDataList = LoadData<PlayerStatData>("PlayerStat");
     }
 
-
+    //----------------------------------------------------------------------
     public QuestData GetQuestData(string id)
     {
         if(QuestDataList == null || string.IsNullOrEmpty(id)) return null;
@@ -70,4 +73,10 @@ public class GameDataManager : MonoBehaviour
         return QuestDataList.TryGetValue(id, out var item) ? item : null;
     }
 
+    public PlayerStatData GetPlayerStatData(string id)
+    {
+        if (PlayerStatDataList == null || string.IsNullOrEmpty(id)) return null;
+
+        return PlayerStatDataList.TryGetValue(id, out var item) ? item : null;
+    }
 }
