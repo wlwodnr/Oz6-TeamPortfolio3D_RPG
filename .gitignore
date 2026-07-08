@@ -91,3 +91,5 @@ Desktop.ini
 # ==================================================
 Assets/ThirdParty/
 Assets/ThirdParty.meta
+Packages/JsonUtility.1.1.2
+Packages/Newtonsoft.Json.13.0.3
