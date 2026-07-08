@@ -14,7 +14,7 @@ public class GameObjectManager : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
         }
@@ -28,7 +28,7 @@ public class GameObjectManager : MonoBehaviour
 
     public int RequestSpawnGameObject(GameObject prefab, Vector3 spawnPosition, Quaternion spawnRotation, string dataId)
     {
-        if(prefab == null)
+        if (prefab == null)
         {
             Debug.LogWarning("생성할 Prefab이 없습니다.");
             return -1;
@@ -38,8 +38,23 @@ public class GameObjectManager : MonoBehaviour
             Debug.LogWarning("Root_DynamicObject가 등록되지 않았습니다.");
             return -1;
         }
-        //object pool 방식으로 변경할 예정
-        GameObject createdObject = Instantiate(prefab, Root_DynamicObject);
+
+        IGameObjectEntity prefabEntity = prefab.GetComponent<IGameObjectEntity>();
+
+        if (prefabEntity == null)
+        {
+            Debug.LogWarning($"생성할 Prefab에 IGameObjectEntity가 없습니다. PrefabName: {prefab.name}");
+            return -1;
+        }
+
+        if (TryReuseInactiveGameObject(prefab, spawnPosition, spawnRotation, dataId, out int reusedInstanceId))
+        {
+            return reusedInstanceId;
+        }
+
+        GameObject createdObject = Instantiate(prefab, spawnPosition, spawnRotation, Root_DynamicObject);
+
+
 
         if (createdObject == null)
         {
@@ -47,12 +62,15 @@ public class GameObjectManager : MonoBehaviour
             return -1;
         }
 
-        createdObject.transform.position = spawnPosition;
-        createdObject.transform.rotation = spawnRotation;
 
-        _objectInstanceKeyGenerator++;
+        int instanceId = GenerateInstanceId();
 
-        int instanceId = _objectInstanceKeyGenerator;
+        if (instanceId < 0)
+        {
+            Debug.LogWarning("InstanceId 생성에 실패했습니다.");
+            createdObject.SetActive(false);
+            return -1;
+        }
 
         if (_createdGameObjectContainer.ContainsKey(instanceId) == true)
         {
@@ -61,10 +79,22 @@ public class GameObjectManager : MonoBehaviour
             return -1;
         }
 
+        IGameObjectEntity entity = createdObject.GetComponent<IGameObjectEntity>();
+
+        if (entity == null)
+        {
+            Debug.LogWarning($"생성된 오브젝트에 IGameObjectEntity가 없습니다. ObjectName: {createdObject.name}");
+            createdObject.SetActive(false);
+            return -1;
+        }
+
+
         _createdGameObjectContainer.Add(instanceId, createdObject);
+        _prefabContainer[instanceId] = prefab;
+
         InitSpawnedObject(instanceId, createdObject, dataId);
 
-        //이 디버그는 테스트 후 삭제할 예정
+        //JU 이 디버그는 테스트 후 삭제할 예정
         Debug.Log($"동적 오브젝트 생성 완료. InstanceId: {instanceId}, Name: {createdObject.name}");
 
         return instanceId;
@@ -72,38 +102,39 @@ public class GameObjectManager : MonoBehaviour
 
     private bool TryReuseInactiveGameObject(GameObject prefab, Vector3 spawnPosition, Quaternion spawnRotation, string dataId, out int reusedInstanceId)
     {
-        foreach(var pair in _createdGameObjectContainer)
+        foreach (var pair in _createdGameObjectContainer)
         {
             int instanceId = pair.Key;
             GameObject pooledObject = pair.Value;
 
-            if(pooledObject == null)
+            if (pooledObject == null)
             {
                 continue;
             }
-            if(pooledObject.activeSelf == true)
-            {
-                continue;
-            }
-
-            if(_prefabContainer.ContainsKey(instanceId) == false)
+            if (pooledObject.activeSelf == true)
             {
                 continue;
             }
 
-            GameObject originPrefab = _prefabContainer[instanceId];
 
-            if(originPrefab != prefab)
+            if (_prefabContainer.TryGetValue(instanceId, out GameObject originPrefab) == false)
             {
                 continue;
             }
+
+
+            if (originPrefab != prefab)
+            {
+                continue;
+            }
+
 
             pooledObject.transform.position = spawnPosition;
             pooledObject.transform.rotation = spawnRotation;
 
             IGameObjectEntity entity = pooledObject.GetComponent<IGameObjectEntity>();
 
-            if(entity != null)
+            if (entity != null)
             {
                 entity.ResetEntity();
 
@@ -112,7 +143,9 @@ public class GameObjectManager : MonoBehaviour
             else
             {
                 Debug.LogWarning($"재사용할 오브젝트에 IGameObjectEntity가 없습니다. ObjectName: {pooledObject.name}");
+                continue;
             }
+
             pooledObject.SetActive(true);
 
             reusedInstanceId = instanceId;
@@ -129,6 +162,13 @@ public class GameObjectManager : MonoBehaviour
     private int GenerateInstanceId()
     {
         _objectInstanceKeyGenerator++;
+
+        if (_objectInstanceKeyGenerator <= 0)
+        {
+            Debug.LogWarning("InstanceId가 int 범위를 초과했거나 비정상 값이 되었습니다.");
+            return -1;
+        }
+
         return _objectInstanceKeyGenerator;
     }
 
@@ -136,7 +176,7 @@ public class GameObjectManager : MonoBehaviour
     {
         IGameObjectEntity entity = createdObject.GetComponent<IGameObjectEntity>();
 
-        if(entity == null)
+        if (entity == null)
         {
             Debug.LogWarning($"생성된 오브젝트에 IGameObjectEntity가 없습니다. ObjectName: {createdObject.name}");
             return;
@@ -149,29 +189,44 @@ public class GameObjectManager : MonoBehaviour
 
     public GameObject GetGameObjectCanBeNull(int instanceId)
     {
-        if(_createdGameObjectContainer.ContainsKey(instanceId) == false)
+        if (_createdGameObjectContainer.TryGetValue(instanceId, out GameObject targetObject) == false)
         {
             Debug.LogWarning($"해당 InstanceId의 오브젝트가 없습니다. InstanceId: {instanceId}");
             return null;
         }
 
-        return _createdGameObjectContainer[instanceId];
+        if (targetObject == null)
+        {
+            Debug.LogWarning($"해당 InstanceId의 오브젝트가 null입니다. InstanceId: {instanceId}");
+            return null;
+        }
+
+        return targetObject;
     }
 
     public void RequestDisableGameObject(int instanceId)
     {
         GameObject targetObject = GetGameObjectCanBeNull(instanceId);
 
-        if(targetObject == null)
+        if (targetObject == null)
+        {
+            return;
+        }
+
+        if (targetObject.activeSelf == false)
         {
             return;
         }
 
         IGameObjectEntity entity = targetObject.GetComponent<IGameObjectEntity>();
 
-        if(entity != null)
+        if (entity != null)
         {
             entity.ResetEntity();
+        }
+        else
+        {
+            Debug.LogWarning($"비활성화할 오브젝트에 IGameObjectEntity가 없습니다. ObjectName: {targetObject.name}");
         }
 
         targetObject.SetActive(false);
