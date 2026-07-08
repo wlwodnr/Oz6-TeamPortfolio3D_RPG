@@ -6,6 +6,7 @@ public class EnemyAI : MonoBehaviour
 {
     [SerializeField] private NavMeshAgent Agent_NavMesh;
     [SerializeField] private EnemyStatus Status_Enemy;
+    [SerializeField] private LayerMask Layer_Target;
 
     private int _instanceId;
     private string _monsterDataId;
@@ -17,6 +18,9 @@ public class EnemyAI : MonoBehaviour
     public int IntanceId { get { return _instanceId; }  }
     public Transform CurrnetTarget { get { return _currentTarget; } }
     public MonsterData MonsterData { get { return _monsterData; } }
+
+    public EnemyStatus Status { get { return Status_Enemy; }  }
+
 
     public Vector3 SpawnPosition
     {
@@ -80,11 +84,11 @@ public class EnemyAI : MonoBehaviour
         gameObject.SetActive(false); // 나중에 게임오브젝트매니저로 비활성화시키기
     }
 
-    public void ResetEnemyAIForPool(Vector3 newSpawnPosition)
+    public void ResetEnemyAIForPool(SpawnSpot newSpawnSpot)
     {
-        _spawnOrigin = newSpawnPosition;
-        transform.position = newSpawnPosition;
+        _spawnOriginSpot = newSpawnSpot;
         _currentTarget = null;
+
 
         Status_Enemy.ResetStatus();
 
@@ -113,9 +117,8 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    public void ChaseTarget(Transform targetTransform)
+    public void ChaseTarget()
     {
-        _currentTarget = targetTransform;
         if(_currentTarget != null)
         {
             MoveToPosition(_currentTarget.position);
@@ -143,6 +146,36 @@ public class EnemyAI : MonoBehaviour
         _currentTarget = null;
     }
 
+    public bool SearchTarget()
+    {
+        if(Status_Enemy.IsDead || _monsterData == null) return false;
+
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, _monsterData.DetectRange, Layer_Target);
+
+        if(hitColliders.Length > 0)
+        {
+            _currentTarget = hitColliders[0].transform;
+            return true;
+        }
+
+        return false;
+    }
+
+    public bool CheckAttackRange()
+    {
+        if (_currentTarget == null || _monsterData == null) return false;
+
+        float distance = Vector3.Distance(transform.position, _currentTarget.position);
+        return distance <= _monsterData.AttackRange;
+    }
+
+    public bool CheckExceededSpawnLimit()
+    {
+        if (_monsterData == null) return false;
+
+        float distanceFromHome = Vector3.Distance(transform.position, SpawnPosition);
+        return distanceFromHome > _monsterData.SpawnLimitRange;
+    }
 
 
 
