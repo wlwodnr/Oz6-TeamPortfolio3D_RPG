@@ -52,23 +52,32 @@ public class NetworkPlayerService
     {
         if (_localPlayerStatViewModel == null)
         {
-            CreateLocalPlayerStatViewModel();
+            var localPlayerStatVm = new PlayerStatViewModel();
+            SetPlayerStatData(localPlayerStatVm, atk: 10, hp: 100, mp: 100, atkSpeed: 1, skillPoint: 10);
+
+            var playerStatData = GameDataManager.Instance.GetData<PlayerStatData>("stat_dummy");
+            if (playerStatData == null)
+            {
+                Debug.LogError("플레이어 데이터를 찾을 수 없습니다. : NetworkPlayerService");
+                _localPlayerStatViewModel = localPlayerStatVm;
+                return _localPlayerStatViewModel;
+            }
+
+            SetPlayerStatData(localPlayerStatVm, playerStatData.Atk, playerStatData.HP,
+                playerStatData.MP, playerStatData.AtkSpeed, playerStatData.SkillPoint);
+
+            _localPlayerStatViewModel = localPlayerStatVm;
         }
 
         return _localPlayerStatViewModel;
     }
 
-    public PlayerStatViewModel CreateLocalPlayerStatViewModel()
+    private void SetPlayerStatData(PlayerStatViewModel vm, int atk, int hp, int mp, int atkSpeed, int skillPoint)
     {
-
-        var localPlayerStatVm = new PlayerStatViewModel();
-        localPlayerStatVm.Atk = 0;
-        localPlayerStatVm.HP = 100;
-        localPlayerStatVm.MP = 100;
-        localPlayerStatVm.AtkSpeed = 1;
-        localPlayerStatVm.SkillPoint = 1;
-        _localPlayerStatViewModel = localPlayerStatVm;
-        return localPlayerStatVm;
+        vm.Atk = atk;
+        vm.HP = hp;
+        vm.MP = mp;
+        vm.AtkSpeed = atkSpeed;
+        vm.SkillPoint = skillPoint;
     }
-
 }
