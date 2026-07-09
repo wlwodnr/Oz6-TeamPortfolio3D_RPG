@@ -17,6 +17,12 @@ public class PlayerProfileUI : UIBase
     private void OnEnable()
     {
         Btn_OpenStatInfoUI.BindOnClickButtonEvent(OnClick_OpenPlayerStatInfoUI);
+
+        var profileVm = NetworkManager.Inst.LocalPlayerService.GetLocalPlayerProfileViewModel();
+        if (profileVm != null)
+        {
+            BindViewModel(profileVm);
+        }
     }
 
     private void OnClick_OpenPlayerStatInfoUI()

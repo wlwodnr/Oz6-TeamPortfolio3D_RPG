@@ -5,7 +5,7 @@ public class NetworkPlayerService
     private PlayerProfileViewModel _localPlayerProfileViewModel;
     private PlayerStatViewModel _localPlayerStatViewModel;
 
-    public PlayerProfileViewModel GetLocalPlayerViewModel()
+    public PlayerProfileViewModel GetLocalPlayerProfileViewModel()
     {
         if(_localPlayerProfileViewModel == null)
         {
