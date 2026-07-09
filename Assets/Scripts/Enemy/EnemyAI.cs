@@ -104,13 +104,7 @@ public class EnemyAI : MonoBehaviour
         _isDisableRequested = false;
 
         int entityInstanceId = InstanceId;
-
-        if (entityInstanceId < 0)
-        {
-            Debug.LogWarning($"[{gameObject.name}] EnemyEntity의 InstanceId가 유효하지 않습니다. InstanceId: {entityInstanceId}");
-            return;
-        }
-
+       
         //확인용
         if (InstanceId != generatedId)
         {
