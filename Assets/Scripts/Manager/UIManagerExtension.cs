@@ -12,6 +12,7 @@ public enum UIRootType
 
 public enum UIType
 {
+    StartTitleUI,
     HudMainUI,
     PlayerProfileUI,
     PlayerStatInfoUI,
@@ -31,8 +32,9 @@ public static class UIManagerExtension
 
     public static void ShowStartupUIOnGameStart(this UIManager uiManager)
     {
-        uiManager.OpenUI(UIRootType.MainUI, UIType.PlayerProfileUI);
-        uiManager.OpenUI(UIRootType.VeryFrontUI, UIType.TestUI);
+        uiManager.OpenUI(UIRootType.MainUI, UIType.StartTitleUI);
+        //uiManager.OpenUI(UIRootType.MainUI, UIType.PlayerProfileUI);      테스트용 바로 나오게
+        //uiManager.OpenUI(UIRootType.VeryFrontUI, UIType.TestUI);
     }
 
     public static UIBase OpenPlayerStatInfoUI(this UIManager uiManager)
