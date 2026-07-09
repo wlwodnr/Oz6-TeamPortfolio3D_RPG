@@ -81,7 +81,7 @@ public class EnemyAI : MonoBehaviour
 
         Debug.Log($"[{gameObject.name}] AI 작동 중지");
 
-        gameObject.SetActive(false); // 나중에 게임오브젝트매니저로 비활성화시키기
+        GameObjectManager.Instance.RequestDisableGameObject(_instanceId);
     }
 
     public void ResetEnemyAIForPool(SpawnSpot newSpawnSpot)
