@@ -55,14 +55,46 @@ public class EnemyAI : MonoBehaviour
 
     private void OnEnable()
     {
+        //Status_Enemy 스크립트 null체크
+        _isDisableRequested = false;
+
+        if (Status_Enemy == null)
+        {
+            Debug.LogWarning($"[{gameObject.name}] Status_Enemy가 없어 사망 이벤트를 등록할 수 없습니다.");
+            return;
+        }
+
+        //혹시나 있을 이미 들어가있는 경우를 대비하여 빼고 넣기
+        Status_Enemy.OnDeadEvent -= OnEnemyDead;
         Status_Enemy.OnDeadEvent += OnEnemyDead;
     }
 
     private void OnDisable()
     {
+        if (Status_Enemy == null)
+        {
+            return;
+        }
         Status_Enemy.OnDeadEvent -= OnEnemyDead;
     }
 
+    private void Awake()
+    {
+        if (Agent_NavMesh == null)
+        {
+            Debug.LogWarning($"[{gameObject.name}] Agent_NavMesh가 인스펙터에 연결되지 않았습니다.");
+        }
+
+        if (Status_Enemy == null)
+        {
+            Debug.LogWarning($"[{gameObject.name}] Status_Enemy가 인스펙터에 연결되지 않았습니다.");
+        }
+
+        if (Entity_Enemy == null)
+        {
+            Debug.LogWarning($"[{gameObject.name}] Entity_Enemy가 인스펙터에 연결되지 않았습니다.");
+        }
+    }
 
 
     public void InitEnemyInfo(int generatedId, string monsterDataId, SpawnSpot ownerSpot)
@@ -78,11 +110,36 @@ public class EnemyAI : MonoBehaviour
             return;
         }
 
-        Status_Enemy.InitStatus(_monsterData);
+        //null인지 한번만 더 체크 null 체크는 들어갈 수 있는 한 많이
+        if (Status_Enemy != null)
+        {
+            Status_Enemy.InitStatus(_monsterData);
+        }
 
-        if(Agent_NavMesh != null)
+        if (Agent_NavMesh != null)
         {
             Agent_NavMesh.speed = _monsterData.MoveSpeed;
+
+            //죽었을 때 비활성화 하기에, 활성화 되어있는지 한번 더 체크
+            if (Agent_NavMesh == null)
+            {
+                Debug.LogWarning($"[{gameObject.name}] Agent_NavMesh가 연결되지 않아 이동 속도를 설정할 수 없습니다.");
+                return;
+            }
+
+            Agent_NavMesh.speed = _monsterData.MoveSpeed;
+
+            if (Agent_NavMesh.enabled == false)
+            {
+                return;
+            }
+
+            if (Agent_NavMesh.isOnNavMesh == false)
+            {
+                Debug.LogWarning($"[{gameObject.name}] NavMesh 위에 있지 않아 이동 정지를 해제할 수 없습니다.");
+                return;
+            }
+
             Agent_NavMesh.isStopped = false;
         }
 
