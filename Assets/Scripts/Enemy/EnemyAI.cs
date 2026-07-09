@@ -1,5 +1,4 @@
-﻿using System.Xml.Serialization;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour
@@ -101,6 +100,16 @@ public class EnemyAI : MonoBehaviour
     {
         _monsterDataId = monsterDataId;
         _spawnOriginSpot = ownerSpot;
+        _currentTarget = null;
+        _isDisableRequested = false;
+
+        int entityInstanceId = InstanceId;
+
+        if (entityInstanceId < 0)
+        {
+            Debug.LogWarning($"[{gameObject.name}] EnemyEntity의 InstanceId가 유효하지 않습니다. InstanceId: {entityInstanceId}");
+            return;
+        }
 
         //확인용
         if (InstanceId != generatedId)
@@ -121,37 +130,50 @@ public class EnemyAI : MonoBehaviour
             Status_Enemy.InitStatus(_monsterData);
         }
 
-        if (Agent_NavMesh != null)
+        InitNavMeshAgent();
+
+    }
+
+    private void InitNavMeshAgent()
+    {
+        if (Agent_NavMesh == null)
         {
-            Agent_NavMesh.speed = _monsterData.MoveSpeed;
-
-            //죽었을 때 비활성화 하기에, 활성화 되어있는지 한번 더 체크
-            if (Agent_NavMesh == null)
-            {
-                Debug.LogWarning($"[{gameObject.name}] Agent_NavMesh가 연결되지 않아 이동 속도를 설정할 수 없습니다.");
-                return;
-            }
-
-            Agent_NavMesh.speed = _monsterData.MoveSpeed;
-
-            if (Agent_NavMesh.enabled == false)
-            {
-                return;
-            }
-
-            if (Agent_NavMesh.isOnNavMesh == false)
-            {
-                Debug.LogWarning($"[{gameObject.name}] NavMesh 위에 있지 않아 이동 정지를 해제할 수 없습니다.");
-                return;
-            }
-
-            Agent_NavMesh.isStopped = false;
+            Debug.LogWarning($"[{gameObject.name}] Agent_NavMesh가 연결되지 않아 NavMeshAgent를 초기화할 수 없습니다.");
+            return;
         }
 
+        if (_monsterData == null)
+        {
+            Debug.LogWarning($"[{gameObject.name}] MonsterData가 없어 NavMeshAgent를 초기화할 수 없습니다.");
+            return;
+        }
+
+        Agent_NavMesh.speed = _monsterData.MoveSpeed;
+
+        if (Agent_NavMesh.enabled == false)
+        {
+            return;
+        }
+
+        if (Agent_NavMesh.isOnNavMesh == false)
+        {
+            Debug.LogWarning($"[{gameObject.name}] NavMesh 위에 있지 않아 이동 정지를 해제할 수 없습니다.");
+            return;
+        }
+
+        Agent_NavMesh.isStopped = false;
+        Agent_NavMesh.ResetPath();
     }
 
     private void OnEnemyDead()
     {
+        if (_isDisableRequested == true)
+        {
+            return;
+        }
+
+        _isDisableRequested = true;
+
         StopMoving();
         ClearTarget();
 
@@ -162,17 +184,26 @@ public class EnemyAI : MonoBehaviour
 
         Debug.Log($"[{gameObject.name}] AI 작동 중지");
 
+        RequestDisableSelf();
+    }
+    private void RequestDisableSelf()
+    {
+        if (GameObjectManager.Instance == null)
+        {
+            Debug.LogWarning($"[{gameObject.name}] GameObjectManager가 없어 비활성화 요청을 할 수 없습니다.");
+            return;
+        }
+
         int instanceId = InstanceId;
 
-        if(instanceId < 0)
+        if (instanceId < 0)
         {
             Debug.LogWarning($"[{gameObject.name}] 유효하지 않은 InstanceId입니다. InstanceId: {instanceId}");
             return;
         }
-        //EnemyEntity의 InstanceId 값을 갖고오도록 수정
+
         GameObjectManager.Instance.RequestDisableGameObject(instanceId);
     }
-
     public void ResetEnemyAIForPool(SpawnSpot newSpawnSpot)
     {
         _spawnOriginSpot = newSpawnSpot;
@@ -197,6 +228,7 @@ public class EnemyAI : MonoBehaviour
 
     public void MoveToPosition(Vector3 targetPosition)
     {
+
         if (Status_Enemy.IsDead || Agent_NavMesh == null || !Agent_NavMesh.gameObject.activeInHierarchy) return;
 
         if (Agent_NavMesh.isOnNavMesh)
@@ -227,6 +259,8 @@ public class EnemyAI : MonoBehaviour
         if(Agent_NavMesh != null && Agent_NavMesh.isOnNavMesh)
         {
             Agent_NavMesh.isStopped = true;
+            //경로 초기화 추가
+            Agent_NavMesh.ResetPath();
         }
     }
 
