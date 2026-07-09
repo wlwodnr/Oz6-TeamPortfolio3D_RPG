@@ -12,6 +12,7 @@ public enum UIRootType
 
 public enum UIType
 {
+    HudMainUI,
     PlayerProfileUI,
     PlayerStatInfoUI,
 
@@ -30,32 +31,9 @@ public static class UIManagerExtension
 
     public static void ShowStartupUIOnGameStart(this UIManager uiManager)
     {
-        uiManager.OpenPlayerProfileUI();
-        uiManager.OpenTestUI();
+        uiManager.OpenUI(UIRootType.MainUI, UIType.PlayerProfileUI);
+        uiManager.OpenUI(UIRootType.VeryFrontUI, UIType.TestUI);
     }
-
-    // ------------------------------------------------------------------
-    // veryfrontUI
-
-    public static UIBase OpenTestUI(this UIManager uiManager)
-    {
-        var uiBase = uiManager.OpenPopupUI(UIType.TestUI);
-        if (uiBase == null)
-        {
-            Debug.LogWarning($"UI가 생성되지 않았습니다");
-            return null;
-        }
-        return uiBase;
-    }
-    public static void CloseTestUI(this UIManager uiManager)
-    {
-        uiManager.ClosePopupUI(UIType.TestUI);
-    }
-
-
-
-    // ------------------------------------------------------------------
-    // popupUI
 
     public static UIBase OpenPlayerStatInfoUI(this UIManager uiManager)
     {
@@ -72,30 +50,20 @@ public static class UIManagerExtension
         uiManager.ClosePopupUI(UIType.PlayerStatInfoUI);
     }
 
-    // ------------------------------------------------------------------
-    // mainUI
-
-    public static void OpenPlayerProfileUI(this UIManager uiManager)
+    public static void OpenPlayerProfileUI(this UIManager uiManager, string characterDataId)
     {
-        var uiBase = uiManager.OpenMainUI(UIType.PlayerProfileUI);
+        var uiBase = uiManager.OpenUI(UIRootType.MainUI, UIType.PlayerProfileUI);
         if (uiBase == null)
         {
-            Debug.LogWarning($"UI가 생성되지 않았습니다");
+            Debug.LogWarning("UI가 생성되지 않았습니다");
             return;
         }
+
+        //if (uiBase is PlayerProfileUI profileUI)
+        //{
+        //    profileUI.RefreshCharacterUI(characterDataId);
+        //}
     }
-    public static void ClosePlayerProfileUI(this UIManager uiManager)
-    {
-        uiManager.CloseMainUI(UIType.PlayerProfileUI);
-    }
 
-    // ------------------------------------------------------------------
-    // contentUI
-
-
-
-    // ------------------------------------------------------------------
-    // BackgroundUI
-
-
+    
 }

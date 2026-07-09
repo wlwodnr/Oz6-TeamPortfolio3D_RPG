@@ -17,10 +17,16 @@ public class NetworkPlayerService
 
     public PlayerProfileViewModel CreateLocalPlayerProfileViewModel()
     {
-        var localPlayerVm = new PlayerProfileViewModel();
-        localPlayerVm.Name = "기본 이름";
-        localPlayerVm.TotalExp = 0;
-        _localPlayerProfileViewModel = localPlayerVm; 
+        var localPlayerVm = new PlayerProfileViewModel
+        {
+            Name = "기본 이름",
+            TotalExp = 0,
+            CurrentLevel = 0,
+            CurrentHP = 100,
+            CurrentMP = 100
+        };
+
+        _localPlayerProfileViewModel = localPlayerVm;
         return localPlayerVm;
     }
 
@@ -29,6 +35,30 @@ public class NetworkPlayerService
         if (_localPlayerProfileViewModel != null)
         {
             _localPlayerProfileViewModel.TotalExp += exp;
+        }
+    }
+
+    public void RequestChangePlayerLevel(int level)
+    {
+        if (_localPlayerProfileViewModel != null)
+        {
+            _localPlayerProfileViewModel.CurrentLevel = level;
+        }
+    }
+
+    public void RequestChangePlayerHp(int hp)
+    {
+        if (_localPlayerProfileViewModel != null)
+        {
+            _localPlayerProfileViewModel.CurrentHP = hp;
+        }
+    }
+
+    public void RequestChangePlayerMp(int mp)
+    {
+        if (_localPlayerProfileViewModel != null)
+        {
+            _localPlayerProfileViewModel.CurrentMP = mp;
         }
     }
 

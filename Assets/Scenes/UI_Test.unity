@@ -292,7 +292,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 355690483}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a9b8387990498a44846f8fbd2f78959, type: 3}
+  m_Script: {fileID: 11500000, guid: df2b206f09fe970459aad5df0988c057, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameDataManager
 --- !u!1 &388023660
@@ -1351,19 +1351,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3954520895210547210, guid: 3faf06dcaaa3255409d6f8356a8bb503, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6256375371256760823, guid: 3faf06dcaaa3255409d6f8356a8bb503, type: 3}
       propertyPath: m_Name
       value: PlayerProfileUI
       objectReference: {fileID: 0}
+    - target: {fileID: 6256375371256760823, guid: 3faf06dcaaa3255409d6f8356a8bb503, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6887738576615116499, guid: 3faf06dcaaa3255409d6f8356a8bb503, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7137467801111843278, guid: 3faf06dcaaa3255409d6f8356a8bb503, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7347623031700316341, guid: 3faf06dcaaa3255409d6f8356a8bb503, type: 3}
       propertyPath: m_TargetGraphic
@@ -1465,6 +1469,10 @@ PrefabInstance:
     - target: {fileID: 5208764086702211565, guid: cca191105d994674a9975724e1a505a4, type: 3}
       propertyPath: m_Name
       value: TestUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 5208764086702211565, guid: cca191105d994674a9975724e1a505a4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7786338928530957638, guid: cca191105d994674a9975724e1a505a4, type: 3}
       propertyPath: m_TargetGraphic

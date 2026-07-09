@@ -12,9 +12,9 @@ public class UIManager : MonoBehaviour
 
     public static UIManager Instance { get; set; }
 
-    // 얘는 생성과 제거에 관한 부분 -> Instancing과 가비지컬렉터와 연관이 있는 애
+    // 생성과 제거에 관한 부분 -> Instancing과 가비지컬렉터와 연관이 있는 애
     private Dictionary<UIType, UIBase> _createdUIDic = new Dictionary<UIType, UIBase>();
-    // 얘는 활성과 비활성에 관한 부분 -> SetActive
+    // 활성과 비활성에 관한 부분 -> SetActive
     private HashSet<UIType> _openedUIDic = new HashSet<UIType>();
 
 
@@ -25,7 +25,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-
+        this.ShowStartupUIOnGameStart();
     }
 
     public UIBase OpenUI(UIRootType uiRootType, UIType uiType, bool isInitialHide = false)
@@ -33,7 +33,11 @@ public class UIManager : MonoBehaviour
         // 딱히 요청이 있진 않고 오픈만 하면 되는 UI에서 사용
         var openedUI = GetCreatedUI(uiRootType, uiType);
 
-        if (openedUI == null) { Debug.LogError($"[UIManager] 에러 발생! {uiType} 프리팹을 로드하지 못했거나 UIBase 상속 스크립트가 없습니다."); return null; }
+        if (openedUI == null) 
+        { Debug.LogError($"[UIManager] 에러 발생! {uiType} 프리팹을 로드하지 못했거나 UIBase 상속 스크립트가 없습니다.");
+            return null;
+        }
+
         bool isSetActiveOnOpen = (isInitialHide == false); // 열었을 때 기본적으로 숨겨서 열 것인지 체크
         if (_openedUIDic.Contains(uiType) == false)
         {
@@ -103,50 +107,29 @@ public class UIManager : MonoBehaviour
         return _createdUIDic[uiType];
     }
 
-    // ========================================================================
 
-    public UIBase OpenBackgroundUI(UIType uiType)
+    public UIBase GetOpenUI(UIRootType uiRootType, UIType uiType)
     {
-        return OpenUI(UIRootType.BackGroundUI, uiType);
-    }
-    public void CloseBackgroundUI(UIType uiType)
-    {
-        CloseUI(UIRootType.BackGroundUI, uiType);
-    }
-
-    public UIBase OpenMainUI(UIType uiType)
-    {
-        return OpenUI(UIRootType.MainUI, uiType);
-    }
-    public void CloseMainUI(UIType uiType)
-    {
-        CloseUI(UIRootType.MainUI, uiType);
+        return GetCreatedUI(uiRootType, uiType);
     }
 
     public UIBase OpenContentUI(UIType uiType)
     {
         return OpenUI(UIRootType.ContentUI, uiType);
     }
-    public void CloseContentUI(UIType uiType)
-    {
-        CloseUI(UIRootType.ContentUI, uiType);
-    }
 
     public UIBase OpenPopupUI(UIType uiType)
     {
         return OpenUI(UIRootType.PopupUI, uiType);
     }
+
+    public void CloseContentUI(UIType uiType)
+    {
+        CloseUI(UIRootType.ContentUI, uiType);
+    }
+
     public void ClosePopupUI(UIType uiType)
     {
         CloseUI(UIRootType.PopupUI, uiType);
-    }
-
-    public UIBase OpenVeryFrontUI(UIType uiType)
-    {
-        return OpenUI(UIRootType.VeryFrontUI, uiType);
-    }
-    public void CloseVeryFrontUI(UIType uiType)
-    {
-        CloseUI(UIRootType.VeryFrontUI, uiType);
     }
 }

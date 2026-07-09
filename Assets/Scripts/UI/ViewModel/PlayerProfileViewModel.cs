@@ -64,7 +64,7 @@ public class PlayerProfileViewModel : ViewModelBase
             if (_currentHP != value)
             {
                 _currentHP = value;
-                OnPropertyChanged(nameof(_currentHP));
+                OnPropertyChanged(nameof(CurrentHP));
             }
         }
     }
@@ -78,7 +78,7 @@ public class PlayerProfileViewModel : ViewModelBase
             if (_currentMP != value)
             {
                 _currentMP = value;
-                OnPropertyChanged(nameof(_currentMP));
+                OnPropertyChanged(nameof(CurrentMP));
             }
         }
     }

@@ -50,7 +50,7 @@ public class PlayerProfileUI : UIBase
             break;
             case nameof(PlayerProfileViewModel.TotalExp):
                 {
-                    Text_TotalExp.text = $"{_vm.TotalExp}";
+                    Text_TotalExp.text = $"({_vm.TotalExp})";
                 }
             break;
             case nameof(PlayerProfileViewModel.CurrentLevel):

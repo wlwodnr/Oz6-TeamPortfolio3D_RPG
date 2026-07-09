@@ -166,7 +166,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -749, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1353767090134371747
@@ -182,8 +182,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MVVMTestUI
   Button_GiveExp: {fileID: 0}
-  Button_AddStatAtk: {fileID: 6995136617020680300}
   InputField_ChangeName: {fileID: 0}
+  Button_AddStatAtk: {fileID: 6995136617020680300}
 --- !u!1 &7018401649111666942
 GameObject:
   m_ObjectHideFlags: 0
