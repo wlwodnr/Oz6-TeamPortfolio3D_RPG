@@ -8,6 +8,9 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private EnemyStatus Status_Enemy;
     [SerializeField] private LayerMask Layer_Target;
 
+    //1번 EnemyEntity 라는 컴포넌트에서 Enemy의 InstanceId 값을 저장중. 이 값을 갖고오도록 우선적으로 시킴.
+    [SerializeField] private EnemyEntity Entity_Enemy;
+
     private int _instanceId;
     private string _monsterDataId;
     private MonsterData _monsterData;
@@ -15,7 +18,21 @@ public class EnemyAI : MonoBehaviour
 
     private SpawnSpot _spawnOriginSpot;
 
-    public int IntanceId { get { return _instanceId; }  }
+    private bool _isDisableRequested = false;
+
+    //1번 
+    private int IntanceId
+    {
+        get
+        {
+            if(Entity_Enemy != null)
+            {
+                return Entity_Enemy.InstanceId;
+            }
+            return _instanceId;
+        }
+    }
+
     public Transform CurrnetTarget { get { return _currentTarget; } }
     public MonsterData MonsterData { get { return _monsterData; } }
 
@@ -45,6 +62,8 @@ public class EnemyAI : MonoBehaviour
     {
         Status_Enemy.OnDeadEvent -= OnEnemyDead;
     }
+
+
 
     public void InitEnemyInfo(int generatedId, string monsterDataId, SpawnSpot ownerSpot)
     {
