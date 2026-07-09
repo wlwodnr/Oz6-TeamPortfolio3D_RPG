@@ -5,13 +5,21 @@ using UnityEngine;
 
 public class GameDataManager : MonoBehaviour
 {
-    public static GameDataManager Instance { get; set; }
+    public static GameDataManager Instance { get; private set; }
 
     private void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
 
-        LoadAll();
+            LoadAll();
+        }
+        else
+        {
+            Debug.Log("GameDataManager가 중복되어 파괴합니다");
+            Destroy(gameObject);
+        }
     }
 
     [Serializable]
