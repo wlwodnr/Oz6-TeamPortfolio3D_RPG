@@ -5,6 +5,8 @@ public static class ItemDataBase
 {
     public static Dictionary<string,ItemBase> ItemDataDic = new Dictionary<string,ItemBase>();
     public static Dictionary<string,Sprite> ItemIconDic = new Dictionary<string,Sprite>();
+    public static Dictionary<string,StoreData> StoreDic = new Dictionary<string,StoreData>();  //<NpcID,StoreData>
+    public static Sprite BaseIcon;
 
     public static ItemBase GetItemData(string key)
     {

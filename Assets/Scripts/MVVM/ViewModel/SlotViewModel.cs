@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SlotViewModel : INotifyPropertyChanged
@@ -8,6 +9,7 @@ public class SlotViewModel : INotifyPropertyChanged
     public ItemBase ItemData => ItemDataBase.GetItemData(ItemId);
 
     public event PropertyChangedEventHandler PropertyChanged;
+    public event Action<SlotViewModel, bool> OnSelected;
 
     public SlotViewModel(SlotModel slotmodel)
     {
@@ -46,6 +48,16 @@ public class SlotViewModel : INotifyPropertyChanged
         }
     }
 
+    private bool _isSelected;
+    public bool IsSelected
+    {
+        get => _isSelected;
+        set
+        {
+            _isSelected = value;
+        }
+    }
+
     public bool IsCanStock => Count < ItemData.MaxCount;
 
     public Sprite GetItemIconImage()
@@ -53,7 +65,20 @@ public class SlotViewModel : INotifyPropertyChanged
         return ItemDataBase.GetItemIcon(ItemId);
     }
 
+    public void ButtonClicked()
+    {
+        OnSelected?.Invoke(this, IsSelected);
+    }
 
+    public long GetSlotId()
+    {
+        return _slotModel.SlotId;
+    }
+
+    public bool IsType<T>() where T : ItemBase
+    {
+        return ItemData is T;
+    }
     protected void OnPropertyChanged(string propertyName)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
