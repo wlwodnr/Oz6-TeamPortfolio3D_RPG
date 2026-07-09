@@ -22,8 +22,8 @@ public class NetworkPlayerService
             Name = "기본 이름",
             TotalExp = 0,
             CurrentLevel = 0,
-            CurrentHP = 100,
-            CurrentMP = 100
+            CurrentHP = 10,
+            CurrentMP = 10
         };
 
         _localPlayerProfileViewModel = localPlayerVm;
@@ -62,19 +62,27 @@ public class NetworkPlayerService
         }
     }
 
+    public void RequestChangePlayerMaxHp(int maxHp)
+    {
+        if (_localPlayerProfileViewModel != null)
+        {
+            _localPlayerProfileViewModel.MaxHP = maxHp;
+        }
+    }
+
+    public void RequestChangePlayerMaxMp(int maxMp)
+    {
+        if (_localPlayerProfileViewModel != null)
+        {
+            _localPlayerProfileViewModel.MaxMP = maxMp;
+        }
+    }
+
     public void RequestChangePlayerName(string newName)
     {
         if (_localPlayerProfileViewModel != null)
         {
             _localPlayerProfileViewModel.Name = newName;
-        }
-    }
-
-    public void RequestAddStatAtk(int addAtk)
-    {
-        if (_localPlayerStatViewModel != null)
-        {
-            _localPlayerStatViewModel.Atk += addAtk;
         }
     }
 
@@ -96,6 +104,13 @@ public class NetworkPlayerService
             SetPlayerStatData(localPlayerStatVm, playerStatData.Atk, playerStatData.HP,
                 playerStatData.MP, playerStatData.AtkSpeed, playerStatData.SkillPoint);
 
+            // 스탯 데이터의 HP/MP를 프로필 뷰모델의 MaxHP / MaxMP로 동기화
+            if (_localPlayerProfileViewModel != null)
+            {
+                _localPlayerProfileViewModel.MaxHP = playerStatData.HP;
+                _localPlayerProfileViewModel.MaxMP = playerStatData.MP;
+            }
+
             _localPlayerStatViewModel = localPlayerStatVm;
         }
 
@@ -110,4 +125,32 @@ public class NetworkPlayerService
         vm.AtkSpeed = atkSpeed;
         vm.SkillPoint = skillPoint;
     }
+
+    // 아래는 테스트용 함수들
+    public void RequestAddStatAtk(int addAtk)
+    {
+        if (_localPlayerStatViewModel != null)
+        {
+            _localPlayerStatViewModel.Atk += addAtk;
+        }
+    }
+
+    public void RequestAddStatHP(int addHp)
+    {
+        if (_localPlayerStatViewModel != null)
+        {
+            _localPlayerStatViewModel.HP += addHp;
+            _localPlayerProfileViewModel.CurrentHP += addHp;
+        }
+    }
+
+    public void RequestAddStatMP(int addMp)
+    {
+        if (_localPlayerStatViewModel != null)
+        {
+            _localPlayerStatViewModel.MP += addMp;
+            _localPlayerProfileViewModel.CurrentMP += addMp;
+        }
+    }
+
 }

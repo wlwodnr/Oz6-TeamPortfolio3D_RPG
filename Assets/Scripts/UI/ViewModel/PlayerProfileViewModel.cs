@@ -10,6 +10,8 @@ public class PlayerProfileViewModel : ViewModelBase
         OnPropertyChanged(nameof(CurrentLevel));
         OnPropertyChanged(nameof(CurrentHP));
         OnPropertyChanged(nameof(CurrentMP));
+        OnPropertyChanged(nameof(MaxHP));
+        OnPropertyChanged(nameof(MaxMP));
     }
 
     private string _name;
@@ -79,6 +81,35 @@ public class PlayerProfileViewModel : ViewModelBase
             {
                 _currentMP = value;
                 OnPropertyChanged(nameof(CurrentMP));
+            }
+        }
+    }
+
+    private int _maxHP;
+
+    public int MaxHP
+    {
+        get => _maxHP;
+        set
+        {
+            if (_maxHP != value)
+            {
+                _maxHP = value;
+                OnPropertyChanged(nameof(MaxHP));
+            }
+        }
+    }
+
+    private int _maxMP;
+    public int MaxMP
+    {
+        get => _maxMP;
+        set
+        {
+            if (_maxMP != value)
+            {
+                _maxMP = value;
+                OnPropertyChanged(nameof(MaxMP));
             }
         }
     }

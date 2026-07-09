@@ -4,9 +4,11 @@ using UnityEngine.UI;
 
 public class PlayerProfileUI : UIBase
 {
+    [SerializeField] Image hpBar;
+    [SerializeField] Image mpBar;
+
     [SerializeField] Text Text_Name;
-    [SerializeField] Text Text_TotalExp;
-    [SerializeField] Text Text_Level;
+    [SerializeField] Text Text_LevelAndExp;
     [SerializeField] Text Text_CurrentHP;
     [SerializeField] Text Text_CurrentMP;
     [SerializeField] UIButton Btn_OpenStatInfoUI;
@@ -50,31 +52,46 @@ public class PlayerProfileUI : UIBase
         switch (e.PropertyName)
         {
             case nameof(PlayerProfileViewModel.Name):
-            {
-                Text_Name.text = _vm.Name;
-            }
-            break;
+                {
+                    Text_Name.text = _vm.Name;
+                }
+                break;
             case nameof(PlayerProfileViewModel.TotalExp):
                 {
-                    Text_TotalExp.text = $"({_vm.TotalExp})";
+                    Text_LevelAndExp.text = $"(Lv.{_vm.CurrentLevel}({_vm.TotalExp})";
+                    //ChangeAnimationOnSuccessLevelUp();
                 }
-            break;
-            case nameof(PlayerProfileViewModel.CurrentLevel):
-            {
-                Text_Level.text = $"Lv.{_vm.CurrentLevel}";
-                //ChangeAnimationOnSuccessLevelUp();
-            }
-            break;
+                break;
             case nameof(PlayerProfileViewModel.CurrentHP):
-            {
-                    Text_CurrentHP.text = $"{_vm.CurrentHP}";
-                }
-            break;
-            case nameof(PlayerProfileViewModel.CurrentMP):
+            case nameof(PlayerProfileViewModel.MaxHP):
                 {
-                    Text_CurrentMP.text = $"{_vm.CurrentMP}";
+                    Text_CurrentHP.text = $"{_vm.CurrentHP}/{_vm.MaxHP}";
+                    UpdateHpBar();
                 }
-            break;
+                break;
+            case nameof(PlayerProfileViewModel.CurrentMP):
+            case nameof(PlayerProfileViewModel.MaxMP):
+                {
+                    Text_CurrentMP.text = $"{_vm.CurrentMP}/{_vm.MaxMP}";
+                    UpdateMpBar();
+                }
+                break;
+        }
+    }
+
+    private void UpdateHpBar()
+    {
+        if (hpBar != null && _vm.MaxHP > 0)
+        {
+            hpBar.fillAmount = (float)_vm.CurrentHP / _vm.MaxHP;
+        }
+    }
+
+    private void UpdateMpBar()
+    {
+        if (mpBar != null && _vm.MaxMP > 0)
+        {
+            mpBar.fillAmount = (float)_vm.CurrentMP / _vm.MaxMP;
         }
     }
 

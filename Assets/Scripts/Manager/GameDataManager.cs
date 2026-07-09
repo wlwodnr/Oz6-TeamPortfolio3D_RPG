@@ -62,7 +62,7 @@ public class GameDataManager : MonoBehaviour
     {
 
         QuestDataList = LoadData<QuestData>("QuestData");
-        PlayerStatDataList = LoadData<PlayerStatData>("PlayerStat");
+        PlayerStatDataList = LoadData<PlayerStatData>("TestPlayerStat");
     }
 
     //----------------------------------------------------------------------
