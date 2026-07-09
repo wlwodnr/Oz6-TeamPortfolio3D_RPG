@@ -23,10 +23,19 @@ public class NetworkPlayerService
             TotalExp = 0,
             CurrentLevel = 0,
             CurrentHP = 10,
-            CurrentMP = 10
+            CurrentMP = 10,
+            MaxHP = 100,
+            MaxMP = 100
         };
 
-        _localPlayerProfileViewModel = localPlayerVm;
+        //var playerStatData = GameDataManager.Instance.GetPlayerStatData("stat_dummy");
+        //if (playerStatData != null)
+        //{
+        //    localPlayerVm.MaxHP = playerStatData.HP;
+        //    localPlayerVm.MaxMP = playerStatData.MP;
+        //}
+
+            _localPlayerProfileViewModel = localPlayerVm;
         return localPlayerVm;
     }
 
@@ -103,13 +112,6 @@ public class NetworkPlayerService
 
             SetPlayerStatData(localPlayerStatVm, playerStatData.Atk, playerStatData.HP,
                 playerStatData.MP, playerStatData.AtkSpeed, playerStatData.SkillPoint);
-
-            // 스탯 데이터의 HP/MP를 프로필 뷰모델의 MaxHP / MaxMP로 동기화
-            if (_localPlayerProfileViewModel != null)
-            {
-                _localPlayerProfileViewModel.MaxHP = playerStatData.HP;
-                _localPlayerProfileViewModel.MaxMP = playerStatData.MP;
-            }
 
             _localPlayerStatViewModel = localPlayerStatVm;
         }
