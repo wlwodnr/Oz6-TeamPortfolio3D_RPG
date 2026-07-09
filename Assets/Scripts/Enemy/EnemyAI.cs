@@ -11,7 +11,6 @@ public class EnemyAI : MonoBehaviour
     //1번 EnemyEntity 라는 컴포넌트에서 Enemy의 InstanceId 값을 저장중. 이 값을 갖고오도록 우선적으로 시킴.
     [SerializeField] private EnemyEntity Entity_Enemy;
 
-    private int _instanceId;
     private string _monsterDataId;
     private MonsterData _monsterData;
     private Transform _currentTarget;
@@ -20,16 +19,18 @@ public class EnemyAI : MonoBehaviour
 
     private bool _isDisableRequested = false;
 
-    //1번 
-    private int IntanceId
+    //EnemyEntity의 InstanceId 값을 갖고오도록 수정
+    private int InstanceId
     {
         get
         {
-            if(Entity_Enemy != null)
+            if (Entity_Enemy == null)
             {
-                return Entity_Enemy.InstanceId;
+                Debug.LogWarning($"[{gameObject.name}] Entity_Enemy가 없어 InstanceId를 가져올 수 없습니다.");
+                return -1;
             }
-            return _instanceId;
+
+            return Entity_Enemy.InstanceId;
         }
     }
 
@@ -48,14 +49,13 @@ public class EnemyAI : MonoBehaviour
                 Debug.LogWarning($"[{gameObject.name}] 할당된 SpawnSpot이 없어 현재 위치를 리턴합니다.");
                 return transform.position;
             }
-            
             return _spawnOriginSpot.transform.position;
         }
     }
 
     private void OnEnable()
     {
-        //Status_Enemy 스크립트 null체크
+        
         _isDisableRequested = false;
 
         if (Status_Enemy == null)
@@ -99,12 +99,17 @@ public class EnemyAI : MonoBehaviour
 
     public void InitEnemyInfo(int generatedId, string monsterDataId, SpawnSpot ownerSpot)
     {
-        _instanceId = generatedId;
         _monsterDataId = monsterDataId;
         _spawnOriginSpot = ownerSpot;
 
+        //확인용
+        if (InstanceId != generatedId)
+        {
+            Debug.LogWarning($"[{gameObject.name}] generatedId와 EnemyEntity.InstanceId가 다릅니다. generatedId: {generatedId}, EntityId: {InstanceId}");
+        }
+
         //_monsterData = GameDataManager.Instance.GetMonsterData(_monsterDataId);
-        if(_monsterData == null)
+        if (_monsterData == null)
         {
             Debug.LogWarning($"MonsterData를 찾을 수 없습니다. MonsterDataId: {_monsterDataId}");
             return;
@@ -157,7 +162,15 @@ public class EnemyAI : MonoBehaviour
 
         Debug.Log($"[{gameObject.name}] AI 작동 중지");
 
-        GameObjectManager.Instance.RequestDisableGameObject(_instanceId);
+        int instanceId = InstanceId;
+
+        if(instanceId < 0)
+        {
+            Debug.LogWarning($"[{gameObject.name}] 유효하지 않은 InstanceId입니다. InstanceId: {instanceId}");
+            return;
+        }
+        //EnemyEntity의 InstanceId 값을 갖고오도록 수정
+        GameObjectManager.Instance.RequestDisableGameObject(instanceId);
     }
 
     public void ResetEnemyAIForPool(SpawnSpot newSpawnSpot)
