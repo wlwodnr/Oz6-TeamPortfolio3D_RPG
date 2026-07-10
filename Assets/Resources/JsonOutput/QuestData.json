@@ -1,0 +1,13 @@
+[
+  {
+    "Id": "Quest_Tutorial_01",
+    "QuestType": "Tutorial",
+    "Description": "튜토리얼 퀘스트 입니다",
+    "TargetId": "Monster_001",
+    "TargetCount": 3,
+    "RewardExp": 10,
+    "RewardGold": 20,
+    "RewardItemIdList": null,
+    "NextQuestId": null
+  }
+]
