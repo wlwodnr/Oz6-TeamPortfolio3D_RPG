@@ -1,0 +1,16 @@
+[
+  {
+    "Id": "mob_goblin_1",
+    "Name": "고블린",
+    "Description": "테스트용 몹이다.",
+    "PrefabPath": null,
+    "IconPath": null,
+    "BaseHp": 100,
+    "BaseAttack": 10,
+    "MoveSpeed": 5,
+    "DetectRange": 5,
+    "AttackRange": 1,
+    "SpawnLimitRange": null,
+    "PatrolRange": null
+  }
+]
