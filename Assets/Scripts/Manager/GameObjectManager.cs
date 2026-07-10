@@ -12,6 +12,8 @@ public class GameObjectManager : MonoBehaviour
 
     private Dictionary<int, GameObject> _prefabContainer = new Dictionary<int, GameObject>();
 
+    private Dictionary<int, SpawnSpot> _spawnSpotContainer = new Dictionary<int, SpawnSpot>();
+
     private void Awake()
     {
         if (Instance == null)
@@ -26,7 +28,7 @@ public class GameObjectManager : MonoBehaviour
         }
     }
 
-    public int RequestSpawnGameObject(GameObject prefab, Vector3 spawnPosition, Quaternion spawnRotation, string dataId)
+    public int RequestSpawnGameObject(GameObject prefab, Vector3 spawnPosition, Quaternion spawnRotation, string dataId, SpawnSpot ownerSpawnSpot = null)
     {
         if (prefab == null)
         {
@@ -47,7 +49,7 @@ public class GameObjectManager : MonoBehaviour
             return -1;
         }
 
-        if (TryReuseInactiveGameObject(prefab, spawnPosition, spawnRotation, dataId, out int reusedInstanceId))
+        if (TryReuseInactiveGameObject(prefab, spawnPosition, spawnRotation, dataId, ownerSpawnSpot, out int reusedInstanceId))
         {
             return reusedInstanceId;
         }
@@ -92,7 +94,9 @@ public class GameObjectManager : MonoBehaviour
         _createdGameObjectContainer.Add(instanceId, createdObject);
         _prefabContainer[instanceId] = prefab;
 
-        InitSpawnedObject(instanceId, createdObject, dataId);
+        RegisterOwnerSpawnSpot(instanceId, ownerSpawnSpot);
+
+        InitSpawnedObject(instanceId, createdObject, dataId, ownerSpawnSpot);
 
         //JU 이 디버그는 테스트 후 삭제할 예정
         Debug.Log($"동적 오브젝트 생성 완료. InstanceId: {instanceId}, Name: {createdObject.name}");
@@ -100,7 +104,7 @@ public class GameObjectManager : MonoBehaviour
         return instanceId;
     }
 
-    private bool TryReuseInactiveGameObject(GameObject prefab, Vector3 spawnPosition, Quaternion spawnRotation, string dataId, out int reusedInstanceId)
+    private bool TryReuseInactiveGameObject(GameObject prefab, Vector3 spawnPosition, Quaternion spawnRotation, string dataId, SpawnSpot ownerSpawnSpot, out int reusedInstanceId)
     {
         foreach (var pair in _createdGameObjectContainer)
         {
@@ -134,19 +138,39 @@ public class GameObjectManager : MonoBehaviour
 
             IGameObjectEntity entity = pooledObject.GetComponent<IGameObjectEntity>();
 
-            if (entity != null)
+            if (entity == null)
             {
-                entity.ResetEntity();
+                Debug.LogWarning(
+                    $"재사용할 오브젝트에 IGameObjectEntity가 없습니다. ObjectName: {pooledObject.name}");
 
-                entity.InitEntity(instanceId, dataId);
-            }
-            else
-            {
-                Debug.LogWarning($"재사용할 오브젝트에 IGameObjectEntity가 없습니다. ObjectName: {pooledObject.name}");
                 continue;
             }
 
-            pooledObject.SetActive(true);
+            entity.ResetEntity();
+
+            RegisterOwnerSpawnSpot(instanceId, ownerSpawnSpot);
+            
+            entity.InitEntity(instanceId, dataId);
+
+            EnemyAI enemyAI = pooledObject.GetComponent<EnemyAI>();
+
+            if (enemyAI == null)
+            {
+                enemyAI =
+                    pooledObject.GetComponentInChildren<EnemyAI>(true);
+            }
+
+            if (enemyAI != null)
+            {
+                enemyAI.InitEnemyInfo(instanceId, dataId, ownerSpawnSpot);
+
+                enemyAI.ResetEnemyAIForPool(ownerSpawnSpot);
+            }
+
+            if (pooledObject.activeSelf == false)
+            {
+                pooledObject.SetActive(true);
+            }
 
             reusedInstanceId = instanceId;
 
@@ -156,6 +180,17 @@ public class GameObjectManager : MonoBehaviour
         }
         reusedInstanceId = -1;
         return false;
+    }
+
+    private void RegisterOwnerSpawnSpot(int instanceId, SpawnSpot ownerSpawnSpot)
+    {
+        if (ownerSpawnSpot == null)
+        {
+            _spawnSpotContainer.Remove(instanceId);
+            return;
+        }
+
+        _spawnSpotContainer[instanceId] = ownerSpawnSpot;
     }
 
 
@@ -172,8 +207,9 @@ public class GameObjectManager : MonoBehaviour
         return _objectInstanceKeyGenerator;
     }
 
-    private void InitSpawnedObject(int instanceId, GameObject createdObject, string dataId)
+    private void InitSpawnedObject(int instanceId, GameObject createdObject, string dataId, SpawnSpot ownerSpawnSpot)
     {
+
         IGameObjectEntity entity = createdObject.GetComponent<IGameObjectEntity>();
 
         if (entity == null)
@@ -184,6 +220,19 @@ public class GameObjectManager : MonoBehaviour
 
 
         entity.InitEntity(instanceId, dataId);
+        EnemyAI enemyAI =
+        createdObject.GetComponent<EnemyAI>();
+
+        if (enemyAI == null)
+        {
+            enemyAI =
+                createdObject.GetComponentInChildren<EnemyAI>(true);
+        }
+
+        if (enemyAI != null)
+        {
+            enemyAI.InitEnemyInfo(instanceId, dataId, ownerSpawnSpot);
+        }
 
     }
 
@@ -206,7 +255,8 @@ public class GameObjectManager : MonoBehaviour
 
     public void RequestDisableGameObject(int instanceId)
     {
-        GameObject targetObject = GetGameObjectCanBeNull(instanceId);
+        GameObject targetObject =
+            GetGameObjectCanBeNull(instanceId);
 
         if (targetObject == null)
         {
@@ -217,6 +267,8 @@ public class GameObjectManager : MonoBehaviour
         {
             return;
         }
+
+        _spawnSpotContainer.TryGetValue(instanceId, out SpawnSpot ownerSpawnSpot);
 
         IGameObjectEntity entity = targetObject.GetComponent<IGameObjectEntity>();
 
@@ -233,5 +285,74 @@ public class GameObjectManager : MonoBehaviour
 
         Debug.Log($"동적 오브젝트 비활성화 완료. InstanceId: {instanceId}");
 
+        if (ownerSpawnSpot != null)
+        {
+            ownerSpawnSpot.NotifySpawnedObjectDisabled(instanceId);
+        }
+    }
+
+    public bool RequestTakeDamage(int instanceId, DamageInfo damageInfo)
+    {
+        if (instanceId <= 0)
+        {
+            Debug.LogWarning($"유효하지 않은 InstanceId로 데미지 요청이 들어왔습니다. InstanceId: {instanceId}");
+            return false;
+        }
+
+        if (damageInfo == null)
+        {
+            Debug.LogWarning($"DamageInfo가 null이어서 데미지 요청을 처리할 수 없습니다.InstanceId: {instanceId}");
+
+            return false;
+        }
+
+        GameObject targetObject = GetGameObjectCanBeNull(instanceId);
+
+        if (targetObject == null)
+        {
+            return false;
+        }
+
+        if (targetObject.activeInHierarchy == false)
+        {
+            Debug.LogWarning($"비활성화된 오브젝트에는 데미지를 줄 수 없습니다.InstanceId: {instanceId}, ObjectName: {targetObject.name}");
+            return false;
+        }
+
+        IGameObjectEntity targetEntity = targetObject.GetComponent<IGameObjectEntity>();
+
+        if (targetEntity == null)
+        {
+            Debug.LogWarning($"대상 오브젝트에 IGameObjectEntity가 없습니다. InstanceId: {instanceId}, ObjectName: {targetObject.name}");
+
+            return false;
+        }
+
+        if (targetEntity.InstanceId != instanceId)
+        {
+            Debug.LogWarning($"요청된 InstanceId와 대상 Entity의 InstanceId가 다릅니다.RequestId: {instanceId}, EntityId: {targetEntity.InstanceId}");
+            return false;
+        }
+
+        IDamageable damageable = targetObject.GetComponent<IDamageable>();
+
+        if(damageable == null)
+        {
+            damageable = targetObject.GetComponentInChildren<IDamageable>(true);
+        }
+        if (damageable == null)
+        {
+            Debug.LogWarning($"대상 오브젝트에서 IDamageable을 찾을 수 없습니다. InstanceId: {instanceId}, ObjectName: {targetObject.name}");
+            return false;
+        }
+        if (damageable.IsDead == true)
+        {
+            Debug.LogWarning($"이미 사망한 오브젝트에 데미지 요청이 들어왔습니다.InstanceId: {instanceId}, ObjectName: {targetObject.name}");
+            return false;
+        }
+
+        damageable.TakeDamage(damageInfo);
+        Debug.Log($"데미지 전달 완료.InstanceId: {instanceId}, Damage: {damageInfo.BaseDamage},ObjectName: {targetObject.name}");
+        return true;
     }
 }
