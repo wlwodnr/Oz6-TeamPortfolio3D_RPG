@@ -5,13 +5,21 @@ using UnityEngine;
 
 public class GameDataManager : MonoBehaviour
 {
-    public static GameDataManager Instance { get; set; }
+    public static GameDataManager Instance { get; private set; }
 
     private void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
 
-        LoadAll();
+            LoadAll();
+        }
+        else
+        {
+            Debug.Log("GameDataManager가 중복되어 파괴합니다");
+            Destroy(gameObject);
+        }
     }
 
     [Serializable]
@@ -21,6 +29,8 @@ public class GameDataManager : MonoBehaviour
     }
 
     public Dictionary<string, QuestData> QuestDataList { get; private set; } = new Dictionary<string, QuestData>();
+    public Dictionary<string, SkillData> SkillDataList { get; private set; } = new Dictionary<string, SkillData>();
+    public Dictionary<string, CharacterData> CharacterDataList { get; private set; } = new Dictionary<string, CharacterData>();
 
     private Dictionary<string, T> LoadData<T>(string tableName) where T : GameDataBase
     {
@@ -70,4 +80,17 @@ public class GameDataManager : MonoBehaviour
         return QuestDataList.TryGetValue(id, out var item) ? item : null;
     }
 
+    public SkillData GetSkill(string id)
+    {
+        if (SkillDataList == null || string.IsNullOrEmpty(id)) return null;
+
+        return SkillDataList.TryGetValue(id, out var item) ? item : null;
+    }
+
+    public CharacterData GetCharacterData(string id)
+    {
+        if (CharacterDataList == null || string.IsNullOrEmpty(id)) return null;
+
+        return CharacterDataList.TryGetValue(id, out var item) ? item : null;
+    }
 }

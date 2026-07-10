@@ -1,0 +1,44 @@
+[
+  {
+    "Id": "dialogue_mainstream_1_1_100",
+    "CharacterDataId": null,
+    "Description": "테스트 대화1_1_1…<np>테스트 대화1_1_2<np>테스트 대화1_1_3",
+    "NextDialogueId": "dialogue_mainstream_1_1_200"
+  },
+  {
+    "Id": "dialogue_mainstream_1_1_200",
+    "CharacterDataId": null,
+    "Description": "테스트 대화1_2",
+    "NextDialogueId": "dialogue_mainstream_1_1_300"
+  },
+  {
+    "Id": "dialogue_mainstream_1_1_300",
+    "CharacterDataId": null,
+    "Description": "테스트 대화1_3",
+    "NextDialogueId": null
+  },
+  {
+    "Id": "dialogue_group_mainstream_1_2_100",
+    "CharacterDataId": null,
+    "Description": "1",
+    "NextDialogueId": "dialogue_group_mainstream_1_2_200"
+  },
+  {
+    "Id": "dialogue_group_mainstream_1_2_200",
+    "CharacterDataId": null,
+    "Description": "2",
+    "NextDialogueId": "dialogue_group_mainstream_1_2_300"
+  },
+  {
+    "Id": "dialogue_group_mainstream_1_2_300",
+    "CharacterDataId": null,
+    "Description": "3",
+    "NextDialogueId": "dialogue_group_mainstream_1_2_400"
+  },
+  {
+    "Id": "dialogue_group_mainstream_1_2_400",
+    "CharacterDataId": null,
+    "Description": "4",
+    "NextDialogueId": null
+  }
+]
