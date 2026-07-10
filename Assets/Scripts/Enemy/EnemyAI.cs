@@ -1,5 +1,4 @@
-﻿using System.Xml.Serialization;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour
@@ -8,14 +7,32 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private EnemyStatus Status_Enemy;
     [SerializeField] private LayerMask Layer_Target;
 
-    private int _instanceId;
+    //1번 EnemyEntity 라는 컴포넌트에서 Enemy의 InstanceId 값을 저장중. 이 값을 갖고오도록 우선적으로 시킴.
+    [SerializeField] private EnemyEntity Entity_Enemy;
+
     private string _monsterDataId;
     private MonsterData _monsterData;
     private Transform _currentTarget;
 
     private SpawnSpot _spawnOriginSpot;
 
-    public int IntanceId { get { return _instanceId; }  }
+    private bool _isDisableRequested = false;
+
+    //EnemyEntity의 InstanceId 값을 갖고오도록 수정
+    private int InstanceId
+    {
+        get
+        {
+            if (Entity_Enemy == null)
+            {
+                Debug.LogWarning($"[{gameObject.name}] Entity_Enemy가 없어 InstanceId를 가져올 수 없습니다.");
+                return -1;
+            }
+
+            return Entity_Enemy.InstanceId;
+        }
+    }
+
     public Transform CurrnetTarget { get { return _currentTarget; } }
     public MonsterData MonsterData { get { return _monsterData; } }
 
@@ -31,46 +48,126 @@ public class EnemyAI : MonoBehaviour
                 Debug.LogWarning($"[{gameObject.name}] 할당된 SpawnSpot이 없어 현재 위치를 리턴합니다.");
                 return transform.position;
             }
-            
             return _spawnOriginSpot.transform.position;
         }
     }
 
     private void OnEnable()
     {
+        
+        _isDisableRequested = false;
+
+        if (Status_Enemy == null)
+        {
+            Debug.LogWarning($"[{gameObject.name}] Status_Enemy가 없어 사망 이벤트를 등록할 수 없습니다.");
+            return;
+        }
+
+        //혹시나 있을 이미 들어가있는 경우를 대비하여 빼고 넣기
+        Status_Enemy.OnDeadEvent -= OnEnemyDead;
         Status_Enemy.OnDeadEvent += OnEnemyDead;
     }
 
     private void OnDisable()
     {
+        if (Status_Enemy == null)
+        {
+            return;
+        }
         Status_Enemy.OnDeadEvent -= OnEnemyDead;
     }
 
+    private void Awake()
+    {
+        if (Agent_NavMesh == null)
+        {
+            Debug.LogWarning($"[{gameObject.name}] Agent_NavMesh가 인스펙터에 연결되지 않았습니다.");
+        }
+
+        if (Status_Enemy == null)
+        {
+            Debug.LogWarning($"[{gameObject.name}] Status_Enemy가 인스펙터에 연결되지 않았습니다.");
+        }
+
+        if (Entity_Enemy == null)
+        {
+            Debug.LogWarning($"[{gameObject.name}] Entity_Enemy가 인스펙터에 연결되지 않았습니다.");
+        }
+    }
+
+
     public void InitEnemyInfo(int generatedId, string monsterDataId, SpawnSpot ownerSpot)
     {
-        _instanceId = generatedId;
         _monsterDataId = monsterDataId;
         _spawnOriginSpot = ownerSpot;
+        _currentTarget = null;
+        _isDisableRequested = false;
+
+        int entityInstanceId = InstanceId;
+       
+        //확인용
+        if (InstanceId != generatedId)
+        {
+            Debug.LogWarning($"[{gameObject.name}] generatedId와 EnemyEntity.InstanceId가 다릅니다. generatedId: {generatedId}, EntityId: {InstanceId}");
+        }
 
         //_monsterData = GameDataManager.Instance.GetMonsterData(_monsterDataId);
-        if(_monsterData == null)
+        if (_monsterData == null)
         {
             Debug.LogWarning($"MonsterData를 찾을 수 없습니다. MonsterDataId: {_monsterDataId}");
             return;
         }
 
-        Status_Enemy.InitStatus(_monsterData);
-
-        if(Agent_NavMesh != null)
+        //null인지 한번만 더 체크 null 체크는 들어갈 수 있는 한 많이
+        if (Status_Enemy != null)
         {
-            Agent_NavMesh.speed = _monsterData.MoveSpeed;
-            Agent_NavMesh.isStopped = false;
+            Status_Enemy.InitStatus(_monsterData);
         }
 
+        InitNavMeshAgent();
+
+    }
+
+    private void InitNavMeshAgent()
+    {
+        if (Agent_NavMesh == null)
+        {
+            Debug.LogWarning($"[{gameObject.name}] Agent_NavMesh가 연결되지 않아 NavMeshAgent를 초기화할 수 없습니다.");
+            return;
+        }
+
+        if (_monsterData == null)
+        {
+            Debug.LogWarning($"[{gameObject.name}] MonsterData가 없어 NavMeshAgent를 초기화할 수 없습니다.");
+            return;
+        }
+
+        Agent_NavMesh.speed = _monsterData.MoveSpeed;
+
+        if (Agent_NavMesh.enabled == false)
+        {
+            return;
+        }
+
+        if (Agent_NavMesh.isOnNavMesh == false)
+        {
+            Debug.LogWarning($"[{gameObject.name}] NavMesh 위에 있지 않아 이동 정지를 해제할 수 없습니다.");
+            return;
+        }
+
+        Agent_NavMesh.isStopped = false;
+        Agent_NavMesh.ResetPath();
     }
 
     private void OnEnemyDead()
     {
+        if (_isDisableRequested == true)
+        {
+            return;
+        }
+
+        _isDisableRequested = true;
+
         StopMoving();
         ClearTarget();
 
@@ -81,9 +178,26 @@ public class EnemyAI : MonoBehaviour
 
         Debug.Log($"[{gameObject.name}] AI 작동 중지");
 
-        gameObject.SetActive(false); // 나중에 게임오브젝트매니저로 비활성화시키기
+        RequestDisableSelf();
     }
+    private void RequestDisableSelf()
+    {
+        if (GameObjectManager.Instance == null)
+        {
+            Debug.LogWarning($"[{gameObject.name}] GameObjectManager가 없어 비활성화 요청을 할 수 없습니다.");
+            return;
+        }
 
+        int instanceId = InstanceId;
+
+        if (instanceId < 0)
+        {
+            Debug.LogWarning($"[{gameObject.name}] 유효하지 않은 InstanceId입니다. InstanceId: {instanceId}");
+            return;
+        }
+
+        GameObjectManager.Instance.RequestDisableGameObject(instanceId);
+    }
     public void ResetEnemyAIForPool(SpawnSpot newSpawnSpot)
     {
         _spawnOriginSpot = newSpawnSpot;
@@ -108,6 +222,7 @@ public class EnemyAI : MonoBehaviour
 
     public void MoveToPosition(Vector3 targetPosition)
     {
+
         if (Status_Enemy.IsDead || Agent_NavMesh == null || !Agent_NavMesh.gameObject.activeInHierarchy) return;
 
         if (Agent_NavMesh.isOnNavMesh)
@@ -138,6 +253,8 @@ public class EnemyAI : MonoBehaviour
         if(Agent_NavMesh != null && Agent_NavMesh.isOnNavMesh)
         {
             Agent_NavMesh.isStopped = true;
+            //경로 초기화 추가
+            Agent_NavMesh.ResetPath();
         }
     }
 
