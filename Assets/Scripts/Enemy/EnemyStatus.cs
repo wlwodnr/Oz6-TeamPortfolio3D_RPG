@@ -33,9 +33,14 @@ public class EnemyStatus : MonoBehaviour, IDamageable
         //TO DO:피격 애니메이션 및 이펙트 처리 요청
         //
 
+
+        Debug.Log($"[{name}] TakeDamage() 실행 확인");
+        transform.GetComponent<Rigidbody>().AddForce(damageInfo.KnockbackDir * 5f, ForceMode.Impulse);
+
+
         if (_currentHp <= 0)
         {
-            SetDead();
+            //SetDead();
         }
 
     }

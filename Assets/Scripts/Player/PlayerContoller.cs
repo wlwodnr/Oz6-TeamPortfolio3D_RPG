@@ -12,10 +12,17 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody _rb;
 
+    //아래는 1차빌드용 공격기능 변수 (이후에 바뀔 수 있음)
+    [Header("1차 빌드용 공격관련 변수")]
+    public Vector3 boxSize = new Vector3(1, 1, 1); 
+    public Vector3 offset = new Vector3(0, 1, 1); 
+    public LayerMask enemyLayer;
+
     private void Awake()
     {
         _groundCheck.OnGrounded += HandleGrounded;
         InputManager.OnJumpPressed += HandleJumpPressed;
+        InputManager.OnAttackPressed += HandleAttackPressed;
     }
     private void Start()
     {
@@ -67,5 +74,28 @@ public class PlayerController : MonoBehaviour
             _rb.AddForce(Vector3.up * JumpPower, ForceMode.Impulse);
             _jumpCount++;
         }
+    }
+
+    private void HandleAttackPressed()
+    {
+        Vector3 center = transform.position + transform.TransformDirection(offset);
+        Collider[] hitEnemies = Physics.OverlapBox(center, boxSize / 2, transform.rotation, enemyLayer);
+
+        foreach (Collider enemy in hitEnemies)
+        {
+            Vector3 direction = (enemy.transform.position - transform.position).normalized;
+            DamageInfo dmgInfo = new DamageInfo(10, false, Vector3.zero, direction, transform.gameObject);
+            enemy.GetComponent<IDamageable>().TakeDamage(dmgInfo);
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+
+        Matrix4x4 rotationMatrix = Matrix4x4.TRS(transform.position + transform.TransformDirection(offset), transform.rotation, transform.lossyScale);
+        Gizmos.matrix = rotationMatrix;
+
+        Gizmos.DrawWireCube(Vector3.zero, boxSize);
     }
 }

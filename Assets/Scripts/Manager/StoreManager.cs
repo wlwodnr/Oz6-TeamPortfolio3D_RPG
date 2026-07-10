@@ -7,7 +7,6 @@ public class StoreManager : MonoBehaviour
     public static StoreManager Instance;
     private Dictionary<string,StoreViewModel> _cachedStoreVM = new Dictionary<string,StoreViewModel>();
 
-    private 
 
     private void Awake()
     {
@@ -34,7 +33,6 @@ public class StoreManager : MonoBehaviour
             StoreViewModel svm = new StoreViewModel(sm);
             _cachedStoreVM.Add(npcId, svm);
         }
-        var view = Instantiate()
         
     }
 }
