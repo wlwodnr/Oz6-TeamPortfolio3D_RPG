@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -37,12 +38,14 @@ public class StoreView : MonoBehaviour
         switch(state)
         {
             case "AddSlot":
-                
+                CreateSlotView(slotId);
                 break;
             case "RemoveSlot":
+                RemoveSlot(slotId);
                 break;
         }
     }
+
 
     private void CreateSlotView(long slotId)
     {
@@ -78,5 +81,15 @@ public class StoreView : MonoBehaviour
         var slot = Instantiate(SlotPrefab, parent).GetComponent<SlotView>();
         slot.BindViewModel(vm);
         slotViewDic.Add(slotId, slot);
+    }
+
+    private void RemoveSlot(long slotId)
+    {
+        if(slotViewDic.ContainsKey(slotId))
+        {
+            var slot = slotViewDic[slotId];
+            slotViewDic.Remove(slotId);
+            Destroy(slot.gameObject);
+        }
     }
 }
