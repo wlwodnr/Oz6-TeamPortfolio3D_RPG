@@ -17,6 +17,7 @@ public enum UIType
     PlayerProfileUI,
     PlayerStatInfoUI,
 
+    Inventory,
     TestUI
 }
 
