@@ -35,7 +35,7 @@ public class EnemyStatus : MonoBehaviour, IDamageable
 
 
         Debug.Log($"[{name}] TakeDamage() 실행 확인");
-        transform.GetComponent<Rigidbody>().AddForce(damageInfo.KnockbackDir * 5f, ForceMode.Impulse);
+        transform.GetComponent<Rigidbody>().AddForce(damageInfo.KnockbackDir * 10f, ForceMode.Impulse);
 
 
         if (_currentHp <= 0)

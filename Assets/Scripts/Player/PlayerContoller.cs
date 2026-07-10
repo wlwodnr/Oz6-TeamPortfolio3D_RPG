@@ -84,6 +84,7 @@ public class PlayerController : MonoBehaviour
         foreach (Collider enemy in hitEnemies)
         {
             Vector3 direction = (enemy.transform.position - transform.position).normalized;
+            direction.y = 0f;
             DamageInfo dmgInfo = new DamageInfo(10, false, Vector3.zero, direction, transform.gameObject);
             enemy.GetComponent<IDamageable>().TakeDamage(dmgInfo);
         }
