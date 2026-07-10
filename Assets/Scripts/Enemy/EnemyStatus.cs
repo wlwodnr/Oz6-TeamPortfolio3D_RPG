@@ -66,7 +66,7 @@ public class EnemyStatus : MonoBehaviour, IDamageable
 
         if (_currentHp <= 0)
         {
-            //SetDead();
+            SetDead();
         }
 
     }
