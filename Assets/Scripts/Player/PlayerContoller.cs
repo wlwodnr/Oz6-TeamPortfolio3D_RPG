@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.InputSystem.XR;
 
 public class PlayerController : MonoBehaviour
@@ -17,6 +18,10 @@ public class PlayerController : MonoBehaviour
     public Vector3 boxSize = new Vector3(1, 1, 1); 
     public Vector3 offset = new Vector3(0, 1, 1); 
     public LayerMask enemyLayer;
+
+    //추후 PlayerData에서 가져오도록 변경해야 합니다
+    [Header("1차 빌드용 임시 공격력")]
+    [SerializeField] private int _temporaryAttackDamage = 10;
 
     private void Awake()
     {
@@ -78,15 +83,60 @@ public class PlayerController : MonoBehaviour
 
     private void HandleAttackPressed()
     {
+        //널체크 추가
+        if (GameObjectManager.Instance == null)
+        {
+            Debug.LogWarning(
+                $"[{gameObject.name}] GameObjectManager가 없어 공격 요청을 전달할 수 없습니다."
+            );
+
+            return;
+        }
+
         Vector3 center = transform.position + transform.TransformDirection(offset);
         Collider[] hitEnemies = Physics.OverlapBox(center, boxSize / 2, transform.rotation, enemyLayer);
 
+        HashSet<int> attackedInstanceIdSet = new HashSet<int>();
+
         foreach (Collider enemy in hitEnemies)
         {
+            if (enemy == null)
+            {
+                continue;
+            }
+            
+            IGameObjectEntity targetEntity = enemy.GetComponentInParent<IGameObjectEntity>();
+            if (targetEntity == null)
+            {
+                Debug.LogWarning(
+                    $"[{enemy.gameObject.name}] 공격 대상에서 " +
+                    "IGameObjectEntity를 찾을 수 없습니다."
+                );
+
+                continue;
+            }
+
+            int targetInstanceId = targetEntity.InstanceId;
+
+            if (targetInstanceId < 0)
+            {
+                Debug.LogWarning(
+                    $"[{enemy.gameObject.name}] 공격 대상의 InstanceId가 유효하지 않습니다. " +
+                    $"InstanceId: {targetInstanceId}"
+                );
+
+                continue;
+            }
+            if (attackedInstanceIdSet.Add(targetInstanceId) == false)
+            {
+                continue;
+            }
+
+
             Vector3 direction = (enemy.transform.position - transform.position).normalized;
             direction.y = 0f;
-            DamageInfo dmgInfo = new DamageInfo(10, false, Vector3.zero, direction, transform.gameObject);
-            enemy.GetComponent<IDamageable>().TakeDamage(dmgInfo);
+            DamageInfo dmgInfo = new DamageInfo(_temporaryAttackDamage, false, Vector3.zero, direction, transform.gameObject);
+            GameObjectManager.Instance.RequestTakeDamage(targetInstanceId, dmgInfo);
         }
     }
 
