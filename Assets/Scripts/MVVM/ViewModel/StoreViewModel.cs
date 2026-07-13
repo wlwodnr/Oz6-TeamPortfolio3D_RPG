@@ -83,7 +83,6 @@ public class StoreViewModel
         if (_slotvmDic.ContainsKey(slot.GetSlotId()) == false) return; 
 
         slot.OnSelected -= SelectSlot;
-
         _slotvmDic.Remove(slot.GetSlotId());
         OnSlotChanged?.Invoke("RemoveSlot", slot.GetSlotId());
     }

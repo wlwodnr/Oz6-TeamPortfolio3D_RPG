@@ -39,6 +39,7 @@ public class StoreManager : MonoBehaviour
             _cachedStoreVM.Add(npcId, svm);
 
             StoreView sv = Instantiate(_storeViewPrefab, _storeCanvas);
+            sv.BindViewModel(svm);
         }
         
     }
