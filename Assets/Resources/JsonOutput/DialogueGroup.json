@@ -1,20 +1,32 @@
 [
   {
-    "Id": "dialogue_group_mainstream_1_1",
-    "Comment": "메인스트림 1_1챕터 그룹",
-    "DialogueIdList": [
-      "dialogue_mainstream_1_1_100",
-      "dialogue_mainstream_1_1_200.dialogue_mainstream_1_1_300"
-    ]
+    "Id": "dialogue_group_Quest_001_accept",
+    "Comment": "Quest_001 수주 대화",
+    "DialogueIdList": "dialogue_group_Quest_001_1,dialogue_group_Quest_001_2,dialogue_group_Quest_001_3"
   },
   {
-    "Id": "dialogue_group_mainstream_1_2",
-    "Comment": "메인스트림 1_2챕터 그룹",
-    "DialogueIdList": [
-      "dialogue_group_mainstream_1_2_100",
-      "dialogue_group_mainstream_1_2_200",
-      "dialogue_group_mainstream_1_2_300",
-      "dialogue_group_mainstream_1_2_400"
-    ]
+    "Id": "dialogue_group_Quest_001_repeat",
+    "Comment": "Quest_001 반복 대화",
+    "DialogueIdList": "dialogue_Quest_001_Repeat"
+  },
+  {
+    "Id": "dialogue_group_Quest_001_clear",
+    "Comment": "Quest_001 완료 대화",
+    "DialogueIdList": "dialogue_Quest_001_Clear"
+  },
+  {
+    "Id": "dialogue_group_Quest_002_accept",
+    "Comment": "Quest_002 수주 대화",
+    "DialogueIdList": "dialogue_group_Quest_002_1,dialogue_group_Quest_002_2"
+  },
+  {
+    "Id": "dialogue_group_Quest_002_repeat",
+    "Comment": "Quest_002 반복 대화",
+    "DialogueIdList": "dialogue_Quest_002_Repeat"
+  },
+  {
+    "Id": "dialogue_group_Quest_002_clear",
+    "Comment": "Quest_002 완료 대화",
+    "DialogueIdList": "dialogue_Quest_002_Clear"
   }
 ]

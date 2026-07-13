@@ -1,13 +1,30 @@
 [
   {
     "Id": "Quest_001",
-    "QuestType": "Tutorial",
-    "Description": "튜토리얼 퀘스트 입니다",
+    "QuestType": "Kill",
+    "Description": "마을 주변의 슬라임을 3마리 처치해주세요.",
     "TargetId": "Monster_001",
     "TargetCount": 3,
     "RewardExp": 10,
     "RewardGold": 20,
     "RewardItemIdList": null,
+    "AcceptGroupId": "dialogue_group_Quest_001_accept",
+    "RepeatGroupId": "dialogue_group_Quest_001_repeat",
+    "ClearGroupId": "dialogue_group_Quest_001_clear",
+    "NextQuestId": "Quest_002"
+  },
+  {
+    "Id": "Quest_002",
+    "QuestType": "Collect",
+    "Description": "슬라임의 젤리를 2개 모으시오.",
+    "TargetId": "Item_001",
+    "TargetCount": 2,
+    "RewardExp": 30,
+    "RewardGold": 50,
+    "RewardItemIdList": null,
+    "AcceptGroupId": "dialogue_group_Quest_002_accept",
+    "RepeatGroupId": "dialogue_group_Quest_002_repeat",
+    "ClearGroupId": "dialogue_group_Quest_002_clear",
     "NextQuestId": null
   }
 ]
