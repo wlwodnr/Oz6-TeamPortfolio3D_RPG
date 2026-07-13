@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
-// 1: n으로 n의 관계에 있는 슬롯 (자식)
 public class InventorySlotUI : MonoBehaviour
 {
     [SerializeField] private Text Text_StackCount;
@@ -22,6 +21,34 @@ public class InventorySlotUI : MonoBehaviour
     {
         Image_Selected.gameObject.SetActive(false);
         Button_Slot.BindOnClickButtonEvent(OnClick_SelectItem);
+    }
+
+    private void OnDisable()
+    {
+        OnSelectEvent = null;
+
+        if (Button_Slot != null)
+        {
+            Button_Slot.UnBindAllOnClickButtonEvent();
+        }
+    }
+
+    public void BindSlotViewModel(SlotViewModel slotVm)
+    {
+        if (slotVm == null)
+        {
+            ClearSlot();
+            return;
+        }
+
+        gameObject.SetActive(true);
+        InitSlot(slotVm.GetSlotId(), slotVm.ItemId, slotVm.Count);
+    }
+
+    public void InitSlot(long slotUniqueId, string itemDataId, int itemStackCount)
+    {
+        SlotItemUniqueId = slotUniqueId;
+        SetIcon(itemDataId, itemStackCount);
     }
 
     public void SetIcon(string itemDataId, int itemCount)
@@ -60,38 +87,45 @@ public class InventorySlotUI : MonoBehaviour
         Text_StackCount.text = $"{itemCount}";
     }
 
-    private void OnDisable()
-    {
-        OnSelectEvent = null;
-    }
-
-    public void InitSlot(long slotUniqueId, string itemDataId, int itemStackCount)
-    {
-        SlotItemUniqueId = slotUniqueId;
-        SetIcon(itemDataId, itemStackCount);
-        // Text_StackCount.text = slotInstanceId.ToString();
-    }
-
     public void OnClick_SelectItem()
     {
-        // 부모한테 알려주자
         OnSelectEvent?.Invoke(SlotItemUniqueId);
 
-
-        Debug.Log($"{SlotItemUniqueId}눌러졌다");
-        // 나중에 툴팁, 팝업 다 여기서 띄워주면 된다
+        Debug.Log($"{SlotItemUniqueId} 슬롯 클릭됨");
     }
 
     public void BindSlotSelectEvent(Action<long> onSelectEvent)
     {
-        // 얘는 부모 하나만 콜백이벤트 등록하면 된다.
         OnSelectEvent = onSelectEvent;
     }
 
-    // 수동태로 자신의 상태UI를 변경합니다
-    public void ChangeSelectedState(bool isSelected)
+    // 수동태로 자신의 상태UI를 변경
+    public bool ChangeSelectedState(long selectedItemUniqueId)
     {
-        Image_Selected.gameObject.SetActive(isSelected);
+        bool isSelected = (SlotItemUniqueId != 0 && SlotItemUniqueId == selectedItemUniqueId);
+
+        if (Image_Selected != null)
+        {
+            Image_Selected.gameObject.SetActive(isSelected);
+        }
+
+        return isSelected;
     }
 
+    public long GetSelectedItemUniqueId()
+    {
+        return SlotItemUniqueId;
+    }
+
+    public void ClearSlot()
+    {
+        SlotItemUniqueId = 0;
+        IsUsableItem = false;
+
+        if (Image_Icon != null) Image_Icon.sprite = null;
+        if (Text_StackCount != null) Text_StackCount.text = string.Empty;
+        if (Image_Selected != null) Image_Selected.gameObject.SetActive(false);
+
+        gameObject.SetActive(false);
+    }
 }

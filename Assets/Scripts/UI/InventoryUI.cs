@@ -1,63 +1,132 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 // 관리주체 역할
 public class InventoryUI : UIBase
 {
-    [SerializeField] private GameObject Prefab_Slot;
-    [SerializeField] private Transform Transform_UISlotRoot;
     [SerializeField] private UIButton Button_UseSelectItem;
     [SerializeField] private UIButton Button_CloseSelf;
     [SerializeField] private UIButton Button_CloseSelfAllArea;
+    [SerializeField] private List<InventorySlotUI> _fixedSlotList = new List<InventorySlotUI>();
 
     private Dictionary<long, InventorySlotUI> _itemSlotList = new Dictionary<long, InventorySlotUI>();
     private long _currentSelectedItemUniqueId;
 
+    private InvnetoryViewModel _invenVm;
 
     private void OnEnable()
     {
         Button_UseSelectItem.BindOnClickButtonEvent(OnClick_UseSelectItem, true);
         Button_CloseSelf.BindOnClickButtonEvent(OnClick_ClosePopup);
         Button_CloseSelfAllArea.BindOnClickButtonEvent(OnClick_ClosePopup);
-        SetInventoryItemSlotOnEnable();
 
+        SetInventoryItemSlotOnEnable();
         ActiveUseSelectItemButton(false);
     }
 
-
     private void OnDisable()
     {
-        // 소멸이니까 나중에 신경써주셔도 되요
-        // _itemSlotList.Clear();
-        // Destroy
-
         Button_UseSelectItem.UnBindAllOnClickButtonEvent();
+        Button_CloseSelf.UnBindAllOnClickButtonEvent();
+        Button_CloseSelfAllArea.UnBindAllOnClickButtonEvent();
     }
 
+    private void OnDestroy()
+    {
+        if (_invenVm != null)
+        {
+            _invenVm.PropertyChanged -= OnPropChanged_InvenView;
+        }
+    }
 
     private void SetInventoryItemSlotOnEnable()
     {
-        // 슬롯 정리 - 혹시 오픈 시점에 다른 슬롯들이 있다면 제거하자
-        if(_itemSlotList.Count > 0)
+        RemoveAllItemSlot();
+        FindInventoryViewModelAndBind();
+    }
+
+    private void FindInventoryViewModelAndBind()
+    {
+        var invenVm = NetworkManager.Inst.InventoryService.GetLocalPlayerInvnetoryViewModel();
+        if (invenVm == null || invenVm.ItemList == null || invenVm.ItemList.Count == 0)
         {
-            foreach(var slot in _itemSlotList){
-                DestroyImmediate(slot.Value.gameObject);
-            }
-            _itemSlotList.Clear();
+            Debug.LogWarning("보유한 아이템이 없습니다!");
+            return;
         }
 
-        //인벤오픈 1-1) 인벤토리가 열릴때 플레이어가 보유한 모든 아이템을 출력하는 로직을 넣어봅시다
-        //var itemList = GameManager.Instance.GetPlayerItemList();
-        //if(itemList == null || itemList.Count == 0)
-        //{
-        //    Debug.LogWarning("보유한 아이템이 없습니다!");
-        //    return;
-        //}
+        // 중복 구독 방지를 위해 기존 이벤트 해제 후 재구독
+        if (_invenVm != null)
+        {
+            _invenVm.PropertyChanged -= OnPropChanged_InvenView;
+        }
 
-        //foreach (var itemModel in itemList) 
-        //{
-        //    CreateSlot(itemModel.ItemUniqueId, itemModel.ItemDataId, itemModel.ItemStackCount);
-        //}
+        _invenVm = invenVm;
+        _invenVm.PropertyChanged += OnPropChanged_InvenView;
+        _invenVm.InvokeOnceOnInit();
+    }
+
+    private void OnPropChanged_InvenView(object sender, PropertyChangedEventArgs e)
+    {
+        switch (e.PropertyName)
+        {
+            case nameof(InvnetoryViewModel.ItemList):
+            case "ItemListAdded":
+            case "ItemListRemoved":
+                ResetItemSlotAndCreateAll();
+                break;
+            case "ItemListUpdated":
+                // 수량 및 정보 갱신 처리 영역
+                break;
+        }
+    }
+
+    private void ResetItemSlotAndCreateAll()
+    {
+        RemoveAllItemSlot();
+
+        int slotIndex = 0;
+        foreach (var itemKv in _invenVm.ItemList)
+        {
+            if (slotIndex >= _fixedSlotList.Count) break;
+
+            var slotVm = itemKv.Value;
+            var slotView = _fixedSlotList[slotIndex];
+
+            slotView.BindSlotViewModel(slotVm);
+            slotView.BindSlotSelectEvent(OnChildSlotSelected);
+
+            slotIndex++;
+        }
+    }
+
+    private void OnChildSlotSelected(long selectedItemUniqueId)
+    {
+        foreach (var slot in _fixedSlotList)
+        {
+            if (slot == null) continue;
+            bool isSelected = slot.ChangeSelectedState(selectedItemUniqueId);
+
+            if (isSelected == true)
+            {
+                _currentSelectedItemUniqueId = slot.GetSelectedItemUniqueId();
+                ActiveUseSelectItemButton(slot.IsUsableItem);
+            }
+        }
+        Debug.LogWarning($"자식 슬롯 {selectedItemUniqueId} 선택됨!");
+    }
+
+    private void ActiveUseSelectItemButton(bool isActive)
+    {
+        if (Button_UseSelectItem != null)
+        {
+            Button_UseSelectItem.gameObject.SetActive(isActive);
+        }
+    }
+
+    private void RequestSelectedUseItem()
+    {
+        NetworkManager.Inst.InventoryService.RequestUseItem(_currentSelectedItemUniqueId);
     }
 
     public void OnClick_ClosePopup()
@@ -65,86 +134,19 @@ public class InventoryUI : UIBase
         UIManager.Instance.CloseContentUI(UIType.Inventory);
     }
 
-
     public void OnClick_UseSelectItem()
     {
         RequestSelectedUseItem();
     }
 
-    private void RequestSelectedUseItem()
+    private void RemoveAllItemSlot()
     {
-        // 게임 매니저에 아이템 제거를 요청!
-        //bool isItemRemoved = GameManager.Instance.RequestUseItem(_currentSelectedItemUniqueId);
-        //if(isItemRemoved == true)
-        //{
-        //    RemoveItemSlot(_currentSelectedItemUniqueId);
-        //    _currentSelectedItemUniqueId = 0;
-        //    ActiveUseSelectItemButton(false);
-        //}
-    }
-
-    private void ActiveUseSelectItemButton(bool isActive)
-    {
-        Button_UseSelectItem.gameObject.SetActive(isActive);
-    }
-
-    private void RemoveItemSlot(long removedItemUniqueId)
-    {
-        // 저장정보에서 먼저! 아이템이 제거된 후에!!!
-        // 그 다음에 슬롯을 제거해야 한다
-        if(_itemSlotList.ContainsKey(removedItemUniqueId) == false)
+        foreach (var slotView in _fixedSlotList)
         {
-            Debug.LogError("이상합니다! 제거가 된 아이템을 슬롯을 찾을수가 없네요!");
-            return;
-        }
-
-        var slotComponent = _itemSlotList[removedItemUniqueId];
-        _itemSlotList.Remove(removedItemUniqueId);
-        Destroy(slotComponent.gameObject);
-    }
-
-
-    // 나중에 규모가 커지면 이렇게 파라미터를 일일이 받는게 아니라, Model 받아올 수도 있다.
-    // private void CreateSlot(DaniTechItemModel itemModel)
-    private void CreateSlot(long itemUniqueId, string itemDataId, int itemStackCount)
-    {
-        // 1-1 수동 SetParant가 뒤에 지금은 자동으로 해주고 있다
-        var gObj = Instantiate(Prefab_Slot, Transform_UISlotRoot);
-        if (gObj == null) return;
-
-        // 1-2 자식 슬롯의 컴포넌트를 가져온다 -> 위에 게임오브젝트는 스크립트가 아직 아니므로
-        var slotComponent = gObj.GetComponent<InventorySlotUI>();
-        if(slotComponent == null) return;
-
-
-        // 1-3 여기서 slotComponent가지고 뭔가를 하는 겁니다!
-        slotComponent.InitSlot(itemUniqueId, itemDataId, itemStackCount);
-        slotComponent.gameObject.name = $"ItemSlot : {slotComponent.SlotItemUniqueId}";
-
-        // 1-4 중복체크 해주면 좋긴 하지만, 일단 쉽게 컴포넌트(컴포넌트로 게임오브젝트는 받을 수 있으므로)를 보관해보자
-        _itemSlotList.Add(slotComponent.SlotItemUniqueId, slotComponent);
-
-        slotComponent.BindSlotSelectEvent(OnChildSlotSelected);
-    }
-
-
-    private void OnChildSlotSelected(long selectedItemUniqueId)
-    {
-        foreach(var slotKv in _itemSlotList)
-        {
-            var slot = slotKv.Value;
-            bool isSlotSelected = (selectedItemUniqueId == slot.SlotItemUniqueId);
-            slot.ChangeSelectedState(isSlotSelected);
-
-            if(isSlotSelected == true)
+            if (slotView != null)
             {
-                _currentSelectedItemUniqueId = slot.SlotItemUniqueId;
-                ActiveUseSelectItemButton(slot.IsUsableItem);
+                slotView.ClearSlot();
             }
         }
-        Debug.LogWarning($"자식 슬롯 {selectedItemUniqueId} 선택됨!");
     }
-
-
-
 }
