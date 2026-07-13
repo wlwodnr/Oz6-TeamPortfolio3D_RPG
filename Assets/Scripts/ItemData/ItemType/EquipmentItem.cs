@@ -4,7 +4,7 @@ using System.Collections.Generic;
 [CreateAssetMenu(fileName = "EquipmentItem", menuName = "ItemData/EquipmentItem")]
 public class EquipmentItem : ItemBase, ITradeable, IEquipable
 {
-    public EquipType ItemType { get; set; }
+    public EffectType EffectType { get; set; }
     public List<StatModifier> Modifiers;  // 추후 StatModifier부분이 구현되면 수정예정
     public int BuyPrice { get; set; }
     public int SellPrice { get; set; }
