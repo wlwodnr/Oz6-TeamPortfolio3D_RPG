@@ -3,30 +3,125 @@ using UnityEngine;
 
 public class PlayerModel 
 {
-    private Stats _stats;
+    private Stats _stats = new Stats();
 
     // itemId - 갯수
     private Dictionary<string,int> _inventory = new Dictionary<string, int>();    
     private Dictionary<string,int> _equipInventory = new Dictionary<string,int>();
 
     //itemId - 데이터
-    private Dictionary<string, StatUpItem> _statItems = new Dictionary<string, StatUpItem>();  //추후 삭제가능성 높음
     private Dictionary<string, IHitEffect> _activeHitEffects = new Dictionary<string, IHitEffect>();
 
     public void Additem(string itemId)
     {
         var itemData = ItemDataBase.GetItemData(itemId);
-        if(itemData is IEquipable equipable)
+        if(itemData is StatUpItem statItem)
         {
-            switch(equipable.EffectType)
+            _stats.AddModifier(itemId);
+            AddEquipInventory(itemId);
+        }
+        else if(itemData is IEquipable equipable)
+        {
+            if (_activeHitEffects.ContainsKey(itemId))
             {
-                case EffectType.StatUp:
-                    _stats.AddModifier(itemId);
-                    break;
-                case EffectType.LifeSteal:
-
+                _activeHitEffects[itemId].StackCount += 1;
+                AddEquipInventory(itemId);
+            }
+            else
+            {
+                var effect = ItemEffectFactory.Create(itemData, equipable.EffectType);
+                if (effect != null)
+                {
+                    _activeHitEffects.Add(itemId, effect);
+                    AddEquipInventory(itemId);
+                }
             }
         }
+        else
+        {
+            AddInventory(itemId);
+        }
+    }
+
+    public void RemoveItem(string itemId)
+    {
+        var itemData = ItemDataBase.GetItemData(itemId);
+        if (itemData is IEquipable equipable)
+        {
+            switch (equipable.EffectType)
+            {
+                case EffectType.StatUp:
+                    _stats.RemoveModifier(itemId);
+                    RemoveEquipInventory(itemId);
+                    break;
+                case EffectType.LifeSteal:
+                    var effect = ItemEffectFactory.Create(itemData, equipable.EffectType);
+                    if (effect != null)
+                    {
+                        _activeHitEffects.Add(itemId, effect);
+                        RemoveEquipInventory(itemId);
+                    }
+                    break;
+            }
+        }
+        else
+        {
+            AddInventory(itemId);
+        }
+    }
+
+    public void AddEquipInventory(string itemId)
+    {
+        if(_equipInventory.ContainsKey(itemId) == true)
+        {
+            _equipInventory[itemId] = _equipInventory[itemId] + 1;
+        }
+        else
+        {
+            _equipInventory.Add(itemId, 1);
+        }
+        // 여기서 장비템 정보창 MVVM 구조 VM 정보전달 메서드 실행
+    }
+
+    public void RemoveEquipInventory(string itemId)
+    {
+        if(_equipInventory.ContainsKey(itemId) == true)
+        {
+            _equipInventory[itemId] = _equipInventory[itemId] - 1;
+        }
+
+        if (_equipInventory[itemId] <= 0)
+        {
+            _equipInventory.Remove(itemId);
+        }
+        // 여기서 장비템 정보창 MVVM 구조 VM 정보전달 메서드 실행
+    }
+
+    public void AddInventory(string itemId)
+    {
+        if (_inventory.ContainsKey(itemId) == true)
+        {
+            _inventory[itemId] = _inventory[itemId] + 1;
+        }
+        else
+        {
+            _inventory.Add(itemId, 1);
+        }
+        // 여기서 인벤토리 MVVM 구조 VM 정보전달 메서드 실행
+    }
+
+    public void RemoveInventory(string itemId)
+    {
+        if (_inventory.ContainsKey(itemId) == true)
+        {
+            _inventory[itemId] = _inventory[itemId] - 1;
+        }
+
+        if (_inventory[itemId] <= 0)
+        {
+            _inventory.Remove(itemId);
+        }
+        // 여기서 인벤토리 MVVM 구조 VM 정보전달 메서드 실행
     }
 
 

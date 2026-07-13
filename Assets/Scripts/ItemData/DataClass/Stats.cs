@@ -23,6 +23,7 @@ public class Stats
                 _counts[itemId] = _counts[itemId] + 1;
             }
         }
+        UpdateCache();
     }
 
     public void RemoveModifier(string itemId)
@@ -37,6 +38,7 @@ public class Stats
             _counts.Remove(itemId);
             _rawModifiers.Remove(itemId);
         }
+        UpdateCache();
     }
 
     private void UpdateCache()
