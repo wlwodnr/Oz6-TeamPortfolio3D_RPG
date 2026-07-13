@@ -1,6 +1,6 @@
 [
   {
-    "Id": "Quest_Tutorial_01",
+    "Id": "Quest_001",
     "QuestType": "Tutorial",
     "Description": "튜토리얼 퀘스트 입니다",
     "TargetId": "Monster_001",
