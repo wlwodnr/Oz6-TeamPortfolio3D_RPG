@@ -56,18 +56,6 @@ public class StoreView : MonoBehaviour
             {
                 CreateSlot(svm, ConsumableSlot, slotId);
             }
-            else if(svm.IsType<EquipmentItem>())
-            {
-                CreateSlot(svm, EquipmentSlot, slotId);
-            }
-            else if(svm.IsType<QuestItem>())
-            {
-                CreateSlot(svm, FirstEmptySlot, slotId);
-            }
-            else if(svm.IsType<ValuableItem>())
-            {
-                CreateSlot(svm, SecondEmptySlot, slotId);
-            }
 
         }
 

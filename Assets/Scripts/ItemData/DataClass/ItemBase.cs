@@ -1,11 +1,8 @@
 ﻿using UnityEngine;
 
-public enum EquipType
-{
-    Head, Chest, Pants, Foot
-}
 public class ItemBase : ScriptableObject
 {
+    [Header("Base 데이터")]
     [SerializeField] public string ItemId;
     [SerializeField] public string Name;
     [SerializeField] public string Iconpath;
@@ -26,9 +23,7 @@ public interface ITradeable
 
 public interface IEquipable
 {
-    public EquipType ItemType { get; set; }
-    public void Equip();
-    public void UnEquip();
+    EffectType EffectType { get; set; }
 }
 
 public interface IUseable
