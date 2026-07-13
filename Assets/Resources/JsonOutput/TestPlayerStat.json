@@ -1,0 +1,11 @@
+[
+  {
+    "Id": "stat_dummy",
+    "Comment": "기본 스텟",
+    "Atk": 10,
+    "HP": 100,
+    "MP": 100,
+    "AtkSpeed": 1,
+    "SkillPoint": 10
+  }
+]
