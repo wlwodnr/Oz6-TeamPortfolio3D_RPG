@@ -1,16 +1,38 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerModel 
 {
-    private Stats _stats = new Stats();
+    private string _name;
+    private float _totalExp;
+    private int _curLevel;
+    private float _curHp;
+    private float _curMp;
+    private int _skillPoint;
 
+
+    private Stats _stats;
+    private PlayerInfo _info;
+
+    public PlayerInfo Info => _info;
     // itemId - 갯수
     private Dictionary<string,int> _inventory = new Dictionary<string, int>();    
     private Dictionary<string,int> _equipInventory = new Dictionary<string,int>();
 
     //itemId - 데이터
     private Dictionary<string, IHitEffect> _activeHitEffects = new Dictionary<string, IHitEffect>();
+
+    public event Action<string> OnPlayerStatsChanged;
+    public event Action<string> OnPlayerInfoChanged;
+
+    public PlayerModel()
+    {
+        _info = new PlayerInfo();
+        _stats = new Stats();
+        _stats.OnStatsUpdated += HandleStatsUpdated;
+        _info.OnInfoChanged += HandleInfoUpdated;
+    }
 
     public void Additem(string itemId)
     {
@@ -124,5 +146,18 @@ public class PlayerModel
         // 여기서 인벤토리 MVVM 구조 VM 정보전달 메서드 실행
     }
 
+    private void HandleStatsUpdated(string changedType)
+    {
+        OnPlayerStatsChanged?.Invoke(changedType);
+    }
 
+    private void HandleInfoUpdated(string changedType)
+    {
+        OnPlayerInfoChanged?.Invoke(changedType);
+    }
+
+    public float GetStatValue(StatType statType)
+    {
+        return _stats.GetValue(statType);
+    }
 }
