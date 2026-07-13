@@ -65,7 +65,6 @@ public class Stats
         }
 
     }
-
     private void UpdateCache()
     {
         _flatCache.Clear();
