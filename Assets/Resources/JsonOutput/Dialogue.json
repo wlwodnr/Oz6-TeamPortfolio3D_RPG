@@ -2,55 +2,46 @@
   {
     "Id": "dialogue_group_Quest_001_1",
     "CharacterDataId": null,
-    "Description": "반갑습니다.<np>실례지만 부탁 하나만 드려도 되겠습니까?",
-    "NextDialogueId": "dialogue_group_Quest_001_2"
+    "Description": "반갑습니다.<np>실례지만 부탁 하나만 드려도 되겠습니까?"
   },
   {
     "Id": "dialogue_group_Quest_001_2",
     "CharacterDataId": null,
-    "Description": "최근 마을 주변을 돌아다니는<np>슬라임들이 많아졌습니다.",
-    "NextDialogueId": "dialogue_group_Quest_001_3"
+    "Description": "최근 마을 주변을 돌아다니는<np>슬라임들이 많아졌습니다."
   },
   {
     "Id": "dialogue_group_Quest_001_3",
     "CharacterDataId": null,
-    "Description": "슬라임 3마리를 처치하고 오신다면<np>보상을 드리겠습니다.",
-    "NextDialogueId": null
+    "Description": "슬라임 3마리를 처치하고 오신다면<np>보상을 드리겠습니다."
   },
   {
     "Id": "dialogue_Quest_001_Repeat",
     "CharacterDataId": null,
-    "Description": "슬라임 3마리는 다 잡으셨나요?",
-    "NextDialogueId": null
+    "Description": "슬라임 3마리는 다 잡으셨나요?"
   },
   {
     "Id": "dialogue_Quest_001_Clear",
     "CharacterDataId": null,
-    "Description": "슬라임을 모두 처치하셨군요.<np>감사합니다!",
-    "NextDialogueId": null
+    "Description": "슬라임을 모두 처치하셨군요.<np>감사합니다!"
   },
   {
     "Id": "dialogue_group_Quest_002_1",
     "CharacterDataId": null,
-    "Description": "슬라임이 아직 줄어들 기미가 보이지 않는군요...<np>그래서 한번 더 부탁드리겠습니다",
-    "NextDialogueId": "dialogue_group_Quest_002_2"
+    "Description": "슬라임이 아직 줄어들 기미가 보이지 않는군요...<np>그래서 한번 더 부탁드리겠습니다"
   },
   {
     "Id": "dialogue_group_Quest_002_2",
     "CharacterDataId": null,
-    "Description": "이번에는 슬라임을 잡고 낮은 확률로 나오는<np>슬라임의 젤리를 2개 부탁드립니다<np>이번에는 더 큰 보상이 있을 것 입니다.",
-    "NextDialogueId": null
+    "Description": "이번에는 슬라임을 잡고 낮은 확률로 나오는<np>슬라임의 젤리를 2개 부탁드립니다<np>이번에는 더 큰 보상이 있을 것 입니다."
   },
   {
     "Id": "dialogue_Quest_002_Repeat",
     "CharacterDataId": null,
-    "Description": "슬라임의 젤리는<np>낮은 확률로 얻을 수 있을 것입니다.<np>2개 부탁드립니다.",
-    "NextDialogueId": null
+    "Description": "슬라임의 젤리는<np>낮은 확률로 얻을 수 있을 것입니다.<np>2개 부탁드립니다."
   },
   {
     "Id": "dialogue_Quest_002_Clear",
     "CharacterDataId": null,
-    "Description": "슬라임의 젤리를 모두 모아오셨군요.<np>약속했던 보상입니다.",
-    "NextDialogueId": null
+    "Description": "슬라임의 젤리를 모두 모아오셨군요.<np>약속했던 보상입니다."
   }
 ]
