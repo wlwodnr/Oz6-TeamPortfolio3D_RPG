@@ -11,7 +11,7 @@ public class OnHitEffectItem : ItemBase, ITradeable, IEquipable
     [SerializeField] private int sellPrice;
 
     [Header("장비 데이터")]
-    [SerializeField] private int value;
+    [SerializeField] public int value;
     [SerializeField] private EffectType effectType;
 
     public int BuyPrice { get => buyPrice; set => buyPrice = value; }
