@@ -19,15 +19,33 @@ public class SkillModel
             return false;
         }
 
-        if (playerInfo.CurLevel >= skillData.RequiredLevel && playerInfo.SkillPoint >= 1)
+        if (playerInfo.CurLevel < skillData.RequiredLevel)
         {
-            playerInfo.SkillPoint -= 1;
-            UnlockedSkillIds.Add(skillData.Id.ToString());
-
-            return true;
+            return false;
         }
 
-        return false;
+        if (skillData.RequiredSkill != null && skillData.RequiredSkill.Length > 0)
+        {
+            for (int i = 0; i < skillData.RequiredSkill.Length; i++)
+            {
+                string reqSkillId = skillData.RequiredSkill[i];
+
+                if (CheckSkillAdvance(reqSkillId) == false)
+                {
+                    return false;
+                }
+            }
+        }
+
+        if (playerInfo.SkillPoint < 1)
+        {
+            return false;
+        }
+
+        playerInfo.SkillPoint -= 1;
+        UnlockedSkillIds.Add(skillData.Id.ToString());
+
+        return true;
     }
 
     public bool CheckSkillAdvance(string targetSkillId)
@@ -39,11 +57,11 @@ public class SkillModel
     {
         if (baseSkillId == "Active_H_01" || baseSkillId == "Active_B_01")
         {
-            bool hasAdvancedSkill = UnlockedSkillIds.Contains("Active_H_02");
+            bool hasAdvancedSkill = CheckSkillAdvance("Active_H_02");
 
             if (hasAdvancedSkill)
             {
-                if (!IsBossModeActive == true)
+                if (IsBossModeActive == true)
                 {
                     return "Active_B_02";
                 }

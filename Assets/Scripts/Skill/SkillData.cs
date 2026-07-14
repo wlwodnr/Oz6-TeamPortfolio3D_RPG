@@ -24,4 +24,5 @@ public class SkillData : GameDataBase
     public List<float> MultiHitPercentList;
 
     public int RequiredLevel;
+    public string[] RequiredSkill;
 }

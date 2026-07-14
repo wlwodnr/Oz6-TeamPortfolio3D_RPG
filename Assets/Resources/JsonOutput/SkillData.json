@@ -8,7 +8,8 @@
   "Column6": "float",
   "Column7": "float",
   "Column8": "float",
-  "Column9": "int"
+  "Column9": "int",
+  "Column10": "string[]"
  },
  {
   "고유 ID": "Id",
@@ -19,7 +20,8 @@
   "Column6": "TargetMode",
   "Column7": "DamageMultiplier",
   "Column8": "MultiHitPercentList",
-  "Column9": "RequiredLevel"
+  "Column9": "RequiredLevel",
+  "Column10": "RequiredSkill"
  },
  {
   "고유 ID": "Mode_01",
@@ -28,7 +30,9 @@
   "Column5": "Active",
   "Column6": "Hunt",
   "Column7": 0,
-  "Column8": "[]"
+  "Column8": "[]",
+  "Column9": 1,
+  "Column10": "[Active_H_01]"
  },
  {
   "고유 ID": "Active_H_01",
@@ -37,7 +41,9 @@
   "Column5": "Active",
   "Column6": "Hunt",
   "Column7": 1.2,
-  "Column8": "[0.55, 0.65]"
+  "Column8": "[0.55, 0.65]",
+  "Column9": 1,
+  "Column10": "[]"
  },
  {
   "고유 ID": "Active_B_01",
@@ -46,10 +52,28 @@
   "Column5": "Active",
   "Column6": "Boss",
   "Column7": 1.4,
-  "Column8": "[0.62, 0.78]"
+  "Column8": "[0.62, 0.78]",
+  "Column9": 1,
+  "Column10": "[Active_H_01]"
  },
+ null,
+ null,
+ null,
+ null,
+ null,
+ null,
+ null,
+ null,
  {
-  "고유 ID": "Passive_H_01"
+  "고유 ID": "Mode_02",
+  "Column2": "모드 체인지",
+  "Column3": "트리플 슬래쉬의 사용 방식을 바꾼다.",
+  "Column5": "Active",
+  "Column6": "Hunt",
+  "Column7": 0,
+  "Column8": "[]",
+  "Column9": 30,
+  "Column10": "[Mode_01, Active_H_02]"
  },
  {
   "고유 ID": "Active_H_02",
@@ -59,7 +83,8 @@
   "Column6": "Hunt",
   "Column7": 1.4,
   "Column8": "[0.4, 0.4, 0.6]",
-  "Column9": 30
+  "Column9": 30,
+  "Column10": "[Active_H_01]"
  },
  {
   "고유 ID": "Active_B_02",
@@ -69,8 +94,6 @@
   "Column6": "Boss",
   "Column7": 1.7,
   "Column8": "[0.5, 0.5, 0.7]",
-  "Column9": 30
- },
- {
-  "고유 ID": "Active_03"
+  "Column9": 30,
+  "Column10": "[Active_H_02]"
  }
