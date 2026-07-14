@@ -4,6 +4,7 @@ using Unity.Behavior;
 using UnityEngine;
 using Action = Unity.Behavior.Action;
 using Unity.Properties;
+using UnityEngine.AI;
 
 [Serializable, GeneratePropertyBag]
 [NodeDescription(name: "Patrol", story: "[Self] Navigate to [PatrolSpotList]", category: "Action", id: "0d3a879ecaa00ff5d1202948c10e5d01")]
@@ -12,8 +13,13 @@ public partial class PatrolAction : Action
     [SerializeReference] public BlackboardVariable<GameObject> Self;
     [SerializeReference] public BlackboardVariable<List<GameObject>> PatrolSpotList;
 
+    private NavMeshAgent _agent;
+    private Vector3 _patrolPosition;
+    
+
     protected override Status OnStart()
     {
+        
         return Status.Running;
     }
 
