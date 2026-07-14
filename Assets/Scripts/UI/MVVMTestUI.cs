@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class DaniTech_MVVMTestUI : UIBase
+public class MVVMTestUI : UIBase
 {
     [SerializeField] private InputField InputField_ChangeName;
     [SerializeField] private UIButton Button_GiveExp;
@@ -25,7 +25,7 @@ public class DaniTech_MVVMTestUI : UIBase
 
     private void OnClick_GiveExp()
     {
-        NetworkManager.Inst.LocalPlayerService.RequestGiveExpToLocalPlayer(30);
+        NetworkManager.Inst.LocalPlayerService.RequestGiveExpToLocalPlayer(30f);
     }
 
     private void OnClick_AddStatAtk()
@@ -34,10 +34,10 @@ public class DaniTech_MVVMTestUI : UIBase
     }
     private void OnClick_AddStatHP()
     {
-        NetworkManager.Inst.LocalPlayerService.RequestAddStatHP(10);
+        NetworkManager.Inst.LocalPlayerService.RequestChangePlayerHp(10f);
     }
     private void OnClick_AddStatMP()
     {
-        NetworkManager.Inst.LocalPlayerService.RequestAddStatMP(10);
+        NetworkManager.Inst.LocalPlayerService.RequestChangePlayerMp(10f);
     }
 }

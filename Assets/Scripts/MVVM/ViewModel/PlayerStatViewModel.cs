@@ -4,57 +4,58 @@ public class PlayerStatViewModel : ViewModelBase
 {
     public void InvokeOnceOnInit()
     {
-        OnPropertyChanged(nameof(Atk));
-        OnPropertyChanged(nameof(HP));
-        OnPropertyChanged(nameof(MP));
+        OnPropertyChanged(nameof(AtkDamage));
+        OnPropertyChanged(nameof(MaxHP));
+        OnPropertyChanged(nameof(MaxMP));
         OnPropertyChanged(nameof(AtkSpeed));
         OnPropertyChanged(nameof(SkillPoint));
     }
 
-    private int _atk;
-    public int Atk
+    private float _atkDamage;
+    public float AtkDamage
     {
-        get => _atk;
+        get => _atkDamage;
         set
         {
-            if (_atk != value)
+            if (_atkDamage != value)
             {
-                _atk = value;
-                OnPropertyChanged(nameof(Atk));
+                _atkDamage = value;
+                OnPropertyChanged(nameof(AtkDamage));
             }
         }
     }
 
-    private int _Hp;
-    public int HP
+    private float _maxHP;
+
+    public float MaxHP
     {
-        get => _Hp;
+        get => _maxHP;
         set
         {
-            if (_Hp != value)
+            if (_maxHP != value)
             {
-                _Hp = value;
-                OnPropertyChanged(nameof(HP));
+                _maxHP = value;
+                OnPropertyChanged(nameof(MaxHP));
             }
         }
     }
 
-    private int _Mp;
-    public int MP
+    private float _maxMP;
+    public float MaxMP
     {
-        get => _Mp;
+        get => _maxMP;
         set
         {
-            if (_Mp != value)
+            if (_maxMP != value)
             {
-                _Mp = value;
-                OnPropertyChanged(nameof(MP));
+                _maxMP = value;
+                OnPropertyChanged(nameof(MaxMP));
             }
         }
     }
 
-    private int _atkSpeed;
-    public int AtkSpeed
+    private float _atkSpeed;
+    public float AtkSpeed
     {
         get => _atkSpeed;
         set
