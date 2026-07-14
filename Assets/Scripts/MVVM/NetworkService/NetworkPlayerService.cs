@@ -122,7 +122,7 @@ public class NetworkPlayerService
     {
         if (_playerModel != null)
         {
-            _playerModel.Info.CurHp = hp;
+            _playerModel.Info.CurHp += hp;
         }
     }
 
@@ -130,7 +130,7 @@ public class NetworkPlayerService
     {
         if (_playerModel != null)
         {
-            _playerModel.Info.CurMp = mp;
+            _playerModel.Info.CurMp += mp;
         }
     }
 
@@ -162,7 +162,7 @@ public class NetworkPlayerService
     {
         if (_playerModel?.Info != null)
         {
-            _playerModel.Info.MaxHP = maxHp;
+            _playerModel.Info.MaxHP += maxHp;
         }
     }
 
@@ -170,7 +170,7 @@ public class NetworkPlayerService
     {
         if (_playerModel?.Info != null)
         {
-            _playerModel.Info.MaxMP = maxMp;
+            _playerModel.Info.MaxMP += maxMp;
         }
     }
 
