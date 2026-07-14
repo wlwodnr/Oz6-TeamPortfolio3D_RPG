@@ -7,7 +7,8 @@
   "Column5": "float",
   "Column6": "float",
   "Column7": "float",
-  "Column8": "float"
+  "Column8": "float",
+  "Column9": "int"
  },
  {
   "고유 ID": "Id",
@@ -15,30 +16,61 @@
   "Column3": "Description",
   "Column4": "IconPath",
   "Column5": "SkillType",
-  "Column6": "DamageMultiplier",
-  "Column7": "MultiHitPercentList"
+  "Column6": "TargetMode",
+  "Column7": "DamageMultiplier",
+  "Column8": "MultiHitPercentList",
+  "Column9": "RequiredLevel"
  },
  {
   "고유 ID": "Mode_01",
   "Column2": "모드 체인지",
   "Column3": "더블 슬래쉬의 사용 방식을 바꾼다.",
   "Column5": "Active",
-  "Column6": 0,
-  "Column7": "[]"
+  "Column6": "Hunt",
+  "Column7": 0,
+  "Column8": "[]"
  },
  {
-  "고유 ID": "Active_01",
+  "고유 ID": "Active_H_01",
   "Column2": "더블 슬래쉬",
   "Column3": "전방으로 무기를 두 번 휘둘러 다수의 적을 동시에 공격한다.",
   "Column5": "Active",
-  "Column6": 1.2,
-  "Column7": "[0.6, 0.6]"
+  "Column6": "Hunt",
+  "Column7": 1.2,
+  "Column8": "[0.55, 0.65]"
  },
  {
-  "고유 ID": "Active_02",
+  "고유 ID": "Active_B_01",
   "Column2": "더블 슬래쉬-포커싱",
   "Column3": "전방으로 무기를 두 번 휘둘러 한 명의 적을 집중 공격한다.",
   "Column5": "Active",
-  "Column6": 1.4,
-  "Column7": "[0.7, 0.7]"
+  "Column6": "Boss",
+  "Column7": 1.4,
+  "Column8": "[0.62, 0.78]"
+ },
+ {
+  "고유 ID": "Passive_H_01"
+ },
+ {
+  "고유 ID": "Active_H_02",
+  "Column2": "트리플 슬래쉬",
+  "Column3": "전방으로 무기를 세 번 휘둘러 다수의 적을 동시에 공격한다.",
+  "Column5": "Active",
+  "Column6": "Hunt",
+  "Column7": 1.4,
+  "Column8": "[0.4, 0.4, 0.6]",
+  "Column9": 30
+ },
+ {
+  "고유 ID": "Active_B_02",
+  "Column2": "트리플 슬래쉬-포커싱",
+  "Column3": "전방으로 무기를 세 번 휘둘러 한 명의 적을 집중 공격한다.",
+  "Column5": "Active",
+  "Column6": "Boss",
+  "Column7": 1.7,
+  "Column8": "[0.5, 0.5, 0.7]",
+  "Column9": 30
+ },
+ {
+  "고유 ID": "Active_03"
  }
