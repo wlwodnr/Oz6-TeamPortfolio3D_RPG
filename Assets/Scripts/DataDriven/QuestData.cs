@@ -10,6 +10,9 @@ public class QuestData : GameDataBase
     public int TargetCount;
     public int RewardExp;
     public int RewardGold;
-    public List<string> RewardItemIdList;
+    public int RewardSkillPoint;
+    public string AcceptGroupId;
+    public string RepeatGroupId;
+    public string ClearGroupId;
     public string NextQuestId;
 }
