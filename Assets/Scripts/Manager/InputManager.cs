@@ -6,6 +6,7 @@ public class InputManager : MonoBehaviour
     public static InputManager Instance;
     public Vector3 MoveInput {  get; private set; }
     public static event Action OnJumpPressed;
+    public static event Action OnAttackPressed;
 
     private void Awake()
     {
@@ -28,6 +29,11 @@ public class InputManager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Space))
         {
             OnJumpPressed?.Invoke();
+        }
+
+        if(Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            OnAttackPressed?.Invoke();
         }
     }
 }

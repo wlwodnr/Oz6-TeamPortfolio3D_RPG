@@ -1,0 +1,44 @@
+
+ {
+  "고유 ID": "(name)",
+  "Column2": "string",
+  "Column3": "string",
+  "Column4": "string",
+  "Column5": "float",
+  "Column6": "float",
+  "Column7": "float",
+  "Column8": "float"
+ },
+ {
+  "고유 ID": "Id",
+  "Column2": "Name",
+  "Column3": "Description",
+  "Column4": "IconPath",
+  "Column5": "SkillType",
+  "Column6": "DamageMultiplier",
+  "Column7": "MultiHitPercentList"
+ },
+ {
+  "고유 ID": "Mode_01",
+  "Column2": "모드 체인지",
+  "Column3": "더블 슬래쉬의 사용 방식을 바꾼다.",
+  "Column5": "Active",
+  "Column6": 0,
+  "Column7": "[]"
+ },
+ {
+  "고유 ID": "Active_01",
+  "Column2": "더블 슬래쉬",
+  "Column3": "전방으로 무기를 두 번 휘둘러 다수의 적을 동시에 공격한다.",
+  "Column5": "Active",
+  "Column6": 1.2,
+  "Column7": "[0.6, 0.6]"
+ },
+ {
+  "고유 ID": "Active_02",
+  "Column2": "더블 슬래쉬-포커싱",
+  "Column3": "전방으로 무기를 두 번 휘둘러 한 명의 적을 집중 공격한다.",
+  "Column5": "Active",
+  "Column6": 1.4,
+  "Column7": "[0.7, 0.7]"
+ }
