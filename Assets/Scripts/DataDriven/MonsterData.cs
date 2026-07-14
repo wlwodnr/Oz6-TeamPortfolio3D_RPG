@@ -15,4 +15,6 @@ public class MonsterData
     public float AttackRange;
     public float SpawnLimitRange;
     public float PatrolRange;        // 배회 반경
+
+
 }

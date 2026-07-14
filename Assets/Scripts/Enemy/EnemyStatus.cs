@@ -33,6 +33,8 @@ public class EnemyStatus : MonoBehaviour, IDamageable
         //TO DO:피격 애니메이션 및 이펙트 처리 요청
         //
 
+
+
         if (_currentHp <= 0)
         {
             SetDead();

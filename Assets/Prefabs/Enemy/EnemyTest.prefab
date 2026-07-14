@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 1143335803616904109}
   - component: {fileID: 4034991065462671189}
   - component: {fileID: 609218225396827447}
+  - component: {fileID: 4980601291927714853}
   m_Layer: 0
   m_Name: EnemyTest
   m_TagString: Untagged
@@ -210,3 +211,32 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &4980601291927714853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3965756883284564332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0038c16c34866b4f9e25c9c0dc0f7e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Behavior::Unity.Behavior.BehaviorGraphAgent
+  m_Graph: {fileID: 1181879012300508477, guid: 34d1ac917b729774f8e552fb0e54ddb5, type: 2}
+  m_BlackboardVariableOverridesList:
+  - rid: 8347205535233474857
+  m_OriginalGraph: {fileID: 1181879012300508477, guid: 34d1ac917b729774f8e552fb0e54ddb5, type: 2}
+  m_IsInitialised: 0
+  m_IsStarted: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 8347205535233474857
+      type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 1
+          m_Value1: 0
+        Name: Self
+        m_Value: {fileID: 3965756883284564332}
