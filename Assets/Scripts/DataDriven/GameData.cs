@@ -31,3 +31,15 @@ public class ItemData : GameDataBase
     public string UseItemType;
     //public List<string> UseItemParameterList;
 }
+
+[System.Serializable]
+public class DialogueData : GameDataBase
+{
+    public string CharacterDataId;
+    public string Description;
+    public string NextDialogueId;
+    public List<string> SelectionNameList;
+    public List<string> SelectionDialogueIdList;
+    public string TexturePath;
+    public string VoicePath;
+}
