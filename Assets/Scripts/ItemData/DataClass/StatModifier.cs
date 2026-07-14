@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public enum StatType { MoveSpeed, AttackPower, MaxHP, MaxMp, Defense, AttackSpeed }
+public enum StatType { MoveSpeed, AttackPower, MaxHP, MaxMP, Defense, AttackSpeed }
 public enum ModifierType { Flat, Percent }
 
 [System.Serializable]

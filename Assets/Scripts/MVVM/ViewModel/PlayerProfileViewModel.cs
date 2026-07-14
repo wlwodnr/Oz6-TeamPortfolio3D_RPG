@@ -28,8 +28,8 @@ public class PlayerProfileViewModel : ViewModelBase
         }
     }
 
-    private int _totalExp;
-    public int TotalExp
+    private float _totalExp;
+    public float TotalExp
     {
         get => _totalExp;
         set
@@ -37,14 +37,13 @@ public class PlayerProfileViewModel : ViewModelBase
             if (_totalExp != value)
             {
                 _totalExp = value;
-                CurrentLevel = (int)_totalExp / 100;
                 OnPropertyChanged(nameof(TotalExp));
             }
         }
     }
 
-    private int _currentLevel;
-    public int CurrentLevel
+    private float _currentLevel;
+    public float CurrentLevel
     {
         get => _currentLevel;
         set
@@ -57,8 +56,8 @@ public class PlayerProfileViewModel : ViewModelBase
         }
     }
 
-    private int _currentHP;
-    public int CurrentHP
+    private float _currentHP;
+    public float CurrentHP
     {
         get => _currentHP;
         set
@@ -71,8 +70,8 @@ public class PlayerProfileViewModel : ViewModelBase
         }
     }
 
-    private int _currentMP;
-    public int CurrentMP
+    private float _currentMP;
+    public float CurrentMP
     {
         get => _currentMP;
         set
@@ -85,9 +84,9 @@ public class PlayerProfileViewModel : ViewModelBase
         }
     }
 
-    private int _maxHP;
+    private float _maxHP;
 
-    public int MaxHP
+    public float MaxHP
     {
         get => _maxHP;
         set
@@ -100,8 +99,8 @@ public class PlayerProfileViewModel : ViewModelBase
         }
     }
 
-    private int _maxMP;
-    public int MaxMP
+    private float _maxMP;
+    public float MaxMP
     {
         get => _maxMP;
         set

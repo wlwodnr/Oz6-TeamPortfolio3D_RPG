@@ -2,8 +2,16 @@
 
 public class NetworkPlayerService
 {
+    private PlayerModel _playerModel;
     private PlayerProfileViewModel _localPlayerProfileViewModel;
     private PlayerStatViewModel _localPlayerStatViewModel;
+
+    public void Initialize(PlayerModel playerModel)
+    {
+        _playerModel = playerModel;
+
+        _playerModel.Info.OnInfoChanged += RequestPlayerInfoChanged;
+    }
 
     public PlayerProfileViewModel GetLocalPlayerProfileViewModel()
     {
@@ -17,81 +25,59 @@ public class NetworkPlayerService
 
     public PlayerProfileViewModel CreateLocalPlayerProfileViewModel()
     {
-        var localPlayerVm = new PlayerProfileViewModel
+        var localPlayerVm = new PlayerProfileViewModel();
+
+        if (_playerModel != null)
         {
-            Name = "기본 이름",
-            TotalExp = 0,
-            CurrentLevel = 0,
-            CurrentHP = 10,
-            CurrentMP = 10,
-            MaxHP = 100,
-            MaxMP = 100
-        };
+            localPlayerVm.Name = _playerModel.Info.Name;
+            localPlayerVm.TotalExp = _playerModel.Info.TotalExp;
+            localPlayerVm.CurrentLevel = _playerModel.Info.CurLevel;
+            localPlayerVm.CurrentHP = _playerModel.Info.CurHp;
+            localPlayerVm.CurrentMP = _playerModel.Info.CurMp;
+            localPlayerVm.MaxHP = _playerModel.Info.MaxHP;
+            localPlayerVm.MaxMP = _playerModel.Info.MaxMP;
+        }
 
-        //var playerStatData = GameDataManager.Instance.GetPlayerStatData("stat_dummy");
-        //if (playerStatData != null)
-        //{
-        //    localPlayerVm.MaxHP = playerStatData.HP;
-        //    localPlayerVm.MaxMP = playerStatData.MP;
-        //}
-
-            _localPlayerProfileViewModel = localPlayerVm;
+        _localPlayerProfileViewModel = localPlayerVm;
         return localPlayerVm;
     }
 
-    public void RequestGiveExpToLocalPlayer(int exp)
+    private void RequestPlayerInfoChanged(string propertyName)
     {
-        if (_localPlayerProfileViewModel != null)
-        {
-            _localPlayerProfileViewModel.TotalExp += exp;
-        }
-    }
+        var info = _playerModel?.Info;
+        if (info == null) return;
 
-    public void RequestChangePlayerLevel(int level)
-    {
         if (_localPlayerProfileViewModel != null)
         {
-            _localPlayerProfileViewModel.CurrentLevel = level;
+            switch (propertyName)
+            {
+                case nameof(PlayerInfo.Name):
+                    _localPlayerProfileViewModel.Name = info.Name;
+                    break;
+                case nameof(PlayerInfo.TotalExp):
+                    _localPlayerProfileViewModel.TotalExp = info.TotalExp;
+                    break;
+                case nameof(PlayerInfo.CurLevel):
+                    _localPlayerProfileViewModel.CurrentLevel = info.CurLevel;
+                    break;
+                case nameof(PlayerInfo.CurHp):
+                    _localPlayerProfileViewModel.CurrentHP = info.CurHp;
+                    break;
+                case nameof(PlayerInfo.CurMp):
+                    _localPlayerProfileViewModel.CurrentMP = info.CurMp;
+                    break;
+                case nameof(PlayerInfo.MaxHP):
+                    _localPlayerProfileViewModel.MaxHP = info.MaxHP;
+                    break;
+                case nameof(PlayerInfo.MaxMP):
+                    _localPlayerProfileViewModel.MaxMP = info.MaxMP;
+                    break;
+            }
         }
-    }
 
-    public void RequestChangePlayerHp(int hp)
-    {
-        if (_localPlayerProfileViewModel != null)
+        if (_localPlayerStatViewModel != null)
         {
-            _localPlayerProfileViewModel.CurrentHP = hp;
-        }
-    }
-
-    public void RequestChangePlayerMp(int mp)
-    {
-        if (_localPlayerProfileViewModel != null)
-        {
-            _localPlayerProfileViewModel.CurrentMP = mp;
-        }
-    }
-
-    public void RequestChangePlayerMaxHp(int maxHp)
-    {
-        if (_localPlayerProfileViewModel != null)
-        {
-            _localPlayerProfileViewModel.MaxHP = maxHp;
-        }
-    }
-
-    public void RequestChangePlayerMaxMp(int maxMp)
-    {
-        if (_localPlayerProfileViewModel != null)
-        {
-            _localPlayerProfileViewModel.MaxMP = maxMp;
-        }
-    }
-
-    public void RequestChangePlayerName(string newName)
-    {
-        if (_localPlayerProfileViewModel != null)
-        {
-            _localPlayerProfileViewModel.Name = newName;
+            RequestPlayerStatViewModel(_localPlayerStatViewModel);
         }
     }
 
@@ -99,60 +85,100 @@ public class NetworkPlayerService
     {
         if (_localPlayerStatViewModel == null)
         {
-            var localPlayerStatVm = new PlayerStatViewModel();
-            SetPlayerStatData(localPlayerStatVm, atk: 10, hp: 100, mp: 100, atkSpeed: 1, skillPoint: 10);
-
-            var playerStatData = GameDataManager.Instance.GetPlayerStatData("stat_dummy");
-            if (playerStatData == null)
-            {
-                Debug.LogError("플레이어 데이터를 찾을 수 없습니다. : NetworkPlayerService");
-                _localPlayerStatViewModel = localPlayerStatVm;
-                return _localPlayerStatViewModel;
-            }
-
-            SetPlayerStatData(localPlayerStatVm, playerStatData.Atk, playerStatData.HP,
-                playerStatData.MP, playerStatData.AtkSpeed, playerStatData.SkillPoint);
-
-            _localPlayerStatViewModel = localPlayerStatVm;
+            CreateLocalPlayerStatViewModel();
         }
 
         return _localPlayerStatViewModel;
     }
 
-    private void SetPlayerStatData(PlayerStatViewModel vm, int atk, int hp, int mp, int atkSpeed, int skillPoint)
+    public PlayerStatViewModel CreateLocalPlayerStatViewModel()
     {
-        vm.Atk = atk;
-        vm.HP = hp;
-        vm.MP = mp;
-        vm.AtkSpeed = atkSpeed;
-        vm.SkillPoint = skillPoint;
+        var localPlayerStatVm = new PlayerStatViewModel();
+
+        if (_playerModel != null)
+        {
+            RequestPlayerStatViewModel(localPlayerStatVm);
+        }
+
+        _localPlayerStatViewModel = localPlayerStatVm;
+        return localPlayerStatVm;
     }
 
-    // 아래는 테스트용 함수들
-    public void RequestAddStatAtk(int addAtk)
+    private void RequestPlayerStatViewModel(PlayerStatViewModel vm)
     {
-        if (_localPlayerStatViewModel != null)
+        if (_playerModel?.Info == null || vm == null) return;
+
+        var info = _playerModel.Info;
+
+        vm.AtkDamage = info.AtkDamage;
+        vm.MaxHP = info.MaxHP;
+        vm.MaxMP = info.MaxMP;
+        vm.AtkSpeed = info.AtkSpeed;
+        vm.SkillPoint = info.SkillPoint;
+    }
+
+    // 아래는 테스트용 함수들 -----------------------------------------------
+    public void RequestChangePlayerHp(float hp)
+    {
+        if (_playerModel != null)
         {
-            _localPlayerStatViewModel.Atk += addAtk;
+            _playerModel.Info.CurHp = hp;
         }
     }
 
-    public void RequestAddStatHP(int addHp)
+    public void RequestChangePlayerMp(float mp)
     {
-        if (_localPlayerStatViewModel != null)
+        if (_playerModel != null)
         {
-            _localPlayerStatViewModel.HP += addHp;
-            _localPlayerProfileViewModel.CurrentHP += addHp;
+            _playerModel.Info.CurMp = mp;
         }
     }
 
-    public void RequestAddStatMP(int addMp)
+    public void RequestGiveExpToLocalPlayer(float exp)
     {
-        if (_localPlayerStatViewModel != null)
+        if (_playerModel != null)
         {
-            _localPlayerStatViewModel.MP += addMp;
-            _localPlayerProfileViewModel.CurrentMP += addMp;
+            _playerModel.Info.TotalExp += exp;
         }
     }
 
+    public void RequestAddStatAtk(float addAtk)
+    {
+        if (_playerModel?.Info != null)
+        {
+            _playerModel.Info.AtkDamage += addAtk;
+        }
+    }
+
+    public void RequestChangePlayerLevel(int level)
+    {
+        if (_playerModel?.Info != null)
+        {
+            _playerModel.Info.CurLevel = level;
+        }
+    }
+
+    public void RequestChangePlayerMaxHp(float maxHp)
+    {
+        if (_playerModel?.Info != null)
+        {
+            _playerModel.Info.MaxHP = maxHp;
+        }
+    }
+
+    public void RequestChangePlayerMaxMp(float maxMp)
+    {
+        if (_playerModel?.Info != null)
+        {
+            _playerModel.Info.MaxMP = maxMp;
+        }
+    }
+
+    public void RequestChangePlayerName(string newName)
+    {
+        if (_playerModel?.Info != null)
+        {
+            _playerModel.Info.Name = newName;
+        }
+    }
 }

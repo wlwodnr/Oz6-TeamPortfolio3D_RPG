@@ -49,31 +49,31 @@ public class PlayerStatInfoUI : UIBase
     {
         switch (e.PropertyName)
         {
-            case nameof(PlayerStatViewModel.Atk):
+            case nameof(PlayerStatViewModel.AtkDamage):
                 {
-                    Text_Atk.text = $"Atk : {_statVm.Atk}";
+                    Text_Atk.text = $"Atk : {_statVm.AtkDamage}";
                 }
             break;
-            case nameof(PlayerStatViewModel.HP):
+            case nameof(PlayerStatViewModel.MaxHP):
                 {
-                    Text_HP.text = $"HP : {_statVm.HP}";
+                    Text_HP.text = $"HP : {_statVm.MaxHP}";
 
                 }
             break;
-            case nameof(PlayerStatViewModel.MP):
+            case nameof(PlayerStatViewModel.MaxMP):
                 {
-                    Text_MP.text = $"MP : {_statVm.MP}";
+                    Text_MP.text = $"MP : {_statVm.MaxMP}";
 
                 }
             break;
             case nameof(PlayerStatViewModel.AtkSpeed):
                 {
-                    Text_SkillPoint.text = $"AtkSpd : {_statVm.AtkSpeed}";
+                    Text_AtkSpeed.text = $"AtkSpd : {_statVm.AtkSpeed}";
                 }
             break;
             case nameof(PlayerStatViewModel.SkillPoint):
                 {
-                    Text_AtkSpeed.text = $"Skill Point : {_statVm.SkillPoint}";
+                    Text_SkillPoint.text = $"Skill Point : {_statVm.SkillPoint}";
 
                 }
             break;
