@@ -75,6 +75,10 @@ public class GameDataManager : MonoBehaviour
         QuestDataList = LoadData<QuestData>("QuestData");
         DialogueDataList = LoadData<DialogueData>("Dialogue");
         DialogueGroupDataList = LoadData<DialogueGroupData>("DialogueGroup");
+        SkillDataList = LoadData<SkillData>("SkillData");
+        CharacterDataList = LoadData<CharacterData>("CharacterData");
+        PlayerStatDataList = LoadData<PlayerStatData>("PlayerStat");
+        ItemDataList = LoadData<ItemData>("ItemData");
     }
 
 
