@@ -33,6 +33,8 @@ public class GameDataManager : MonoBehaviour
     public Dictionary<string, CharacterData> CharacterDataList { get; private set; } = new Dictionary<string, CharacterData>();
     public Dictionary<string, PlayerStatData> PlayerStatDataList { get; private set; } = new Dictionary<string, PlayerStatData>();
     public Dictionary<string, ItemData> ItemDataList { get; private set; } = new Dictionary<string, ItemData>();
+    public Dictionary<string, DialogueData> DialogueDataList { get; private set; }= new Dictionary<string, DialogueData>();
+    public Dictionary<string, DialogueGroupData> DialogueGroupDataList { get; private set; } = new Dictionary<string, DialogueGroupData>();
 
     private Dictionary<string, T> LoadData<T>(string tableName) where T : GameDataBase
     {
@@ -70,8 +72,9 @@ public class GameDataManager : MonoBehaviour
 
     public void LoadAll()
     {
-
         QuestDataList = LoadData<QuestData>("QuestData");
+        DialogueDataList = LoadData<DialogueData>("Dialogue");
+        DialogueGroupDataList = LoadData<DialogueGroupData>("DialogueGroup");
     }
 
 
@@ -107,5 +110,17 @@ public class GameDataManager : MonoBehaviour
         if (ItemDataList == null || string.IsNullOrEmpty(id)) return null;
 
         return ItemDataList.TryGetValue(id, out var item) ? item : null;
+    }
+
+    public DialogueData GetDialogueData(string id)
+    {
+        if (DialogueDataList == null || string.IsNullOrEmpty(id)) return null;
+        return DialogueDataList.TryGetValue(id, out var item) ? item : null;
+    }
+
+    public DialogueGroupData GetDialogueGroupData(string id)
+    {
+        if (DialogueGroupDataList == null || string.IsNullOrEmpty(id)) return null;
+        return DialogueGroupDataList.TryGetValue(id, out var item) ? item : null;
     }
 }
