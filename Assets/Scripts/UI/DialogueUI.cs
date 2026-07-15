@@ -12,6 +12,9 @@ public class DialogueUI : UIBase
     private string _currentDialogueId;
     private Queue<string> _descriptionQueue = new Queue<string>();
 
+    private string[] _dialogueIds;
+    private int _currentDialogueIndex;
+
     private void Awake()
     {
         Btn_next.BindOnClickButtonEvent(OnClick_Next);
@@ -34,7 +37,8 @@ public class DialogueUI : UIBase
             return;
         }
         
-        bool isNextDialogueExist = CheckAndStartNextDialogue();
+        bool isNextDialogueExist = TryStartNextDialogue();
+
         if (isNextDialogueExist == false)
         {
             UIManager.Instance.CloseContentUI(UIType.DialogueUI);
@@ -53,36 +57,46 @@ public class DialogueUI : UIBase
         return isNextDescriptionExsist;
     }
 
-    private bool CheckAndStartNextDialogue()
+    public void OpenDialogueGroup(string groupId)
     {
-        var dialogueData = GameDataManager.Instance.GetDialogueData(_currentDialogueId);
-        if (dialogueData == null)
+        DialogueGroupData dialogueGroupData = GameDataManager.Instance.GetDialogueGroupData(groupId);
+
+        if (dialogueGroupData == null)
         {
-            Debug.LogWarning($"다이얼로그 데이터가 존재하지 않습니다 {dialogueData}");
-            return false;
+            Debug.LogWarning($"다이얼로그 데이터가 존재하지 않습니다 {dialogueGroupData}");
+            return;
         }
         
-        string nextDialogueId = dialogueData.NextDialogueId;
-        if (string.IsNullOrEmpty(nextDialogueId) == false)
+        if (string.IsNullOrEmpty(dialogueGroupData.DialogueIdList))
         {
-            StartDialogue(nextDialogueId);
-            return true;
+            Debug.LogWarning($"다이얼로그 그룹에 대사가 없습니다 GroupId : {groupId}");
+            return;
         }
 
-        return false;
+        _dialogueIds = dialogueGroupData.DialogueIdList.Split(',');
+
+        for (int i = 0; i < _dialogueIds.Length; i++)
+        {
+            _dialogueIds[i] = _dialogueIds[i].Trim();
+        }
+
+        _currentDialogueIndex = 0;
+        StartDialogue(_dialogueIds[_currentDialogueIndex]);
     }
     
 
     public void StartDialogue(string dialogueId)
     {
-        var dialogueData = GameDataManager.Instance.GetDialogueData(dialogueId);
+        DialogueData dialogueData = GameDataManager.Instance.GetDialogueData(dialogueId);
+
         if (dialogueData == null)
         {
-            Debug.LogWarning($"다이얼로그 데이터가 존재하지 않습니다 {dialogueData}");
+            Debug.LogWarning($"다이얼로그 데이터가 존재하지 않습니다 DialogueId : {dialogueId}");
             return;
         }
         
         _currentDialogueId = dialogueId;
+        _descriptionQueue.Clear();
         
         if (dialogueData.Description.Contains("<np>"))
         {
@@ -119,5 +133,23 @@ public class DialogueUI : UIBase
     private void SetCurrentDialogueDescription(string description)
     {
         Text_description.text = description;
+    }
+
+    private bool TryStartNextDialogue()
+    {
+        if (_dialogueIds == null || _dialogueIds.Length == 0)
+        {
+            return false;
+        }
+
+        if (_currentDialogueIndex >= _dialogueIds.Length - 1)
+        {
+            return false;
+        }
+
+        _currentDialogueIndex++;
+        StartDialogue(_dialogueIds[_currentDialogueIndex]);
+
+        return true;
     }
 }
