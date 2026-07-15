@@ -1,0 +1,136 @@
+[
+  {
+    "Id": "Mode_01",
+    "Name": "모드 체인지",
+    "Description": "더블 슬래쉬의 사용 방식을 바꾼다.",
+    "IconPath": null,
+    "TargetMode": 0,
+    "RequiredLevel": 1,
+    "RequiredSkill": [
+      "[Active_H_01]"
+    ],
+    "CoolDown": null,
+    "Cost": 3,
+    "CastTime": null,
+    "AttackRange": null,
+    "DamageMultiplier": 0,
+    "MultiHitPercentList": 0,
+    "TargetCount": null,
+    "CrowdControl": null
+  },
+  {
+    "Id": "Active_H_01",
+    "Name": "더블 슬래쉬",
+    "Description": "전방으로 무기를 두 번 휘둘러 다수의 적을 동시에 공격한다.",
+    "IconPath": null,
+    "TargetMode": 0,
+    "RequiredLevel": 1,
+    "RequiredSkill": [
+      "[]"
+    ],
+    "CoolDown": null,
+    "Cost": 6,
+    "CastTime": null,
+    "AttackRange": null,
+    "DamageMultiplier": 1.2,
+    "MultiHitPercentList": 0,
+    "TargetCount": null,
+    "CrowdControl": null
+  },
+  {
+    "Id": "Active_B_01",
+    "Name": "더블 슬래쉬-포커싱",
+    "Description": "전방으로 무기를 두 번 휘둘러 한 명의 적을 집중 공격한다.",
+    "IconPath": null,
+    "TargetMode": 0,
+    "RequiredLevel": 1,
+    "RequiredSkill": [
+      "[Active_H_01]"
+    ],
+    "CoolDown": null,
+    "Cost": 6,
+    "CastTime": null,
+    "AttackRange": null,
+    "DamageMultiplier": 1.4,
+    "MultiHitPercentList": 0,
+    "TargetCount": null,
+    "CrowdControl": null
+  },
+  {
+    "Id": "Active_02",
+    "Name": "더블 리프",
+    "Description": "점프 중 신체를 가속해 진행 방향으로 한 번 더 도약한다.",
+    "IconPath": null,
+    "TargetMode": 0,
+    "RequiredLevel": 5,
+    "RequiredSkill": [
+      "[]"
+    ],
+    "CoolDown": null,
+    "Cost": 5,
+    "CastTime": null,
+    "AttackRange": null,
+    "DamageMultiplier": 0,
+    "MultiHitPercentList": 0,
+    "TargetCount": null,
+    "CrowdControl": null
+  },
+  {
+    "Id": "Mode_02",
+    "Name": "모드 체인지",
+    "Description": "트리플 슬래쉬의 사용 방식을 바꾼다.",
+    "IconPath": null,
+    "TargetMode": 0,
+    "RequiredLevel": 30,
+    "RequiredSkill": [
+      "[Mode_01",
+      "Active_H_02]"
+    ],
+    "CoolDown": null,
+    "Cost": 4,
+    "CastTime": null,
+    "AttackRange": null,
+    "DamageMultiplier": 0,
+    "MultiHitPercentList": 0,
+    "TargetCount": null,
+    "CrowdControl": null
+  },
+  {
+    "Id": "Active_H_02",
+    "Name": "트리플 슬래쉬",
+    "Description": "전방으로 무기를 세 번 휘둘러 다수의 적을 동시에 공격한다.",
+    "IconPath": null,
+    "TargetMode": 0,
+    "RequiredLevel": 30,
+    "RequiredSkill": [
+      "[Active_H_01]"
+    ],
+    "CoolDown": null,
+    "Cost": 10,
+    "CastTime": null,
+    "AttackRange": null,
+    "DamageMultiplier": 1.4,
+    "MultiHitPercentList": 0,
+    "TargetCount": null,
+    "CrowdControl": null
+  },
+  {
+    "Id": "Active_B_02",
+    "Name": "트리플 슬래쉬-포커싱",
+    "Description": "전방으로 무기를 세 번 휘둘러 한 명의 적을 집중 공격한다.",
+    "IconPath": null,
+    "TargetMode": 0,
+    "RequiredLevel": 30,
+    "RequiredSkill": [
+      "[Active_H_02]"
+    ],
+    "CoolDown": null,
+    "Cost": 10,
+    "CastTime": null,
+    "AttackRange": null,
+    "DamageMultiplier": 1.7,
+    "MultiHitPercentList": 0,
+    "TargetCount": null,
+    "CrowdControl": null
+  }
+]
