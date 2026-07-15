@@ -16,6 +16,9 @@ public class DialogueUI : UIBase
     private string[] _dialogueIds;
     private int _currentDialogueIndex;
 
+    private string _currentQuestId;
+    private bool _isQuestAcceptDialogue;
+
     private void OnEnable()
     {
         Btn_next.BindOnClickButtonEvent(OnClick_Next);
@@ -51,13 +54,33 @@ public class DialogueUI : UIBase
 
         if (isNextDialogueExist == false)
         {
+            if (_isQuestAcceptDialogue)
+            {
+                Btn_next.gameObject.SetActive(false);
+                Btn_accept.gameObject.SetActive(true);
+                return;
+            }
+
             UIManager.Instance.CloseContentUI(UIType.DialogueUI);
         }
     }
 
     public void OnClick_Accept()
     {
+        if (string.IsNullOrEmpty(_currentQuestId))
+        {
+            Debug.LogWarning("수락할 퀘스트 Id가 없습니다");
+            return;
+        }
 
+        if (QuestManager.Instance == null)
+        {
+            Debug.LogWarning("QuestManager가 존재하지 않습니다");
+            return;
+        }
+
+        QuestManager.Instance.AcceptQuest(_currentQuestId);
+        UIManager.Instance.CloseContentUI(UIType.DialogueUI);
     }
 
     public void OnClick_Exit()
@@ -78,6 +101,17 @@ public class DialogueUI : UIBase
     }
 
     public void OpenDialogueGroup(string groupId)
+    {
+        _currentQuestId = null;
+        _isQuestAcceptDialogue = false;
+
+        Btn_next.gameObject.SetActive(true);
+        Btn_accept.gameObject.SetActive(false);
+
+        StartDialogueGroup(groupId);
+    }
+
+    private void StartDialogueGroup(string groupId)
     {
         DialogueGroupData dialogueGroupData = GameDataManager.Instance.GetDialogueGroupData(groupId);
 
@@ -104,6 +138,30 @@ public class DialogueUI : UIBase
         StartDialogue(_dialogueIds[_currentDialogueIndex]);
     }
     
+    public void OpenQuestAcceptDialogue(string questId)
+    {
+        QuestData questData = GameDataManager.Instance.GetQuestData(questId);
+
+        if (questData == null)
+        {
+            Debug.LogWarning($"퀘스트 데이터가 존재하지 않습니다 Questid: {questId}");
+            return;
+        }
+
+        if (string.IsNullOrEmpty(questData.AcceptGroupId))
+        {
+            Debug.LogWarning($"퀘스트 수주 대화그룹이 없습니다 QuestId: {questId}");
+            return;
+        }
+
+        _currentQuestId = questId;
+        _isQuestAcceptDialogue = true;
+
+        Btn_next.gameObject.SetActive(true);
+        Btn_accept.gameObject.SetActive(false);
+
+        StartDialogueGroup(questData.AcceptGroupId);
+    }
 
     public void StartDialogue(string dialogueId)
     {
