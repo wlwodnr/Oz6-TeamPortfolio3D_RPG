@@ -55,6 +55,7 @@ public class SlotViewModel : INotifyPropertyChanged
         set
         {
             _isSelected = value;
+            OnPropertyChanged(nameof(IsSelected));
         }
     }
 
