@@ -8,16 +8,26 @@ public class DialogueUI : UIBase
     [SerializeField] private Text Text_character;
     [SerializeField] private Text Text_description;
     [SerializeField] private UIButton Btn_next;
+    [SerializeField] private UIButton Btn_exit;
+    [SerializeField] private UIButton Btn_accept;
 
-    private string _currentDialogueId;
     private Queue<string> _descriptionQueue = new Queue<string>();
 
     private string[] _dialogueIds;
     private int _currentDialogueIndex;
 
-    private void Awake()
+    private void OnEnable()
     {
         Btn_next.BindOnClickButtonEvent(OnClick_Next);
+        Btn_accept.BindOnClickButtonEvent(OnClick_Accept);
+        Btn_exit.BindOnClickButtonEvent(OnClick_Exit);
+    }
+
+    private void OnDisable()
+    {
+        Btn_next.UnBindAllOnClickButtonEvent();
+        Btn_accept.UnBindAllOnClickButtonEvent();
+        Btn_exit.UnBindAllOnClickButtonEvent();
     }
 
     private void Update()
@@ -43,6 +53,16 @@ public class DialogueUI : UIBase
         {
             UIManager.Instance.CloseContentUI(UIType.DialogueUI);
         }
+    }
+
+    public void OnClick_Accept()
+    {
+
+    }
+
+    public void OnClick_Exit()
+    {
+        UIManager.Instance.CloseContentUI(UIType.DialogueUI);
     }
 
     private bool CheckAndSetDescription()
@@ -95,7 +115,6 @@ public class DialogueUI : UIBase
             return;
         }
         
-        _currentDialogueId = dialogueId;
         _descriptionQueue.Clear();
         
         if (dialogueData.Description.Contains("<np>"))
