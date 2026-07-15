@@ -9,12 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0278ce7995ff95740a92d8ff8e649bc4, type: 3}
-  m_Name: NewItemData
-  m_EditorClassIdentifier: Assembly-CSharp::StatUpItem
-  ItemId: 
-  Name: 
-  Iconpath: 
-  ItemDesc: 
-  MaxCount: 0
-  StatModifiers: []
+  m_Script: {fileID: 11500000, guid: af5bec40c6cf27e4e8e912818a1cd7ae, type: 3}
+  m_Name: HealEffect
+  m_EditorClassIdentifier: Assembly-CSharp::HealEffect
+  HealAmount: 100

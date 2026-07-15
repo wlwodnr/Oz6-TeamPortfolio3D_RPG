@@ -2,8 +2,10 @@
 using System;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "NewStoreData", menuName = "StoreData")]
 public class StoreData : ScriptableObject
 {
+    public string NpcId;
     public string StoreName;
     public List<StoreItem> StoreItems;
 }
