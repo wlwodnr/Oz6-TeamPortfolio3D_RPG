@@ -59,7 +59,7 @@ public class QuestManager : MonoBehaviour
         }
     }
 
-    public void NotifyProgress(string targetId, int amount)
+    public void UpdateProgress(string targetId, int amount)
     {
         foreach (QuestModel model in _activeQuests.Values)
         {
