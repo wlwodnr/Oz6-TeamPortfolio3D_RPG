@@ -5,13 +5,21 @@ using UnityEngine;
 
 public class GameDataManager : MonoBehaviour
 {
-    public static GameDataManager Instance { get; set; }
+    public static GameDataManager Instance { get; private set; }
 
     private void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
 
-        LoadAll();
+            LoadAll();
+        }
+        else
+        {
+            Debug.Log("GameDataManager가 중복되어 파괴합니다");
+            Destroy(gameObject);
+        }
     }
 
     [Serializable]
@@ -21,6 +29,12 @@ public class GameDataManager : MonoBehaviour
     }
 
     public Dictionary<string, QuestData> QuestDataList { get; private set; } = new Dictionary<string, QuestData>();
+    public Dictionary<string, SkillData> SkillDataList { get; private set; } = new Dictionary<string, SkillData>();
+    public Dictionary<string, CharacterData> CharacterDataList { get; private set; } = new Dictionary<string, CharacterData>();
+    public Dictionary<string, PlayerStatData> PlayerStatDataList { get; private set; } = new Dictionary<string, PlayerStatData>();
+    public Dictionary<string, ItemData> ItemDataList { get; private set; } = new Dictionary<string, ItemData>();
+    public Dictionary<string, DialogueData> DialogueDataList { get; private set; }= new Dictionary<string, DialogueData>();
+    public Dictionary<string, DialogueGroupData> DialogueGroupDataList { get; private set; } = new Dictionary<string, DialogueGroupData>();
 
     private Dictionary<string, T> LoadData<T>(string tableName) where T : GameDataBase
     {
@@ -58,8 +72,13 @@ public class GameDataManager : MonoBehaviour
 
     public void LoadAll()
     {
-
         QuestDataList = LoadData<QuestData>("QuestData");
+        DialogueDataList = LoadData<DialogueData>("Dialogue");
+        DialogueGroupDataList = LoadData<DialogueGroupData>("DialogueGroup");
+        SkillDataList = LoadData<SkillData>("SkillData");
+        CharacterDataList = LoadData<CharacterData>("CharacterData");
+        PlayerStatDataList = LoadData<PlayerStatData>("PlayerStat");
+        ItemDataList = LoadData<ItemData>("ItemData");
     }
 
 
@@ -70,4 +89,42 @@ public class GameDataManager : MonoBehaviour
         return QuestDataList.TryGetValue(id, out var item) ? item : null;
     }
 
+    public SkillData GetSkill(string id)
+    {
+        if (SkillDataList == null || string.IsNullOrEmpty(id)) return null;
+
+        return SkillDataList.TryGetValue(id, out var item) ? item : null;
+    }
+
+    public CharacterData GetCharacterData(string id)
+    {
+        if (CharacterDataList == null || string.IsNullOrEmpty(id)) return null;
+
+        return CharacterDataList.TryGetValue(id, out var item) ? item : null;
+    }
+
+    public PlayerStatData GetPlayerStatData(string id)
+    {
+        if (PlayerStatDataList == null || string.IsNullOrEmpty(id)) return null;
+
+        return PlayerStatDataList.TryGetValue(id, out var item) ? item : null;
+    }
+    public ItemData GetItemData(string id)
+    {
+        if (ItemDataList == null || string.IsNullOrEmpty(id)) return null;
+
+        return ItemDataList.TryGetValue(id, out var item) ? item : null;
+    }
+
+    public DialogueData GetDialogueData(string id)
+    {
+        if (DialogueDataList == null || string.IsNullOrEmpty(id)) return null;
+        return DialogueDataList.TryGetValue(id, out var item) ? item : null;
+    }
+
+    public DialogueGroupData GetDialogueGroupData(string id)
+    {
+        if (DialogueGroupDataList == null || string.IsNullOrEmpty(id)) return null;
+        return DialogueGroupDataList.TryGetValue(id, out var item) ? item : null;
+    }
 }

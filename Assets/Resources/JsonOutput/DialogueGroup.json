@@ -1,0 +1,26 @@
+[
+  {
+    "Id": "dialogue_group_Quest_001_accept",
+    "DialogueIdList": "dialogue_group_Quest_001_1,dialogue_group_Quest_001_2,dialogue_group_Quest_001_3"
+  },
+  {
+    "Id": "dialogue_group_Quest_001_repeat",
+    "DialogueIdList": "dialogue_Quest_001_Repeat"
+  },
+  {
+    "Id": "dialogue_group_Quest_001_clear",
+    "DialogueIdList": "dialogue_Quest_001_Clear"
+  },
+  {
+    "Id": "dialogue_group_Quest_002_accept",
+    "DialogueIdList": "dialogue_group_Quest_002_1,dialogue_group_Quest_002_2"
+  },
+  {
+    "Id": "dialogue_group_Quest_002_repeat",
+    "DialogueIdList": "dialogue_Quest_002_Repeat"
+  },
+  {
+    "Id": "dialogue_group_Quest_002_clear",
+    "DialogueIdList": "dialogue_Quest_002_Clear"
+  }
+]
