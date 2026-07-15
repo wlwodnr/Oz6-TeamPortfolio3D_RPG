@@ -8,6 +8,7 @@ public class StoreModel
     private string _storeName;
     private Dictionary<long, SlotModel> _slots = new Dictionary<long, SlotModel>();
 
+    public event Action<string, string> OnPlayerStatsChanged;
 
     public StoreModel(StoreData storeData)
     {

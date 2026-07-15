@@ -27,12 +27,14 @@ public class StoreManager : MonoBehaviour
         }
     }
 
+ 
+
     private void Start()
     {
         OpenStore("TestID_01");
     }
 
-    public void OpenStore(string npcId)
+    public void OpenStore(string npcId)  //일단 테스트용으로 남겨둠!! UI매니저쪽으로 View관리를 넘길거임
     {
         if(ItemDataBase.StoreDic.ContainsKey(npcId) == false)
         {
@@ -45,6 +47,7 @@ public class StoreManager : MonoBehaviour
             StoreViewModel svm = new StoreViewModel(sm);
             _cachedStoreVM.Add(npcId, svm);
 
+            // UIManager.Instance.OpenStoreView(여기에 슬롯 뷰모델 전달)
             StoreView sv = Instantiate(_storeViewPrefab, _storeCanvas);
             sv.BindViewModel(svm);
         }
