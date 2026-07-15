@@ -135,9 +135,6 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2faa610713d3b3c439473daa55e8c60a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 9031952776542395141}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2faa610713d3b3c439473daa55e8c60a, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1701802964990815683}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2faa610713d3b3c439473daa55e8c60a, type: 3}
       insertIndex: -1
@@ -174,27 +171,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 2faa610713d3b3c439473daa55e8c60a, type: 3}
   m_PrefabInstance: {fileID: 6789731437364269426}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &9031952776542395141
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5978688025392802851}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8772212d7df6c89488f2d7694ea05bec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  _groundCheck: {fileID: 468663617068536816}
-  MoveSpeed: 10
-  JumpPower: 5
-  _jumpCount: 0
-  boxSize: {x: 1, y: 1, z: 1}
-  offset: {x: 0, y: 1, z: 1}
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!54 &1701802964990815683
 Rigidbody:
   m_ObjectHideFlags: 0

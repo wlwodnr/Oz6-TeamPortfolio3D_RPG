@@ -10,6 +10,7 @@ public class StoreManager : MonoBehaviour
     [SerializeField] private StoreView _storeViewPrefab;
     [SerializeField] private Transform _storeCanvas;
 
+    // npc id - StoreViewModel 구조
     private Dictionary<string,StoreViewModel> _cachedStoreVM = new Dictionary<string,StoreViewModel>();
 
 
@@ -17,12 +18,18 @@ public class StoreManager : MonoBehaviour
     {
         if (Instance == null)
         {
+            ItemDataBase.LoadAllData();
             Instance = this;
         }
         else
         {
             Destroy(this);
         }
+    }
+
+    private void Start()
+    {
+        OpenStore("TestID_01");
     }
 
     public void OpenStore(string npcId)
@@ -41,6 +48,14 @@ public class StoreManager : MonoBehaviour
             StoreView sv = Instantiate(_storeViewPrefab, _storeCanvas);
             sv.BindViewModel(svm);
         }
-        
+    }
+
+    public void CloseStore(string npcId)
+    {
+        if(_cachedStoreVM.ContainsKey(npcId) == true)
+        {
+            
+        }
+
     }
 }
