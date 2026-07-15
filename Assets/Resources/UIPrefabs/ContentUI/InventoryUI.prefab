@@ -404,7 +404,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.00028328373, y: -0.00029224582}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &3124265691597800372
@@ -705,7 +705,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 9.313965, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &2964381135077185438
 CanvasRenderer:
@@ -769,7 +769,7 @@ GameObject:
   - component: {fileID: 2659515666860528679}
   - component: {fileID: 1555673234594001797}
   m_Layer: 5
-  m_Name: Inventory
+  m_Name: InventoryUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1024,8 +1024,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7051364020674622919}
-  - {fileID: 208965479850017380}
   - {fileID: 5491159739422250600}
+  - {fileID: 208965479850017380}
   - {fileID: 7940447135340117474}
   m_Father: {fileID: 2659515666860528679}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
