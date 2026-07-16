@@ -35,7 +35,7 @@ public class QuestManager : MonoBehaviour
 
         QuestData data = GameDataManager.Instance.GetQuestData(questId);
 
-        if(data == null)
+        if (data == null)
         {
             Debug.LogWarning($"QuestData를 찾을수 없습니다 QuestId : {questId}");
             return;
@@ -59,36 +59,116 @@ public class QuestManager : MonoBehaviour
         }
     }
 
-    public void UpdateProgress(string targetId, int amount)
+    public void NotifyEnemyKilled(string enemyDataId)
     {
-        foreach (QuestModel model in _activeQuests.Values)
+        if(string.IsNullOrEmpty(enemyDataId))
         {
-            QuestData data = GameDataManager.Instance.GetQuestData(model.QuestDataId);
-            if (data == null)
-                continue;
+            Debug.LogWarning("처치된 Enemy의 DataId가 비어 있어 퀘스트 진행도를 갱신할 수 없습니다.");
+            return;
+        }
 
-            // 퀘스트가 진행중이고 퀘스트 목표 ID가 일치할때 카운트
-            if (data.TargetId == targetId && !model.IsCompleted)
+        UpdateProgress("Kill", enemyDataId, 1);
+    }
+
+    public void UpdateProgress(string questType, string targetId, int amount)
+    {
+        if(string.IsNullOrEmpty(targetId))
+        {
+            Debug.Log("QuestManager: 퀘스트 진행도 갱신에 사용할 TargetId가 비어 있습니다.");
+
+            return;
+        }
+        if(amount <= 0)
+        {
+            Debug.Log($"QuestManager: 퀘스트 진행도 증가량이 유효하지 않습니다.TargetId: {targetId}, Amount: {amount}");
+            return;
+        }
+
+        if(GameDataManager.Instance == null)
+        {
+            Debug.LogWarning("QuestManager: GameDataManager가 없어 퀘스트 진행도를 갱신할 수 없습니다.");
+
+            return;
+        }
+
+        foreach(QuestModel model in _activeQuests.Values)
+        {
+            if(model == null)
             {
-                model.CurrentCount += amount;
-                Debug.Log($"퀘스트 진행도 갱신: {model.QuestDataId} ({model.CurrentCount}/{data.TargetCount})");
+                continue;
+            }
 
-                // 퀘 목표 달성 시 완료 상태 true
-                if(model.CurrentCount >= data.TargetCount)
-                {
-                    model.CurrentCount = data.TargetCount;
-                    model.IsCompleted = true;
-                    Debug.Log($"퀘스트 조건을 달성했습니다 : {model.QuestDataId}");
-                }
+            if(model.IsAccepted == false || model.IsCompleted || model.IsRewardReceived)
+            {
+                continue;
+            }
 
-                // Ui 갱신 트리거
-                if(OnQuestStateChanged != null)
-                {
-                    OnQuestStateChanged.Invoke(model.QuestDataId);
-                }
+            QuestData data = GameDataManager.Instance.GetQuestData(model.QuestDataId);
+
+            if(data == null)
+            {
+                Debug.Log($"QuestManager: QuestData를 찾을 수 없습니다. QuestId: {model.QuestDataId}");
+                continue;
+            }
+            if(string.IsNullOrEmpty(questType) == false && data.QuestType != questType)
+            {
+                continue ;
+            }
+
+            if(data.TargetId != targetId)
+            {
+                continue;
+            }
+
+            model.CurrentCount += amount;
+
+            if(model.CurrentCount >= data.TargetCount)
+            {
+                model.CurrentCount = data.TargetCount;
+                model.IsCompleted = true;
+                Debug.Log($"QuestManager: 퀘스트 조건을 달성했습니다: {model.QuestDataId}");
+
+            }
+            Debug.Log($"QuestManager: 퀘스트 진행도 갱신: {model.QuestDataId} ({model.CurrentCount}/{data.TargetCount})");
+            if (OnQuestStateChanged != null)
+            {
+                OnQuestStateChanged?.Invoke(model.QuestDataId);
             }
         }
+
     }
+
+
+    //public void UpdateProgress(string targetId, int amount)
+    //{
+    //    foreach (QuestModel model in _activeQuests.Values)
+    //    {
+    //        QuestData data = GameDataManager.Instance.GetQuestData(model.QuestDataId);
+    //        if (data == null)
+    //            continue;
+
+    //        // 퀘스트가 진행중이고 퀘스트 목표 ID가 일치할때 카운트
+    //        if (data.TargetId == targetId && !model.IsCompleted)
+    //        {
+    //            model.CurrentCount += amount;
+    //            Debug.Log($"퀘스트 진행도 갱신: {model.QuestDataId} ({model.CurrentCount}/{data.TargetCount})");
+
+    //            // 퀘 목표 달성 시 완료 상태 true
+    //            if(model.CurrentCount >= data.TargetCount)
+    //            {
+    //                model.CurrentCount = data.TargetCount;
+    //                model.IsCompleted = true;
+    //                Debug.Log($"퀘스트 조건을 달성했습니다 : {model.QuestDataId}");
+    //            }
+
+    //            // Ui 갱신 트리거
+    //            if(OnQuestStateChanged != null)
+    //            {
+    //                OnQuestStateChanged.Invoke(model.QuestDataId);
+    //            }
+    //        }
+    //    }
+    //}
 
     public void CompleteQuest(string questId)
     {

@@ -199,6 +199,7 @@ public class EnemyAI : MonoBehaviour
 
             return;
         }
+        QuestManager.Instance.NotifyEnemyKilled(enemyDataId);
     }
 
     private string GetEnemyDataId()
