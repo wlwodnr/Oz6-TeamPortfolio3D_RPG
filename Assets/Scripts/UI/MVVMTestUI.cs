@@ -30,7 +30,7 @@ public class MVVMTestUI : UIBase
 
     private void OnClick_AddStatAtk()
     {
-        NetworkManager.Inst.LocalPlayerService.RequestAddStatAtk(50);
+        //NetworkManager.Inst.LocalPlayerService.RequestAddStatAtkPower(50);
     }
     private void OnClick_AddStatHP()
     {
