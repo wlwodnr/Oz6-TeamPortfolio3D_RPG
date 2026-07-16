@@ -178,8 +178,41 @@ public class EnemyAI : MonoBehaviour
 
         Debug.Log($"[{gameObject.name}] AI 작동 중지");
 
+        NotifyKillQuestProgress();
+
         RequestDisableSelf();
     }
+
+    private void NotifyKillQuestProgress()
+    {
+        if(QuestManager.Instance == null)
+        {
+            Debug.LogWarning($"[{gameObject.name}] QuestManager가 없어 몬스터 처치 진행도를 전달할 수 없습니다.");
+            return;
+        }
+
+        string enemyDataId = GetEnemyDataId();
+
+        if(string.IsNullOrEmpty(enemyDataId) )
+        {
+            Debug.LogWarning($"[{gameObject.name}] EnemyDataId가 없어 몬스터 처치 진행도를 전달할 수 없습니다.");
+
+            return;
+        }
+        QuestManager.Instance.NotifyEnemyKilled(enemyDataId);
+    }
+
+    private string GetEnemyDataId()
+    {
+        if(Entity_Enemy != null && string.IsNullOrEmpty(Entity_Enemy.EnemyDataId) == false)
+        {
+            return Entity_Enemy.EnemyDataId;
+        }
+
+        return _monsterDataId;
+    }
+
+
     private void RequestDisableSelf()
     {
         if (GameObjectManager.Instance == null)
