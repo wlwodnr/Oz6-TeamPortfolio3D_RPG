@@ -12,45 +12,14 @@ public class SkillModel
         IsBossModeActive = !IsBossModeActive;
     }
 
-    public bool TryLearnSkill(SkillData skillData, PlayerInfo playerInfo)
-    {
-        if (skillData == null || playerInfo == null)
-        {
-            return false;
-        }
-
-        if (playerInfo.CurLevel < skillData.RequiredLevel)
-        {
-            return false;
-        }
-
-        if (skillData.RequiredSkill != null && skillData.RequiredSkill.Length > 0)
-        {
-            for (int i = 0; i < skillData.RequiredSkill.Length; i++)
-            {
-                string reqSkillId = skillData.RequiredSkill[i];
-
-                if (CheckSkillAdvance(reqSkillId) == false)
-                {
-                    return false;
-                }
-            }
-        }
-
-        if (playerInfo.SkillPoint < 1)
-        {
-            return false;
-        }
-
-        playerInfo.SkillPoint -= 1;
-        UnlockedSkillIds.Add(skillData.Id.ToString());
-
-        return true;
-    }
-
     public bool CheckSkillAdvance(string targetSkillId)
     {
         return UnlockedSkillIds.Contains(targetSkillId);
+    }
+
+    public void RegisterUnlockedSkill(string skillId)
+    {
+        UnlockedSkillIds.Add(skillId);
     }
 
     public string GetCurrentSkillId(string baseSkillId)

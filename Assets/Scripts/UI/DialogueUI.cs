@@ -8,13 +8,29 @@ public class DialogueUI : UIBase
     [SerializeField] private Text Text_character;
     [SerializeField] private Text Text_description;
     [SerializeField] private UIButton Btn_next;
+    [SerializeField] private UIButton Btn_exit;
+    [SerializeField] private UIButton Btn_accept;
 
-    private string _currentDialogueId;
     private Queue<string> _descriptionQueue = new Queue<string>();
 
-    private void Awake()
+    private string[] _dialogueIds;
+    private int _currentDialogueIndex;
+
+    private string _currentQuestId;
+    private bool _isQuestAcceptDialogue;
+
+    private void OnEnable()
     {
         Btn_next.BindOnClickButtonEvent(OnClick_Next);
+        Btn_accept.BindOnClickButtonEvent(OnClick_Accept);
+        Btn_exit.BindOnClickButtonEvent(OnClick_Exit);
+    }
+
+    private void OnDisable()
+    {
+        Btn_next.UnBindAllOnClickButtonEvent();
+        Btn_accept.UnBindAllOnClickButtonEvent();
+        Btn_exit.UnBindAllOnClickButtonEvent();
     }
 
     private void Update()
@@ -34,11 +50,42 @@ public class DialogueUI : UIBase
             return;
         }
         
-        bool isNextDialogueExist = CheckAndStartNextDialogue();
+        bool isNextDialogueExist = TryStartNextDialogue();
+
         if (isNextDialogueExist == false)
         {
+            if (_isQuestAcceptDialogue)
+            {
+                Btn_next.gameObject.SetActive(false);
+                Btn_accept.gameObject.SetActive(true);
+                return;
+            }
+
             UIManager.Instance.CloseContentUI(UIType.DialogueUI);
         }
+    }
+
+    public void OnClick_Accept()
+    {
+        if (string.IsNullOrEmpty(_currentQuestId))
+        {
+            Debug.LogWarning("수락할 퀘스트 Id가 없습니다");
+            return;
+        }
+
+        if (QuestManager.Instance == null)
+        {
+            Debug.LogWarning("QuestManager가 존재하지 않습니다");
+            return;
+        }
+
+        QuestManager.Instance.AcceptQuest(_currentQuestId);
+        UIManager.Instance.CloseContentUI(UIType.DialogueUI);
+    }
+
+    public void OnClick_Exit()
+    {
+        UIManager.Instance.CloseContentUI(UIType.DialogueUI);
     }
 
     private bool CheckAndSetDescription()
@@ -53,36 +100,80 @@ public class DialogueUI : UIBase
         return isNextDescriptionExsist;
     }
 
-    private bool CheckAndStartNextDialogue()
+    public void OpenDialogueGroup(string groupId)
     {
-        var dialogueData = GameDataManager.Instance.GetDialogueData(_currentDialogueId);
-        if (dialogueData == null)
-        {
-            Debug.LogWarning($"다이얼로그 데이터가 존재하지 않습니다 {dialogueData}");
-            return false;
-        }
-        
-        string nextDialogueId = dialogueData.NextDialogueId;
-        if (string.IsNullOrEmpty(nextDialogueId) == false)
-        {
-            StartDialogue(nextDialogueId);
-            return true;
-        }
+        _currentQuestId = null;
+        _isQuestAcceptDialogue = false;
 
-        return false;
+        Btn_next.gameObject.SetActive(true);
+        Btn_accept.gameObject.SetActive(false);
+
+        StartDialogueGroup(groupId);
     }
-    
 
-    public void StartDialogue(string dialogueId)
+    private void StartDialogueGroup(string groupId)
     {
-        var dialogueData = GameDataManager.Instance.GetDialogueData(dialogueId);
-        if (dialogueData == null)
+        DialogueGroupData dialogueGroupData = GameDataManager.Instance.GetDialogueGroupData(groupId);
+
+        if (dialogueGroupData == null)
         {
-            Debug.LogWarning($"다이얼로그 데이터가 존재하지 않습니다 {dialogueData}");
+            Debug.LogWarning($"다이얼로그 데이터가 존재하지 않습니다 {dialogueGroupData}");
             return;
         }
         
-        _currentDialogueId = dialogueId;
+        if (string.IsNullOrEmpty(dialogueGroupData.DialogueIdList))
+        {
+            Debug.LogWarning($"다이얼로그 그룹에 대사가 없습니다 GroupId : {groupId}");
+            return;
+        }
+
+        _dialogueIds = dialogueGroupData.DialogueIdList.Split(',');
+
+        for (int i = 0; i < _dialogueIds.Length; i++)
+        {
+            _dialogueIds[i] = _dialogueIds[i].Trim();
+        }
+
+        _currentDialogueIndex = 0;
+        StartDialogue(_dialogueIds[_currentDialogueIndex]);
+    }
+    
+    public void OpenQuestAcceptDialogue(string questId)
+    {
+        QuestData questData = GameDataManager.Instance.GetQuestData(questId);
+
+        if (questData == null)
+        {
+            Debug.LogWarning($"퀘스트 데이터가 존재하지 않습니다 Questid: {questId}");
+            return;
+        }
+
+        if (string.IsNullOrEmpty(questData.AcceptGroupId))
+        {
+            Debug.LogWarning($"퀘스트 수주 대화그룹이 없습니다 QuestId: {questId}");
+            return;
+        }
+
+        _currentQuestId = questId;
+        _isQuestAcceptDialogue = true;
+
+        Btn_next.gameObject.SetActive(true);
+        Btn_accept.gameObject.SetActive(false);
+
+        StartDialogueGroup(questData.AcceptGroupId);
+    }
+
+    public void StartDialogue(string dialogueId)
+    {
+        DialogueData dialogueData = GameDataManager.Instance.GetDialogueData(dialogueId);
+
+        if (dialogueData == null)
+        {
+            Debug.LogWarning($"다이얼로그 데이터가 존재하지 않습니다 DialogueId : {dialogueId}");
+            return;
+        }
+        
+        _descriptionQueue.Clear();
         
         if (dialogueData.Description.Contains("<np>"))
         {
@@ -119,5 +210,23 @@ public class DialogueUI : UIBase
     private void SetCurrentDialogueDescription(string description)
     {
         Text_description.text = description;
+    }
+
+    private bool TryStartNextDialogue()
+    {
+        if (_dialogueIds == null || _dialogueIds.Length == 0)
+        {
+            return false;
+        }
+
+        if (_currentDialogueIndex >= _dialogueIds.Length - 1)
+        {
+            return false;
+        }
+
+        _currentDialogueIndex++;
+        StartDialogue(_dialogueIds[_currentDialogueIndex]);
+
+        return true;
     }
 }
