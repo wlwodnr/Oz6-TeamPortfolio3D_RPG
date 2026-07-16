@@ -111,7 +111,7 @@ public class EnemyAI : MonoBehaviour
             Debug.LogWarning($"[{gameObject.name}] generatedId와 EnemyEntity.InstanceId가 다릅니다. generatedId: {generatedId}, EntityId: {InstanceId}");
         }
 
-        //_monsterData = GameDataManager.Instance.GetMonsterData(_monsterDataId);
+        _monsterData = GameDataManager.Instance.GetMonsterData(_monsterDataId);
         if (_monsterData == null)
         {
             Debug.LogWarning($"MonsterData를 찾을 수 없습니다. MonsterDataId: {_monsterDataId}");
