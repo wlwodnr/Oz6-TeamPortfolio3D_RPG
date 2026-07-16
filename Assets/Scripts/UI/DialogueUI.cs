@@ -22,7 +22,7 @@ public class DialogueUI : UIBase
     private void OnEnable()
     {
         Btn_next.BindOnClickButtonEvent(OnClick_Next);
-        Btn_accept.BindOnClickButtonEvent(OnClick_Accept);
+        Btn_accept.BindOnClickButtonEvent(OnClick_Accept, true);
         Btn_exit.BindOnClickButtonEvent(OnClick_Exit);
     }
 
@@ -85,6 +85,7 @@ public class DialogueUI : UIBase
 
     public void OnClick_Exit()
     {
+        Debug.Log("대화 닫기 버튼을 눌렀습니다");
         UIManager.Instance.CloseContentUI(UIType.DialogueUI);
     }
 
@@ -163,6 +164,38 @@ public class DialogueUI : UIBase
         StartDialogueGroup(questData.AcceptGroupId);
     }
 
+    public void OpenQuestDialogue(string questId)
+    {
+        QuestData questData = GameDataManager.Instance.GetQuestData(questId);
+
+        if (questData == null)
+        {
+            Debug.LogWarning($"퀘스트 데이터가 존재하지 않습니다");
+            return;
+        }
+
+        QuestModel model = null;
+
+        if (QuestManager.Instance != null)
+        {
+            model = QuestManager.Instance.GetActiveQuestModel(questId);
+        }
+
+        if (model == null)
+        {
+            OpenQuestAcceptDialogue(questId);
+            return;
+        }
+
+        if (model.IsCompleted)
+        {
+            OpenQuestClearDialogue(questId);
+            return;
+        }
+
+        OpenQuestRepeatDialogue(questId);
+    }
+
     public void StartDialogue(string dialogueId)
     {
         DialogueData dialogueData = GameDataManager.Instance.GetDialogueData(dialogueId);
@@ -228,5 +261,41 @@ public class DialogueUI : UIBase
         StartDialogue(_dialogueIds[_currentDialogueIndex]);
 
         return true;
+    }
+
+    public void OpenQuestRepeatDialogue(string questId)
+    {
+        QuestData questData = GameDataManager.Instance.GetQuestData(questId);
+        if (questData == null || string.IsNullOrEmpty(questData.RepeatGroupId))
+        {
+            Debug.LogWarning($"반복 대화 그룹이 없습니다");
+            return;
+        }
+
+        _currentQuestId = questId;
+        _isQuestAcceptDialogue = false; // 수락버튼 안뜨게
+
+        Btn_next.gameObject.SetActive(true);
+        Btn_accept.gameObject.SetActive(false);
+
+        StartDialogueGroup(questData.RepeatGroupId);
+    }
+
+    public void OpenQuestClearDialogue(string questId)
+    {
+        QuestData questData = GameDataManager.Instance.GetQuestData(questId);
+        if (questData == null || string.IsNullOrEmpty(questData.ClearGroupId))
+        {
+            Debug.LogWarning("클리어 대화 그룹이 없습니다");
+            return;
+        }
+
+        _currentQuestId = questId;
+        _isQuestAcceptDialogue = false;
+
+        Btn_next.gameObject.SetActive(true);
+        Btn_accept.gameObject.SetActive(false);
+
+        StartDialogueGroup(questData.ClearGroupId);
     }
 }
