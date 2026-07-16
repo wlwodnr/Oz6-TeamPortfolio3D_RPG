@@ -59,7 +59,10 @@ public class StoreView : MonoBehaviour
             {
                 CreateSlot(svm, ConsumableSlot, slotId);
             }
-
+            if(svm.IsType<StatUpItem>() || svm.IsType<OnHitEffectItem>())
+            {
+                CreateSlot(svm, EquipmentSlot, slotId);
+            }
         }
 
     }

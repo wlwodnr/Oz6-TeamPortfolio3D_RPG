@@ -69,5 +69,22 @@ public static class UIManagerExtension
         //}
     }
 
-    
+    public static DialogueUI OpenDialogueUI(this UIManager uiManager)
+    {
+        UIBase uiBase = uiManager.OpenContentUI(UIType.DialogueUI);
+
+        if (uiBase == null)
+        {
+            Debug.LogWarning("DialogueUI를 생성할수 없습니다");
+            return null;
+        }
+
+        if (uiBase is DialogueUI dialogueUI)
+        {
+            return dialogueUI;
+        }
+
+        Debug.LogWarning("생성된 UI가 DialogueUI 타입이 아닙니다");
+        return null;
+    }
 }

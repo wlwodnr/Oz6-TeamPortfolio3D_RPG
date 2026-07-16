@@ -64,6 +64,8 @@ public class EnemyStatus : MonoBehaviour, IDamageable
         transform.GetComponent<Rigidbody>().AddForce(damageInfo.KnockbackDir * 10f, ForceMode.Impulse);
 
 
+
+
         if (_currentHp <= 0)
         {
             SetDead();

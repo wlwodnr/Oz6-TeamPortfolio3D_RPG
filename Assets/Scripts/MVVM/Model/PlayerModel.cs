@@ -4,14 +4,6 @@ using UnityEngine;
 
 public class PlayerModel 
 {
-    private string _name;
-    private float _totalExp;
-    private int _curLevel;
-    private float _curHp;
-    private float _curMp;
-    private int _skillPoint;
-
-
     private Stats _stats;
     private PlayerInfo _info;
 

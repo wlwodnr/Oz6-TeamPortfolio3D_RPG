@@ -29,12 +29,13 @@ public class GameDataManager : MonoBehaviour
     }
 
     public Dictionary<string, QuestData> QuestDataList { get; private set; } = new Dictionary<string, QuestData>();
-    public Dictionary<string, SkillData> SkillDataList { get; private set; } = new Dictionary<string, SkillData>();
     public Dictionary<string, CharacterData> CharacterDataList { get; private set; } = new Dictionary<string, CharacterData>();
     public Dictionary<string, PlayerStatData> PlayerStatDataList { get; private set; } = new Dictionary<string, PlayerStatData>();
     public Dictionary<string, ItemData> ItemDataList { get; private set; } = new Dictionary<string, ItemData>();
     public Dictionary<string, DialogueData> DialogueDataList { get; private set; }= new Dictionary<string, DialogueData>();
     public Dictionary<string, DialogueGroupData> DialogueGroupDataList { get; private set; } = new Dictionary<string, DialogueGroupData>();
+    public Dictionary<string, ActiveSkillData> ActiveSkillDataList { get; private set; } = new Dictionary<string, ActiveSkillData>();
+    public Dictionary<string, PassiveSkillData> PassiveSkillDataList { get; private set; } = new Dictionary<string, PassiveSkillData>();
 
     private Dictionary<string, T> LoadData<T>(string tableName) where T : GameDataBase
     {
@@ -73,12 +74,13 @@ public class GameDataManager : MonoBehaviour
     public void LoadAll()
     {
         QuestDataList = LoadData<QuestData>("QuestData");
-        //DialogueDataList = LoadData<DialogueData>("Dialogue");
-        //DialogueGroupDataList = LoadData<DialogueGroupData>("DialogueGroup");
-        //SkillDataList = LoadData<SkillData>("SkillData");
-        //CharacterDataList = LoadData<CharacterData>("CharacterData");
-        //PlayerStatDataList = LoadData<PlayerStatData>("PlayerStat");
-        //ItemDataList = LoadData<ItemData>("ItemData");
+        DialogueDataList = LoadData<DialogueData>("Dialogue");
+        DialogueGroupDataList = LoadData<DialogueGroupData>("DialogueGroup");
+        PlayerStatDataList = LoadData<PlayerStatData>("PlayerStat");
+        ActiveSkillDataList = LoadData<ActiveSkillData>("ActiveSkillData");
+        PassiveSkillDataList = LoadData<PassiveSkillData>("PassiveSkillData");
+        // CharacterDataList = LoadData<CharacterData>("CharacterData");
+        // ItemDataList = LoadData<ItemData>("ItemData");
     }
 
 
@@ -87,13 +89,6 @@ public class GameDataManager : MonoBehaviour
         if(QuestDataList == null || string.IsNullOrEmpty(id)) return null;
 
         return QuestDataList.TryGetValue(id, out var item) ? item : null;
-    }
-
-    public SkillData GetSkill(string id)
-    {
-        if (SkillDataList == null || string.IsNullOrEmpty(id)) return null;
-
-        return SkillDataList.TryGetValue(id, out var item) ? item : null;
     }
 
     public CharacterData GetCharacterData(string id)
@@ -126,5 +121,17 @@ public class GameDataManager : MonoBehaviour
     {
         if (DialogueGroupDataList == null || string.IsNullOrEmpty(id)) return null;
         return DialogueGroupDataList.TryGetValue(id, out var item) ? item : null;
+    }
+
+    public ActiveSkillData GetActiveSkillData(string id)
+    {
+        if (ActiveSkillDataList == null || string.IsNullOrEmpty(id)) return null;
+        return ActiveSkillDataList.TryGetValue(id, out var item) ? item : null;
+    }
+
+    public PassiveSkillData GetPassiveSkillData(string id)
+    {
+        if (PassiveSkillDataList == null || string.IsNullOrEmpty(id)) return null;
+        return PassiveSkillDataList.TryGetValue(id, out var item) ? item : null;
     }
 }

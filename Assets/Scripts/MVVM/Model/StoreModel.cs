@@ -6,8 +6,9 @@ using UnityEngine;
 public class StoreModel
 {
     private string _storeName;
-    private List<SlotModel> _slots = new List<SlotModel>();
+    private Dictionary<long, SlotModel> _slots = new Dictionary<long, SlotModel>();
 
+    public event Action<string, string> OnPlayerStatsChanged;
 
     public StoreModel(StoreData storeData)
     {
@@ -20,7 +21,8 @@ public class StoreModel
 
         foreach(var item in storeData.StoreItems)
         {
-            _slots.Add(new SlotModel(GameUtil.GenerateUniqueId(), item.ItemId, item.Count));
+            long id = GameUtil.GenerateUniqueId();
+            _slots.Add(id, new SlotModel(id, item.ItemId, item.Count));
         }
     }
 
@@ -36,9 +38,19 @@ public class StoreModel
         _storeName = storeData.StoreName;
         foreach(var item in storeData.StoreItems)
         {
-            _slots.Add(new SlotModel(GameUtil.GenerateUniqueId(), item.ItemId, item.Count));
+            long id = GameUtil.GenerateUniqueId();
+            _slots.Add(id, new SlotModel(id, item.ItemId, item.Count));
         }
     }
+    public void RemoveSlot(long id)
+    {
+        _slots.Remove(id);
+    }
+   
+    public void AddSlot()
+    {
+        // 나중에 스토어데이터 만드는 로직을 구현하면 작성 (아예 AddSlot은 안쓸수도있음)
+    }
 
-    public IEnumerable<SlotModel> GetAllSlots() => _slots;
+    public IEnumerable<SlotModel> GetAllSlots() => _slots.Values;
 }

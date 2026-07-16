@@ -93,3 +93,5 @@ Assets/ThirdParty/
 Assets/ThirdParty.meta
 Packages/JsonUtility.1.1.2
 Packages/Newtonsoft.Json.13.0.3
+Assets/Resources/JsonOutput/PassiveSkillData 1.json
+Assets/Resources/JsonOutput/PassiveSkillData 1.json.meta
