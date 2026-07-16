@@ -12,6 +12,8 @@ public class PlayerModel
     private Dictionary<string,int> _inventory = new Dictionary<string, int>();    
     private Dictionary<string,int> _equipInventory = new Dictionary<string,int>();
 
+    private HashSet<string> _learnedSkills = new HashSet<string>();
+
     //itemId - 데이터
     private Dictionary<string, IHitEffect> _activeHitEffects = new Dictionary<string, IHitEffect>();
 

@@ -22,7 +22,7 @@ public class Stats
         }
     }
 
-    public void AddModifier(string itemId)
+    public void AddModifier(string itemId)  // item뿐 아니라 패시브 스킬도 따로 id를 만들어서 이걸로 추가하기
     {
         if(_rawModifiers.ContainsKey(itemId) == false)
         {
