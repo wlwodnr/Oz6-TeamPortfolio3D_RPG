@@ -18,6 +18,7 @@ public class DialogueUI : UIBase
 
     private string _currentQuestId;
     private bool _isQuestAcceptDialogue;
+    private bool _isQuestClearDialogue;
 
     private void OnEnable()
     {
@@ -58,6 +59,12 @@ public class DialogueUI : UIBase
             {
                 Btn_next.gameObject.SetActive(false);
                 Btn_accept.gameObject.SetActive(true);
+                return;
+            }
+
+            if (_isQuestClearDialogue)
+            {
+                HandleQuestClear();
                 return;
             }
 
@@ -105,6 +112,7 @@ public class DialogueUI : UIBase
     {
         _currentQuestId = null;
         _isQuestAcceptDialogue = false;
+        _isQuestClearDialogue = false;
 
         Btn_next.gameObject.SetActive(true);
         Btn_accept.gameObject.SetActive(false);
@@ -157,6 +165,7 @@ public class DialogueUI : UIBase
 
         _currentQuestId = questId;
         _isQuestAcceptDialogue = true;
+        _isQuestClearDialogue = false;
 
         Btn_next.gameObject.SetActive(true);
         Btn_accept.gameObject.SetActive(false);
@@ -273,7 +282,8 @@ public class DialogueUI : UIBase
         }
 
         _currentQuestId = questId;
-        _isQuestAcceptDialogue = false; // 수락버튼 안뜨게
+        _isQuestAcceptDialogue = false;
+        _isQuestClearDialogue = false;
 
         Btn_next.gameObject.SetActive(true);
         Btn_accept.gameObject.SetActive(false);
@@ -292,10 +302,35 @@ public class DialogueUI : UIBase
 
         _currentQuestId = questId;
         _isQuestAcceptDialogue = false;
+        _isQuestClearDialogue = true;
 
         Btn_next.gameObject.SetActive(true);
         Btn_accept.gameObject.SetActive(false);
 
         StartDialogueGroup(questData.ClearGroupId);
+    }
+
+    private void HandleQuestClear()
+    {
+        if (string.IsNullOrEmpty(_currentQuestId))
+        {
+            Debug.LogWarning("완료 처리할 퀘스트 id가 없습니다");
+            UIManager.Instance.CloseContentUI(UIType.DialogueUI);
+            return;
+        }
+
+        if(QuestManager.Instance == null)
+        {
+            Debug.LogWarning("QuestManager가 없습니다");
+            UIManager.Instance.CloseContentUI(UIType.DialogueUI);
+            return;
+        }
+
+        string clearedQuestId = _currentQuestId;
+        
+        QuestManager.Instance.CompleteQuest(clearedQuestId);
+        _isQuestClearDialogue = false;
+
+        UIManager.Instance.CloseContentUI(UIType.DialogueUI);
     }
 }
