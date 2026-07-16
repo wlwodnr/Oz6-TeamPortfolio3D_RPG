@@ -1,41 +1,55 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
-public class InvnetoryViewModel : ViewModelBase
+public class InventoryViewModel : ViewModelBase
 {
-    private Dictionary<long, SlotViewModel> _itemList = new Dictionary<long, SlotViewModel>();
-    public Dictionary<long, SlotViewModel> ItemList
+    private InventoryModel _inventoryModel;
+
+    private Dictionary<long, SlotViewModel> _slotViewModels = new Dictionary<long, SlotViewModel>();
+    public IReadOnlyDictionary<long, SlotViewModel> SlotViewModels => _slotViewModels;
+
+    public void Initialize(InventoryModel inventoryModel)
     {
-        get => _itemList;
-        set
+        _inventoryModel = inventoryModel;
+
+        foreach (var slotVm in _slotViewModels.Values)
         {
-            if (_itemList != value)
+            slotVm.OnSelected -= OnSlotSelected;
+        }
+
+        _slotViewModels.Clear();
+
+        foreach (var slotModel in _inventoryModel.GetAllSlots())
+        {
+            var slotVm = new SlotViewModel(slotModel);
+
+            slotVm.InvokeOnceOnInit();
+
+            slotVm.OnSelected += OnSlotSelected;
+
+            _slotViewModels.Add(slotModel.SlotId, slotVm);
+        }
+
+        OnPropertyChanged(nameof(SlotViewModels));
+    }
+
+    private void OnSlotSelected(SlotViewModel selectedSlot, bool isSelected)
+    {
+        if (isSelected)
+        {
+            foreach (var slotVm in _slotViewModels.Values)
             {
-                _itemList = value;
-                OnPropertyChanged(nameof(ItemList));
+                if (slotVm != selectedSlot)
+                {
+                    slotVm.IsSelected = false;
+                }
             }
         }
     }
 
-    public void InvokeOnceOnInit()
+    public SlotViewModel GetSlotViewModel(long slotId)
     {
-        OnPropertyChanged(nameof(ItemList));
+        return _slotViewModels.TryGetValue(slotId, out var slotVm) ? slotVm : null;
     }
-
-    public void AddItemSlotViewModel(SlotViewModel slotVm)
-    {
-        _itemList.Add(slotVm.GetSlotId(), slotVm);
-        OnPropertyChanged("ItemListAdded");
-    }
-
-    public void RemoveItemSlotViewModel(long uniqueId)
-    {
-        if (_itemList.ContainsKey(uniqueId) == true)
-        {
-            _itemList.Remove(uniqueId);
-        }
-
-        OnPropertyChanged("ItemListRemoved");
-    }
-
 }

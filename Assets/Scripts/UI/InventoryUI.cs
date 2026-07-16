@@ -9,7 +9,7 @@ public class InventoryUI : UIBase
     [SerializeField] private UIButton Button_CloseSelfAllArea;
     [SerializeField] private List<InventorySlotUI> _fixedSlotList = new List<InventorySlotUI>();
 
-    private InvnetoryViewModel _invenVm;
+    private InventoryModel _invenVm;
     private SlotContainerViewModel _slotContainerVm;
 
     private void OnEnable()
@@ -46,7 +46,7 @@ public class InventoryUI : UIBase
 
     private void FindInventoryViewModelAndBind()
     {
-        var invenVm = NetworkManager.Inst.InventoryService.GetLocalPlayerInvnetoryViewModel();
+        var invenVm = NetworkManager.Inst.InventoryService.GetLocalPlayerInvnetoryModel();
         if (invenVm == null || invenVm.ItemList == null || invenVm.ItemList.Count == 0)
         {
             Debug.LogWarning("보유한 아이템이 없습니다!");
@@ -68,7 +68,7 @@ public class InventoryUI : UIBase
     {
         switch (e.PropertyName)
         {
-            case nameof(InvnetoryViewModel.ItemList):
+            case nameof(InventoryModel.ItemList):
             case "ItemListAdded":
             case "ItemListRemoved":
                 ResetItemSlotAndCreateAll();

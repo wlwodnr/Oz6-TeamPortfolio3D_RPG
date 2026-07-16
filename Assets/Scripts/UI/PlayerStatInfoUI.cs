@@ -18,7 +18,7 @@ public class PlayerStatInfoUI : UIBase
     {
         Btn_Close.BindOnClickButtonEvent(OnClick_ClosePopup);
 
-        var statVm = NetworkManager.Inst.LocalPlayerService.GetLocalPlayerStatViewModel();
+        var statVm = NetworkManager.Inst.LocalPlayerService.GetLocalPlayerStatModel();
         if (statVm != null)
         {
             BindViewModel(statVm);

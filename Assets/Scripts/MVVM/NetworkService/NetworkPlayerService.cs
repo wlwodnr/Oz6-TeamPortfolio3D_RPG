@@ -11,17 +11,17 @@ public class NetworkPlayerService
         _playerModel = playerModel;
     }
 
-    public PlayerProfileViewModel GetLocalPlayerProfileViewModel()
+    public PlayerProfileViewModel GetLocalPlayerProfileModel()
     {
         if(_localPlayerProfileViewModel == null)
         {
-            CreateLocalPlayerProfileViewModel();
+            CreateLocalPlayerProfileModel();
         }
 
         return _localPlayerProfileViewModel;
     }
 
-    public PlayerProfileViewModel CreateLocalPlayerProfileViewModel()
+    public PlayerProfileViewModel CreateLocalPlayerProfileModel()
     {
         _localPlayerProfileViewModel = new PlayerProfileViewModel(_playerModel);
         return _localPlayerProfileViewModel;
@@ -29,17 +29,17 @@ public class NetworkPlayerService
 
 
 
-    public PlayerStatViewModel GetLocalPlayerStatViewModel()
+    public PlayerStatViewModel GetLocalPlayerStatModel()
     {
         if (_localPlayerStatViewModel == null)
         {
-            CreateLocalPlayerStatViewModel();
+            CreateLocalPlayerStatModel();
         }
 
         return _localPlayerStatViewModel;
     }
 
-    public PlayerStatViewModel CreateLocalPlayerStatViewModel()
+    public PlayerStatViewModel CreateLocalPlayerStatModel()
     {
         _localPlayerStatViewModel = new PlayerStatViewModel(_playerModel);
         return _localPlayerStatViewModel;
