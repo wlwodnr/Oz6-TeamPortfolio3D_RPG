@@ -319,13 +319,13 @@ public class EnemyAI : MonoBehaviour
         return distance <= _monsterData.AttackRange;
     }
 
-    public bool CheckExceededSpawnLimit()
-    {
-        if (_monsterData == null) return false;
+    //public bool CheckExceededSpawnLimit()
+    //{
+    //    if (_monsterData == null) return false;
 
-        float distanceFromHome = Vector3.Distance(transform.position, SpawnPosition);
-        return distanceFromHome > _monsterData.SpawnLimitRange;
-    }
+    //    float distanceFromHome = Vector3.Distance(transform.position, SpawnPosition);
+    //    return distanceFromHome > _monsterData.SpawnLimitRange;
+    //}
 
 
 

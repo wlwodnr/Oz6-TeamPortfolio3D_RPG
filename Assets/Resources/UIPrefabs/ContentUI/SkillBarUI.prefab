@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1817497415115596536}
+  - component: {fileID: 1979997751869367066}
   m_Layer: 5
   m_Name: SkillBarUI
   m_TagString: Untagged
@@ -36,6 +37,40 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1979997751869367066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 849058173236171403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6a693e058d1f594991f5a6d0db53a53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkillBarUI
+  _slots:
+  - {fileID: 1983604430419870039}
+  - {fileID: 5167747850867582313}
+  - {fileID: 3173238275886634058}
+  - {fileID: 1778328903241197483}
+  - {fileID: 140018365347613041}
+  - {fileID: 7312658650061819404}
+  - {fileID: 753364482413827017}
+  - {fileID: 6242590251851171901}
+  - {fileID: 9039476987152742646}
+  - {fileID: 7332923466271933012}
+  _skillIds:
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
 --- !u!1 &943730838988180843
 GameObject:
   m_ObjectHideFlags: 0
@@ -66,16 +101,16 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6310292161330285193}
-  - {fileID: 7040527728987958456}
-  - {fileID: 3380469247032573521}
-  - {fileID: 3989669434306372208}
-  - {fileID: 760551647524244071}
-  - {fileID: 3803025194556225221}
-  - {fileID: 678059919189102273}
-  - {fileID: 5253588434095725572}
-  - {fileID: 6404982594138939992}
-  - {fileID: 990830305493111282}
+  - {fileID: 2586461562980646261}
+  - {fileID: 9211092572606880075}
+  - {fileID: 1471062754719541352}
+  - {fileID: 2363892933011741577}
+  - {fileID: 4148564402522273107}
+  - {fileID: 6708130209497330222}
+  - {fileID: 3609535799211913195}
+  - {fileID: 7980935357839389727}
+  - {fileID: 4976887444125664468}
+  - {fileID: 6746427034005356150}
   m_Father: {fileID: 8223342721361781307}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -233,7 +268,7 @@ RectTransform:
   m_AnchoredPosition: {x: -480, y: 90}
   m_SizeDelta: {x: 370, y: 160}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1001 &1108150693700076420
+--- !u!1001 &92073004844066396
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -243,7 +278,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2138398865110620691, guid: be6437fb283853e498460dc701cbb308, type: 3}
       propertyPath: m_Name
-      value: HotBarSlotUI (2)
+      value: SkillBarSlotUI (3)
       objectReference: {fileID: 0}
     - target: {fileID: 2416506594928541141, guid: be6437fb283853e498460dc701cbb308, type: 3}
       propertyPath: m_Pivot.x
@@ -330,12 +365,23 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be6437fb283853e498460dc701cbb308, type: 3}
---- !u!224 &3380469247032573521 stripped
+--- !u!114 &1778328903241197483 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1867585782485762551, guid: be6437fb283853e498460dc701cbb308, type: 3}
+  m_PrefabInstance: {fileID: 92073004844066396}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ceea172800b2d04396037f6d3e94c7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkillSlotUI
+--- !u!224 &2363892933011741577 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2416506594928541141, guid: be6437fb283853e498460dc701cbb308, type: 3}
-  m_PrefabInstance: {fileID: 1108150693700076420}
+  m_PrefabInstance: {fileID: 92073004844066396}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1535209268041009936
+--- !u!1001 &175027852712018080
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -345,7 +391,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2138398865110620691, guid: be6437fb283853e498460dc701cbb308, type: 3}
       propertyPath: m_Name
-      value: HotBarSlotUI (5)
+      value: SkillBarSlotUI
       objectReference: {fileID: 0}
     - target: {fileID: 2416506594928541141, guid: be6437fb283853e498460dc701cbb308, type: 3}
       propertyPath: m_Pivot.x
@@ -432,12 +478,23 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be6437fb283853e498460dc701cbb308, type: 3}
---- !u!224 &3803025194556225221 stripped
+--- !u!114 &1983604430419870039 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1867585782485762551, guid: be6437fb283853e498460dc701cbb308, type: 3}
+  m_PrefabInstance: {fileID: 175027852712018080}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ceea172800b2d04396037f6d3e94c7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkillSlotUI
+--- !u!224 &2586461562980646261 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2416506594928541141, guid: be6437fb283853e498460dc701cbb308, type: 3}
-  m_PrefabInstance: {fileID: 1535209268041009936}
+  m_PrefabInstance: {fileID: 175027852712018080}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1645785046730809253
+--- !u!1001 &1413710675562091070
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -447,7 +504,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2138398865110620691, guid: be6437fb283853e498460dc701cbb308, type: 3}
       propertyPath: m_Name
-      value: HotBarSlotUI (3)
+      value: SkillBarSlotUI (6)
       objectReference: {fileID: 0}
     - target: {fileID: 2416506594928541141, guid: be6437fb283853e498460dc701cbb308, type: 3}
       propertyPath: m_Pivot.x
@@ -534,12 +591,23 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be6437fb283853e498460dc701cbb308, type: 3}
---- !u!224 &3989669434306372208 stripped
+--- !u!114 &753364482413827017 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1867585782485762551, guid: be6437fb283853e498460dc701cbb308, type: 3}
+  m_PrefabInstance: {fileID: 1413710675562091070}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ceea172800b2d04396037f6d3e94c7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkillSlotUI
+--- !u!224 &3609535799211913195 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2416506594928541141, guid: be6437fb283853e498460dc701cbb308, type: 3}
-  m_PrefabInstance: {fileID: 1645785046730809253}
+  m_PrefabInstance: {fileID: 1413710675562091070}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &2945868824641598228
+--- !u!1001 &1737138941811820678
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -549,7 +617,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2138398865110620691, guid: be6437fb283853e498460dc701cbb308, type: 3}
       propertyPath: m_Name
-      value: HotBarSlotUI (6)
+      value: SkillBarSlotUI (4)
       objectReference: {fileID: 0}
     - target: {fileID: 2416506594928541141, guid: be6437fb283853e498460dc701cbb308, type: 3}
       propertyPath: m_Pivot.x
@@ -636,12 +704,23 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be6437fb283853e498460dc701cbb308, type: 3}
---- !u!224 &678059919189102273 stripped
+--- !u!114 &140018365347613041 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1867585782485762551, guid: be6437fb283853e498460dc701cbb308, type: 3}
+  m_PrefabInstance: {fileID: 1737138941811820678}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ceea172800b2d04396037f6d3e94c7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkillSlotUI
+--- !u!224 &4148564402522273107 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2416506594928541141, guid: be6437fb283853e498460dc701cbb308, type: 3}
-  m_PrefabInstance: {fileID: 2945868824641598228}
+  m_PrefabInstance: {fileID: 1737138941811820678}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &3100484527884072882
+--- !u!1001 &3883057503680271805
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -651,7 +730,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2138398865110620691, guid: be6437fb283853e498460dc701cbb308, type: 3}
       propertyPath: m_Name
-      value: HotBarSlotUI (4)
+      value: SkillBarSlotUI (2)
       objectReference: {fileID: 0}
     - target: {fileID: 2416506594928541141, guid: be6437fb283853e498460dc701cbb308, type: 3}
       propertyPath: m_Pivot.x
@@ -738,12 +817,23 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be6437fb283853e498460dc701cbb308, type: 3}
---- !u!224 &760551647524244071 stripped
+--- !u!224 &1471062754719541352 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2416506594928541141, guid: be6437fb283853e498460dc701cbb308, type: 3}
-  m_PrefabInstance: {fileID: 3100484527884072882}
+  m_PrefabInstance: {fileID: 3883057503680271805}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &3191087412201745447
+--- !u!114 &3173238275886634058 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1867585782485762551, guid: be6437fb283853e498460dc701cbb308, type: 3}
+  m_PrefabInstance: {fileID: 3883057503680271805}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ceea172800b2d04396037f6d3e94c7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkillSlotUI
+--- !u!1001 &5713059796773865930
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -753,7 +843,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2138398865110620691, guid: be6437fb283853e498460dc701cbb308, type: 3}
       propertyPath: m_Name
-      value: HotBarSlotUI (9)
+      value: SkillBarSlotUI (7)
       objectReference: {fileID: 0}
     - target: {fileID: 2416506594928541141, guid: be6437fb283853e498460dc701cbb308, type: 3}
       propertyPath: m_Pivot.x
@@ -840,12 +930,23 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be6437fb283853e498460dc701cbb308, type: 3}
---- !u!224 &990830305493111282 stripped
+--- !u!114 &6242590251851171901 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1867585782485762551, guid: be6437fb283853e498460dc701cbb308, type: 3}
+  m_PrefabInstance: {fileID: 5713059796773865930}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ceea172800b2d04396037f6d3e94c7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkillSlotUI
+--- !u!224 &7980935357839389727 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2416506594928541141, guid: be6437fb283853e498460dc701cbb308, type: 3}
-  m_PrefabInstance: {fileID: 3191087412201745447}
+  m_PrefabInstance: {fileID: 5713059796773865930}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &4629099375615267181
+--- !u!1001 &6799723046327444638
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -855,7 +956,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2138398865110620691, guid: be6437fb283853e498460dc701cbb308, type: 3}
       propertyPath: m_Name
-      value: HotBarSlotUI (1)
+      value: SkillBarSlotUI (1)
       objectReference: {fileID: 0}
     - target: {fileID: 2416506594928541141, guid: be6437fb283853e498460dc701cbb308, type: 3}
       propertyPath: m_Pivot.x
@@ -942,12 +1043,23 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be6437fb283853e498460dc701cbb308, type: 3}
---- !u!224 &7040527728987958456 stripped
+--- !u!114 &5167747850867582313 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1867585782485762551, guid: be6437fb283853e498460dc701cbb308, type: 3}
+  m_PrefabInstance: {fileID: 6799723046327444638}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ceea172800b2d04396037f6d3e94c7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkillSlotUI
+--- !u!224 &9211092572606880075 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2416506594928541141, guid: be6437fb283853e498460dc701cbb308, type: 3}
-  m_PrefabInstance: {fileID: 4629099375615267181}
+  m_PrefabInstance: {fileID: 6799723046327444638}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &7593448481473880529
+--- !u!1001 &7248635078327990529
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -957,7 +1069,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2138398865110620691, guid: be6437fb283853e498460dc701cbb308, type: 3}
       propertyPath: m_Name
-      value: HotBarSlotUI (7)
+      value: SkillBarSlotUI (8)
       objectReference: {fileID: 0}
     - target: {fileID: 2416506594928541141, guid: be6437fb283853e498460dc701cbb308, type: 3}
       propertyPath: m_Pivot.x
@@ -1044,12 +1156,23 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be6437fb283853e498460dc701cbb308, type: 3}
---- !u!224 &5253588434095725572 stripped
+--- !u!224 &4976887444125664468 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2416506594928541141, guid: be6437fb283853e498460dc701cbb308, type: 3}
-  m_PrefabInstance: {fileID: 7593448481473880529}
+  m_PrefabInstance: {fileID: 7248635078327990529}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &8510552843736627036
+--- !u!114 &9039476987152742646 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1867585782485762551, guid: be6437fb283853e498460dc701cbb308, type: 3}
+  m_PrefabInstance: {fileID: 7248635078327990529}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ceea172800b2d04396037f6d3e94c7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkillSlotUI
+--- !u!1001 &8946744073895642019
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -1059,7 +1182,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2138398865110620691, guid: be6437fb283853e498460dc701cbb308, type: 3}
       propertyPath: m_Name
-      value: HotBarSlotUI
+      value: SkillBarSlotUI (9)
       objectReference: {fileID: 0}
     - target: {fileID: 2416506594928541141, guid: be6437fb283853e498460dc701cbb308, type: 3}
       propertyPath: m_Pivot.x
@@ -1146,12 +1269,23 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be6437fb283853e498460dc701cbb308, type: 3}
---- !u!224 &6310292161330285193 stripped
+--- !u!224 &6746427034005356150 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2416506594928541141, guid: be6437fb283853e498460dc701cbb308, type: 3}
-  m_PrefabInstance: {fileID: 8510552843736627036}
+  m_PrefabInstance: {fileID: 8946744073895642019}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &8748864917981667213
+--- !u!114 &7332923466271933012 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1867585782485762551, guid: be6437fb283853e498460dc701cbb308, type: 3}
+  m_PrefabInstance: {fileID: 8946744073895642019}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ceea172800b2d04396037f6d3e94c7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkillSlotUI
+--- !u!1001 &8976016089221500923
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -1161,7 +1295,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2138398865110620691, guid: be6437fb283853e498460dc701cbb308, type: 3}
       propertyPath: m_Name
-      value: HotBarSlotUI (8)
+      value: SkillBarSlotUI (5)
       objectReference: {fileID: 0}
     - target: {fileID: 2416506594928541141, guid: be6437fb283853e498460dc701cbb308, type: 3}
       propertyPath: m_Pivot.x
@@ -1248,8 +1382,19 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be6437fb283853e498460dc701cbb308, type: 3}
---- !u!224 &6404982594138939992 stripped
+--- !u!224 &6708130209497330222 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2416506594928541141, guid: be6437fb283853e498460dc701cbb308, type: 3}
-  m_PrefabInstance: {fileID: 8748864917981667213}
+  m_PrefabInstance: {fileID: 8976016089221500923}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7312658650061819404 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1867585782485762551, guid: be6437fb283853e498460dc701cbb308, type: 3}
+  m_PrefabInstance: {fileID: 8976016089221500923}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ceea172800b2d04396037f6d3e94c7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkillSlotUI

@@ -134,4 +134,11 @@ public class GameDataManager : MonoBehaviour
         if (PassiveSkillDataList == null || string.IsNullOrEmpty(id)) return null;
         return PassiveSkillDataList.TryGetValue(id, out var item) ? item : null;
     }
+
+    public Dictionary<string, MonsterData> MonsterDataList { get; private set; } = new Dictionary<string, MonsterData>();
+    public MonsterData GetMonsterData(string id)
+    {
+        if (MonsterDataList == null || string.IsNullOrEmpty(id)) return null;
+        return MonsterDataList.TryGetValue(id, out var item) ? item : null;
+    }
 }
