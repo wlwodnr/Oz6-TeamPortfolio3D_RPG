@@ -36,6 +36,7 @@ public class GameDataManager : MonoBehaviour
     public Dictionary<string, DialogueGroupData> DialogueGroupDataList { get; private set; } = new Dictionary<string, DialogueGroupData>();
     public Dictionary<string, ActiveSkillData> ActiveSkillDataList { get; private set; } = new Dictionary<string, ActiveSkillData>();
     public Dictionary<string, PassiveSkillData> PassiveSkillDataList { get; private set; } = new Dictionary<string, PassiveSkillData>();
+    public Dictionary<string, MonsterData> MonsterDataList { get; private set; } = new Dictionary<string, MonsterData>();
 
     private Dictionary<string, T> LoadData<T>(string tableName) where T : GameDataBase
     {
@@ -79,6 +80,7 @@ public class GameDataManager : MonoBehaviour
         PlayerStatDataList = LoadData<PlayerStatData>("PlayerStat");
         ActiveSkillDataList = LoadData<ActiveSkillData>("ActiveSkillData");
         PassiveSkillDataList = LoadData<PassiveSkillData>("PassiveSkillData");
+        MonsterDataList = LoadData<MonsterData>("Monster");
         // CharacterDataList = LoadData<CharacterData>("CharacterData");
         // ItemDataList = LoadData<ItemData>("ItemData");
     }
@@ -133,5 +135,11 @@ public class GameDataManager : MonoBehaviour
     {
         if (PassiveSkillDataList == null || string.IsNullOrEmpty(id)) return null;
         return PassiveSkillDataList.TryGetValue(id, out var item) ? item : null;
+    }
+
+    public MonsterData GetMonsterData(string id)
+    {
+        if (MonsterDataList == null || string.IsNullOrEmpty(id)) return null;
+        return MonsterDataList.TryGetValue(id, out var item) ? item : null;
     }
 }

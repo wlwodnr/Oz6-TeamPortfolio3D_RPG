@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
 
-public class MonsterData
+[System.Serializable]
+public class MonsterData : GameDataBase
 {
     public string Name;
     public string Description;
