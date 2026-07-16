@@ -11,6 +11,12 @@ public class EnemyEntity : MonoBehaviour, IGameObjectEntity
         get { return _instanceId; }
     }
 
+
+    public string EnemyDataId
+    {
+        get { return _enemyDataId; }
+    }
+
     public void InitEntity(int instanceId, string dataId)
     {
         _instanceId = instanceId;
@@ -29,6 +35,6 @@ public class EnemyEntity : MonoBehaviour, IGameObjectEntity
         _instanceId = -1;
         _enemyDataId = string.Empty;
 
-        //JU ToDo 나중에 Stat 등이 완성되면 HP, 상태, 타겟, 에니메이션, NaveMeshAgent 등을 초기화 해야함
+        //JU ToDo 나중에 Stat 등이 완성되면 HP, 상태, 타겟, 에니메이션, NavMeshAgent 등을 초기화 해야함
     }
 }
