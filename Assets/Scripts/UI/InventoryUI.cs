@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using UnityEngine;
 
-// 관리주체 역할
 public class InventoryUI : UIBase
 {
     [SerializeField] private UIButton Button_UseSelectItem;
@@ -10,10 +9,8 @@ public class InventoryUI : UIBase
     [SerializeField] private UIButton Button_CloseSelfAllArea;
     [SerializeField] private List<InventorySlotUI> _fixedSlotList = new List<InventorySlotUI>();
 
-    private Dictionary<long, InventorySlotUI> _itemSlotList = new Dictionary<long, InventorySlotUI>();
-    private long _currentSelectedItemUniqueId;
-
     private InvnetoryViewModel _invenVm;
+    private SlotContainerViewModel _slotContainerVm;
 
     private void OnEnable()
     {
@@ -38,6 +35,7 @@ public class InventoryUI : UIBase
         {
             _invenVm.PropertyChanged -= OnPropChanged_InvenView;
         }
+        DisposeSlotContainer();
     }
 
     private void SetInventoryItemSlotOnEnable()
@@ -76,7 +74,7 @@ public class InventoryUI : UIBase
                 ResetItemSlotAndCreateAll();
                 break;
             case "ItemListUpdated":
-                // 수량 및 정보 갱신 처리 영역
+
                 break;
         }
     }
@@ -84,7 +82,9 @@ public class InventoryUI : UIBase
     private void ResetItemSlotAndCreateAll()
     {
         RemoveAllItemSlot();
+        DisposeSlotContainer();
 
+        var slotVmList = new List<SlotViewModel>();
         int slotIndex = 0;
         foreach (var itemKv in _invenVm.ItemList)
         {
@@ -94,26 +94,26 @@ public class InventoryUI : UIBase
             var slotView = _fixedSlotList[slotIndex];
 
             slotView.BindSlotViewModel(slotVm);
-            slotView.BindSlotSelectEvent(OnChildSlotSelected);
+            slotVmList.Add(slotVm);
 
             slotIndex++;
         }
+
+        _slotContainerVm = new SlotContainerViewModel(slotVmList);
+        _slotContainerVm.OnSelectionChanged += OnSlotSelected;
     }
 
-    private void OnChildSlotSelected(long selectedItemUniqueId)
+    private void OnSlotSelected(SlotViewModel selectedVm)
     {
-        foreach (var slot in _fixedSlotList)
+        if (selectedVm == null)
         {
-            if (slot == null) continue;
-            bool isSelected = slot.ChangeSelectedState(selectedItemUniqueId);
-
-            if (isSelected == true)
-            {
-                _currentSelectedItemUniqueId = slot.GetSelectedItemUniqueId();
-                ActiveUseSelectItemButton(slot.IsUsableItem);
-            }
+            ActiveUseSelectItemButton(false);
+            return;
         }
-        Debug.LogWarning($"자식 슬롯 {selectedItemUniqueId} 선택됨!");
+
+        var itemData = GameDataManager.Instance.GetItemData(selectedVm.ItemId);
+        bool isUsable = (itemData != null && string.IsNullOrEmpty(itemData.UseItemType) == false);
+        ActiveUseSelectItemButton(isUsable);
     }
 
     private void ActiveUseSelectItemButton(bool isActive)
@@ -126,12 +126,15 @@ public class InventoryUI : UIBase
 
     private void RequestSelectedUseItem()
     {
-        NetworkManager.Inst.InventoryService.RequestUseItem(_currentSelectedItemUniqueId);
+        var selected = _slotContainerVm?.GetSelectedSlot();
+        if (selected == null) return;
+
+        NetworkManager.Inst.InventoryService.RequestUseItem(selected.GetSlotId());
     }
 
     public void OnClick_ClosePopup()
     {
-        UIManager.Instance.CloseContentUI(UIType.Inventory);
+        UIManager.Instance.CloseContentUI(UIType.InventoryUI);
     }
 
     public void OnClick_UseSelectItem()
@@ -147,6 +150,15 @@ public class InventoryUI : UIBase
             {
                 slotView.ClearSlot();
             }
+        }
+    }
+    private void DisposeSlotContainer()
+    {
+        if (_slotContainerVm != null)
+        {
+            _slotContainerVm.OnSelectionChanged -= OnSlotSelected;
+            _slotContainerVm.Dispose();
+            _slotContainerVm = null;
         }
     }
 }

@@ -26,9 +26,7 @@ public class NetworkInventoryService
     {
         long uniqueId = GameUtil.GenerateUniqueId();
 
-        var newItemVm = new SlotViewModel(new SlotModel(uniqueId, itemDataId, addItemCount)); 
-        newItemVm.ItemId = itemDataId;
-        newItemVm.Count = addItemCount;
+        var newItemVm = new SlotViewModel(new SlotModel(uniqueId, itemDataId, addItemCount));
 
         var invenVm = GetLocalPlayerInvnetoryViewModel();
         invenVm.AddItemSlotViewModel(newItemVm);
@@ -41,22 +39,19 @@ public class NetworkInventoryService
     {
         var invenVm = GetLocalPlayerInvnetoryViewModel();
 
-        foreach (var itemSlotKv in invenVm.ItemList)
+        if (invenVm.ItemList.TryGetValue(requestUseTargetSlotId, out var itemSlotVm) == false)
         {
-            var itemSlotVm = itemSlotKv.Value;
-            if (itemSlotVm.GetSlotId() == requestUseTargetSlotId)
-            {
-                var itemData = GameDataManager.Instance.GetItemData(itemSlotVm.ItemId);
-                if (itemData != null && string.IsNullOrEmpty(itemData.UseItemType) == false)
-                {
-                    //ItemUseHandler.UseItemFunction(itemData.UseItemType, itemData.UseItemParameterList);
-                }
-
-                RequestRemoveItem(itemSlotVm.GetSlotId());
-                break;
-            }
+            return false; 
         }
 
+        var itemData = GameDataManager.Instance.GetItemData(itemSlotVm.ItemId);
+        if (itemData == null || string.IsNullOrEmpty(itemData.UseItemType))
+        {
+            return false;
+        }
+
+        //ItemUseHandler.UseItemFunction(itemData.UseItemType, itemData.UseItemParameterList);
+        RequestRemoveItem(requestUseTargetSlotId);
         return true;
     }
 
@@ -73,6 +68,5 @@ public class NetworkInventoryService
         var invenVm = GetLocalPlayerInvnetoryViewModel();
         return invenVm.ItemList;
     }
-
 
 }

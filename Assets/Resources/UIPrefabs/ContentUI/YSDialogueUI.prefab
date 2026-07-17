@@ -1048,7 +1048,7 @@ GameObject:
   - component: {fileID: 1561037117411882099}
   - component: {fileID: 410959863346097907}
   m_Layer: 5
-  m_Name: DialogueUI
+  m_Name: YSDialogueUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -3,6 +3,13 @@ using UnityEngine;
 
 public class PlayerProfileViewModel : ViewModelBase
 {
+    private PlayerModel _playerModel;
+
+    public PlayerProfileViewModel(PlayerModel playerModel)
+    {
+        _playerModel = playerModel;
+    }
+
     public void InvokeOnceOnInit()
     {
         OnPropertyChanged(nameof(Name));
@@ -14,100 +21,92 @@ public class PlayerProfileViewModel : ViewModelBase
         OnPropertyChanged(nameof(MaxMP));
     }
 
-    private string _name;
     public string Name
     {
-        get => _name;
+        get => _playerModel.Info.Name;
         set
         {
-            if (_name != value)
+            if (_playerModel.Info.Name != value)
             {
-                _name = value;
+                _playerModel.Info.Name = value;
                 OnPropertyChanged(nameof(Name));
             }
         }
     }
 
-    private float _totalExp;
     public float TotalExp
     {
-        get => _totalExp;
+        get => _playerModel.Info.TotalExp;
         set
         {
-            if (_totalExp != value)
+            if (_playerModel.Info.TotalExp != value)
             {
-                _totalExp = value;
+                _playerModel.Info.TotalExp = value;
                 OnPropertyChanged(nameof(TotalExp));
             }
         }
     }
 
-    private float _currentLevel;
-    public float CurrentLevel
+    public int CurrentLevel
     {
-        get => _currentLevel;
+        get => _playerModel.Info.CurLevel;
         set
         {
-            if (_currentLevel != value)
+            if (_playerModel.Info.CurLevel != value)
             {
-                _currentLevel = value;
+                _playerModel.Info.CurLevel = value;
                 OnPropertyChanged(nameof(CurrentLevel));
             }
         }
     }
 
-    private float _currentHP;
     public float CurrentHP
     {
-        get => _currentHP;
+        get => _playerModel.Info.CurHp;
         set
         {
-            if (_currentHP != value)
+            if (_playerModel.Info.CurHp != value)
             {
-                _currentHP = value;
+                _playerModel.Info.CurHp = value;
                 OnPropertyChanged(nameof(CurrentHP));
             }
         }
     }
 
-    private float _currentMP;
     public float CurrentMP
     {
-        get => _currentMP;
+        get => _playerModel.Info.CurMp;
         set
         {
-            if (_currentMP != value)
+            if (_playerModel.Info.CurMp != value)
             {
-                _currentMP = value;
+                _playerModel.Info.CurMp = value;
                 OnPropertyChanged(nameof(CurrentMP));
             }
         }
     }
 
-    private float _maxHP;
-
     public float MaxHP
     {
-        get => _maxHP;
+        get => _playerModel.Info.MaxHP;
         set
         {
-            if (_maxHP != value)
+            if (_playerModel.Info.MaxHP != value)
             {
-                _maxHP = value;
+                _playerModel.Info.MaxHP = value;
                 OnPropertyChanged(nameof(MaxHP));
             }
         }
     }
 
-    private float _maxMP;
     public float MaxMP
     {
-        get => _maxMP;
+        get => _playerModel.Info.MaxMP;
         set
         {
-            if (_maxMP != value)
+            if (_playerModel.Info.MaxMP != value)
             {
-                _maxMP = value;
+                _playerModel.Info.MaxMP = value;
                 OnPropertyChanged(nameof(MaxMP));
             }
         }

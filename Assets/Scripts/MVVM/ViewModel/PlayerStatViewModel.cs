@@ -2,6 +2,13 @@
 
 public class PlayerStatViewModel : ViewModelBase
 {
+    private PlayerModel _playerModel;
+
+    public PlayerStatViewModel(PlayerModel playerModel)
+    {
+        _playerModel = playerModel;
+    }
+
     public void InvokeOnceOnInit()
     {
         OnPropertyChanged(nameof(AtkDamage));
@@ -11,72 +18,66 @@ public class PlayerStatViewModel : ViewModelBase
         OnPropertyChanged(nameof(SkillPoint));
     }
 
-    private float _atkDamage;
     public float AtkDamage
     {
-        get => _atkDamage;
+        get => _playerModel.Info.AtkDamage;
         set
         {
-            if (_atkDamage != value)
+            if (_playerModel.Info.AtkDamage != value)
             {
-                _atkDamage = value;
+                _playerModel.Info.AtkDamage = value;
                 OnPropertyChanged(nameof(AtkDamage));
             }
         }
     }
 
-    private float _maxHP;
-
     public float MaxHP
     {
-        get => _maxHP;
+        get => _playerModel.Info.MaxHP;
         set
         {
-            if (_maxHP != value)
+            if (_playerModel.Info.MaxHP != value)
             {
-                _maxHP = value;
+                _playerModel.Info.MaxHP = value;
                 OnPropertyChanged(nameof(MaxHP));
             }
         }
     }
 
-    private float _maxMP;
     public float MaxMP
     {
-        get => _maxMP;
+        get => _playerModel.Info.MaxMP;
         set
         {
-            if (_maxMP != value)
+            if (_playerModel.Info.MaxMP != value)
             {
-                _maxMP = value;
+                _playerModel.Info.MaxMP = value;
                 OnPropertyChanged(nameof(MaxMP));
             }
         }
     }
 
-    private float _atkSpeed;
     public float AtkSpeed
     {
-        get => _atkSpeed;
+        get => _playerModel.Info.AtkSpeed;
         set
         {
-            if (_atkSpeed != value)
+            if (_playerModel.Info.AtkSpeed != value)
             {
-                _atkSpeed = value;
+                _playerModel.Info.AtkSpeed = value;
                 OnPropertyChanged(nameof(AtkSpeed));
             }
         }
     }
 
-    private int _skillPoint;
     public int SkillPoint
     {
-        get => _skillPoint;
+        get => _playerModel.Info.SkillPoint;
         set
         {
-            if (_skillPoint != value)
+            if (_playerModel.Info.SkillPoint != value)
             {
-                _skillPoint = value;
+                _playerModel.Info.SkillPoint = value;
                 OnPropertyChanged(nameof(SkillPoint));
             }
         }
