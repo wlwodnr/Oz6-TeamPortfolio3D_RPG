@@ -6,7 +6,7 @@ public class InventoryModel
     private const string EMPTY_ITEM_ID = "";
 
     private int _maxSlotCount;
-    private Dictionary<long, SlotModel> _slots = new Dictionary<long, SlotModel>();
+    private Dictionary<long, InventorySlotModel> _slots = new Dictionary<long, InventorySlotModel>();
 
     public InventoryModel(InventoryData inventoryData)
     {
@@ -35,7 +35,7 @@ public class InventoryModel
 
         for (long i = 0; i < _maxSlotCount; i++)
         {
-            _slots.Add(i, new SlotModel(i, EMPTY_ITEM_ID, 0));
+            _slots.Add(i, new InventorySlotModel(i, EMPTY_ITEM_ID, 0));
         }
 
         foreach (var item in inventoryData.InventoryItems)
@@ -60,7 +60,7 @@ public class InventoryModel
         return true;
     }
 
-    public bool AddItem(string itemId, int count)
+    public bool InputItem(string itemId, int count)
     {
         if (string.IsNullOrEmpty(itemId) || count <= 0) return false;
 
@@ -125,10 +125,10 @@ public class InventoryModel
         return false;
     }
 
-    public SlotModel GetSlot(long slotId)
+    public InventorySlotModel GetSlot(long slotId)
     {
         return _slots.TryGetValue(slotId, out var slot) ? slot : null;
     }
 
-    public IEnumerable<SlotModel> GetAllSlots() => _slots.Values;
+    public IEnumerable<InventorySlotModel> GetAllSlots() => _slots.Values;
 }

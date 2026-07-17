@@ -26,7 +26,7 @@ public class NetworkInventoryService
     {
         var model = GetLocalPlayerInventoryModel();
         
-        bool isSuccess = model.AddItem(itemDataId, addItemCount);
+        bool isSuccess = model.InputItem(itemDataId, addItemCount);
 
         if (isSuccess)
         {
@@ -89,7 +89,7 @@ public class NetworkInventoryService
         // NetworkManager.Inst.SaveLoadService.RequstSaveData();
     }
 
-    public IEnumerable<SlotModel> GetPlayerItemList()
+    public IEnumerable<InventorySlotModel> GetPlayerItemList()
     {
         var model = GetLocalPlayerInventoryModel();
         return model.GetAllSlots();

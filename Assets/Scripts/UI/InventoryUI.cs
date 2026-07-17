@@ -10,7 +10,7 @@ public class InventoryUI : UIBase
     [SerializeField] private List<InventorySlotUI> _fixedSlotList = new List<InventorySlotUI>();
 
     private InventoryViewModel _invenVm;
-    private SlotContainerViewModel _slotContainerVm;
+    private InventorySlotContainerViewModel _slotContainerVm;
 
     private void OnEnable()
     {
@@ -29,17 +29,15 @@ public class InventoryUI : UIBase
         Button_UseSelectItem.UnBindAllOnClickButtonEvent();
         Button_CloseSelf.UnBindAllOnClickButtonEvent();
         Button_CloseSelfAllArea.UnBindAllOnClickButtonEvent();
-        
+
+        UnbindInventoryViewModel();
+
         //SetCursorUnlock(false);
     }
 
     private void OnDestroy()
     {
-        if (_invenVm != null)
-        {
-            _invenVm.PropertyChanged -= OnPropChanged_InvenView;
-        }
-        DisposeSlotContainer();
+        UnbindInventoryViewModel();
     }
 
     private void SetInventoryItemSlotOnEnable()
@@ -57,11 +55,7 @@ public class InventoryUI : UIBase
             return;
         }
 
-        // 중복 구독 방지
-        if (_invenVm != null)
-        {
-            _invenVm.PropertyChanged -= OnPropChanged_InvenView;
-        }
+        UnbindInventoryViewModel();
 
         _invenVm = new InventoryViewModel();
         _invenVm.Initialize(invenModel);
@@ -81,13 +75,13 @@ public class InventoryUI : UIBase
     private void ResetItemSlotAndCreateAll()
     {
         RemoveAllItemSlot();
-        DisposeSlotContainer();
+        ActiveUseSelectItemButton(false);
 
         if (_invenVm == null || _invenVm.SlotViewModels == null) return;
 
-        var slotVmList = new List<SlotViewModel>();
+        var slotVmList = new List<InventorySlotViewModel>();
+        
         int slotIndex = 0;
-
         foreach (var itemKv in _invenVm.SlotViewModels)
         {
             if (slotIndex >= _fixedSlotList.Count) break;
@@ -100,12 +94,9 @@ public class InventoryUI : UIBase
 
             slotIndex++;
         }
-
-        _slotContainerVm = new SlotContainerViewModel(slotVmList);
-        _slotContainerVm.OnSelectionChanged += OnSlotSelected;
     }
 
-    private void OnSlotSelected(SlotViewModel selectedVm)
+    private void OnSlotSelected(InventorySlotViewModel selectedVm)
     {
         if (selectedVm == null || string.IsNullOrEmpty(selectedVm.ItemId))
         {
@@ -155,13 +146,14 @@ public class InventoryUI : UIBase
             }
         }
     }
-    private void DisposeSlotContainer()
+    private void UnbindInventoryViewModel()
     {
-        if (_slotContainerVm != null)
+        if (_invenVm != null)
         {
-            _slotContainerVm.OnSelectionChanged -= OnSlotSelected;
-            _slotContainerVm.Dispose();
-            _slotContainerVm = null;
+            _invenVm.PropertyChanged -= OnPropChanged_InvenView;
+            _invenVm.OnSelectionChanged -= OnSlotSelected;
+            _invenVm.Dispose();
+            _invenVm = null;
         }
     }
 }

@@ -318,7 +318,7 @@ MonoBehaviour:
   Button_Slot: {fileID: 8443583569335990829}
   Image_Icon: {fileID: 3631303208468773249}
   Image_Frame: {fileID: 1085542276313488430}
-  Image_Selected: {fileID: 0}
+  Image_Selected: {fileID: 3540604595909387538}
 --- !u!1 &4486479980530384108
 GameObject:
   m_ObjectHideFlags: 0
