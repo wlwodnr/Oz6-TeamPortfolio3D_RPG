@@ -11,6 +11,8 @@ public class SpawnSpot : MonoBehaviour
 
     [SerializeField] private bool _spawnOnStart = true;
 
+    [SerializeField] private bool _enableRespawn = true;
+
     private int _spawnedInstanceId = -1;
 
     //JU ToDo 데이터 드리븐으로 주기 설정하기
@@ -18,10 +20,39 @@ public class SpawnSpot : MonoBehaviour
 
     private CancellationTokenSource _respawnCancellationTokenSource;
 
+    public event Action<SpawnSpot, int> OnSpawnedObjectDisable;
+
+
     public int SpawnedIstanceId
     {
         get { return _spawnedInstanceId; }
     }
+
+    public bool HasAliveSpawnedObject
+    {
+        get
+        {
+            if (_spawnedInstanceId < 0)
+            {
+                return false;
+            }
+
+            if (GameObjectManager.Instance == null)
+            {
+                return false;
+            }
+
+            GameObject spawnObject = GameObjectManager.Instance.GetGameObjectCanBeNull(_spawnedInstanceId);
+
+            if (spawnObject == null)
+            {
+                return false;
+            }
+
+            return spawnObject.activeInHierarchy;
+        }
+    }
+
 
     private void Start()
     {
@@ -35,6 +66,8 @@ public class SpawnSpot : MonoBehaviour
     {
         CancelRespawnTask();
     }
+
+    
 
     public void RequestSpawn()
     {
