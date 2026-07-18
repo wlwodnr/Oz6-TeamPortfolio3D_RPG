@@ -20,12 +20,16 @@ public class SpawnSpot : MonoBehaviour
 
     private CancellationTokenSource _respawnCancellationTokenSource;
 
-    public event Action<SpawnSpot, int> OnSpawnedObjectDisable;
+    public event Action<SpawnSpot, int> OnSpawnedObjectDisabled;
 
 
     public int SpawnedIstanceId
     {
         get { return _spawnedInstanceId; }
+    }
+    public string SpawnDataId
+    {
+        get { return _spawnDataId; }
     }
 
     public bool HasAliveSpawnedObject
@@ -65,9 +69,21 @@ public class SpawnSpot : MonoBehaviour
     private void OnDisable()
     {
         CancelRespawnTask();
+
+        OnSpawnedObjectDisabled = null;
     }
 
-    
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        if(_respawnDelay < 0f)
+        {
+            _respawnDelay = 0f;
+        }
+    }
+#endif
+
+
 
     public void RequestSpawn()
     {
@@ -122,6 +138,15 @@ public class SpawnSpot : MonoBehaviour
             return;
         }
         _spawnedInstanceId = -1;
+
+        OnSpawnedObjectDisabled?.Invoke(this, disabledInstanceId);
+
+        if(_enableRespawn == false)
+        {
+            Debug.Log($"[{gameObject.name}] 자동 리스폰이 비활성화되어 있습니다.");
+            return ;
+        }
+
         StartRespawnTask();
     }
 
