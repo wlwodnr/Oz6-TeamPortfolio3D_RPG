@@ -84,7 +84,7 @@ public class StoreViewModel
 
         slot.OnSelected -= SelectSlot;
         _slotvmDic.Remove(slot.GetSlotId());
-        _storeModel.RemoveSlot(slot.GetSlotId());
+        _storeModel.RemoveSlot(slot.GetSlotId());  // 나중에 이벤트로 바꾸기
         OnSlotChanged?.Invoke("RemoveSlot", slot.GetSlotId());
     }
 
