@@ -23,7 +23,7 @@ public class SpawnSpot : MonoBehaviour
     public event Action<SpawnSpot, int> OnSpawnedObjectDisabled;
 
 
-    public int SpawnedIstanceId
+    public int SpawnedInstanceId
     {
         get { return _spawnedInstanceId; }
     }
