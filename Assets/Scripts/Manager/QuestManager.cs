@@ -241,4 +241,10 @@ public class QuestManager : MonoBehaviour
 
         return completedId;
     }
+
+    [ContextMenu("테스트용 Quest_001 킬 3 증가")]
+    private void Test_KillMonster001()
+    {
+        UpdateProgress("Kill", "Monster_001", 3);
+    }
 }
