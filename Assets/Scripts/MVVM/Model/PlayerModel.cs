@@ -154,4 +154,49 @@ public class PlayerModel
     {
         return _stats.GetValue(statType);
     }
+
+
+    // 아래는 스킬 관련 데이터/메서드 (수정될 확률 높음)
+
+    public HashSet<string> LearnedPassiveSkill = new HashSet<string>();
+    public HashSet<string> LearnedActiveSkill = new HashSet<string>();
+
+    public void LearnPassive(string id)
+    {
+        if (LearnedPassiveSkill.Contains(id) == false)
+        {
+            LearnedPassiveSkill.Add(id);
+        }
+    }
+
+    public void LearnActive(string id)
+    {
+        if (LearnedActiveSkill.Contains(id) == false)
+        {
+            LearnedActiveSkill.Add(id);
+        }
+    }
+    public bool HasLearnedPassive(string id)
+    {
+        if(LearnedPassiveSkill.Contains(id) == true)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public bool HasLearnedActive(string id)
+    {
+        if (LearnedActiveSkill.Contains(id) == true)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
