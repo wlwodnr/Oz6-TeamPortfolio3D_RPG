@@ -7,6 +7,8 @@ public class QuestManager : MonoBehaviour
 
     // 현재 진행중인 퀘스트목록
     private Dictionary<string, QuestModel> _activeQuests = new Dictionary<string, QuestModel>();
+    // 완료했던 퀘스트 기록
+    private HashSet<string> _completedQuestIds = new HashSet<string>();
 
     public delegate void QuestStateChangedHandler(string questId);
     public event QuestStateChangedHandler OnQuestStateChanged;
@@ -201,6 +203,7 @@ public class QuestManager : MonoBehaviour
 
 
         _activeQuests.Remove(questId);
+        _completedQuestIds.Add(questId);
         Debug.Log($"퀘스트 클리어! 현재 퀘스트 목록에서 제거됩니다 : {questId}");
 
         if(OnQuestStateChanged != null)
@@ -218,5 +221,24 @@ public class QuestManager : MonoBehaviour
         }
 
         return null;
+    }
+
+    public string GetCompletedQuestId(string questId)
+    {
+        string completedId = questId;
+
+        while (_completedQuestIds.Contains(completedId))
+        {
+            QuestData data = GameDataManager.Instance.GetQuestData(completedId);
+
+            if(data == null || string.IsNullOrEmpty(data.NextQuestId))
+            {
+                break;
+            }
+
+            completedId = data.NextQuestId;
+        }
+
+        return completedId;
     }
 }

@@ -175,6 +175,11 @@ public class DialogueUI : UIBase
 
     public void OpenQuestDialogue(string questId)
     {
+        if (QuestManager.Instance != null)
+        {
+            questId = QuestManager.Instance.GetCompletedQuestId(questId);
+        }
+
         QuestData questData = GameDataManager.Instance.GetQuestData(questId);
 
         if (questData == null)
