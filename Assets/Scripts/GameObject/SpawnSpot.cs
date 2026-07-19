@@ -68,6 +68,14 @@ public class SpawnSpot : MonoBehaviour
         }
     }
 
+    public bool IsSpawnOperationActive
+    {
+        get
+        {
+            return _isSpawnOperationActive;
+        }
+    }
+
     private void Start()
     {
         if (_spawnOnStart == false)
@@ -297,10 +305,7 @@ public class SpawnSpot : MonoBehaviour
 
         OnWaveCleared?.Invoke(this);
 
-        if (_isSpawnOperationActive == false)
-        {
-            return;
-        }
+        
         if (_enableWaveRespawn == false)
         {
             return;
