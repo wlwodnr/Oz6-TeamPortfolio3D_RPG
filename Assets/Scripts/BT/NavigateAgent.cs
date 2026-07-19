@@ -29,6 +29,14 @@ public class NavigateAgent : MonoBehaviour
         _originPosition = transform.position;
     }
 
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+        _mainCoroutine = null;
+        _followCoroutine = null;
+    }
+
+
     public void SetTarget(Transform NewTarget)
     {
         Transform_TargetObject = NewTarget;

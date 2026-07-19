@@ -19,7 +19,6 @@ public partial class PatrolAction : Action
 
     protected override Status OnStart()
     {
-        
         return Status.Running;
     }
 
