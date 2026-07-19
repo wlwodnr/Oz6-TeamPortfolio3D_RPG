@@ -167,12 +167,12 @@ public class DungeonFlowController : MonoBehaviour
             return false;
         }
 
-        ExcuteFloorTransition(targetFloor);
+        ExecuteFloorTransition(targetFloor);
 
         return true;
     }
 
-    private void ExcuteFloorTransition(DungeonFloorController targetFloor)
+    private void ExecuteFloorTransition(DungeonFloorController targetFloor)
     {
         _isTransitioning = true;
 
@@ -187,7 +187,7 @@ public class DungeonFlowController : MonoBehaviour
             previousFloor.gameObject.SetActive(false);
         }
 
-        targetFloor.gameObject.SetActive(false);
+        targetFloor.gameObject.SetActive(true);
 
         MovePlayerToFloorEntrance(targetFloor);
 
