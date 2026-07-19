@@ -4,5 +4,5 @@
     Inactive,
     Waiting,
     Active,
-    Cleared
+    Deactivating
 }
