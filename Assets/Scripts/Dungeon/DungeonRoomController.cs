@@ -12,8 +12,6 @@ public class DungeonRoomController : MonoBehaviour
 
     private DungeonRoomState _currentState = DungeonRoomState.None;
 
-    private bool _hasClearedWaveAtLeastOnce;
-
     public event Action<DungeonRoomController> OnRoomActivated;
 
     public event Action<DungeonRoomController> OnRoomDeactivated;
@@ -37,13 +35,6 @@ public class DungeonRoomController : MonoBehaviour
         }
     }
 
-    public bool HasClearedWaveAtLeastOnce
-    {
-        get
-        {
-            return _hasClearedWaveAtLeastOnce;
-        }
-    }
 
     private void Awake()
     {
@@ -202,11 +193,6 @@ public class DungeonRoomController : MonoBehaviour
         return GetTotalAliveMonsterCount() == 0;
     }
 
-    public void ResetRoomProgress()
-    {
-        _hasClearedWaveAtLeastOnce = false;
-    }
-
     private void BindSpawnSpotEvent()
     {
         if (_spawnSpotList == null)
@@ -271,8 +257,6 @@ public class DungeonRoomController : MonoBehaviour
             return;
         }
 
-        _hasClearedWaveAtLeastOnce = true;
-
         Debug.Log($"DungeonRoomController: [{gameObject.name}] 웨이브 전멸 감지. SpawnSpot: {spawnSpot.gameObject.name}",this);
 
         OnRoomWaveCleared?.Invoke(this, spawnSpot);
@@ -304,12 +288,6 @@ public class DungeonRoomController : MonoBehaviour
     private void TestDeactivateRoom()
     {
         DeactivateRoom();
-    }
-
-    [ContextMenu("TEST/방 진행 기록 초기화")]
-    private void TestResetRoomProgress()
-    {
-        ResetRoomProgress();
     }
 #endif
 
