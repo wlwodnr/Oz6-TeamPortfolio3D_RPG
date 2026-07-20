@@ -7,6 +7,7 @@ public class InputManager : MonoBehaviour
     public Vector3 MoveInput {  get; private set; }
     public static event Action OnJumpPressed;
     public static event Action OnAttackPressed;
+    public static event Action OnInteractPressed;
 
     private int _activeUiCount = 0;
     public bool IsUIActive => _activeUiCount > 0;
@@ -42,6 +43,11 @@ public class InputManager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Mouse0))
         {
             OnAttackPressed?.Invoke();
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            OnInteractPressed?.Invoke();
         }
     }
 

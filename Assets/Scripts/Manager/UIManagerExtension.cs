@@ -19,6 +19,7 @@ public enum UIType
 
     DialogueUI,
     InventoryUI,
+    QuestUI,
     TestUI
 }
 
@@ -86,5 +87,20 @@ public static class UIManagerExtension
 
         Debug.LogWarning("생성된 UI가 DialogueUI 타입이 아닙니다");
         return null;
+    }
+
+    public static void CloseDialogueUI(this UIManager uIManager)
+    {
+        uIManager.CloseContentUI(UIType.DialogueUI);
+    }
+
+    public static void OpenQuestUI(this UIManager uiManager)
+    {
+        uiManager.OpenUI(UIRootType.MainUI, UIType.QuestUI);
+    }
+
+    public static void CloseQuestUI(this UIManager uiManager)
+    {
+        uiManager.CloseUI(UIRootType.MainUI, UIType.QuestUI);
     }
 }
