@@ -20,12 +20,12 @@ public class PlayerStats
     // 플레이어 스탯 데이터 추가하기
 }
 
-[Serializable]
-public class InventoryData
-{
-    public int Coins;
-    public List<ItemSlot> Slots = new List<ItemSlot>();
-}
+//[Serializable]
+//public class InventoryData
+//{
+//    public int Coins;
+//    public List<ItemSlot> Slots = new List<ItemSlot>();
+//}
 
 [Serializable]
 public class ItemSlot

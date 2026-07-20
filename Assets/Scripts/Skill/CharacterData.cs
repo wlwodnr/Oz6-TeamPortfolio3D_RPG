@@ -7,5 +7,5 @@ public class CharacterData : GameDataBase
 
     public string SkillList;
 
-    public int Atk;
+    public float AtkDamage;
 }
