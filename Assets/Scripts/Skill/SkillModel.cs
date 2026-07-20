@@ -1,51 +1,56 @@
-using System;
 using System.Collections.Generic;
+using UnityEngine;
+
+public enum CharacterMode { Hunt, Boss }
 
 public class SkillModel
 {
-    public bool IsBossModeActive { get; private set; } = false;     // false : 사냥 모드
+    private CharacterMode _currentMode = CharacterMode.Hunt;
+    private readonly Dictionary<string, float> _remainCoolTimes = new();
 
-    public HashSet<string> UnlockedSkillIds { get; private set; } = new HashSet<string>();
+    private readonly List<string> _coolTimeKeysCache = new();
 
-    public void ChangeAttackMode()
+    public CharacterMode CurrentMode
     {
-        IsBossModeActive = !IsBossModeActive;
+        get => _currentMode;
+        set => _currentMode = value;
     }
 
-    public bool CheckSkillAdvance(string targetSkillId)
+    public bool IsSkillReady(string skillId)
     {
-        return UnlockedSkillIds.Contains(targetSkillId);
-    }
-
-    public void RegisterUnlockedSkill(string skillId)
-    {
-        UnlockedSkillIds.Add(skillId);
-    }
-
-    public string GetCurrentSkillId(string baseSkillId)
-    {
-        if (baseSkillId == "Active_H_01" || baseSkillId == "Active_B_01")
+        if (_remainCoolTimes.TryGetValue(skillId, out float remain))
         {
-            bool hasAdvancedSkill = CheckSkillAdvance("Active_H_02");
-
-            if (hasAdvancedSkill)
-            {
-                if (IsBossModeActive == true)
-                {
-                    return "Active_B_02";
-                }
-
-                return "Active_H_02";
-            }
-
-            if (IsBossModeActive == true)
-            {
-                return "Active_B_01";
-            }
-
-            return "Active_H_01";
+            return remain <= 0f;
         }
+        return true;
+    }
 
-        return baseSkillId;
+    public float GetRemainCoolTime(string skillId)
+    {
+        return _remainCoolTimes.GetValueOrDefault(skillId, 0f);
+    }
+
+    public void StartCoolTime(string skillId, float duration)
+    {
+        if (duration <= 0f) return;
+        _remainCoolTimes[skillId] = duration;
+    }
+
+    public void UpdateCoolTimes(float deltaTime)
+    {
+        if (_remainCoolTimes.Count == 0) return;
+
+        _coolTimeKeysCache.Clear();
+        _coolTimeKeysCache.AddRange(_remainCoolTimes.Keys);
+
+        for (int i = 0; i < _coolTimeKeysCache.Count; i++)
+        {
+            string key = _coolTimeKeysCache[i];
+            if (_remainCoolTimes[key] > 0f)
+            {
+                _remainCoolTimes[key] -= deltaTime;
+                if (_remainCoolTimes[key] < 0f) _remainCoolTimes[key] = 0f;
+            }
+        }
     }
 }
