@@ -50,21 +50,18 @@ public class InputManager : MonoBehaviour
             {
                 OnAttackPressed?.Invoke();
             }
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                OnInteractPressed?.Invoke();
+            }
         }
         else
         {
             MoveInput = Vector3.zero;
         }
 
-        if(Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            OnAttackPressed?.Invoke();
-        }
 
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            OnInteractPressed?.Invoke();
-        }
     }
 
     public void SetCursorAndInputState(bool isOpen)

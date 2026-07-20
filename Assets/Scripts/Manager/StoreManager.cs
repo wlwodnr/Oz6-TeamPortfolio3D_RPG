@@ -45,7 +45,6 @@ public class StoreManager : MonoBehaviour
     private void Start()
     {
         InitNetworkService();
-        OpenStore("TestID_01");
     }
 
 
