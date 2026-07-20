@@ -1848,7 +1848,6 @@ GameObject:
   - component: {fileID: 6807071886722055244}
   - component: {fileID: 3345644412334732061}
   - component: {fileID: 1725045101000537615}
-  - component: {fileID: 5242954883320343595}
   m_Layer: 5
   m_Name: StorePopup
   m_TagString: Untagged
@@ -1941,26 +1940,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &5242954883320343595
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6956870311580796938}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd7d0db32ef511c45ae21834811331bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::StoreView
-  SlotPrefab: {fileID: 126053525718756242, guid: f858ba2146e3c684b901c557b82d73ee, type: 3}
-  EquipmentSlot: {fileID: 3780094653125706747}
-  ConsumableSlot: {fileID: 2198694799016222933}
-  FirstEmptySlot: {fileID: 5237264711191220355}
-  SecondEmptySlot: {fileID: 1362189180524147399}
-  TextMesh_Gold: {fileID: 797705377174388678}
-  Button_Exit: {fileID: 2081969620660281662}
-  Button_Buy: {fileID: 8759565599297480214}
 --- !u!1 &7418066981126484701
 GameObject:
   m_ObjectHideFlags: 0

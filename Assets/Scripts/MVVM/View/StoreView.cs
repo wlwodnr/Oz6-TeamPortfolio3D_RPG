@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class StoreView : MonoBehaviour
 {
+    [SerializeField] ItemDetailView ItemDetailView;
     [SerializeField] GameObject SlotPrefab;
     [SerializeField] RectTransform EquipmentSlot;
     [SerializeField] RectTransform ConsumableSlot;
@@ -24,6 +25,7 @@ public class StoreView : MonoBehaviour
         _vm = vm;
         _vm.OnGoldChanged += OnGoldChanged_View;
         _vm.OnSlotChanged += OnSlotChanged_View;
+        _vm.OnSelectChanged += OnSelectChanged_View;
         _vm.InvokeOnceOnInit();
         RefreshCoins();
         Button_Buy.onClick.AddListener(OnBuyBtnClicked);
@@ -36,6 +38,7 @@ public class StoreView : MonoBehaviour
         {
             _vm.OnSlotChanged -= OnSlotChanged_View;
             _vm.OnGoldChanged -= OnGoldChanged_View;
+            _vm.OnSelectChanged -= OnSelectChanged_View;
         }
     }
 
@@ -58,6 +61,11 @@ public class StoreView : MonoBehaviour
         {
             RefreshCoins();
         }
+    }
+
+    public void OnSelectChanged_View(string itemId)
+    {
+        ItemDetailView.Bind(itemId);
     }
 
 

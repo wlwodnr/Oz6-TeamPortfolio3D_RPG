@@ -41,6 +41,7 @@ public class SlotViewModel : INotifyPropertyChanged
         {
             _isSelected = value;
             OnPropertyChanged(nameof(IsSelected));
+            Debug.Log($"[SlotViewModel]{ItemId} {IsSelected}");
         }
     }
 
@@ -54,6 +55,11 @@ public class SlotViewModel : INotifyPropertyChanged
     public void ButtonClicked()
     {
         OnSelected?.Invoke(this, IsSelected);
+    }
+
+    public void OnSoldOut()
+    {
+        OnSelected?.Invoke(this, true);
     }
 
     public long GetSlotId()

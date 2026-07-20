@@ -16,7 +16,7 @@ public class StoreViewModel
 
     public event Action<string, long> OnSlotChanged;
     public event Action<string> OnGoldChanged;
-    public event Action<string> OnItemChanged;
+    public event Action<string> OnSelectChanged;
 
     public int Coins
     {
@@ -50,8 +50,11 @@ public class StoreViewModel
             {
                 _selectedSlot.IsSelected = false;
             }
+
             _selectedSlot = slot;
             _selectedSlot.IsSelected = true;
+
+            OnSelectChanged?.Invoke(_selectedSlot.ItemId);
         }
         else
         {
@@ -66,6 +69,7 @@ public class StoreViewModel
                 slot.IsSelected = false;
                 _selectedSlot = null;
             }
+            OnSelectChanged?.Invoke(null);
         }
     }
 
