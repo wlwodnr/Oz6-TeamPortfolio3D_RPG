@@ -10,7 +10,6 @@ public class InventoryUI : UIBase
     [SerializeField] private List<InventorySlotUI> _fixedSlotList = new List<InventorySlotUI>();
 
     private InventoryViewModel _invenVm;
-    private InventorySlotContainerViewModel _slotContainerVm;
 
     private void OnEnable()
     {
@@ -120,7 +119,7 @@ public class InventoryUI : UIBase
 
     private void RequestSelectedUseItem()
     {
-        var selected = _slotContainerVm?.GetSelectedSlot();
+        var selected = _invenVm?.SelectedSlot;
         if (selected == null) return;
 
         NetworkManager.Inst.InventoryService.RequestUseItem(selected.GetSlotId());
