@@ -12,7 +12,7 @@ public class InventorySlotUI : MonoBehaviour
     [SerializeField] private Image Image_Frame;
     [SerializeField] private Image Image_Selected;
 
-    private SlotViewModel _vm;
+    private InventorySlotViewModel _vm;
 
     public long SlotItemUniqueId { get; private set; }
     public bool IsUsableItem { get; private set; }
@@ -32,7 +32,7 @@ public class InventorySlotUI : MonoBehaviour
         UnbindViewModel();
     }
 
-    public void BindSlotViewModel(SlotViewModel slotVm)
+    public void BindSlotViewModel(InventorySlotViewModel slotVm)
     {
         UnbindViewModel();
 
@@ -62,13 +62,16 @@ public class InventorySlotUI : MonoBehaviour
     {
         switch (e.PropertyName)
         {
-            case nameof(SlotViewModel.ItemId):
-                SetIcon(_vm.ItemId);
+            case nameof(InventorySlotViewModel.ItemId):
+                UpdateItemIcon();
                 break;
-            case nameof(SlotViewModel.Count):
-                Text_StackCount.text = $"{_vm.Count}";
+            case nameof(InventorySlotViewModel.Count):
+                if (Text_StackCount != null)
+                {
+                    Text_StackCount.text = _vm.Count > 1 ? $"{_vm.Count}" : string.Empty;
+                }
                 break;
-            case nameof(SlotViewModel.IsSelected):
+            case nameof(InventorySlotViewModel.IsSelected):
                 if (Image_Selected != null)
                 {
                     Image_Selected.gameObject.SetActive(_vm.IsSelected);
@@ -77,35 +80,23 @@ public class InventorySlotUI : MonoBehaviour
         }
     }
 
-    public void SetIcon(string itemDataId)
+    public void UpdateItemIcon()
     {
-        var itemData = GameDataManager.Instance.GetItemData(itemDataId);
-        if (itemData == null)
-        {
-            Debug.LogWarning($"Item 데이터를 불러올 수 없습니다! 경로:{itemDataId}");
-            return;
-        }
-        string iconPath = itemData.IconPath;
-        if (string.IsNullOrEmpty(iconPath) == true)
-        {
-            Debug.LogWarning($"Item 데이터에 아이콘 경로가 존재하지 않습니다.");
-            return;
-        }
-        IsUsableItem = (string.IsNullOrEmpty(itemData.UseItemType) == false);
-        // + Addressable을 적용하면서 비동기로 바뀌었다
-        //ResourceManager.Inst.LoadSprite(iconPath, (sprite) => {
-        //    Image_Icon.sprite = sprite;
-        //});
-        //GameUtil.LoadAndSetSpriteImage(Image_Icon, iconPath).Forget();
-        //var sprite = GameUtil.LoadSpriteCanBeNull(iconPath);
-        //if(sprite == null)
-        //{
-        //    Debug.LogWarning($"Sprite를 불러올 수 없습니다! 경로:{iconPath}");
-        //    return;
-        //}
-        //Image_Icon.sprite = sprite;
-    }
+        if (_vm == null || Image_Icon == null) return;
 
+        Sprite iconSprite = _vm.GetItemIconImage();
+
+        if (iconSprite != null && !string.IsNullOrEmpty(_vm.ItemId))
+        {
+            Image_Icon.sprite = iconSprite;
+            Image_Icon.enabled = true;
+        }
+        else
+        {
+            Image_Icon.sprite = null;
+            Image_Icon.enabled = false;
+        }
+    }
 
     public void OnClick_SelectItem()
     {
@@ -120,10 +111,18 @@ public class InventorySlotUI : MonoBehaviour
             _vm.IsSelected = false;
         }
         UnbindViewModel();
+
         SlotItemUniqueId = 0;
         IsUsableItem = false;
-        if (Image_Icon != null) Image_Icon.sprite = null;
-        if (Text_StackCount != null) Text_StackCount.text = string.Empty;
+
+        if (Image_Icon != null)
+        {
+            Image_Icon.sprite = null;
+        }
+        if (Text_StackCount != null)
+        {
+            Text_StackCount.text = string.Empty;
+        } 
         gameObject.SetActive(false);
     }
 }

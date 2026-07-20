@@ -18,7 +18,7 @@ public class PlayerStatInfoUI : UIBase
     {
         Btn_Close.BindOnClickButtonEvent(OnClick_ClosePopup);
 
-        var statVm = NetworkManager.Inst.LocalPlayerService.GetLocalPlayerStatViewModel();
+        var statVm = NetworkManager.Inst.LocalPlayerService.GetLocalPlayerStatModel();
         if (statVm != null)
         {
             BindViewModel(statVm);
@@ -49,9 +49,9 @@ public class PlayerStatInfoUI : UIBase
     {
         switch (e.PropertyName)
         {
-            case nameof(PlayerStatViewModel.AtkDamage):
+            case nameof(PlayerStatViewModel.AttackPower):
                 {
-                    Text_Atk.text = $"Atk : {_statVm.AtkDamage}";
+                    Text_Atk.text = $"Atk : {_statVm.AttackPower}";
                 }
             break;
             case nameof(PlayerStatViewModel.MaxHP):
@@ -66,9 +66,9 @@ public class PlayerStatInfoUI : UIBase
 
                 }
             break;
-            case nameof(PlayerStatViewModel.AtkSpeed):
+            case nameof(PlayerStatViewModel.AttackSpeed):
                 {
-                    Text_AtkSpeed.text = $"AtkSpd : {_statVm.AtkSpeed}";
+                    Text_AtkSpeed.text = $"AtkSpd : {_statVm.AttackSpeed}";
                 }
             break;
             case nameof(PlayerStatViewModel.SkillPoint):

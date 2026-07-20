@@ -7,79 +7,54 @@ public class PlayerStatViewModel : ViewModelBase
     public PlayerStatViewModel(PlayerModel playerModel)
     {
         _playerModel = playerModel;
+        _playerModel.OnPlayerStatsChanged += HandleStatsChanged;
+        _playerModel.OnPlayerInfoChanged += HandleInfoChanged;
     }
 
     public void InvokeOnceOnInit()
     {
-        OnPropertyChanged(nameof(AtkDamage));
+        OnPropertyChanged(nameof(AttackPower));
         OnPropertyChanged(nameof(MaxHP));
         OnPropertyChanged(nameof(MaxMP));
-        OnPropertyChanged(nameof(AtkSpeed));
+        OnPropertyChanged(nameof(AttackSpeed));
         OnPropertyChanged(nameof(SkillPoint));
     }
 
-    public float AtkDamage
+    private void HandleStatsChanged(string changedType)
     {
-        get => _playerModel.Info.AtkDamage;
-        set
+        switch (changedType)
         {
-            if (_playerModel.Info.AtkDamage != value)
-            {
-                _playerModel.Info.AtkDamage = value;
-                OnPropertyChanged(nameof(AtkDamage));
-            }
-        }
-    }
-
-    public float MaxHP
-    {
-        get => _playerModel.Info.MaxHP;
-        set
-        {
-            if (_playerModel.Info.MaxHP != value)
-            {
-                _playerModel.Info.MaxHP = value;
+            case nameof(StatType.AttackPower):
+                OnPropertyChanged(nameof(AttackPower));
+                break;
+            case nameof(StatType.MaxHP):
                 OnPropertyChanged(nameof(MaxHP));
-            }
-        }
-    }
-
-    public float MaxMP
-    {
-        get => _playerModel.Info.MaxMP;
-        set
-        {
-            if (_playerModel.Info.MaxMP != value)
-            {
-                _playerModel.Info.MaxMP = value;
+                break;
+            case nameof(StatType.MaxMP):
                 OnPropertyChanged(nameof(MaxMP));
-            }
+                break;
+            case nameof(StatType.AttackSpeed):
+                OnPropertyChanged(nameof(AttackSpeed));
+                break;
         }
     }
 
-    public float AtkSpeed
+    private void HandleInfoChanged(string changedType)
     {
-        get => _playerModel.Info.AtkSpeed;
-        set
+        if (changedType == nameof(SkillPoint))
         {
-            if (_playerModel.Info.AtkSpeed != value)
-            {
-                _playerModel.Info.AtkSpeed = value;
-                OnPropertyChanged(nameof(AtkSpeed));
-            }
+            OnPropertyChanged(nameof(SkillPoint));
         }
     }
 
     public int SkillPoint
     {
         get => _playerModel.Info.SkillPoint;
-        set
-        {
-            if (_playerModel.Info.SkillPoint != value)
-            {
-                _playerModel.Info.SkillPoint = value;
-                OnPropertyChanged(nameof(SkillPoint));
-            }
-        }
+        set { if (_playerModel.Info.SkillPoint != value) _playerModel.Info.SkillPoint = value; }
     }
+
+    public float AttackPower => _playerModel.GetStatValue(StatType.AttackPower);
+    public float MaxHP => _playerModel.GetStatValue(StatType.MaxHP);
+    public float MaxMP => _playerModel.GetStatValue(StatType.MaxMP);
+    public float AttackSpeed => _playerModel.GetStatValue(StatType.AttackSpeed);
 }

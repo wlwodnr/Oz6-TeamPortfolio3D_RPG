@@ -7,9 +7,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GroundCheck _groundCheck;
     [SerializeField] public float MoveSpeed = 10;
     [SerializeField] public float JumpPower = 5;
+    [SerializeField] private float InteractRange = 2;
     public int _jumpCount;
     private Camera _mainCamera;
     private Animator _anim;
+    private Transform _currentInteractionTarget;
 
     private Rigidbody _rb;
 
@@ -28,12 +30,28 @@ public class PlayerController : MonoBehaviour
         _groundCheck.OnGrounded += HandleGrounded;
         InputManager.OnJumpPressed += HandleJumpPressed;
         InputManager.OnAttackPressed += HandleAttackPressed;
+        InputManager.OnInteractPressed += HandleInteractPressed;
     }
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
         _mainCamera = Camera.main;
         _anim = GetComponent<Animator>();
+    }
+
+    private void Update()
+    {
+        if(_currentInteractionTarget == null)
+        {
+            return;
+        }
+
+        float distance = Vector3.Distance(transform.position, _currentInteractionTarget.position);
+        if(distance > InteractRange)
+        {
+            UIManager.Instance.CloseContentUI(UIType.DialogueUI);
+            _currentInteractionTarget = null;
+        }
     }
 
     void FixedUpdate()
@@ -137,6 +155,25 @@ public class PlayerController : MonoBehaviour
             direction.y = 0f;
             DamageInfo dmgInfo = new DamageInfo(_temporaryAttackDamage, false, Vector3.zero, direction, transform.gameObject);
             GameObjectManager.Instance.RequestTakeDamage(targetInstanceId, dmgInfo);
+        }
+    }
+
+    private void HandleInteractPressed()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, InteractRange);
+
+        foreach(Collider hitCollider in hitColliders)
+        {
+            IInteractable interactable = hitCollider.GetComponentInParent<IInteractable>();
+
+            if(interactable == null || interactable.CanInteract == false)
+            {
+                continue;
+            }
+
+            interactable.Interact();
+            _currentInteractionTarget = hitCollider.transform;
+            break;
         }
     }
 

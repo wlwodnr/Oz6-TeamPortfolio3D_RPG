@@ -9,6 +9,7 @@ public class EnemyAI : MonoBehaviour
 
     //1번 EnemyEntity 라는 컴포넌트에서 Enemy의 InstanceId 값을 저장중. 이 값을 갖고오도록 우선적으로 시킴.
     [SerializeField] private EnemyEntity Entity_Enemy;
+    [SerializeField] private Animator Animator_Enemy;
 
     private string _monsterDataId;
     private MonsterData _monsterData;
@@ -250,6 +251,12 @@ public class EnemyAI : MonoBehaviour
 
         
     }
+
+    public Animator GetEntityAnimator()
+    {
+        return Animator_Enemy;
+    }
+
 
     // BT에서 호출할 메서드들
 

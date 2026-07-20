@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 
 [System.Serializable]
-public class ActiveSkillData : GameDataBase, ISkillData
+public class ActiveSkillData : GameDataBase
 {
     public string Name;
     public string Description;
@@ -18,7 +18,7 @@ public class ActiveSkillData : GameDataBase, ISkillData
     public float AttackRange;
     public int TargetCount;
     public string CrowdControl;
-    object ISkillData.Id => Id;
-    int ISkillData.RequiredLevel => RequiredLevel;
-    string[] ISkillData.RequiredSkill => RequiredSkill;
+    public float DashForce;
+    public float HitInterval;
+    public float AttackHeight;
 }

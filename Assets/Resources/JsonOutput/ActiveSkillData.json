@@ -9,14 +9,17 @@
     "RequiredSkill": [
       "[Active_H_01]"
     ],
-    "CoolDown": null,
+    "CoolDown": 1,
     "Cost": 3,
-    "CastTime": null,
+    "CastTime": 0.1,
     "AttackRange": null,
     "DamageMultiplier": 0,
     "MultiHitPercentList": 0,
     "TargetCount": null,
-    "CrowdControl": null
+    "CrowdControl": null,
+    "DashForce": null,
+    "HitInterval": null,
+    "AttackHeight": null
   },
   {
     "Id": "Active_H_01",
@@ -28,14 +31,17 @@
     "RequiredSkill": [
       "[]"
     ],
-    "CoolDown": null,
+    "CoolDown": 0.5,
     "Cost": 6,
-    "CastTime": null,
-    "AttackRange": null,
+    "CastTime": 0.22,
+    "AttackRange": 1.2,
     "DamageMultiplier": 1.2,
     "MultiHitPercentList": 0,
-    "TargetCount": null,
-    "CrowdControl": null
+    "TargetCount": 4,
+    "CrowdControl": "KnockBack",
+    "DashForce": null,
+    "HitInterval": 0.25,
+    "AttackHeight": 1.2
   },
   {
     "Id": "Active_B_01",
@@ -47,14 +53,17 @@
     "RequiredSkill": [
       "[Active_H_01]"
     ],
-    "CoolDown": null,
+    "CoolDown": 0.5,
     "Cost": 6,
-    "CastTime": null,
-    "AttackRange": null,
+    "CastTime": 0.22,
+    "AttackRange": 1.2,
     "DamageMultiplier": 1.4,
     "MultiHitPercentList": 0,
-    "TargetCount": null,
-    "CrowdControl": null
+    "TargetCount": 1,
+    "CrowdControl": "KnockBack",
+    "DashForce": null,
+    "HitInterval": 0.25,
+    "AttackHeight": 1.2
   },
   {
     "Id": "Active_02",
@@ -66,14 +75,39 @@
     "RequiredSkill": [
       "[]"
     ],
-    "CoolDown": null,
+    "CoolDown": 0,
     "Cost": 5,
-    "CastTime": null,
+    "CastTime": 0.1,
     "AttackRange": null,
-    "DamageMultiplier": 0,
+    "DamageMultiplier": 1.2,
     "MultiHitPercentList": 0,
     "TargetCount": null,
-    "CrowdControl": null
+    "CrowdControl": null,
+    "DashForce": 15,
+    "HitInterval": null,
+    "AttackHeight": null
+  },
+  {
+    "Id": "Active_03",
+    "Name": "쓰러스트 차지",
+    "Description": "전방으로 돌진하며 진행 방향의 적들을 밀어낸다.",
+    "IconPath": null,
+    "TargetMode": 0,
+    "RequiredLevel": 10,
+    "RequiredSkill": [
+      "[]"
+    ],
+    "CoolDown": 2,
+    "Cost": 20,
+    "CastTime": 0.5,
+    "AttackRange": 2,
+    "DamageMultiplier": 1,
+    "MultiHitPercentList": 0,
+    "TargetCount": 8,
+    "CrowdControl": "KnockBack",
+    "DashForce": 20,
+    "HitInterval": null,
+    "AttackHeight": 2
   },
   {
     "Id": "Mode_02",
@@ -86,14 +120,17 @@
       "[Mode_01",
       "Active_H_02]"
     ],
-    "CoolDown": null,
+    "CoolDown": 1,
     "Cost": 4,
-    "CastTime": null,
+    "CastTime": 0.1,
     "AttackRange": null,
     "DamageMultiplier": 0,
     "MultiHitPercentList": 0,
     "TargetCount": null,
-    "CrowdControl": null
+    "CrowdControl": null,
+    "DashForce": null,
+    "HitInterval": null,
+    "AttackHeight": null
   },
   {
     "Id": "Active_H_02",
@@ -105,14 +142,17 @@
     "RequiredSkill": [
       "[Active_H_01]"
     ],
-    "CoolDown": null,
+    "CoolDown": 0.5,
     "Cost": 10,
-    "CastTime": null,
-    "AttackRange": null,
+    "CastTime": 0.22,
+    "AttackRange": 1.4,
     "DamageMultiplier": 1.4,
     "MultiHitPercentList": 0,
-    "TargetCount": null,
-    "CrowdControl": null
+    "TargetCount": 6,
+    "CrowdControl": "KnockBack",
+    "DashForce": null,
+    "HitInterval": 0.17,
+    "AttackHeight": 1.4
   },
   {
     "Id": "Active_B_02",
@@ -124,13 +164,16 @@
     "RequiredSkill": [
       "[Active_H_02]"
     ],
-    "CoolDown": null,
+    "CoolDown": 0.5,
     "Cost": 10,
-    "CastTime": null,
-    "AttackRange": null,
+    "CastTime": 0.22,
+    "AttackRange": 1.4,
     "DamageMultiplier": 1.7,
     "MultiHitPercentList": 0,
-    "TargetCount": null,
-    "CrowdControl": null
+    "TargetCount": 1,
+    "CrowdControl": "KnockBack",
+    "DashForce": null,
+    "HitInterval": 0.17,
+    "AttackHeight": 1.4
   }
 ]

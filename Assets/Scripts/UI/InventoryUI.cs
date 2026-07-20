@@ -9,8 +9,7 @@ public class InventoryUI : UIBase
     [SerializeField] private UIButton Button_CloseSelfAllArea;
     [SerializeField] private List<InventorySlotUI> _fixedSlotList = new List<InventorySlotUI>();
 
-    private InvnetoryViewModel _invenVm;
-    private SlotContainerViewModel _slotContainerVm;
+    private InventoryViewModel _invenVm;
 
     private void OnEnable()
     {
@@ -20,6 +19,8 @@ public class InventoryUI : UIBase
 
         SetInventoryItemSlotOnEnable();
         ActiveUseSelectItemButton(false);
+
+        //SetCursorUnlock(true);
     }
 
     private void OnDisable()
@@ -27,15 +28,15 @@ public class InventoryUI : UIBase
         Button_UseSelectItem.UnBindAllOnClickButtonEvent();
         Button_CloseSelf.UnBindAllOnClickButtonEvent();
         Button_CloseSelfAllArea.UnBindAllOnClickButtonEvent();
+
+        UnbindInventoryViewModel();
+
+        //SetCursorUnlock(false);
     }
 
     private void OnDestroy()
     {
-        if (_invenVm != null)
-        {
-            _invenVm.PropertyChanged -= OnPropChanged_InvenView;
-        }
-        DisposeSlotContainer();
+        UnbindInventoryViewModel();
     }
 
     private void SetInventoryItemSlotOnEnable()
@@ -46,47 +47,41 @@ public class InventoryUI : UIBase
 
     private void FindInventoryViewModelAndBind()
     {
-        var invenVm = NetworkManager.Inst.InventoryService.GetLocalPlayerInvnetoryViewModel();
-        if (invenVm == null || invenVm.ItemList == null || invenVm.ItemList.Count == 0)
+        var invenModel = NetworkManager.Inst.InventoryService.GetLocalPlayerInventoryModel();
+        if (invenModel == null)
         {
             Debug.LogWarning("보유한 아이템이 없습니다!");
             return;
         }
 
-        // 중복 구독 방지를 위해 기존 이벤트 해제 후 재구독
-        if (_invenVm != null)
-        {
-            _invenVm.PropertyChanged -= OnPropChanged_InvenView;
-        }
+        UnbindInventoryViewModel();
 
-        _invenVm = invenVm;
+        _invenVm = new InventoryViewModel();
+        _invenVm.Initialize(invenModel);
         _invenVm.PropertyChanged += OnPropChanged_InvenView;
-        _invenVm.InvokeOnceOnInit();
+
+        ResetItemSlotAndCreateAll();
     }
 
     private void OnPropChanged_InvenView(object sender, PropertyChangedEventArgs e)
     {
-        switch (e.PropertyName)
+        if (e.PropertyName == nameof(InventoryViewModel.SlotViewModels))
         {
-            case nameof(InvnetoryViewModel.ItemList):
-            case "ItemListAdded":
-            case "ItemListRemoved":
-                ResetItemSlotAndCreateAll();
-                break;
-            case "ItemListUpdated":
-
-                break;
+            ResetItemSlotAndCreateAll();
         }
     }
 
     private void ResetItemSlotAndCreateAll()
     {
         RemoveAllItemSlot();
-        DisposeSlotContainer();
+        ActiveUseSelectItemButton(false);
 
-        var slotVmList = new List<SlotViewModel>();
+        if (_invenVm == null || _invenVm.SlotViewModels == null) return;
+
+        var slotVmList = new List<InventorySlotViewModel>();
+        
         int slotIndex = 0;
-        foreach (var itemKv in _invenVm.ItemList)
+        foreach (var itemKv in _invenVm.SlotViewModels)
         {
             if (slotIndex >= _fixedSlotList.Count) break;
 
@@ -98,21 +93,19 @@ public class InventoryUI : UIBase
 
             slotIndex++;
         }
-
-        _slotContainerVm = new SlotContainerViewModel(slotVmList);
-        _slotContainerVm.OnSelectionChanged += OnSlotSelected;
     }
 
-    private void OnSlotSelected(SlotViewModel selectedVm)
+    private void OnSlotSelected(InventorySlotViewModel selectedVm)
     {
-        if (selectedVm == null)
+        if (selectedVm == null || string.IsNullOrEmpty(selectedVm.ItemId))
         {
             ActiveUseSelectItemButton(false);
             return;
         }
 
-        var itemData = GameDataManager.Instance.GetItemData(selectedVm.ItemId);
-        bool isUsable = (itemData != null && string.IsNullOrEmpty(itemData.UseItemType) == false);
+        var itemData = ItemDataBase.GetItemData(selectedVm.ItemId);
+        // IUseable 인터페이스 구현 여부로 사용 가능 아이템 판단
+        bool isUsable = (itemData is IUseable);
         ActiveUseSelectItemButton(isUsable);
     }
 
@@ -126,7 +119,7 @@ public class InventoryUI : UIBase
 
     private void RequestSelectedUseItem()
     {
-        var selected = _slotContainerVm?.GetSelectedSlot();
+        var selected = _invenVm?.SelectedSlot;
         if (selected == null) return;
 
         NetworkManager.Inst.InventoryService.RequestUseItem(selected.GetSlotId());
@@ -152,13 +145,14 @@ public class InventoryUI : UIBase
             }
         }
     }
-    private void DisposeSlotContainer()
+    private void UnbindInventoryViewModel()
     {
-        if (_slotContainerVm != null)
+        if (_invenVm != null)
         {
-            _slotContainerVm.OnSelectionChanged -= OnSlotSelected;
-            _slotContainerVm.Dispose();
-            _slotContainerVm = null;
+            _invenVm.PropertyChanged -= OnPropChanged_InvenView;
+            _invenVm.OnSelectionChanged -= OnSlotSelected;
+            _invenVm.Dispose();
+            _invenVm = null;
         }
     }
 }
