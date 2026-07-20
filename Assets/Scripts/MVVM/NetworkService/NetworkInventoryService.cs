@@ -22,7 +22,7 @@ public class NetworkInventoryService
         return _localPlayerInventoryModel;
     }
 
-    public bool AddItem(string itemDataId, int addItemCount)
+    public bool ReuestAddItem(string itemDataId, int addItemCount)
     {
         var model = GetLocalPlayerInventoryModel();
         
