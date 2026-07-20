@@ -7,10 +7,10 @@ public class MapRootController : MonoBehaviour
     [SerializeField] private string _mapId;
 
     [Header("플레이어 생성 위치")]
-    [SerializeField] private List<MapSpawnPoint> _playerSpawnPointList;
+    //[SerializeField] private List<MapSpawnPoint> _playerSpawnPointList;
 
     [Header("NPC 스폰 설정")]
-    [SerializeField] private List<NPCSpawnSpot> _npcSpawnSpotList;
+    //[SerializeField] private List<NPCSpawnSpot> _npcSpawnSpotList;
 
     public string MapId
     {
@@ -20,33 +20,33 @@ public class MapRootController : MonoBehaviour
         }
     }
 
-    public void ActivateMap()
-    {
-        gameObject.SetActive(true);
+    //public void ActivateMap()
+    //{
+    //    gameObject.SetActive(true);
 
-        if (Floor_Dungeon != null)
-        {
-            Floor_Dungeon.ActivateFloor();
-        }
+    //    if (Floor_Dungeon != null)
+    //    {
+    //        Floor_Dungeon.ActivateFloor();
+    //    }
 
-        ActivateNpcSpawnSpots();
-    }
+    //    ActivateNpcSpawnSpots();
+    //}
 
-    public void DeactivateMap()
-    {
-        if (Floor_Dungeon != null)
-        {
-            Floor_Dungeon.DeactivateFloor();
-        }
+    //public void DeactivateMap()
+    //{
+    //    if (Floor_Dungeon != null)
+    //    {
+    //        Floor_Dungeon.DeactivateFloor();
+    //    }
 
-        DeactivateNpcSpawnSpots();
+    //    DeactivateNpcSpawnSpots();
 
-        gameObject.SetActive(false);
-    }
+    //    gameObject.SetActive(false);
+    //}
 
-    public Transform GetPlayerSpawnPointCanBeNull(
-        string spawnPointId)
-    {
+    ////public Transform GetPlayerSpawnPointCanBeNull(
+    //    string spawnPointId)
+    //{
 
-    }
+    //}
 }

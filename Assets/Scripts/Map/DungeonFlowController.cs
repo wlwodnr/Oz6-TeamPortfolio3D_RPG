@@ -10,6 +10,11 @@ public class DungeonFlowController : MonoBehaviour
     [SerializeField] private DungeonFloorController FloorStart;
 
     [Header("플레이어 설정")]
+    [SerializeField] private GameObject Prefab_Player;
+    [SerializeField] private string _playerDataId = "player_main";
+    [SerializeField] private CameraController Controller_Camera;
+
+    [Header("플레이어 런타임 참조")]
     [SerializeField] private Transform transformPlayer;
 
     [Header("포탈 중복 이동 방지")]
@@ -49,6 +54,8 @@ public class DungeonFlowController : MonoBehaviour
 
     private void Start()
     {
+        InitializePlayer();
+
         InitializeDungeon();
     }
 
@@ -87,9 +94,17 @@ public class DungeonFlowController : MonoBehaviour
             Debug.LogWarning($"DungeonFlowController: [{gameObject.name}] 시작 층이 연결되지 않았습니다.", this);
         }
 
-        if(transformPlayer == null)
+        if (Prefab_Player == null)
         {
-            Debug.LogWarning($"DungeonFlowController: [{gameObject.name}] 플레이어 Transform이 연결되지 않았습니다.", this);
+            Debug.LogWarning($"DungeonFlowController: [{gameObject.name}] Player 프리팹이 연결되지 않았습니다.", this);
+        }
+        if (string.IsNullOrWhiteSpace(_playerDataId))
+        {
+            Debug.LogWarning($"DungeonFlowController: [{gameObject.name}] PlayerDataId가 비어 있습니다.", this);
+        }
+        if (Controller_Camera == null)
+        {
+            Debug.LogWarning($"DungeonFlowController: [{gameObject.name}] CameraController가 연결되지 않았습니다.", this);
         }
     }
 
@@ -136,6 +151,112 @@ public class DungeonFlowController : MonoBehaviour
 
         Debug.Log($"DungeonFlowController: [{gameObject.name}] 던전 초기화 완료. 시작 층: {FloorStart.FloorId}", this);
     }
+
+    private void InitializePlayer()
+    {
+
+        if (transformPlayer != null)
+        {
+            Debug.LogWarning($"DungeonFlowController: [{gameObject.name}] " +
+                $"이미 Player Transform이 연결되어 있어 Player를 새로 생성하지 않습니다.", this);
+
+            ConnectPlayerToCamera();
+            return;
+        }
+
+        if (GameObjectManager.Instance == null)
+        {
+            Debug.LogWarning($"DungeonFlowController: [{gameObject.name}] " +
+                "GameObjectManager가 없어 Player를 생성할 수 없습니다.", this);
+            return;
+        }
+
+        if (Prefab_Player == null)
+        {
+            Debug.LogWarning($"DungeonFlowController: [{gameObject.name}] " +
+                "Player 프리팹이 없어 Player를 생성할 수 없습니다.", this);
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(_playerDataId))
+        {
+            Debug.LogWarning($"DungeonFlowController: [{gameObject.name}] " +
+                "PlayerDataId가 비어 있어 Player를 생성할 수 없습니다.", this);
+            return;
+        }
+
+        if (FloorStart == null)
+        {
+            Debug.LogWarning($"DungeonFlowController: [{gameObject.name}] " +
+                "시작 층이 없어 Player 생성 위치를 결정할 수 없습니다.", this);
+            return;
+        }
+
+        if (FloorStart.EntrancePoint == null)
+        {
+            Debug.LogWarning($"DungeonFlowController: [{gameObject.name}] " +
+                "시작 층의 EntrancePoint가 없어 Player를 생성할 수 없습니다.", this);
+            return;
+        }
+
+        Vector3 spawnPosition = FloorStart.EntrancePoint.position;
+        Quaternion spawnRotation = FloorStart.EntrancePoint.rotation;
+
+        
+        int playerInstanceId =
+            GameObjectManager.Instance.RequestSpawnGameObject(
+                Prefab_Player,
+                spawnPosition,
+                spawnRotation,
+                _playerDataId
+            );
+
+        if (playerInstanceId < 0)
+        {
+            Debug.LogWarning($"DungeonFlowController: [{gameObject.name}] Player 생성 요청에 실패했습니다.", this);
+            return;
+        }
+
+        GameObject playerObject = GameObjectManager.Instance.GetGameObjectCanBeNull(playerInstanceId);
+
+        if (playerObject == null)
+        {
+            Debug.LogWarning($"DungeonFlowController: [{gameObject.name}] 생성된 Player를 가져올 수 없습니다. " +
+                $"InstanceId: {playerInstanceId}", this);
+            return;
+        }
+
+        transformPlayer = playerObject.transform;
+
+        ConnectPlayerToCamera();
+
+        Debug.Log($"DungeonFlowController: [{gameObject.name}] Player 동적 생성 완료. " +
+            $"InstanceId: {playerInstanceId}, PlayerDataId: {_playerDataId}", this);
+    }
+
+
+    private void ConnectPlayerToCamera()
+    {
+        if (Controller_Camera == null)
+        {
+            Debug.LogWarning($"DungeonFlowController: [{gameObject.name}] " +
+                "CameraController가 없어 Player를 카메라에 연결할 수 없습니다.", this);
+
+            return;
+        }
+
+        if (transformPlayer == null)
+        {
+            Debug.LogWarning($"DungeonFlowController: [{gameObject.name}] " +
+                "Player Transform이 없어 카메라 Target을 연결할 수 없습니다.", this);
+
+            return;
+        }
+        Controller_Camera.target = transformPlayer;
+    }
+
+
+
 
     public bool RequestMoveToFloor(DungeonFloorController targetFloor)
     {
