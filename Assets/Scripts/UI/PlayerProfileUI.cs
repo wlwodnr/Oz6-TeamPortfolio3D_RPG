@@ -20,7 +20,7 @@ public class PlayerProfileUI : UIBase
     {
         Btn_OpenStatInfoUI.BindOnClickButtonEvent(OnClick_OpenPlayerStatInfoUI);
 
-        var profileVm = NetworkManager.Inst.LocalPlayerService.GetLocalPlayerProfileViewModel();
+        var profileVm = NetworkManager.Inst.LocalPlayerService.GetLocalPlayerProfileModel();
         if (profileVm != null)
         {
             BindViewModel(profileVm);

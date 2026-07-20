@@ -8,6 +8,8 @@ public class MVVMTestUI : UIBase
     [SerializeField] private UIButton Button_AddStatAtk;
     [SerializeField] private UIButton Button_AddStatHP;
     [SerializeField] private UIButton Button_AddStatMP;
+    [SerializeField] private UIButton button_AddItem;
+    [SerializeField] private UIButton button_Inventory;
 
     private void Awake()
     {
@@ -16,6 +18,8 @@ public class MVVMTestUI : UIBase
         Button_AddStatAtk.BindOnClickButtonEvent(OnClick_AddStatAtk);
         Button_AddStatHP.BindOnClickButtonEvent(OnClick_AddStatHP);
         Button_AddStatMP.BindOnClickButtonEvent(OnClick_AddStatMP);
+        button_AddItem.BindOnClickButtonEvent(OnClick_AddTestItem);
+        button_Inventory.BindOnClickButtonEvent(OnClick_OpenInventory);
     }
 
     private void OnSubmit_ChangeName(string newName)
@@ -30,7 +34,7 @@ public class MVVMTestUI : UIBase
 
     private void OnClick_AddStatAtk()
     {
-        NetworkManager.Inst.LocalPlayerService.RequestAddStatAtk(50);
+        //NetworkManager.Inst.LocalPlayerService.RequestAddStatAtkPower(50);
     }
     private void OnClick_AddStatHP()
     {
@@ -39,5 +43,15 @@ public class MVVMTestUI : UIBase
     private void OnClick_AddStatMP()
     {
         NetworkManager.Inst.LocalPlayerService.RequestChangePlayerMp(10f);
+    }
+
+    private void OnClick_AddTestItem()
+    {
+        NetworkManager.Inst.InventoryService.AddItem("Consumable_01", 1);
+    }
+
+    private void OnClick_OpenInventory()
+    {
+        UIManager.Instance.OpenContentUI(UIType.InventoryUI);
     }
 }
