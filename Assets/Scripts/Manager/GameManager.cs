@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         ChangeGameState(GameState.Title);
+        ItemDataBase.LoadAllData();
     }
 
     public void ChangeGameState(GameState nextState)

@@ -26,7 +26,7 @@ public class InputManager : MonoBehaviour
 
     private void Start()
     {
-        UpdateCursorState();
+        //UpdateCursorState();
     }
 
     void Update()
@@ -51,31 +51,31 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    public void SetCursorAndInputState(bool isOpen)
-    {
-        if (isOpen)
-        {
-            _activeUiCount++;
-        }
-        else
-        {
-            _activeUiCount = Mathf.Max(0, _activeUiCount - 1);
-        }
+    //public void SetCursorAndInputState(bool isOpen)
+    //{
+    //    if (isOpen)
+    //    {
+    //        _activeUiCount++;
+    //    }
+    //    else
+    //    {
+    //        _activeUiCount = Mathf.Max(0, _activeUiCount - 1);
+    //    }
 
-        UpdateCursorState();
-    }
+    //    UpdateCursorState();
+    //}
 
-    private void UpdateCursorState()
-    {
-        if (IsUIActive)
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
-    }
+    //private void UpdateCursorState()
+    //{
+    //    if (IsUIActive)
+    //    {
+    //        Cursor.lockState = CursorLockMode.None;
+    //        Cursor.visible = true;
+    //    }
+    //    else
+    //    {
+    //        Cursor.lockState = CursorLockMode.Locked;
+    //        Cursor.visible = false;
+    //    }
+    //}
 }
