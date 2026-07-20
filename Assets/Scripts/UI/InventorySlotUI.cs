@@ -63,7 +63,7 @@ public class InventorySlotUI : MonoBehaviour
         switch (e.PropertyName)
         {
             case nameof(InventorySlotViewModel.ItemId):
-                SetIcon(_vm.ItemId);
+                UpdateItemIcon();
                 break;
             case nameof(InventorySlotViewModel.Count):
                 if (Text_StackCount != null)
@@ -80,23 +80,21 @@ public class InventorySlotUI : MonoBehaviour
         }
     }
 
-    public void SetIcon(string itemDataId)
+    public void UpdateItemIcon()
     {
-        if (string.IsNullOrEmpty(itemDataId))
+        if (_vm == null || Image_Icon == null) return;
+
+        Sprite iconSprite = _vm.GetItemIconImage();
+
+        if (iconSprite != null && !string.IsNullOrEmpty(_vm.ItemId))
         {
-            IsUsableItem = false;
-            if (Image_Icon != null) Image_Icon.sprite = null;
-            return;
+            Image_Icon.sprite = iconSprite;
+            Image_Icon.enabled = true;
         }
-
-        var itemData = ItemDataBase.GetItemData(itemDataId);
-        if (itemData == null) return;
-
-        IsUsableItem = (itemData is IUseable);
-
-        if (_vm != null && Image_Icon != null)
+        else
         {
-            Image_Icon.sprite = _vm.GetItemIconImage();
+            Image_Icon.sprite = null;
+            Image_Icon.enabled = false;
         }
     }
 
