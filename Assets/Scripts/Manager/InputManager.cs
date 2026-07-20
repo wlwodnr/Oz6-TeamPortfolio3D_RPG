@@ -8,9 +8,6 @@ public class InputManager : MonoBehaviour
     public static event Action OnJumpPressed;
     public static event Action OnAttackPressed;
 
-    private int _activeUiCount = 0;
-    public bool IsUIActive => _activeUiCount > 0;
-
     private void Awake()
     {
         if(Instance == null)
@@ -21,11 +18,6 @@ public class InputManager : MonoBehaviour
         {
             Destroy(this);
         }
-    }
-
-    private void Start()
-    {
-        UpdateCursorState();
     }
 
     void Update()
@@ -45,31 +37,4 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    public void SetCursorAndInputState(bool isOpen)
-    {
-        if (isOpen)
-        {
-            _activeUiCount++;
-        }
-        else
-        {
-            _activeUiCount = Mathf.Max(0, _activeUiCount - 1);
-        }
-
-        UpdateCursorState();
-    }
-
-    private void UpdateCursorState()
-    {
-        if (IsUIActive)
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
-    }
 }
