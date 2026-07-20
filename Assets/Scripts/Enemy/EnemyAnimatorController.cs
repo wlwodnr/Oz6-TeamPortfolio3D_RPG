@@ -13,7 +13,7 @@ public enum EnemyAnimState
 
 public class EnemyAnimatorController : MonoBehaviour
 {
-    [SerializeField] private Animator Animator_Entity;
+    [SerializeField] private Animator Animator_Enemy;
 
     private EnemyAnimState _currentAnimState;
 
@@ -32,10 +32,10 @@ public class EnemyAnimatorController : MonoBehaviour
                 ResetAllAnimParameters();
                 break;
             case EnemyAnimState.Walk:
-                Animator_Entity.SetBool("IsWalk", true);
+                Animator_Enemy.SetBool("IsWalk", true);
                 break;
             case EnemyAnimState.Attack:
-                Animator_Entity.SetTrigger("IsAtk");
+                Animator_Enemy.SetBool("IsAttack", true);
                 break;
             default:
                 ResetAllAnimParameters();
@@ -45,6 +45,7 @@ public class EnemyAnimatorController : MonoBehaviour
 
     private void ResetAllAnimParameters()
     {
-
+        Animator_Enemy.SetBool("IsWalk", false);
+        Animator_Enemy.SetBool("IsDead", false);
     }
 }
