@@ -10,6 +10,8 @@ public class NetworkManager : MonoBehaviour
 
     public NetworkPlayerService LocalPlayerService { get; private set; }
     public NetworkInventoryService InventoryService { get; private set; }
+
+    public PlayerModel LocalPlayerModel; // 테스트용 임시 변수
     private void Awake()
     {
         Inst = this;
@@ -24,6 +26,9 @@ public class NetworkManager : MonoBehaviour
 
         var localPlayerModel = new PlayerModel();
         LocalPlayerService.Initialize(localPlayerModel);
+
+        //아래는 임시로 만든거!!! 나중에 합치면 지워야함
+        LocalPlayerModel = localPlayerModel;
     }
 
     //public void RequestCreateLocalPlayer()

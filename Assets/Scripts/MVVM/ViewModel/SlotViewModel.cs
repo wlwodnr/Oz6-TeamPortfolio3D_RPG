@@ -14,6 +14,7 @@ public class SlotViewModel : INotifyPropertyChanged
     public SlotViewModel(SlotModel slotmodel)
     {
         _slotModel = slotmodel;
+        _slotModel.OnSlotChanged += OnPropertyChanged;
     }
     
     public void InvokeOnceOnInit()
@@ -25,27 +26,11 @@ public class SlotViewModel : INotifyPropertyChanged
     public string ItemId
     {
         get => _slotModel.ItemId;
-        set
-        {
-            if(_slotModel.ItemId != value)
-            {
-                _slotModel.ItemId = value;
-                OnPropertyChanged(nameof(ItemId));
-            }
-        }
     }
 
     public int Count
     {
         get => _slotModel.Count;
-        set
-        {
-            if(_slotModel.Count != value && value <= ItemData.MaxCount)
-            {
-                _slotModel.Count = value;
-                OnPropertyChanged(nameof(Count));
-            }
-        }
     }
 
     private bool _isSelected;
@@ -83,6 +68,12 @@ public class SlotViewModel : INotifyPropertyChanged
     protected void OnPropertyChanged(string propertyName)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    public void Dispose()
+    {
+        _slotModel.OnSlotChanged -= OnPropertyChanged;
+        _slotModel = null;
     }
 
 }

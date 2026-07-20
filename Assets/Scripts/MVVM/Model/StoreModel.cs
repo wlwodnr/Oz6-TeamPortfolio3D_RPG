@@ -53,4 +53,13 @@ public class StoreModel
     }
 
     public IEnumerable<SlotModel> GetAllSlots() => _slots.Values;
+    public SlotModel GetSlots(long id)
+    {
+        if (_slots.ContainsKey(id) == true)
+        {
+            return _slots[id];
+        }
+
+        return null;
+    }
 }

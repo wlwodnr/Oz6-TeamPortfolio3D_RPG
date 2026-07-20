@@ -13,6 +13,7 @@ public class StoreView : MonoBehaviour
     [SerializeField] RectTransform FirstEmptySlot;
     [SerializeField] RectTransform SecondEmptySlot;
     [SerializeField] TextMeshProUGUI TextMesh_Gold;
+    [SerializeField] Button Button_Exit;
     [SerializeField] Button Button_Buy;
 
     private StoreViewModel _vm;
@@ -21,8 +22,12 @@ public class StoreView : MonoBehaviour
     public void BindViewModel(StoreViewModel vm)
     {
         _vm = vm;
+        _vm.OnGoldChanged += OnGoldChanged_View;
         _vm.OnSlotChanged += OnSlotChanged_View;
         _vm.InvokeOnceOnInit();
+        RefreshCoins();
+        Button_Buy.onClick.AddListener(OnBuyBtnClicked);
+        Button_Exit.onClick.AddListener(OnExitBtnClicked);
     }
 
     private void OnDestroy()
@@ -30,6 +35,7 @@ public class StoreView : MonoBehaviour
         if (_vm != null)
         {
             _vm.OnSlotChanged -= OnSlotChanged_View;
+            _vm.OnGoldChanged -= OnGoldChanged_View;
         }
     }
 
@@ -43,6 +49,14 @@ public class StoreView : MonoBehaviour
             case "RemoveSlot":
                 RemoveSlot(slotId);
                 break;
+        }
+    }
+
+    public void OnGoldChanged_View(string state)
+    {
+        if(state == "Coins")
+        {
+            RefreshCoins();
         }
     }
 
@@ -82,5 +96,22 @@ public class StoreView : MonoBehaviour
             slotViewDic.Remove(slotId);
             Destroy(slot.gameObject);
         }
+    }
+
+    private void RefreshCoins()
+    {
+        TextMesh_Gold.text = "Coins : " + _vm.Coins.ToString();
+    }
+
+    private void OnBuyBtnClicked()
+    {
+        _vm.OnBuyButtonClicked();
+    }
+
+    private void OnExitBtnClicked()
+    {
+        _vm.OnExitButtonClicked();
+
+        Destroy(gameObject);
     }
 }

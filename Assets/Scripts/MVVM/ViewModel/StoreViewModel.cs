@@ -2,30 +2,34 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class StoreViewModel 
 {
     private StoreModel _storeModel;
-    //private PlayerModel _playerModel;
+    private PlayerModel _playerModel;
     //private InventoryModel _inventoryModel;
 
     private Dictionary<long, SlotViewModel> _slotvmDic = new Dictionary<long, SlotViewModel>();
     private SlotViewModel _selectedSlot;
 
     public event Action<string, long> OnSlotChanged;
-    public event Action<int> OnGoldChanged;
+    public event Action<string> OnGoldChanged;
     public event Action<string> OnItemChanged;
 
-    public StoreViewModel(StoreModel storemodel)
+    public int Coins
+    {
+        get => _playerModel.Info.Coins;
+    }
+
+    public StoreViewModel(StoreModel storemodel, PlayerModel playermodel)
     {
         _storeModel = storemodel;
-        //_playerModel = playermodel;
+        _playerModel = playermodel;
         //_inventoryModel = inventorymodel;
 
-        //_playerModel.OnGoldChanged += OnGoldChanged;
-
-
+        _playerModel.OnPlayerInfoChanged += PropertyChangeHandler;
     }
     
     public void InvokeOnceOnInit()
@@ -35,6 +39,8 @@ public class StoreViewModel
             AddSlot(slotModel);
         }
     }
+
+
 
     public void SelectSlot(SlotViewModel slot, bool isSelected)
     {
@@ -84,7 +90,7 @@ public class StoreViewModel
 
         slot.OnSelected -= SelectSlot;
         _slotvmDic.Remove(slot.GetSlotId());
-        _storeModel.RemoveSlot(slot.GetSlotId());  // 나중에 이벤트로 바꾸기
+        _storeModel.RemoveSlot(slot.GetSlotId());
         OnSlotChanged?.Invoke("RemoveSlot", slot.GetSlotId());
     }
 
@@ -114,5 +120,34 @@ public class StoreViewModel
         else return null;
     }
 
+    public void OnBuyButtonClicked()
+    {
+        if (_selectedSlot == null) return;  // 슬롯이 선택 되지 않음
 
+        StoreManager.Instance.StoreService.RequestItemBuy(_selectedSlot.GetSlotId());
+    }
+
+    public void OnExitButtonClicked()
+    {
+        StoreManager.Instance.CloseStore();
+    }
+
+    private void PropertyChangeHandler(string state)
+    {
+        OnGoldChanged?.Invoke(state);
+    }
+
+    public void Dispose()
+    {
+        _playerModel.OnPlayerInfoChanged -= OnGoldChanged;
+        _storeModel = null;
+        _playerModel = null;
+        _selectedSlot = null;
+
+        foreach (var slotvm in _slotvmDic)
+        {
+            slotvm.Value.Dispose();
+        }
+        _slotvmDic.Clear();
+    }
 }
