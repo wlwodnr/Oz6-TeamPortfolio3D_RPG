@@ -26,6 +26,8 @@ public class PlayerModel
         _stats = new Stats();
         _stats.OnStatsUpdated += HandleStatsUpdated;
         _info.OnInfoChanged += HandleInfoUpdated;
+
+        _info.Coins = 10000;
     }
 
     public void Additem(string itemId)
@@ -155,8 +157,7 @@ public class PlayerModel
         return _stats.GetValue(statType);
     }
 
-
-    // 아래는 스킬 관련 데이터/메서드 (수정될 확률 높음)
+    // 아래는 임시
 
     public HashSet<string> LearnedPassiveSkill = new HashSet<string>();
     public HashSet<string> LearnedActiveSkill = new HashSet<string>();
@@ -178,7 +179,7 @@ public class PlayerModel
     }
     public bool HasLearnedPassive(string id)
     {
-        if(LearnedPassiveSkill.Contains(id) == true)
+        if (LearnedPassiveSkill.Contains(id) == true)
         {
             return true;
         }
