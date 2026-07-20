@@ -11,108 +11,81 @@ public class NetworkPlayerService
         _playerModel = playerModel;
     }
 
-    public PlayerProfileViewModel GetLocalPlayerProfileViewModel()
+    public PlayerProfileViewModel GetLocalPlayerProfileModel()
     {
         if(_localPlayerProfileViewModel == null)
         {
-            CreateLocalPlayerProfileViewModel();
+            CreateLocalPlayerProfileModel();
         }
 
         return _localPlayerProfileViewModel;
     }
 
-    public PlayerProfileViewModel CreateLocalPlayerProfileViewModel()
+    public PlayerProfileViewModel CreateLocalPlayerProfileModel()
     {
         _localPlayerProfileViewModel = new PlayerProfileViewModel(_playerModel);
         return _localPlayerProfileViewModel;
     }
 
-    public PlayerStatViewModel GetLocalPlayerStatViewModel()
+
+
+    public PlayerStatViewModel GetLocalPlayerStatModel()
     {
         if (_localPlayerStatViewModel == null)
         {
-            CreateLocalPlayerStatViewModel();
+            CreateLocalPlayerStatModel();
         }
 
         return _localPlayerStatViewModel;
     }
 
-    public PlayerStatViewModel CreateLocalPlayerStatViewModel()
+    public PlayerStatViewModel CreateLocalPlayerStatModel()
     {
         _localPlayerStatViewModel = new PlayerStatViewModel(_playerModel);
         return _localPlayerStatViewModel;
     }
 
-    // 아래는 테스트용 함수들 -----------------------------------------------
     public void RequestChangePlayerHp(float hp)
     {
-        var vm = GetLocalPlayerProfileViewModel();
-        if (vm != null)
-        {
-            vm.CurrentHP += hp;
-        }
+        _playerModel.Info.CurHp += hp;
     }
 
     public void RequestChangePlayerMp(float mp)
     {
-        var vm = GetLocalPlayerProfileViewModel();
-        if (vm != null)
-        {
-            vm.CurrentMP += mp;
-        }
+        _playerModel.Info.CurMp += mp;
     }
 
     public void RequestGiveExpToLocalPlayer(float exp)
     {
-        var vm = GetLocalPlayerProfileViewModel();
-        if (vm != null)
-        {
-            vm.TotalExp += exp;
-        }
-    }
-
-    public void RequestAddStatAtk(float addAtk)
-    {
-        var vm = GetLocalPlayerStatViewModel();
-        if (vm != null)
-        {
-            vm.AtkDamage += addAtk;
-        }
+        _playerModel.Info.TotalExp += exp;
     }
 
     public void RequestChangePlayerLevel(int level)
     {
-        var vm = GetLocalPlayerProfileViewModel();
-        if (vm != null)
-        {
-            vm.CurrentLevel = level;
-        }
-    }
-
-    public void RequestChangePlayerMaxHp(float maxHp)
-    {
-        var vm = GetLocalPlayerProfileViewModel();
-        if (vm != null)
-        {
-            vm.MaxHP += maxHp;
-        }
-    }
-
-    public void RequestChangePlayerMaxMp(float maxMp)
-    {
-        var vm = GetLocalPlayerProfileViewModel();
-        if (vm != null)
-        {
-            vm.MaxMP += maxMp;
-        }
+        _playerModel.Info.CurLevel = level;
     }
 
     public void RequestChangePlayerName(string newName)
     {
-        var vm = GetLocalPlayerProfileViewModel();
-        if (vm != null)
-        {
-            vm.Name = newName;
-        }
+        _playerModel.Info.Name = newName;
     }
+
+    //public void RequestChangePlayerMaxHp(float maxHp)
+    //{
+    //    _playerModel.ModifyBaseStat(StatType.MaxHP, maxHp);
+    //}
+
+    //public void RequestChangePlayerMaxMp(float maxMp)
+    //{
+    //    _playerModel.ModifyBaseStat(StatType.MaxMP, maxMp);
+    //}
+
+    //public void RequestAddStatAtkPower(float addAtk)
+    //{
+    //    _playerModel.ModifyBaseStat(StatType.AttackPower, addAtk);
+    //}
+    //public void RequestAddStatAtkSpeed(float addAtkSpeed)
+    //{
+    //    _playerModel.ModifyBaseStat(StatType.AttackSpeed, addAtk);
+    //}
 }

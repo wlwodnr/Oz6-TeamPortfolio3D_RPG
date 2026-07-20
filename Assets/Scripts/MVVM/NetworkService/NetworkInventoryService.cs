@@ -3,70 +3,96 @@ using UnityEngine;
 
 public class NetworkInventoryService
 {
-    private InvnetoryViewModel _localPlayerInventoryViewModel;
+    private InventoryModel _localPlayerInventoryModel;
 
-    public InvnetoryViewModel GetLocalPlayerInvnetoryViewModel()
+    public InventoryModel GetLocalPlayerInventoryModel()
     {
-        if (_localPlayerInventoryViewModel == null)
+        if (_localPlayerInventoryModel == null)
         {
-            CreateLocalPlayerInvnetoryViewModel();
+            CreateLocalPlayerInventoryModel();
         }
 
-        return _localPlayerInventoryViewModel;
+        return _localPlayerInventoryModel;
     }
 
-    private InvnetoryViewModel CreateLocalPlayerInvnetoryViewModel()
+    private InventoryModel CreateLocalPlayerInventoryModel()
     {
-        var inventoryVm = new InvnetoryViewModel();
-        _localPlayerInventoryViewModel = inventoryVm;
-        return inventoryVm;
+        InventoryData defaultData = new InventoryData(30);
+        _localPlayerInventoryModel = new InventoryModel(defaultData);
+        return _localPlayerInventoryModel;
     }
 
-    public void AddItem(string itemDataId, int addItemCount)
+    public bool AddItem(string itemDataId, int addItemCount)
     {
-        long uniqueId = GameUtil.GenerateUniqueId();
+        var model = GetLocalPlayerInventoryModel();
+        
+        bool isSuccess = model.InputItem(itemDataId, addItemCount);
 
-        var newItemVm = new SlotViewModel(new SlotModel(uniqueId, itemDataId, addItemCount));
+        if (isSuccess)
+        {
+            // NetworkManager.Inst.SaveLoadService.RequstSaveData();
+        }
 
-        var invenVm = GetLocalPlayerInvnetoryViewModel();
-        invenVm.AddItemSlotViewModel(newItemVm);
-
-       //NetworkManager.Inst.SaveLoadService.RequstSaveData();
+        return isSuccess;
     }
 
 
     public bool RequestUseItem(long requestUseTargetSlotId)
     {
-        var invenVm = GetLocalPlayerInvnetoryViewModel();
+        var model = GetLocalPlayerInventoryModel();
+        var slot = model.GetSlot(requestUseTargetSlotId);
 
-        if (invenVm.ItemList.TryGetValue(requestUseTargetSlotId, out var itemSlotVm) == false)
-        {
-            return false; 
-        }
-
-        var itemData = GameDataManager.Instance.GetItemData(itemSlotVm.ItemId);
-        if (itemData == null || string.IsNullOrEmpty(itemData.UseItemType))
+        if (slot == null || string.IsNullOrEmpty(slot.ItemId))
         {
             return false;
         }
 
-        //ItemUseHandler.UseItemFunction(itemData.UseItemType, itemData.UseItemParameterList);
-        RequestRemoveItem(requestUseTargetSlotId);
-        return true;
+        var itemData = ItemDataBase.GetItemData(slot.ItemId);
+        if (itemData is IUseable useableItem)
+        {
+            useableItem.Use();
+
+            RequestRemoveItem(requestUseTargetSlotId, 1);
+            return true;
+        }
+        else if (itemData is IEquipable equipableItem)
+        {
+            // 장비 착용 로직 예시
+            // EquipmentService.Equip(equipableItem);
+            return true;
+        }
+
+        // 아이템 효과 적용
+        // ItemUseHandler.UseItemFunction(itemData.UseItemType, itemData.UseItemParameterList);
+
+        return false;
     }
 
-    private void RequestRemoveItem(long removeTargetUniqueId)
+    private void RequestRemoveItem(long slotId, int count)
     {
-        var invenVm = GetLocalPlayerInvnetoryViewModel();
-        invenVm.RemoveItemSlotViewModel(removeTargetUniqueId);
+        var model = GetLocalPlayerInventoryModel();
+        var slot = model.GetSlot(slotId);
 
-        //NetworkManager.Inst.SaveLoadService.RequstSaveData();
+        if (slot == null) return;
+
+        int remainCount = slot.Count - count;
+
+        if (remainCount <= 0)
+        {
+            model.ClearSlot(slotId);
+        }
+        else
+        {
+            model.TrySetItem(slotId, slot.ItemId, remainCount);
+        }
+        
+        // NetworkManager.Inst.SaveLoadService.RequstSaveData();
     }
 
-    public Dictionary<long, SlotViewModel> GetPlayerItemList()
+    public IEnumerable<InventorySlotModel> GetPlayerItemList()
     {
-        var invenVm = GetLocalPlayerInvnetoryViewModel();
-        return invenVm.ItemList;
+        var model = GetLocalPlayerInventoryModel();
+        return model.GetAllSlots();
     }
 
 }
