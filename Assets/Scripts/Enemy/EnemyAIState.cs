@@ -12,7 +12,7 @@ public interface IEnemyAIState
 {
     void EnterState(EnemyAI entity);
     void UpdateState(EnemyAI entity);
-    void ExitState( EnemyAI entity);
+    void ExitState(EnemyAI entity);
 }
 
 

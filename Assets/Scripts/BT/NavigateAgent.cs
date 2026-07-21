@@ -140,4 +140,13 @@ public class NavigateAgent : MonoBehaviour
         }
     }
 
+    private void ChangeAnimation(EnemyAIState state)
+    {
+
+        //if (BattleAgent_StateChanger != null)
+        //{
+        //    BattleAgent_StateChanger.ChangeState(state);
+        //}
+    }
+
 }

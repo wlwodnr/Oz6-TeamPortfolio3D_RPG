@@ -11,8 +11,8 @@ public partial class CheckTargetDetectedCondition : Condition
 
     public override bool IsTrue()
     {
-        bool ConditionResult = CurrentDist.Value <= ChaseDist.Value;
-        return true;
+        bool ConditionResult = (CurrentDist.Value <= ChaseDist.Value);
+        return ConditionResult;
     }
 
     public override void OnStart()

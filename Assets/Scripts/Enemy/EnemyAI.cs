@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Xml;
+using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour
@@ -18,6 +20,13 @@ public class EnemyAI : MonoBehaviour
     private SpawnSpot _spawnOriginSpot;
 
     private bool _isDisableRequested = false;
+
+    //[SerializeField] private DaniTech_Entity _myEntity;
+
+    private EnemyAIState _currentStateEnum;
+    private IEnemyAIState _currentState;
+    private Dictionary<EnemyAIState, IEnemyAIState> _states;
+
 
     //EnemyEntity의 InstanceId 값을 갖고오도록 수정
     private int InstanceId
@@ -256,6 +265,18 @@ public class EnemyAI : MonoBehaviour
     {
         return Animator_Enemy;
     }
+
+    //public void ChangeState(EnemyAIState newState)
+    //{
+    //    if (_currentState != null)
+    //    {
+    //        _currentState.ExitState(this, _myEntity);
+    //    }
+
+    //    _currentState = _states[newState];
+    //    _currentState.EnterState(this, _myEntity);
+    //    _currentStateEnum = newState;
+    //}
 
 
     // BT에서 호출할 메서드들
