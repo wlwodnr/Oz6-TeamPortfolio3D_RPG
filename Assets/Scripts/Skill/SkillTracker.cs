@@ -2,10 +2,25 @@ using UnityEngine;
 
 public class SkillTracker : MonoBehaviour
 {
+    public static SkillTracker Instance { get; private set; }
+
     private PlayerModel _playerModel;
     private SkillModel _skillModel;
 
     public SkillModel SkillModel => _skillModel;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Debug.LogWarning($"중복된 SkillTracker가 발견되어 파괴합니다.");
+            Destroy(gameObject);
+        }
+    }
 
     public void Init(PlayerModel playerModel)
     {
