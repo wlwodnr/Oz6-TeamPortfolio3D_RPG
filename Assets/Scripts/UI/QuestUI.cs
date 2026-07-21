@@ -56,7 +56,7 @@ public class QuestUI : UIBase
         Text_QuestDescription.text = questData.Description;
         Text_Progress.text = $"({model.CurrentCount} / {questData.TargetCount})";
 
-        
+        SetCompleteEffect(model.IsCompleted);
     }
 
     // 연출테스트용
