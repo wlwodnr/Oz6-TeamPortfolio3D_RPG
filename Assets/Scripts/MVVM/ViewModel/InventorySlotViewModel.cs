@@ -15,6 +15,12 @@ public class InventorySlotViewModel : INotifyPropertyChanged
         _slotModel.OnChanged += HandleModelChanged;
     }
 
+    public void InvokeOnceOnInit()
+    {
+        OnPropertyChanged(nameof(ItemId));
+        OnPropertyChanged(nameof(Count));
+    }
+
     private void HandleModelChanged()
     {
         OnPropertyChanged(nameof(ItemId));
@@ -27,11 +33,6 @@ public class InventorySlotViewModel : INotifyPropertyChanged
         _slotModel.OnChanged -= HandleModelChanged;
     }
 
-    public void InvokeOnceOnInit()
-    {
-        OnPropertyChanged(nameof(ItemId));
-        OnPropertyChanged(nameof(Count));
-    }
     public string ItemId
     {
         get => _slotModel.ItemId;
@@ -44,6 +45,7 @@ public class InventorySlotViewModel : INotifyPropertyChanged
             }
         }
     }
+
     public int Count
     {
         get => _slotModel.Count;
@@ -56,6 +58,7 @@ public class InventorySlotViewModel : INotifyPropertyChanged
             }
         }
     }
+
     private bool _isSelected;
     public bool IsSelected
     {
@@ -66,23 +69,29 @@ public class InventorySlotViewModel : INotifyPropertyChanged
             OnPropertyChanged(nameof(IsSelected));
         }
     }
+
     public bool IsCanStock => Count < ItemData.MaxCount;
+
     public Sprite GetItemIconImage()
     {
         return ItemDataBase.GetItemIcon(ItemId);
     }
+
     public void ButtonClicked()
     {
         OnSelected?.Invoke(this, IsSelected);
     }
+
     public long GetSlotId()
     {
         return _slotModel.SlotId;
     }
+
     public bool IsType<T>() where T : ItemBase
     {
         return ItemData is T;
     }
+
     protected void OnPropertyChanged(string propertyName)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
