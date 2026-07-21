@@ -36,6 +36,7 @@ public static class UIManagerExtension
     public static void ShowStartupUIOnGameStart(this UIManager uiManager)
     {
         uiManager.OpenUI(UIRootType.MainUI, UIType.StartTitleUI);
+        uiManager.OpenQuestUI();
         //uiManager.OpenUI(UIRootType.MainUI, UIType.PlayerProfileUI);      테스트용 바로 나오게
         //uiManager.OpenUI(UIRootType.VeryFrontUI, UIType.TestUI);
     }
