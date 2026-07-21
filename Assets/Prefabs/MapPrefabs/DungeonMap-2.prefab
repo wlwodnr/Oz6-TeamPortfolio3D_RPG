@@ -303,6 +303,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FrontSpaceCorridor
       objectReference: {fileID: 0}
+    - target: {fileID: 235550721420131322, guid: 3cd19e574c420b24497f5ce00ed5184b, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 1484261267493701849, guid: 3cd19e574c420b24497f5ce00ed5184b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 40
@@ -404,6 +408,10 @@ PrefabInstance:
     - target: {fileID: 6463474877768204853, guid: 01f8bd795108076479fbd3b7b6b5ca4b, type: 3}
       propertyPath: m_Name
       value: Corridor
+      objectReference: {fileID: 0}
+    - target: {fileID: 6463474877768204853, guid: 01f8bd795108076479fbd3b7b6b5ca4b, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -595,6 +603,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Corridor (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 6463474877768204853, guid: 01f8bd795108076479fbd3b7b6b5ca4b, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -657,6 +669,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Corridor (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 6463474877768204853, guid: 01f8bd795108076479fbd3b7b6b5ca4b, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -718,6 +734,10 @@ PrefabInstance:
     - target: {fileID: 1603664197400951564, guid: 78ded1c8d46c59f4192119a5b5b88119, type: 3}
       propertyPath: m_Name
       value: RightSpaceCorridor
+      objectReference: {fileID: 0}
+    - target: {fileID: 1603664197400951564, guid: 78ded1c8d46c59f4192119a5b5b88119, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -806,6 +826,10 @@ PrefabInstance:
     - target: {fileID: 235550721420131322, guid: edfe3cccd6c87ee42ae353d23a113d83, type: 3}
       propertyPath: m_Name
       value: LeftSpaceCorridor
+      objectReference: {fileID: 0}
+    - target: {fileID: 235550721420131322, guid: edfe3cccd6c87ee42ae353d23a113d83, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 1484261267493701849, guid: edfe3cccd6c87ee42ae353d23a113d83, type: 3}
       propertyPath: m_LocalPosition.x
@@ -970,6 +994,10 @@ PrefabInstance:
     - target: {fileID: 6463474877768204853, guid: 80194392291be40408a172fbb846aee9, type: 3}
       propertyPath: m_Name
       value: DungeonRoom
+      objectReference: {fileID: 0}
+    - target: {fileID: 6463474877768204853, guid: 80194392291be40408a172fbb846aee9, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1157,6 +1185,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Corridor (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6463474877768204853, guid: 01f8bd795108076479fbd3b7b6b5ca4b, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1218,6 +1250,10 @@ PrefabInstance:
     - target: {fileID: 6463474877768204853, guid: 5f18c21e67be7ef43aa819e870b4980b, type: 3}
       propertyPath: m_Name
       value: CorridorRightConner
+      objectReference: {fileID: 0}
+    - target: {fileID: 6463474877768204853, guid: 5f18c21e67be7ef43aa819e870b4980b, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
