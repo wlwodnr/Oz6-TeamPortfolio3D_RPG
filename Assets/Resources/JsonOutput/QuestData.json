@@ -1,8 +1,9 @@
 [
   {
     "Id": "Quest_001",
+    "QuestName": "말썽쟁이 고블린",
     "QuestType": "Kill",
-    "Description": "마을 주변의 고블린을 3마리 처치해주세요.",
+    "Description": "마을 주변의 고블린을 3마리 처치하자",
     "TargetId": "mob_goblin_1",
     "TargetCount": 3,
     "RewardExp": 10,
@@ -15,8 +16,9 @@
   },
   {
     "Id": "Quest_002",
+    "QuestName": "고블린의 이빨을 뽑자",
     "QuestType": "Collect",
-    "Description": "고블린의 이빨을 2개 모으시오.",
+    "Description": "고블린의 이빨을 2개 모으자",
     "TargetId": "Item_001",
     "TargetCount": 2,
     "RewardExp": 30,
