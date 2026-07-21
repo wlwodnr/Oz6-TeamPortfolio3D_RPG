@@ -16288,10 +16288,18 @@ PrefabInstance:
       propertyPath: Transform_TargetPoint
       value: 
       objectReference: {fileID: 946158077}
+    - target: {fileID: 1386559816339350332, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
+      propertyPath: _spawnEntryList.Array.data[0].Prefab_Monster
+      value: 
+      objectReference: {fileID: 6282718999841074786, guid: c370e0843313a19499f18c75f34c57a7, type: 3}
     - target: {fileID: 1921754747442888306, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
       propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3543157799315619133, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
+      propertyPath: _spawnEntryList.Array.data[0].Prefab_Monster
+      value: 
+      objectReference: {fileID: 6282718999841074786, guid: c370e0843313a19499f18c75f34c57a7, type: 3}
     - target: {fileID: 7334177010950035959, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
       propertyPath: m_Name
       value: DungeonMap-1
@@ -16324,6 +16332,10 @@ PrefabInstance:
       propertyPath: Transform_TargetPoint
       value: 
       objectReference: {fileID: 440160985}
+    - target: {fileID: 8511411094586112854, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
+      propertyPath: _spawnEntryList.Array.data[0].Prefab_Monster
+      value: 
+      objectReference: {fileID: 6282718999841074786, guid: c370e0843313a19499f18c75f34c57a7, type: 3}
     - target: {fileID: 8693517207457233975, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
       propertyPath: m_LocalPosition.x
       value: -9.656754
@@ -16364,6 +16376,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8894402164904480806, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
+      propertyPath: _spawnEntryList.Array.data[0].Prefab_Monster
+      value: 
+      objectReference: {fileID: 6282718999841074786, guid: c370e0843313a19499f18c75f34c57a7, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
