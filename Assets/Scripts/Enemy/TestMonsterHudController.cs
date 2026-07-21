@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class MonsterHudController : MonoBehaviour
+public class TestMonsterHudController : MonoBehaviour
 {
     [SerializeField] private GameObject _monsterHudPrefab;
     [SerializeField] private Transform _hudSlotRoot;
@@ -29,10 +29,16 @@ public class MonsterHudController : MonoBehaviour
             return null;
         }
 
-        hudUI.BindViewModel(viewModel, targetTransform);
+        hudUI.OnHudClosed += HandleHudClosed;
+        hudUI.BindViewModel(instanceId, viewModel, targetTransform);
         _activeHudList.Add(instanceId, hudUI);
 
         return hudUI;
+    }
+
+    private void HandleHudClosed(int instanceId)
+    {
+        RemoveMonsterHud(instanceId);
     }
 
     public void RemoveMonsterHud(int instanceId)
@@ -41,6 +47,7 @@ public class MonsterHudController : MonoBehaviour
         {
             if (hudUI != null)
             {
+                hudUI.OnHudClosed -= HandleHudClosed;
                 Destroy(hudUI.gameObject);
             }
             _activeHudList.Remove(instanceId);

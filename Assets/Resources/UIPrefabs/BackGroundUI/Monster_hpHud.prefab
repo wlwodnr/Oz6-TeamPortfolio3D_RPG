@@ -46,6 +46,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6993178109947593697}
   - component: {fileID: 7362692881968237975}
+  - component: {fileID: 8741896799513354595}
   m_Layer: 5
   m_Name: Slider_HP
   m_TagString: Untagged
@@ -126,6 +127,18 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!225 &8741896799513354595
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2515359791334610711}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &3856379590633654685
 GameObject:
   m_ObjectHideFlags: 0
@@ -323,7 +336,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MonsterHudUI
   Slider_HpBar: {fileID: 7362692881968237975}
   Text_Hp: {fileID: 3210785005013725457}
+  _visualCanvasGroup: {fileID: 8741896799513354595}
   _offset: {x: 0, y: 2, z: 0}
+  _maxVisibleDistance: 30
+  _referenceDistance: 10
+  _minScale: 0.5
+  _maxScale: 1.2
 --- !u!1 &8876680740240830483
 GameObject:
   m_ObjectHideFlags: 0
