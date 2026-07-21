@@ -17,7 +17,7 @@ public class NetworkInventoryService
 
     private InventoryModel CreateLocalPlayerInventoryModel()
     {
-        InventoryData defaultData = new InventoryData(30);
+        InventoryData defaultData = new InventoryData();
         _localPlayerInventoryModel = new InventoryModel(defaultData);
         return _localPlayerInventoryModel;
     }
