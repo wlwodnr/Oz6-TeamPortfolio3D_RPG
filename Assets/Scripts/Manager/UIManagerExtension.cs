@@ -16,6 +16,7 @@ public enum UIType
     HudMainUI,
     PlayerProfileUI,
     PlayerStatInfoUI,
+    MonsterHudUI,
 
     DialogueUI,
     InventoryUI,
