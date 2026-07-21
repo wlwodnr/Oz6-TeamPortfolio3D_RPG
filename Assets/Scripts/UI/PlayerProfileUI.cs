@@ -4,9 +4,13 @@ using UnityEngine.UI;
 
 public class PlayerProfileUI : UIBase
 {
-    [SerializeField] Image hpBar;
-    [SerializeField] Image mpBar;
+    [Header("Slider")]
+    [SerializeField] Slider hpBar;
+    [SerializeField] Slider mpBar;
+    [SerializeField] Slider staminaBar;
+    [SerializeField] Slider expBar;
 
+    [Header("Text")]
     [SerializeField] Text Text_Name;
     [SerializeField] Text Text_LevelAndExp;
     [SerializeField] Text Text_CurrentHP;
@@ -15,6 +19,8 @@ public class PlayerProfileUI : UIBase
 
     // 뷰에서 절대 new로 VewModel을 하지 않고, 네트워크 매니저를 통해 생성된 뷰 모델을 받아야 한다
     private PlayerProfileViewModel _vm;
+
+    private const float MAX_EXP_PER_LEVEL = 100f;
 
     private void OnEnable()
     {
@@ -58,8 +64,8 @@ public class PlayerProfileUI : UIBase
                 break;
             case nameof(PlayerProfileViewModel.TotalExp):
                 {
-                    Text_LevelAndExp.text = $"(Lv.{_vm.CurrentLevel}({_vm.TotalExp})";
-                    //ChangeAnimationOnSuccessLevelUp();
+                    Text_LevelAndExp.text = $"Lv.{_vm.CurrentLevel}({_vm.TotalExp})";
+                    UpdateExpBar();
                 }
                 break;
             case nameof(PlayerProfileViewModel.CurrentHP):
@@ -83,7 +89,7 @@ public class PlayerProfileUI : UIBase
     {
         if (hpBar != null && _vm.MaxHP > 0)
         {
-            hpBar.fillAmount = (float)_vm.CurrentHP / _vm.MaxHP;
+            hpBar.value = (float)_vm.CurrentHP / _vm.MaxHP;
         }
     }
 
@@ -91,8 +97,16 @@ public class PlayerProfileUI : UIBase
     {
         if (mpBar != null && _vm.MaxMP > 0)
         {
-            mpBar.fillAmount = (float)_vm.CurrentMP / _vm.MaxMP;
+            mpBar.value = (float)_vm.CurrentMP / _vm.MaxMP;
         }
     }
 
+    private void UpdateExpBar()
+    {
+        if (expBar != null && _vm != null)
+        {
+            float currentLevelExp = _vm.TotalExp % MAX_EXP_PER_LEVEL;
+            expBar.value = currentLevelExp / MAX_EXP_PER_LEVEL;
+        }
+    }
 }

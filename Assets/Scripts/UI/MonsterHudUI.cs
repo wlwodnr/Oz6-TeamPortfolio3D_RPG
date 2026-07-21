@@ -1,17 +1,21 @@
 ﻿using System.ComponentModel;
-using TMPro;
 using UnityEngine;
-using UnityEngine.Pool;
 using UnityEngine.UI;
 
 public class MonsterHudUI : MonoBehaviour
 {
     [Header("UI Components")]
     [SerializeField] private Slider Slider_HpBar;
-    [SerializeField] private TextMeshProUGUI TextMesh_Hp;
+    [SerializeField] private Text Text_Hp;
 
     [Header("Position Tracking")]
     [SerializeField] private Vector3 _offset = new Vector3(0f, 2.0f, 0f);
+
+    [Header("Distance & Scale Settings")]
+    [SerializeField] private float _maxVisibleDistance = 30f;
+    [SerializeField] private float _referenceDistance = 10f;
+    [SerializeField] private float _minScale = 0.5f;
+    [SerializeField] private float _maxScale = 1.2f;
 
     private MonsterViewModel _vm;
     private Transform _targetTransform;
@@ -26,8 +30,36 @@ public class MonsterHudUI : MonoBehaviour
         // 몬스터 위치 추적
         if (_targetTransform != null && _mainCamera != null)
         {
-            transform.position = _mainCamera.WorldToScreenPoint(_targetTransform.position + _offset); // 씬 스페이스 오버레이만 가능
+            Vector3 targetWorldPos = _targetTransform.position + _offset;
+            Vector3 screenPos = _mainCamera.WorldToScreenPoint(targetWorldPos);
+
+            float distance = Vector3.Distance(_mainCamera.transform.position, targetWorldPos);
+
+            if (screenPos.z <= 0f || distance > _maxVisibleDistance)
+            {
+                if (gameObject.activeSelf) gameObject.SetActive(false);
+                return;
+            }
+
+            if (!gameObject.activeSelf) 
+            {
+                gameObject.SetActive(true); 
+            }
+
+            transform.position = screenPos;
+
+            UpdateScaleByDistance(distance);
         }
+    }
+
+    // 거리에 따른 HUD 크기(Scale) 보정
+    private void UpdateScaleByDistance(float distance)
+    {
+        float scaleFactor = _referenceDistance / Mathf.Max(distance, 0.001f);
+
+        float finalScale = Mathf.Clamp(scaleFactor, _minScale, _maxScale);
+
+        transform.localScale = Vector3.one * finalScale;
     }
 
     private void OnDestroy()
@@ -87,10 +119,10 @@ public class MonsterHudUI : MonoBehaviour
             Slider_HpBar.value = _vm.CurrentHp / _vm.MaxHP;
         }
 
-        if (TextMesh_Hp != null)
+        if (Text_Hp != null)
         {
-            TextMesh_Hp.text = $"{Mathf.CeilToInt(_vm.CurrentHp)} / {Mathf.CeilToInt(_vm.MaxHP)}";
+            Text_Hp.text = $"{Mathf.CeilToInt(_vm.CurrentHp)} / {Mathf.CeilToInt(_vm.MaxHP)}";
         }
-        TextMesh_Hp.gameObject.SetActive(false); // 체력 텍스트 비활성화
+        Text_Hp.gameObject.SetActive(false); // 체력 텍스트 비활성화, 활성화시 제거
     }
 }
