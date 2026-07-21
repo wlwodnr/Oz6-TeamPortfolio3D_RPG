@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 6582854747974902902}
   - component: {fileID: 1186823747688130724}
   - component: {fileID: 5662020813744869764}
+  - component: {fileID: 4097224269024735}
   m_Layer: 0
   m_Name: Skeleton
   m_TagString: Untagged
@@ -193,6 +194,35 @@ CapsuleCollider:
   m_Height: 1.9538761
   m_Direction: 1
   m_Center: {x: 0, y: 0.8690452, z: 0}
+--- !u!114 &4097224269024735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6282718999841074786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0038c16c34866b4f9e25c9c0dc0f7e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Behavior::Unity.Behavior.BehaviorGraphAgent
+  m_Graph: {fileID: 1181879012300508477, guid: 34d1ac917b729774f8e552fb0e54ddb5, type: 2}
+  m_BlackboardVariableOverridesList:
+  - rid: 6383305394398429281
+  m_OriginalGraph: {fileID: 0}
+  m_IsInitialised: 0
+  m_IsStarted: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 6383305394398429281
+      type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 1
+          m_Value1: 0
+        Name: Self
+        m_Value: {fileID: 6282718999841074786}
 --- !u!1001 &1086468681828361092
 PrefabInstance:
   m_ObjectHideFlags: 0
