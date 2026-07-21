@@ -6,7 +6,7 @@ public class PlayerInfo
     public event Action<string> OnInfoChanged;
 
     private string _name;
-    private int _curLevel;
+    private int _curLevel = 1;
     private float _totalExp;
     private int _skillPoint;
     private float _curHp;
@@ -39,7 +39,13 @@ public class PlayerInfo
     public float TotalExp
     {
         get => _totalExp;
-        set { _totalExp = value; OnInfoChanged?.Invoke(nameof(TotalExp)); }
+        set { _totalExp = value; OnInfoChanged?.Invoke(nameof(TotalExp));
+            int calculatedLevel = ((int)_totalExp / 100) + 1;
+            if (_curLevel != calculatedLevel)
+            {
+                CurLevel = calculatedLevel;
+            }
+        }
     }
     public int SkillPoint
     {

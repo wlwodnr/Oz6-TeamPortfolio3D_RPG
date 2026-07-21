@@ -35,6 +35,7 @@ public class MonsterHudUI : MonoBehaviour
 
             float distance = Vector3.Distance(_mainCamera.transform.position, targetWorldPos);
 
+            // 카메라 뒤에 있거나 최대 거리를 넘어가면 숨김
             if (screenPos.z <= 0f || distance > _maxVisibleDistance)
             {
                 if (gameObject.activeSelf) gameObject.SetActive(false);
@@ -105,6 +106,7 @@ public class MonsterHudUI : MonoBehaviour
                 {
                     UnbindViewModel();
                     gameObject.SetActive(false);
+                    UIManager.Instance.CloseUI(UIRootType.BackGroundUI, UIType.MonsterHudUI); // ui에서 생성 제거
                 }
                 break;
         }

@@ -20,7 +20,7 @@ public class PlayerProfileUI : UIBase
     // 뷰에서 절대 new로 VewModel을 하지 않고, 네트워크 매니저를 통해 생성된 뷰 모델을 받아야 한다
     private PlayerProfileViewModel _vm;
 
-    private const float MAX_EXP_PER_LEVEL = 100f;
+    private const float MaxExpPerLevel = 100f;
 
     private void OnEnable()
     {
@@ -105,8 +105,8 @@ public class PlayerProfileUI : UIBase
     {
         if (expBar != null && _vm != null)
         {
-            float currentLevelExp = _vm.TotalExp % MAX_EXP_PER_LEVEL;
-            expBar.value = currentLevelExp / MAX_EXP_PER_LEVEL;
+            float currentLevelExp = _vm.TotalExp % MaxExpPerLevel;
+            expBar.value = currentLevelExp / MaxExpPerLevel;
         }
     }
 }
