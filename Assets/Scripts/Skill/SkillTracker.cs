@@ -7,13 +7,14 @@ public class SkillTracker : MonoBehaviour
     private PlayerModel _playerModel;
     private SkillModel _skillModel;
 
-    public SkillModel SkillModel => _skillModel;
+    public SkillModel SkillModel => _skillModel ??= new SkillModel();
 
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
+            _skillModel ??= new SkillModel();
         }
         else
         {
@@ -31,7 +32,8 @@ public class SkillTracker : MonoBehaviour
         }
 
         _playerModel = playerModel;
-        _skillModel = new SkillModel();
+
+        _skillModel ??= new SkillModel();
 
         RefreshModePassives();
     }
