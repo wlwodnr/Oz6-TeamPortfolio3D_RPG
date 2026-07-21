@@ -4,7 +4,7 @@
     "Name": "모드 체인지",
     "Description": "더블 슬래쉬의 사용 방식을 바꾼다.",
     "IconPath": null,
-    "TargetMode": "Always",
+    "TargetMode": "Hunt",
     "RequiredLevel": 1,
     "RequiredSkill": [
       "[\"Active_H_01\"]"
@@ -129,7 +129,7 @@
     "Name": "모드 체인지",
     "Description": "트리플 슬래쉬의 사용 방식을 바꾼다.",
     "IconPath": null,
-    "TargetMode": "Always",
+    "TargetMode": "Hunt",
     "RequiredLevel": 30,
     "RequiredSkill": [
       "[\"Mode_01\"",

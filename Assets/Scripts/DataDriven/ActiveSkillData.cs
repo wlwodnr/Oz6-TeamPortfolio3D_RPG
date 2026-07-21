@@ -21,4 +21,7 @@ public class ActiveSkillData : GameDataBase
     public float DashForce;
     public float HitInterval;
     public float AttackHeight;
+    public string InputKey;
+    public bool RequireAir;
+    public bool IsModeChange;
 }

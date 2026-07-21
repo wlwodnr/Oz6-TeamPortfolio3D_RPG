@@ -165,4 +165,15 @@ public class SkillTracker : MonoBehaviour
             }
         }
     }
+
+    public void ToggleMode()
+    {
+        if (_skillModel == null) return;
+
+        CharacterMode targetMode = (_skillModel.CurrentMode == CharacterMode.Hunt)
+            ? CharacterMode.Boss
+            : CharacterMode.Hunt;
+
+        ChangeMode(targetMode);
+    }
 }

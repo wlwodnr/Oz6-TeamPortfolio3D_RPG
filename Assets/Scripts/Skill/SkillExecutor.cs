@@ -21,7 +21,14 @@ public class SkillExecutor : MonoBehaviour
         _skillTracker = tracker;
         _cts = new CancellationTokenSource();
     }
+    private void Awake()
+    {
+        if (Animator_Owner == null)
+            Animator_Owner = GetComponent<Animator>();
 
+        if (Rigidbody_Owner == null)
+            Rigidbody_Owner = GetComponent<Rigidbody>();
+    }
     private void OnDisable()
     {
         _cts?.Cancel();
@@ -30,22 +37,30 @@ public class SkillExecutor : MonoBehaviour
 
     public void TryExecuteSkill(string skillId)
     {
-        if (GameDataManager.Instance == null || _skillTracker == null || _playerModel == null) return;
-
-        ActiveSkillData skillData = GameDataManager.Instance.GetActiveSkillData(skillId);
-
-        if (skillData == null)
+        if (_skillTracker == null && SkillTracker.Instance != null)
         {
-            Debug.LogWarning($"{skillData.Name} 스킬의 데이터를 불러올 수 없습니다.");
+            _skillTracker = SkillTracker.Instance;
+        }
+
+        if (_playerModel == null)
+        {
+            _playerModel = new PlayerModel();
+        }
+
+        if (GameDataManager.Instance == null || _skillTracker == null)
+        {
+            Debug.LogError($"GameDataManager 또는 SkillTracker가 존재하지 않습니다.");
             return;
         }
 
-        if (!_skillTracker.SkillModel.IsSkillReady(skillId)) return;
-        if (!_playerModel.HasLearnedActive(skillId)) return;
+        ActiveSkillData skillData = GameDataManager.Instance.GetActiveSkillData(skillId);
+        if (skillData == null) return;
 
-        if (_playerModel.Info.CurMp < skillData.Cost)
+        if (!_skillTracker.SkillModel.IsSkillReady(skillId)) return;
+
+        if (!skillData.IsModeChange && !_playerModel.HasLearnedActive(skillId))
         {
-            Debug.LogWarning($"{skillData.Name} 스킬을 사용하기 위한 마나가 부족합니다.");
+            Debug.LogWarning($"{skillData.Name} 스킬이 습득되지 않은 상태입니다.");
             return;
         }
 
@@ -56,12 +71,21 @@ public class SkillExecutor : MonoBehaviour
     {
         _skillTracker.SkillModel.StartCoolTime(data.Id, data.CoolDown);
 
-        _playerModel.Info.CurMp -= data.Cost;
-
-        if (data.DamageMultiplier <= 0f && (data.TargetMode == "Hunt" || data.TargetMode == "Boss"))
+        if (_playerModel != null && _playerModel.Info != null)
         {
-            CharacterMode targetMode = _skillTracker.SkillModel.CurrentMode == CharacterMode.Hunt ? CharacterMode.Boss : CharacterMode.Hunt;
+            _playerModel.Info.CurMp -= data.Cost;
+        }
+
+        if (data.IsModeChange)
+        {
+            CharacterMode currentMode = _skillTracker.SkillModel.CurrentMode;
+
+            CharacterMode targetMode = (currentMode == CharacterMode.Hunt) ? CharacterMode.Boss : CharacterMode.Hunt;
+
+            Debug.Log($"모드 변경. {currentMode} -> {targetMode}");
+
             _skillTracker.ChangeMode(targetMode);
+
             return;
         }
 
