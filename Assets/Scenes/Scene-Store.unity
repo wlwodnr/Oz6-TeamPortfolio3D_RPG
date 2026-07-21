@@ -379,17 +379,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StoreManager
   _storeViewPrefab: {fileID: 1934376350407445964, guid: 70e99a084898c5849842fe394051b676, type: 3}
   _storeCanvas: {fileID: 174028318}
---- !u!114 &735229891 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 468663617068536816, guid: 440357a41134ba1438e35440a78fefd7, type: 3}
-  m_PrefabInstance: {fileID: 2042680871}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da7e48b8aeb708b4f837ece1153446f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GroundCheck
 --- !u!1 &805755582
 GameObject:
   m_ObjectHideFlags: 0
@@ -989,7 +978,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7180595289153174151, guid: 440357a41134ba1438e35440a78fefd7, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -999,9 +989,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5978688025392802851, guid: 440357a41134ba1438e35440a78fefd7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2042680876}
-    - targetCorrespondingSourceObject: {fileID: 5978688025392802851, guid: 440357a41134ba1438e35440a78fefd7, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2042680875}
   m_SourcePrefab: {fileID: 100100000, guid: 440357a41134ba1438e35440a78fefd7, type: 3}
 --- !u!1 &2042680872 stripped
 GameObject:
@@ -1013,29 +1000,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6463582156032259737, guid: 440357a41134ba1438e35440a78fefd7, type: 3}
   m_PrefabInstance: {fileID: 2042680871}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2042680875
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2042680872}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8772212d7df6c89488f2d7694ea05bec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  _groundCheck: {fileID: 735229891}
-  MoveSpeed: 10
-  JumpPower: 5
-  InteractRange: 2
-  _jumpCount: 0
-  boxSize: {x: 1, y: 1, z: 1}
-  offset: {x: 0, y: 1, z: 1}
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  _temporaryAttackDamage: 10
 --- !u!54 &2042680876
 Rigidbody:
   m_ObjectHideFlags: 0

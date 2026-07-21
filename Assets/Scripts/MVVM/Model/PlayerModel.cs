@@ -12,13 +12,12 @@ public class PlayerModel
     private Dictionary<string,int> _inventory = new Dictionary<string, int>();    
     private Dictionary<string,int> _equipInventory = new Dictionary<string,int>();
 
-    private HashSet<string> _learnedSkills = new HashSet<string>();
-
     //itemId - 데이터
     private Dictionary<string, IHitEffect> _activeHitEffects = new Dictionary<string, IHitEffect>();
 
     public event Action<string> OnPlayerStatsChanged;
     public event Action<string> OnPlayerInfoChanged;
+    public event Action<string> OnSkillDataChanged;
 
     public PlayerModel()
     {
@@ -155,6 +154,23 @@ public class PlayerModel
     public float GetStatValue(StatType statType)
     {
         return _stats.GetValue(statType);
+    }
+
+    public PlayerSaveData CaptureData()
+    {
+        PlayerSaveData data = new PlayerSaveData();
+        data.PlayerInfo = new PlayerInfo()
+        {
+            Name = _info.Name,
+            CurLevel = _info.CurLevel,
+            TotalExp = _info.TotalExp,
+            SkillPoint = _info.SkillPoint,
+            CurHp = _info.CurHp,
+            CurMp = _info.CurMp,
+            Coins = _info.Coins
+        };
+
+        return data;
     }
 
     // 아래는 임시

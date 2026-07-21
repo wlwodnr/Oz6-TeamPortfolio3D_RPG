@@ -11,6 +11,16 @@ public class NetworkPlayerService
         _playerModel = playerModel;
     }
 
+    public PlayerModel GetLocalPlayerModel()
+    {
+        if( _playerModel == null)
+        {
+            _playerModel = new PlayerModel();
+        }
+
+        return _playerModel;
+    }
+
     public PlayerProfileViewModel GetLocalPlayerProfileModel()
     {
         if(_localPlayerProfileViewModel == null)

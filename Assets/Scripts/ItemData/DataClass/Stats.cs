@@ -86,10 +86,20 @@ public class Stats
         }
     }
 
+    public void ClearAllData() //초기화때만 사용
+    {
+        _rawModifiers.Clear();
+        _counts.Clear();
+        _flatCache.Clear();
+        _percentCache.Clear();
+    }
+
     public float GetValue(StatType type)
     {
         float flat = _flatCache.GetValueOrDefault(type, 0);
         float percent = _percentCache.GetValueOrDefault(type, 0);
         return (_baseStats[type] + flat) * (1 + percent);
     }
+
+
 }

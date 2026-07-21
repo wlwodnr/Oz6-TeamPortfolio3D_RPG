@@ -131,4 +131,16 @@ public class InventoryModel
     }
 
     public IEnumerable<InventorySlotModel> GetAllSlots() => _slots.Values;
+
+    public InventoryData CaptureInventoryData()
+    {
+        InventoryData saveData = new InventoryData(_maxSlotCount);
+
+        foreach(var item in _slots)
+        {
+            saveData.InventoryItems.Add(new InventoryItemData(item.Key, item.Value.ItemId, item.Value.Count));
+        }
+
+        return saveData;
+    }
 }
