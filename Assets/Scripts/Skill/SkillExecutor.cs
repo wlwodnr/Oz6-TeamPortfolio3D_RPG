@@ -163,6 +163,8 @@ public class SkillExecutor : MonoBehaviour
         HashSet<int> attackedInstanceIdSet = new();
         int currentHitCount = 0;
 
+        Debug.Log($"{hitEnemies.ToString()}");
+
         foreach (Collider enemy in hitEnemies)
         {
             if (enemy == null) continue;
