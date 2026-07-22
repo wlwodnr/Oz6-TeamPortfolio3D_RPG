@@ -8,8 +8,11 @@ using UnityEngine;
 public class SkillExecutor : MonoBehaviour
 {
     [SerializeField] private Animator Animator_Owner;
+    [SerializeField] private AnimatorOverrideController overrideController;
     [SerializeField] private Rigidbody Rigidbody_Owner;
     [SerializeField] private LayerMask LayerMask_Enemy;
+
+    [SerializeField] private AnimationClip testClip;
 
     private PlayerModel _playerModel;
     private SkillTracker _skillTracker;
@@ -97,9 +100,11 @@ public class SkillExecutor : MonoBehaviour
             return;
         }
 
-        //if (Animator_Owner != null)
+        overrideController["Human_Run1"] = testClip;
+
+        if (Animator_Owner != null)
         {
-            //Animator_Owner.SetTrigger(data.Id);
+            Animator_Owner.SetTrigger("SkillTrigger");
         }
 
         if (data.CastTime > 0f)
@@ -163,10 +168,10 @@ public class SkillExecutor : MonoBehaviour
         HashSet<int> attackedInstanceIdSet = new();
         int currentHitCount = 0;
 
-        Debug.Log($"{hitEnemies.ToString()}");
 
         foreach (Collider enemy in hitEnemies)
         {
+            Debug.Log($"{enemy.gameObject.name}");
             if (enemy == null) continue;
             if (currentHitCount >= data.TargetCount) break;
 

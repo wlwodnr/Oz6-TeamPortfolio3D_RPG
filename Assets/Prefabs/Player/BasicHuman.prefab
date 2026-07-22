@@ -343,9 +343,13 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 2faa610713d3b3c439473daa55e8c60a, type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 9000000, guid: 2faa610713d3b3c439473daa55e8c60a, type: 3}
+    - target: {fileID: 5866666021909216657, guid: 2faa610713d3b3c439473daa55e8c60a, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 62de58c45db63d1428e01ca109e6fc58, type: 2}
+      objectReference: {fileID: 22100000, guid: b4e6ad09eabd59a42bcfb374d1224b7c, type: 2}
     - target: {fileID: 5866666021909216657, guid: 2faa610713d3b3c439473daa55e8c60a, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 0
@@ -547,10 +551,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillExecutor
   Animator_Owner: {fileID: 1104346649488452835}
+  overrideController: {fileID: 22100000, guid: b4e6ad09eabd59a42bcfb374d1224b7c, type: 2}
   Rigidbody_Owner: {fileID: 1701802964990815683}
   LayerMask_Enemy:
     serializedVersion: 2
     m_Bits: 128
+  testClip: {fileID: -203655887218126122, guid: f11b6246e02bd6944b6427d3e301d59f, type: 3}
 --- !u!114 &9223192253580322591
 MonoBehaviour:
   m_ObjectHideFlags: 0
