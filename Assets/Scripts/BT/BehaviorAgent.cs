@@ -7,6 +7,7 @@ public class BehaviorAgent : MonoBehaviour
 {
     [SerializeField] private BehaviorGraphAgent BehaviorAgent_Self;
     [SerializeField] private List<GameObject> PatrolSpotGameObjectList;
+    [SerializeField] private EnemyStatus EnemyStatus_Self;
 
 
     private void Start()
@@ -19,7 +20,6 @@ public class BehaviorAgent : MonoBehaviour
         
         
         int playerInstanceId = GameObjectManager.Instance.PlayerInstanceId;
-
         GameObject playerObject = GameObjectManager.Instance.GetGameObjectCanBeNull(playerInstanceId);
 
         if (playerObject != null )
@@ -27,6 +27,14 @@ public class BehaviorAgent : MonoBehaviour
             BehaviorAgent_Self.SetVariableValue("Target",playerObject);
         }
         
+        if (EnemyStatus_Self != null)
+        {
+            BehaviorAgent_Self.SetVariableValue("AttackDist",EnemyStatus_Self.AttackRange);
+            BehaviorAgent_Self.SetVariableValue("ChaseDist", EnemyStatus_Self.DetectRange);
+
+        }
+
+
     }
 
 }

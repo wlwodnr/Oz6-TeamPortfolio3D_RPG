@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 1186823747688130724}
   - component: {fileID: 5662020813744869764}
   - component: {fileID: 4097224269024735}
+  - component: {fileID: -6849704565491119341}
   m_Layer: 0
   m_Name: Skeleton
   m_TagString: Untagged
@@ -209,7 +210,6 @@ MonoBehaviour:
   m_Graph: {fileID: 1181879012300508477, guid: 34d1ac917b729774f8e552fb0e54ddb5, type: 2}
   m_BlackboardVariableOverridesList:
   - rid: 6383305394398429281
-  - rid: 8347205789147725894
   m_OriginalGraph: {fileID: 0}
   m_IsInitialised: 0
   m_IsStarted: 0
@@ -224,14 +224,21 @@ MonoBehaviour:
           m_Value1: 0
         Name: Self
         m_Value: {fileID: 6282718999841074786}
-    - rid: 8347205789147725894
-      type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 9168708854559260474
-          m_Value1: 8382487049188647231
-        Name: Target
-        m_Value: {fileID: 5978688025392802851, guid: 440357a41134ba1438e35440a78fefd7, type: 3}
+--- !u!114 &-6849704565491119341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6282718999841074786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 949318e041fbc6a4aa4e9ab0943d603a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BehaviorAgent
+  BehaviorAgent_Self: {fileID: 4097224269024735}
+  PatrolSpotGameObjectList: []
+  EnemyStatus_Self: {fileID: 8372731997652561619}
 --- !u!1001 &1086468681828361092
 PrefabInstance:
   m_ObjectHideFlags: 0
