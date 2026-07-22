@@ -14,6 +14,16 @@ public class GameObjectManager : MonoBehaviour
 
     private Dictionary<int, SpawnSpot> _spawnSpotContainer = new Dictionary<int, SpawnSpot>();
 
+    private int _playerInstanceId = -1;
+
+    public int PlayerInstanceId
+    {
+        get
+        {
+            return _playerInstanceId;
+        }
+    }
+
     private void Awake()
     {
         if (Instance == null)
@@ -149,8 +159,10 @@ public class GameObjectManager : MonoBehaviour
             entity.ResetEntity();
 
             RegisterOwnerSpawnSpot(instanceId, ownerSpawnSpot);
-            
+
             entity.InitEntity(instanceId, dataId);
+
+            RegisterPlayerObject(instanceId, pooledObject);
 
             EnemyAI enemyAI = pooledObject.GetComponent<EnemyAI>();
 
@@ -180,6 +192,94 @@ public class GameObjectManager : MonoBehaviour
         }
         reusedInstanceId = -1;
         return false;
+    }
+
+    private void RegisterPlayerObject(int instanceId, GameObject targetObject)
+    {
+        if (targetObject == null)
+        {
+            return;
+        }
+
+        PlayerEntity playerEntity = targetObject.GetComponent<PlayerEntity>();
+
+        if (playerEntity == null)
+        {
+            return;
+        }
+
+        if (playerEntity.InstanceId != instanceId)
+        {
+            Debug.Log($"GameObjectManager: 플레이어 등록에 사용할 InstanceId와 PlayerEntity의 InstanceId가 다릅니다. " +
+                $"등록할 ID: {instanceId}, PlayerEntity의 ID: {playerEntity.InstanceId}");
+            return;
+        }
+        if (_playerInstanceId > 0 && _playerInstanceId != instanceId)
+        {
+            Debug.LogWarning($"GameObjectManager: 이미 다른 플레이어가 등록되어 있어 플레이어 InstanceId를 교체합니다. " +
+                $"PreviousId: {_playerInstanceId}, NewId: {instanceId}");
+            return;
+        }
+        _playerInstanceId = instanceId;
+        Debug.Log($"GameObjectManager: 플레이어 오브젝트 등록 완료. InstanceId: {_playerInstanceId}, ObjectName: {targetObject.name}");
+    }
+
+    public bool TryGetPlayerObject(out int playerInstanceId, out GameObject playerObject)
+    {
+        playerInstanceId = -1;
+        playerObject = null;
+
+        if (_playerInstanceId <= 0)
+        {
+            Debug.LogWarning("GameObjectManager: 등록된 플레이어 InstanceId가 없습니다.");
+            return false;
+        }
+        if (_createdGameObjectContainer.TryGetValue(_playerInstanceId, out GameObject registeredPlayerObject) == false)
+        {
+            Debug.LogWarning($"GameObjectManager: 플레이어 InstanceId에 해당하는 오브젝트가 없습니다. InstanceId: {_playerInstanceId}");
+            return false;
+        }
+        if (registeredPlayerObject == null)
+        {
+            Debug.LogWarning($"GameObjectManager: 등록된 플레이어 오브젝트가 null입니다. InstanceId: {_playerInstanceId}");
+            return false;
+        }
+
+        if (registeredPlayerObject.activeInHierarchy == false)
+        {
+            Debug.LogWarning($"GameObjectManager: 등록된 플레이어 오브젝트가 비활성화 상태입니다. InstanceId: {_playerInstanceId}, ObjectName: {registeredPlayerObject.name}");
+            return false;
+        }
+
+        PlayerEntity playerEntity = registeredPlayerObject.GetComponent<PlayerEntity>();
+
+        if (playerEntity == null)
+        {
+            Debug.LogWarning($"GameObjectManager: 등록된 플레이어 오브젝트에 PlayerEntity가 없습니다. InstanceId: {_playerInstanceId}, ObjectName: {registeredPlayerObject.name}");
+            return false;
+        }
+
+        if (playerEntity.InstanceId != _playerInstanceId)
+        {
+            Debug.LogWarning($"GameObjectManager: 등록된 플레이어 InstanceId와 PlayerEntity의 InstanceId가 다릅니다. RegisteredId: {_playerInstanceId}, EntityId: {playerEntity.InstanceId}");
+            return false;
+        }
+
+        playerInstanceId = _playerInstanceId;
+        playerObject = registeredPlayerObject;
+
+        return true;
+
+    }
+
+    public bool IsPlayerInstanceId(int instanceId)
+    {
+        if (instanceId <= 0)
+        {
+            return false;
+        }
+
+        return _playerInstanceId == instanceId;
     }
 
     private void RegisterOwnerSpawnSpot(int instanceId, SpawnSpot ownerSpawnSpot)
@@ -220,8 +320,10 @@ public class GameObjectManager : MonoBehaviour
 
 
         entity.InitEntity(instanceId, dataId);
-        EnemyAI enemyAI =
-        createdObject.GetComponent<EnemyAI>();
+
+        RegisterPlayerObject(instanceId, createdObject);
+
+        EnemyAI enemyAI = createdObject.GetComponent<EnemyAI>();
 
         if (enemyAI == null)
         {
@@ -266,6 +368,12 @@ public class GameObjectManager : MonoBehaviour
         if (targetObject.activeSelf == false)
         {
             return;
+        }
+
+        if (_playerInstanceId == instanceId)
+        {
+            _playerInstanceId = -1;
+            Debug.Log($"GameObjectManager: 플레이어 오브젝트 등록 해제. InstanceId: {instanceId}");
         }
 
         _spawnSpotContainer.TryGetValue(instanceId, out SpawnSpot ownerSpawnSpot);
@@ -336,7 +444,7 @@ public class GameObjectManager : MonoBehaviour
 
         IDamageable damageable = targetObject.GetComponent<IDamageable>();
 
-        if(damageable == null)
+        if (damageable == null)
         {
             damageable = targetObject.GetComponentInChildren<IDamageable>(true);
         }
