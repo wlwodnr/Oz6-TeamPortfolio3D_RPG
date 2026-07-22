@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
+using System.Collections.Generic;
 
 
 [CreateAssetMenu(fileName = "NewItemData", menuName = "Item/ConsumableItem")]
