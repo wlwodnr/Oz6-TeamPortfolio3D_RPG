@@ -107,13 +107,13 @@ public class SpawnSpot : MonoBehaviour
         {
             _respawnDelay = 0f;
         }
-        if(_spawnEntryList == null)
+        if (_spawnEntryList == null)
         {
             return;
         }
-        foreach(SpawnEntry spawnEntry in _spawnEntryList)
+        foreach (SpawnEntry spawnEntry in _spawnEntryList)
         {
-            if(spawnEntry == null)
+            if (spawnEntry == null)
             {
                 continue;
             }
@@ -305,7 +305,7 @@ public class SpawnSpot : MonoBehaviour
 
         OnWaveCleared?.Invoke(this);
 
-        
+
         if (_enableWaveRespawn == false)
         {
             return;
@@ -416,6 +416,40 @@ public class SpawnSpot : MonoBehaviour
         _respawnCancellationTokenSource.Cancel();
         _respawnCancellationTokenSource.Dispose();
         _respawnCancellationTokenSource = null;
+    }
+
+    private void CleanInactiveSpawnObjectIds()
+    {
+        if (_spawnedInstanceIdSet.Count == 0)
+        {
+            return;
+        }
+        if (GameObjectManager.Instance == null)
+        {
+            return;
+        }
+
+        List<int> inactiveInstanceIdList = new List<int>();
+
+        foreach (int instanceId in _spawnedInstanceIdSet)
+        {
+            GameObject spawnObject = GameObjectManager.Instance.GetGameObjectCanBeNull(instanceId);
+
+            if (spawnObject == null)
+            {
+                inactiveInstanceIdList.Add(instanceId);
+                continue;
+            }
+            if (spawnObject.activeSelf == false)
+            {
+                inactiveInstanceIdList.Add(instanceId);
+            }
+        }
+        foreach (int inactiveInstanceId in inactiveInstanceIdList)
+        {
+            _spawnedInstanceIdSet.Remove(inactiveInstanceId);
+            Debug.Log($"SpawnSpot: [{gameObject.name}] 비활성화된 몬스터의 추적 정보를 정리했습니다. InstanceId: {inactiveInstanceId}", this);
+        }
     }
 
     private Transform GetSpawnPointCanBeNull(int spawnIndex)
