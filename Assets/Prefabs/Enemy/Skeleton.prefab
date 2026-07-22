@@ -209,12 +209,21 @@ MonoBehaviour:
   m_Graph: {fileID: 1181879012300508477, guid: 34d1ac917b729774f8e552fb0e54ddb5, type: 2}
   m_BlackboardVariableOverridesList:
   - rid: 6383305394398429281
+  - rid: 6196996468629569603
   m_OriginalGraph: {fileID: 0}
   m_IsInitialised: 0
   m_IsStarted: 0
   references:
     version: 2
     RefIds:
+    - rid: 6196996468629569603
+      type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 9168708854559260474
+          m_Value1: 8382487049188647231
+        Name: Target
+        m_Value: {fileID: 5978688025392802851, guid: 440357a41134ba1438e35440a78fefd7, type: 3}
     - rid: 6383305394398429281
       type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:

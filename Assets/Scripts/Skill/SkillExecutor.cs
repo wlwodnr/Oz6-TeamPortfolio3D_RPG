@@ -97,9 +97,9 @@ public class SkillExecutor : MonoBehaviour
             return;
         }
 
-        if (Animator_Owner != null)
+        //if (Animator_Owner != null)
         {
-            Animator_Owner.SetTrigger(data.Id);
+            //Animator_Owner.SetTrigger(data.Id);
         }
 
         if (data.CastTime > 0f)

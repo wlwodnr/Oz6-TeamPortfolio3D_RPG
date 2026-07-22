@@ -26,6 +26,13 @@ public class PlayerModel
         _stats = new Stats();
         _stats.OnStatsUpdated += HandleStatsUpdated;
         _info.OnInfoChanged += HandleInfoUpdated;
+        _learnedSkills = new HashSet<string>();
+
+        LearnActive("Active_H_01");
+        LearnActive("Active_H_02");
+        LearnActive("Active_B_01");
+        LearnActive("Active_B_02");
+        LearnActive("Active_02");
     }
 
     public void Additem(string itemId)
