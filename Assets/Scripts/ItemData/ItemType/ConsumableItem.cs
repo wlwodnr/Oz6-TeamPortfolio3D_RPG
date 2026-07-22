@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 
 [CreateAssetMenu(fileName = "NewItemData", menuName = "Item/ConsumableItem")]
@@ -18,7 +19,14 @@ public class ConsumableItem : ItemBase, ITradeable, IUseable
 
     public void Use()
     {
-
+        if (effect != null)
+        {
+            effect.Apply();
+        }
+        else
+        {
+            Debug.LogWarning($"[{name}] 할당된 ItemEffect가 없습니다.");
+        }
     }
     public void Buy()
     {

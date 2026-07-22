@@ -1,60 +1,32 @@
-﻿using System.Collections.Generic;
+﻿using ItemUseSystem;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemUseHandler
 {
-    public void UseItemFunction(string itemUseType, List<string> useItemParamList)
+    public static bool Execute(string itemId, GameObject target = null)
     {
-        if (useItemParamList == null || useItemParamList.Count == 0)
+        var itemData = ItemDataBase.GetItemData(itemId);
+
+        if (itemData == null)
         {
-            return;
+            Debug.LogWarning($"[ItemUseHandler] 아이템 데이터를 찾을 수 없습니다: {itemId}");
+            return false;
         }
 
-        if (itemUseType == "RandomItemBox")
+        if (itemData is IUseable useableItem)
         {
-
+            useableItem.Use();
+            return true;
         }
-        else if (itemUseType == "StatChangeAtk")
+
+        else if (itemData is IEquipable equipableItem)
         {
-            if (useItemParamList.Count > 0)
-            {
-                string str = useItemParamList[0];
-                int statChangeVal = int.Parse(str);
-                //var playerComponent = GetLocalPlayer();
-                //playerComponent.AddAtk(statChangeVal);
-            }
-
+            // EquipmentService.Equip(equipableItem);
+            return true;
         }
-        else if (itemUseType == "StatChangeHp")
-        {
-            if (useItemParamList.Count > 0)
-            {
-                string str = useItemParamList[0];
-                int statChangeVal = int.Parse(str);
-                //var playerComponent = GetLocalPlayer();
-                //playerComponent.AddHp(statChangeVal);
-            }
-        }
-        else if (itemUseType == "SummonMonster")
-        {
-            if (useItemParamList.Count > 0)
-            {
-                string str = useItemParamList[0];
-                var strArr = str.Split(":");
-                if (strArr.Length > 1)
-                {
-                    string monsterDataId = strArr[0];
-                    int monsterSummonCount = int.Parse(strArr[1]);
 
-                    for (int i = 0; i < monsterSummonCount; i++)
-                    {
-                        //var playerComponent = GetLocalPlayer();
-                        //DaniTechGameObjectManager.Inst.CreateMonsterObject(monsterDataId, playerComponent.transform).Forget();
-                    }
-                }
-            }
-
-
-        }
+        return false;
     }
 }
