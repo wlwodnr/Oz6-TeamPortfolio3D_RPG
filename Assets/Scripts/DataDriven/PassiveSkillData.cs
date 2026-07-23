@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
 
 [System.Serializable]
 public class PassiveSkillData : GameDataBase, ISkillData
@@ -9,8 +10,7 @@ public class PassiveSkillData : GameDataBase, ISkillData
     public string TargetMode;
     public int RequiredLevel;
     public string[] RequiredSkill;
-    public string PassiveStatType;
-    public float PassiveValue;
+    public List<StatModifier> StatModifiers;
     object ISkillData.Id => Id;
     int ISkillData.RequiredLevel => RequiredLevel;
     string[] ISkillData.RequiredSkill => RequiredSkill;

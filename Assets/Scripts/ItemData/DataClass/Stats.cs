@@ -27,7 +27,16 @@ public class Stats
         if(_rawModifiers.ContainsKey(itemId) == false)
         {
             var data = ItemDataBase.GetItemData(itemId) as StatUpItem;
-            _rawModifiers.Add(itemId, data.StatModifiers);
+            if(data == null)
+            {
+                var skillData = GameDataManager.Instance.GetPassiveSkillData(itemId);
+                _rawModifiers.Add(itemId, skillData.StatModifiers);
+            }
+            else
+            {
+                _rawModifiers.Add(itemId, data.StatModifiers);
+            }
+
         }
         else
         {

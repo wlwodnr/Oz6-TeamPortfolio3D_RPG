@@ -100,6 +100,7 @@ public class SkillExecutor : MonoBehaviour
             return;
         }
 
+
         overrideController["Human_Run1"] = testClip;
 
         if (Animator_Owner != null)
@@ -151,6 +152,7 @@ public class SkillExecutor : MonoBehaviour
         }
     }
 
+    
     private void ProcessHitDetection(ActiveSkillData data, float hitPercent)
     {
         if (GameObjectManager.Instance == null)
