@@ -11,13 +11,13 @@ public class MonsterHudUI : MonoBehaviour
     [SerializeField] private CanvasGroup _visualCanvasGroup;
 
     [Header("Position Tracking")]
-    [SerializeField] private Vector3 _offset = new Vector3(0f, 2.0f, 0f);
+    [SerializeField] private Vector3 _offset = new Vector3(0.8f, 1.0f, 0f);
 
     [Header("Distance & Scale Settings")]
-    [SerializeField] private float _maxVisibleDistance = 30f;
-    [SerializeField] private float _referenceDistance = 10f;
-    [SerializeField] private float _minScale = 0.5f;
-    [SerializeField] private float _maxScale = 1.2f;
+    [SerializeField] private float _maxVisibleDistance = 15f;
+    [SerializeField] private float _referenceDistance = 5f;
+    [SerializeField] private float _minScale = 0.3f;
+    [SerializeField] private float _maxScale = 1f;
 
     private MonsterViewModel _vm;
     private Transform _targetTransform;

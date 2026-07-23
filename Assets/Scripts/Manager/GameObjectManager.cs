@@ -5,6 +5,7 @@ public class GameObjectManager : MonoBehaviour
 {
     public static GameObjectManager Instance { get; private set; }
     [SerializeField] private Transform Root_DynamicObject;
+    [SerializeField] private TestMonsterHudController _hudController;
 
     private int _objectInstanceKeyGenerator = 0;
 
@@ -108,6 +109,13 @@ public class GameObjectManager : MonoBehaviour
 
         InitSpawnedObject(instanceId, createdObject, dataId, ownerSpawnSpot);
 
+        // 신규 스폰시 HUD 생성
+        EnemyStatus enemyStatus = createdObject.GetComponent<EnemyStatus>() ?? createdObject.GetComponentInChildren<EnemyStatus>(true);
+        if (enemyStatus != null)
+        {
+            _hudController?.AddMonsterHud(instanceId, enemyStatus, createdObject.transform);
+        }
+
         //JU 이 디버그는 테스트 후 삭제할 예정
         Debug.Log($"동적 오브젝트 생성 완료. InstanceId: {instanceId}, Name: {createdObject.name}");
 
@@ -182,6 +190,13 @@ public class GameObjectManager : MonoBehaviour
             if (pooledObject.activeSelf == false)
             {
                 pooledObject.SetActive(true);
+            }
+
+            // 풀링 재사용 시 HUD 생성
+            EnemyStatus enemyStatus = pooledObject.GetComponent<EnemyStatus>() ?? pooledObject.GetComponentInChildren<EnemyStatus>(true);
+            if (enemyStatus != null)
+            {
+                _hudController?.AddMonsterHud(instanceId, enemyStatus, pooledObject.transform);
             }
 
             reusedInstanceId = instanceId;
@@ -375,6 +390,9 @@ public class GameObjectManager : MonoBehaviour
             _playerInstanceId = -1;
             Debug.Log($"GameObjectManager: 플레이어 오브젝트 등록 해제. InstanceId: {instanceId}");
         }
+
+        // 비활성화 시 HUD 제거 요청
+        _hudController?.RemoveMonsterHud(instanceId);
 
         _spawnSpotContainer.TryGetValue(instanceId, out SpawnSpot ownerSpawnSpot);
 
