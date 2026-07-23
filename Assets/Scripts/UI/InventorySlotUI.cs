@@ -1,6 +1,4 @@
-﻿using Cysharp.Threading.Tasks;
-using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.UI;
 
