@@ -166,6 +166,12 @@ MonoBehaviour:
   _spawnOnStart: 1
   _enableWaveRespawn: 1
   _respawnDelay: 5
+  _hasActiveWave: 0
+  _isSpawnOperationActive: 0
+  _debugAliveCount: 0
+  _debugIsWaitingRespawn: 0
+  _debugLastResult: 
+  _debugSpawnedInstanceIdList: 
 --- !u!1 &458852669664078028
 GameObject:
   m_ObjectHideFlags: 0
@@ -216,6 +222,7 @@ MonoBehaviour:
   - {fileID: 3543157799315619133}
   - {fileID: 8894402164904480806}
   _activateOnStart: 0
+  _currentState: 0
 --- !u!1 &562460017895268701
 GameObject:
   m_ObjectHideFlags: 0
@@ -2932,6 +2939,12 @@ MonoBehaviour:
   _spawnOnStart: 1
   _enableWaveRespawn: 1
   _respawnDelay: 5
+  _hasActiveWave: 0
+  _isSpawnOperationActive: 0
+  _debugAliveCount: 0
+  _debugIsWaitingRespawn: 0
+  _debugLastResult: 
+  _debugSpawnedInstanceIdList: 
 --- !u!1 &4243136015041372842
 GameObject:
   m_ObjectHideFlags: 0
@@ -2980,6 +2993,7 @@ MonoBehaviour:
   _spawnSpotList:
   - {fileID: 8511411094586112854}
   _activateOnStart: 0
+  _currentState: 0
 --- !u!1 &4962318074620666224
 GameObject:
   m_ObjectHideFlags: 0
@@ -3258,6 +3272,12 @@ MonoBehaviour:
   _spawnOnStart: 1
   _enableWaveRespawn: 1
   _respawnDelay: 5
+  _hasActiveWave: 0
+  _isSpawnOperationActive: 0
+  _debugAliveCount: 0
+  _debugIsWaitingRespawn: 0
+  _debugLastResult: 
+  _debugSpawnedInstanceIdList: 
 --- !u!1 &5192800436473042158
 GameObject:
   m_ObjectHideFlags: 0
@@ -4281,6 +4301,12 @@ MonoBehaviour:
   _spawnOnStart: 1
   _enableWaveRespawn: 1
   _respawnDelay: 5
+  _hasActiveWave: 0
+  _isSpawnOperationActive: 0
+  _debugAliveCount: 0
+  _debugIsWaitingRespawn: 0
+  _debugLastResult: 
+  _debugSpawnedInstanceIdList: 
 --- !u!1 &6937757738604880006
 GameObject:
   m_ObjectHideFlags: 0
@@ -4817,9 +4843,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DungeonFloorController
   _floorId: 
-  _roomList: []
+  _roomList:
+  - {fileID: 1057580983348356960}
+  - {fileID: 8337768216577303360}
   PointEntrance: {fileID: 0}
   _activateOnStart: 0
+  _currentState: 0
 --- !u!1 &7447710613380714268
 GameObject:
   m_ObjectHideFlags: 0
