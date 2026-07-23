@@ -22,10 +22,6 @@ public class ConsumableItem : ItemBase, ITradeable, IUseable
         {
             effect.Apply();
         }
-        else
-        {
-            Debug.LogWarning($"[{name}] 할당된 ItemEffect가 없습니다.");
-        }
     }
     public void Buy()
     {
