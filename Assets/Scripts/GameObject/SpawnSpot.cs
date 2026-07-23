@@ -130,6 +130,8 @@ public class SpawnSpot : MonoBehaviour
             return;
         }
 
+        CleanInactiveSpawnObjectIds();
+
         _isSpawnOperationActive = true;
         RequestSpawnWave();
     }
@@ -137,10 +139,19 @@ public class SpawnSpot : MonoBehaviour
     public void DeactivateSpawnSpot()
     {
         _isSpawnOperationActive = false;
-        CancelRespawnTask();
-        RequestDisableAllSpawnedObjects();
 
         _hasActiveWave = false;
+
+        CancelRespawnTask();
+
+        RequestDisableAllSpawnedObjects();
+
+        if(_spawnedInstanceIdSet.Count > 0)
+        {
+            Debug.LogWarning($"SpawnSpot: [{gameObject.name}] 비활성화 후 남아 있는 InstanceId를 정리합니다. Count: {_spawnedInstanceIdSet.Count}", this);
+            _spawnedInstanceIdSet.Clear();
+        }
+
     }
 
     public void RequestSpawn()
@@ -151,6 +162,7 @@ public class SpawnSpot : MonoBehaviour
             return;
         }
         RequestSpawnWave();
+
     }
 
     public void RequestSpawnWave()
@@ -171,6 +183,9 @@ public class SpawnSpot : MonoBehaviour
             Debug.LogWarning($"SpawnSpot: [{gameObject.name}] SpawnEntry가 등록되지 않았습니다.");
             return;
         }
+
+        CleanInactiveSpawnObjectIds();
+
         if (_spawnedInstanceIdSet.Count > 0)
         {
             Debug.LogWarning($"SpawnSpot: [{gameObject.name}] 아직 살아 있는 몬스터가 있어 새 웨이브를 생성할 수 없습니다. " +
@@ -182,6 +197,8 @@ public class SpawnSpot : MonoBehaviour
             Debug.LogWarning($"SpawnSpot: [{gameObject.name}] 현재 리스폰 대기 중이므로 웨이브를 중복 생성할 수 없습니다.");
             return;
         }
+
+
         _hasActiveWave = false;
 
         int requestedSpawnCount = 0;
@@ -278,6 +295,11 @@ public class SpawnSpot : MonoBehaviour
 
         if (wasRemoved == false)
         {
+            if(_isSpawnOperationActive == false)
+            {
+                return;
+            }
+
             Debug.LogWarning($"SpawnSpot: [{gameObject.name}] 이 SpawnSpot이 관리하지 않는 InstanceId가 전달되었습니다. InstanceId: {disabledInstanceId}", this);
             return;
         }
