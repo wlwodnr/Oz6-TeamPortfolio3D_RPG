@@ -10,6 +10,7 @@ public class SkillExecutor : MonoBehaviour
     [SerializeField] private Animator Animator_Owner;
     [SerializeField] private Rigidbody Rigidbody_Owner;
     [SerializeField] private LayerMask LayerMask_Enemy;
+    [SerializeField] private AnimatorOverrideController overrideController;
 
     [Header("CurrentSkillState")]
     private ActiveSkillData _currentSkillData;
@@ -107,9 +108,14 @@ public class SkillExecutor : MonoBehaviour
         _currentHitIndex = 0;
         _isExecutingSkill = true;
 
-        if (Animator_Owner != null && !string.IsNullOrEmpty(data.AnimTrigger))
+        if (overrideController != null && data.SkillClip != null)
         {
-            Animator_Owner.SetTrigger(data.AnimTrigger);
+            overrideController["Skill_Cast"] = data.SkillClip;
+        }
+
+        if (Animator_Owner != null)
+        {
+            Animator_Owner.SetTrigger("SkillTrigger");
         }
         //123
 
