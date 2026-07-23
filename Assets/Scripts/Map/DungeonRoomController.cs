@@ -119,10 +119,8 @@ public class DungeonRoomController : MonoBehaviour
                     continue;
                 }
 
-                if(spawnSpot.IsSpawnOperationActive == false)
-                {
-                    spawnSpot.ActivateSpawnSpot();
-                }
+                spawnSpot.RequestSpawn();
+                
                 activatedSpawnSpotCount++;
             }
         }
