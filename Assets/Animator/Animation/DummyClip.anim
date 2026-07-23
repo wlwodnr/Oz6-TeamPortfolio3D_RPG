@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Great Sword High Spin Attack
+  m_Name: DummyClip
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -80751,9 +80751,9 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 1.0666667
-    functionName: TestEffectTrigger
-    data: RushAttack
+  - time: 1.1166667
+    functionName: 
+    data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0

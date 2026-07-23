@@ -12,6 +12,8 @@ public class SkillExecutor : MonoBehaviour
     [SerializeField] private Rigidbody Rigidbody_Owner;
     [SerializeField] private LayerMask LayerMask_Enemy;
 
+    [SerializeField] private Transform Swordtrans;
+    [SerializeField] private GameObject SwordEffect;
     [SerializeField] private AnimationClip testClip;
 
     private PlayerModel _playerModel;
@@ -101,7 +103,7 @@ public class SkillExecutor : MonoBehaviour
         }
 
 
-        overrideController["Human_Run1"] = testClip;
+        overrideController["DummyClip"] = testClip;
 
         if (Animator_Owner != null)
         {
@@ -152,7 +154,23 @@ public class SkillExecutor : MonoBehaviour
         }
     }
 
-    
+    public void TestEffectTrigger(string cliptype)
+    {
+        Vector3 spawnPos = transform.position;
+        spawnPos.y += 1.5f;
+        Quaternion spawnRot = Swordtrans.rotation * Quaternion.Euler(180f, 130f, -90f);
+        if (cliptype == "DoubleAttack")
+        {
+            spawnRot = Swordtrans.rotation * Quaternion.Euler(180f, 80f, -90f);
+        }
+        else if (cliptype == "RushAttack")
+        {
+            spawnRot = Swordtrans.rotation * Quaternion.Euler(180f, 130f, -90f);
+        }
+        GameObject vfx = Instantiate(SwordEffect, spawnPos, spawnRot);
+
+        Destroy(vfx, 1.5f);
+    }
     private void ProcessHitDetection(ActiveSkillData data, float hitPercent)
     {
         if (GameObjectManager.Instance == null)

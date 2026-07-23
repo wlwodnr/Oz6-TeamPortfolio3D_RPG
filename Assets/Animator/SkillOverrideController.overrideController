@@ -9,5 +9,5 @@ AnimatorOverrideController:
   m_Name: SkillOverrideController
   m_Controller: {fileID: 9100000, guid: 62de58c45db63d1428e01ca109e6fc58, type: 2}
   m_Clips:
-  - m_OriginalClip: {fileID: 3094330708855449807, guid: a8e6c7cf678a13541a726c2ae9ec00e3, type: 3}
-    m_OverrideClip: {fileID: -203655887218126122, guid: dd0f73817c014b94b9593fa248825919, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: e08431ac1df9466488369ab06d12b562, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 7e4e26b577bc3e741abec110ec16d417, type: 2}
