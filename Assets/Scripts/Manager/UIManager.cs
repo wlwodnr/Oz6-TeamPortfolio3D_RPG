@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//커서를 키는 UI를 등록
+//UI가 키고 꺼질 때 커서를 켜야 하는 UI일 경우 InputManager에게 커서를 키도록 매서드를 호출
+
+
 public class UIManager : MonoBehaviour
 {
     [SerializeField] Canvas Canvas_BgRoot;
@@ -43,6 +47,12 @@ public class UIManager : MonoBehaviour
         {
             openedUI.gameObject.SetActive(isSetActiveOnOpen);
             _openedUIDic.Add(uiType);
+
+            //JU 추가: 커서를 키는 조건 - UI가 켜져있고, 해당 UI가 커서를 켜야 하는 UI인 경우 킨다.
+            if(isSetActiveOnOpen && IsCursorAndInputControlUI(uiType))
+            {
+                InputManager.Instance?.SetCursorAndInputState(true);
+            }
         }
 
         return openedUI;
@@ -53,8 +63,16 @@ public class UIManager : MonoBehaviour
         if (_openedUIDic.Contains(uiType))
         {
             var openedUi = _createdUIDic[uiType];
+            //닫기 전, 실제로 활성화 된 상태였는지 체크
+            bool wasActive = openedUi.gameObject.activeSelf;
+
             openedUi.gameObject.SetActive(false);
             _openedUIDic.Remove(uiType);
+
+            if(wasActive && IsCursorAndInputControlUI(uiType))
+            {
+                InputManager.Instance?.SetCursorAndInputState(false);
+            }
         }
     }
 
@@ -131,5 +149,21 @@ public class UIManager : MonoBehaviour
     public void ClosePopupUI(UIType uiType)
     {
         CloseUI(UIRootType.PopupUI, uiType);
+    }
+
+    private bool IsCursorAndInputControlUI(UIType uiType)
+    {
+        switch (uiType)
+        {
+            case UIType.StartTitleUI:
+            case UIType.DialogueUI:
+            case UIType.InventoryUI:
+            case UIType.QuestUI:
+            case UIType.PlayerProfileUI:
+                {
+                    return true;
+                }
+            default: return false;
+        }
     }
 }
