@@ -5,6 +5,13 @@ using UnityEngine;
 //커서를 키는 UI를 등록
 //UI가 키고 꺼질 때 커서를 켜야 하는 UI일 경우 InputManager에게 커서를 키도록 매서드를 호출
 
+public enum TestUIOption
+{
+    ShowTestUIAndLockCursor,
+    ShowTestUIAndUnlockCursor,
+    HideTestUIAndLockCursor
+}
+
 
 public class UIManager : MonoBehaviour
 {
@@ -22,14 +29,32 @@ public class UIManager : MonoBehaviour
     private HashSet<UIType> _openedUIDic = new HashSet<UIType>();
 
 
+    [Header("TestUI 옵션")]
+    [SerializeField] private TestUIOption _testUIOption = TestUIOption.ShowTestUIAndLockCursor;
+
+    private TestUIOption _appliedTestUIOption;
+    private bool _isTestUIRequested = false;
+    private bool _isTestUICursorActive = false;
+
+
     private void Awake()
     {
         Instance = this;
+
+        _appliedTestUIOption = _testUIOption;
     }
 
     private void Start()
     {
         this.ShowStartupUIOnGameStart();
+    }
+
+    private void Update()
+    {
+        if(_isTestUIRequested && _appliedTestUIOption != _testUIOption)
+        {
+            ApplyTestUIOption();
+        }
     }
 
     public UIBase OpenUI(UIRootType uiRootType, UIType uiType, bool isInitialHide = false)
@@ -72,6 +97,12 @@ public class UIManager : MonoBehaviour
             if(wasActive && IsCursorAndInputControlUI(uiType))
             {
                 InputManager.Instance?.SetCursorAndInputState(false);
+            }
+
+            if(uiType == UIType.TestUI && _isTestUICursorActive)
+            {
+                InputManager.Instance?.SetCursorAndInputState(false);
+                _isTestUICursorActive = false;
             }
         }
     }
@@ -159,11 +190,66 @@ public class UIManager : MonoBehaviour
             case UIType.DialogueUI:
             case UIType.InventoryUI:
             case UIType.QuestUI:
-            case UIType.PlayerProfileUI:
+            case UIType.PlayerStatInfoUI:
                 {
                     return true;
                 }
             default: return false;
         }
+    }
+
+    public void OpenTestUI()
+    {
+        _isTestUIRequested = true;
+        ApplyTestUIOption();
+    }
+
+    private void ApplyTestUIOption()
+    {
+        switch(_testUIOption)
+        {
+            case TestUIOption.ShowTestUIAndLockCursor:
+                {
+                    if(_openedUIDic.Contains(UIType.TestUI) == false)
+                    {
+                        OpenUI(UIRootType.VeryFrontUI, UIType.TestUI);
+                    }
+
+                    if(_isTestUICursorActive && InputManager.Instance != null)
+                    {
+                        InputManager.Instance?.SetCursorAndInputState(false);
+                        _isTestUICursorActive = false;
+                    }
+                    break;
+                }
+            case TestUIOption.ShowTestUIAndUnlockCursor:
+                {
+                    if(_openedUIDic.Contains(UIType.TestUI) == false)
+                    {
+                        OpenUI(UIRootType.VeryFrontUI, UIType.TestUI);
+                    }
+                    if(_isTestUICursorActive == false && InputManager.Instance != null)
+                    {
+                        InputManager.Instance?.SetCursorAndInputState(true);
+                        _isTestUICursorActive = true;
+                    }
+                    break;
+                }
+            case TestUIOption.HideTestUIAndLockCursor:
+                {
+                    if(_openedUIDic.Contains(UIType.TestUI))
+                    {
+                        CloseUI(UIRootType.VeryFrontUI, UIType.TestUI);
+                    }
+                    else if(_isTestUICursorActive)
+                    {
+                        InputManager.Instance?.SetCursorAndInputState(false);
+                        _isTestUICursorActive = false;
+                    }
+                    break;
+                }
+        }
+        _appliedTestUIOption = _testUIOption;
+
     }
 }
