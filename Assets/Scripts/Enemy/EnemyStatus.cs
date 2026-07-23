@@ -104,23 +104,6 @@ public class EnemyStatus : MonoBehaviour, IDamageable
         //
         Debug.Log($"[{gameObject.name}] 상태가 초기화되었습니다.");
     }
-
-#if UNITY_EDITOR
-    // PlayerAttack이 완성되기 전 테스트용
-    [ContextMenu("TEST/10 데미지 받기")]
-    private void TestTakeDamage()
-    {
-        DamageInfo testDamageInfo = new DamageInfo(
-            10,
-            false,
-            transform.position,
-            Vector3.zero,
-            gameObject
-        );
-
-        TakeDamage(testDamageInfo);
-    }
-#endif
 }
 
 

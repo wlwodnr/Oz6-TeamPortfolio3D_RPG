@@ -153,7 +153,7 @@ public class PlayerController : MonoBehaviour
 
             Vector3 direction = (enemy.transform.position - transform.position).normalized;
             direction.y = 0f;
-            DamageInfo dmgInfo = new DamageInfo(_temporaryAttackDamage, false, Vector3.zero, direction, transform.gameObject);
+            DamageInfo dmgInfo = new DamageInfo(_temporaryAttackDamage, false, Vector3.zero, direction, 0f, transform.gameObject);
             GameObjectManager.Instance.RequestTakeDamage(targetInstanceId, dmgInfo);
         }
     }
