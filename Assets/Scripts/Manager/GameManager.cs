@@ -126,11 +126,13 @@ public class GameManager : MonoBehaviour
     private void OnEnterGameOverState()
     {
         Time.timeScale = 0f;
+        InputManager.Instance?.SetGameplayInputState(false);
         Debug.Log("현재 게임 오버 상태에 돌입했습니다.");
     }
     private void OnEnterClearState()
     {
         Time.timeScale = 0f;
+        InputManager.Instance?.SetGameplayInputState(false);
         Debug.Log("현재 게임 클리어 상태에 돌입했습니다.");
 
     }
