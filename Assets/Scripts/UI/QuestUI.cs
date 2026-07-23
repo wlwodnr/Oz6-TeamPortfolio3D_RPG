@@ -65,7 +65,12 @@ public class QuestUI : UIBase
         if(Effect_QuestComplete != null)
             Effect_QuestComplete.SetActive(isComplete);
 
-        Text_Progress.color = isComplete ? Color.yellow : Color.white;
+        Color color = isComplete ? Color.yellow : Color.white;
+        Text_QuestTitle.color = color;
+        Text_QuestDescription.color = color;
+        Text_Progress.color = color;
+
+        //Text_Progress.color = isComplete ? Color.yellow : Color.white;
     }
 
     private void Show()
