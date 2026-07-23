@@ -168,6 +168,8 @@ public class SkillExecutor : MonoBehaviour
             if (enemy == null) continue;
             if (currentHitCount >= data.TargetCount) break;
 
+            Debug.Log($"{enemy.gameObject.name}");
+
             IGameObjectEntity targetEntity = enemy.GetComponentInParent<IGameObjectEntity>();
             if (targetEntity == null || targetEntity.InstanceId < 0)
             {
