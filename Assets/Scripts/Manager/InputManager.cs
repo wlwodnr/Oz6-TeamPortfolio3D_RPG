@@ -90,7 +90,7 @@ public class InputManager : MonoBehaviour
         UpdateCursorState();
     }
 
-    public void SetGamePlayInputState(bool isEnable)
+    public void SetGameplayInputState(bool isEnable)
     {
         _isGamePlayInputEnable = isEnable;
 
