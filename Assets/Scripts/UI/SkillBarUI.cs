@@ -28,7 +28,7 @@ public class SkillBarUI : MonoBehaviour
         {
             return;
         }
-        if(InputManager.Instance.CanProcessGameplayeInput == false)
+        if(InputManager.Instance.CanProcessGameplayInput == false)
         {
             return;
         }

@@ -20,7 +20,7 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    public bool CanProcessGameplayeInput
+    public bool CanProcessGameplayInput
     {
         get
         {
@@ -52,7 +52,7 @@ public class InputManager : MonoBehaviour
         float vertical = Input.GetAxisRaw("Vertical");
 
         //UI가 열려있거나, Playing이 아니라면, 움직임 막기.
-        if(CanProcessGameplayeInput == false)
+        if(CanProcessGameplayInput == false)
         {
             MoveInput = Vector3.zero;
             return;
@@ -103,7 +103,7 @@ public class InputManager : MonoBehaviour
 
     private void UpdateCursorState()
     {
-        if(CanProcessGameplayeInput == false)
+        if(CanProcessGameplayInput == false)
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
