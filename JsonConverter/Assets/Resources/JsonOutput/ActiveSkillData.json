@@ -4,7 +4,7 @@
     "Name": "모드 체인지",
     "Description": "더블 슬래쉬의 사용 방식을 바꾼다.",
     "IconPath": null,
-    "TargetMode": "Hunt",
+    "TargetMode": "Always",
     "RequiredLevel": 1,
     "RequiredSkill": [
       "[\"Active_H_01\"]"
@@ -17,12 +17,14 @@
     "MultiHitPercentList": 0,
     "TargetCount": null,
     "CrowdControl": null,
+    "KnockBackForce": null,
     "DashForce": null,
     "HitInterval": null,
     "AttackHeight": null,
     "InputKey": "R",
     "RequireAir": false,
-    "IsModeChange": true
+    "IsModeChange": true,
+    "AnimTrigger": null
   },
   {
     "Id": "Active_H_01",
@@ -34,7 +36,7 @@
     "RequiredSkill": [
       "[]"
     ],
-    "CoolDown": 0.5,
+    "CoolDown": 1,
     "Cost": 6,
     "CastTime": 0.22,
     "AttackRange": 1.2,
@@ -42,12 +44,14 @@
     "MultiHitPercentList": 0,
     "TargetCount": 4,
     "CrowdControl": "KnockBack",
+    "KnockBackForce": 3,
     "DashForce": null,
     "HitInterval": 0.25,
     "AttackHeight": 1.2,
     "InputKey": "Q",
     "RequireAir": false,
-    "IsModeChange": false
+    "IsModeChange": false,
+    "AnimTrigger": "DoubleSlash"
   },
   {
     "Id": "Active_B_01",
@@ -59,7 +63,7 @@
     "RequiredSkill": [
       "[\"Active_H_01\"]"
     ],
-    "CoolDown": 0.5,
+    "CoolDown": 1,
     "Cost": 6,
     "CastTime": 0.22,
     "AttackRange": 1.2,
@@ -67,12 +71,14 @@
     "MultiHitPercentList": 0,
     "TargetCount": 1,
     "CrowdControl": "KnockBack",
+    "KnockBackForce": 3,
     "DashForce": null,
     "HitInterval": 0.25,
     "AttackHeight": 1.2,
     "InputKey": "Q",
     "RequireAir": false,
-    "IsModeChange": false
+    "IsModeChange": false,
+    "AnimTrigger": "DoubleSlash"
   },
   {
     "Id": "Active_02",
@@ -92,12 +98,14 @@
     "MultiHitPercentList": 0,
     "TargetCount": null,
     "CrowdControl": null,
+    "KnockBackForce": null,
     "DashForce": 15,
     "HitInterval": null,
     "AttackHeight": null,
     "InputKey": "F",
     "RequireAir": true,
-    "IsModeChange": false
+    "IsModeChange": false,
+    "AnimTrigger": null
   },
   {
     "Id": "Active_03",
@@ -117,19 +125,21 @@
     "MultiHitPercentList": 0,
     "TargetCount": 8,
     "CrowdControl": "KnockBack",
+    "KnockBackForce": 5,
     "DashForce": 20,
     "HitInterval": null,
     "AttackHeight": 2,
     "InputKey": "E",
     "RequireAir": false,
-    "IsModeChange": false
+    "IsModeChange": false,
+    "AnimTrigger": null
   },
   {
     "Id": "Mode_02",
     "Name": "모드 체인지",
     "Description": "트리플 슬래쉬의 사용 방식을 바꾼다.",
     "IconPath": null,
-    "TargetMode": "Hunt",
+    "TargetMode": "Always",
     "RequiredLevel": 30,
     "RequiredSkill": [
       "[\"Mode_01\"",
@@ -143,16 +153,18 @@
     "MultiHitPercentList": 0,
     "TargetCount": null,
     "CrowdControl": null,
+    "KnockBackForce": null,
     "DashForce": null,
     "HitInterval": null,
     "AttackHeight": null,
     "InputKey": "R",
     "RequireAir": false,
-    "IsModeChange": true
+    "IsModeChange": true,
+    "AnimTrigger": null
   },
   {
     "Id": "Active_H_02",
-    "Name": "트리플 슬래쉬",
+    "Name": "어드밴스드 더블 슬래쉬",
     "Description": "전방으로 무기를 세 번 휘둘러 다수의 적을 동시에 공격한다.",
     "IconPath": null,
     "TargetMode": "Hunt",
@@ -160,24 +172,26 @@
     "RequiredSkill": [
       "[\"Active_H_01\"]"
     ],
-    "CoolDown": 0.5,
+    "CoolDown": 1,
     "Cost": 10,
     "CastTime": 0.22,
     "AttackRange": 1.4,
-    "DamageMultiplier": 1.4,
+    "DamageMultiplier": 1.5,
     "MultiHitPercentList": 0,
     "TargetCount": 6,
     "CrowdControl": "KnockBack",
+    "KnockBackForce": 3,
     "DashForce": null,
     "HitInterval": 0.17,
     "AttackHeight": 1.4,
     "InputKey": "Q",
     "RequireAir": false,
-    "IsModeChange": false
+    "IsModeChange": false,
+    "AnimTrigger": "DoubleSlash"
   },
   {
     "Id": "Active_B_02",
-    "Name": "트리플 슬래쉬-포커싱",
+    "Name": "어드밴스드 더블 슬래쉬-포커싱",
     "Description": "전방으로 무기를 세 번 휘둘러 한 명의 적을 집중 공격한다.",
     "IconPath": null,
     "TargetMode": "Boss",
@@ -185,7 +199,7 @@
     "RequiredSkill": [
       "[\"Active_H_02\"]"
     ],
-    "CoolDown": 0.5,
+    "CoolDown": 1,
     "Cost": 10,
     "CastTime": 0.22,
     "AttackRange": 1.4,
@@ -193,11 +207,13 @@
     "MultiHitPercentList": 0,
     "TargetCount": 1,
     "CrowdControl": "KnockBack",
+    "KnockBackForce": 3,
     "DashForce": null,
     "HitInterval": 0.17,
     "AttackHeight": 1.4,
     "InputKey": "Q",
     "RequireAir": false,
-    "IsModeChange": false
+    "IsModeChange": false,
+    "AnimTrigger": "DoubleSlash"
   }
 ]
