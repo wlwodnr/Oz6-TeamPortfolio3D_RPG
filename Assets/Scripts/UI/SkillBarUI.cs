@@ -23,6 +23,16 @@ public class SkillBarUI : MonoBehaviour
 
     private void Update()
     {
+        //게임 플레이 상태가 아닌, 일시정지나 게임 타이틀 등의 상황에서 입력 차단
+        if(InputManager.Instance == null)
+        {
+            return;
+        }
+        if(InputManager.Instance.CanProcessGameplayeInput == false)
+        {
+            return;
+        }
+
         for (int i = 0; i < _keyBindings.Length; i++)
         {
             if (Input.GetKeyDown(_keyBindings[i]))
