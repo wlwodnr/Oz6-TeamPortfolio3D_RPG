@@ -13,6 +13,11 @@ public class StartTitleUI : UIBase
 
     private void OnClickStartButton()
     {
+        //GameManager와 연동
+        if(GameManager.Instance != null)
+        {
+            GameManager.Instance.StartGame();
+        }
         UIManager.Instance.CloseUI(UIRootType.MainUI, UIType.StartTitleUI);
 
         UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.PlayerProfileUI);
