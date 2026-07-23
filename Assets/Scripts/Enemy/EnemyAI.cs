@@ -266,17 +266,17 @@ public class EnemyAI : MonoBehaviour
         return Animator_Enemy;
     }
 
-    //public void ChangeState(EnemyAIState newState)
-    //{
-    //    if (_currentState != null)
-    //    {
-    //        _currentState.ExitState(this, _myEntity);
-    //    }
+    public void ChangeState(EnemyAIState newState)
+    {
+        if (_currentState != null)
+        {
+            _currentState.ExitState(this);
+        }
 
-    //    _currentState = _states[newState];
-    //    _currentState.EnterState(this, _myEntity);
-    //    _currentStateEnum = newState;
-    //}
+        _currentState = _states[newState];
+        _currentState.EnterState(this);
+        _currentStateEnum = newState;
+    }
 
 
     // BT에서 호출할 메서드들

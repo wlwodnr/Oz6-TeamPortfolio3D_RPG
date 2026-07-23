@@ -33,6 +33,7 @@ public class EnemyAnimatorController : MonoBehaviour
                 break;
             case EnemyAnimState.Walk:
                 Animator_Enemy.SetBool("IsWalk", true);
+                Debug.Log("걷고 있습니다.");
                 break;
             case EnemyAnimState.Attack:
                 Animator_Enemy.SetBool("IsAttack", true);
