@@ -12,6 +12,7 @@ public class EnemyStatus : MonoBehaviour, IDamageable
 
     public bool IsDead {  get { return _isDead; } }
     public int CurrentHp { get { return _currentHp; } }
+    public int MaxHp { get { return _temporaryMaxHp; } }
 
     public event Action OnDeadEvent;
 

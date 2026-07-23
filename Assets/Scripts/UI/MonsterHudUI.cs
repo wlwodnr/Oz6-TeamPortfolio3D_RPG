@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,19 +8,23 @@ public class MonsterHudUI : MonoBehaviour
     [Header("UI Components")]
     [SerializeField] private Slider Slider_HpBar;
     [SerializeField] private Text Text_Hp;
+    [SerializeField] private CanvasGroup _visualCanvasGroup;
 
     [Header("Position Tracking")]
-    [SerializeField] private Vector3 _offset = new Vector3(0f, 2.0f, 0f);
+    [SerializeField] private Vector3 _offset = new Vector3(0.8f, 1.0f, 0f);
 
     [Header("Distance & Scale Settings")]
-    [SerializeField] private float _maxVisibleDistance = 30f;
-    [SerializeField] private float _referenceDistance = 10f;
-    [SerializeField] private float _minScale = 0.5f;
-    [SerializeField] private float _maxScale = 1.2f;
+    [SerializeField] private float _maxVisibleDistance = 15f;
+    [SerializeField] private float _referenceDistance = 5f;
+    [SerializeField] private float _minScale = 0.3f;
+    [SerializeField] private float _maxScale = 1f;
 
     private MonsterViewModel _vm;
     private Transform _targetTransform;
     private Camera _mainCamera;
+
+    public event Action<int> OnHudClosed; // instanceId 전달용
+    private int _instanceId;
 
     private void LateUpdate()
     {
@@ -38,19 +43,22 @@ public class MonsterHudUI : MonoBehaviour
             // 카메라 뒤에 있거나 최대 거리를 넘어가면 숨김
             if (screenPos.z <= 0f || distance > _maxVisibleDistance)
             {
-                if (gameObject.activeSelf) gameObject.SetActive(false);
+                SetVisible(false);
                 return;
             }
 
-            if (!gameObject.activeSelf) 
-            {
-                gameObject.SetActive(true); 
-            }
-
+            SetVisible(true);
             transform.position = screenPos;
-
             UpdateScaleByDistance(distance);
         }
+    }
+
+    private void SetVisible(bool visible)
+    {
+        if (_visualCanvasGroup == null) return;
+        _visualCanvasGroup.alpha = visible ? 1f : 0f;
+        _visualCanvasGroup.blocksRaycasts = visible;
+        _visualCanvasGroup.interactable = visible;
     }
 
     // 거리에 따른 HUD 크기(Scale) 보정
@@ -68,10 +76,11 @@ public class MonsterHudUI : MonoBehaviour
         UnbindViewModel();
     }
 
-    public void BindViewModel(MonsterViewModel vm, Transform targetTransform)
+    public void BindViewModel(int instanceId, MonsterViewModel vm, Transform targetTransform)
     {
         UnbindViewModel();
 
+        _instanceId = instanceId;
         _vm = vm;
         _targetTransform = targetTransform;
 
@@ -105,8 +114,7 @@ public class MonsterHudUI : MonoBehaviour
                 if (_vm.IsDead)
                 {
                     UnbindViewModel();
-                    gameObject.SetActive(false);
-                    UIManager.Instance.CloseUI(UIRootType.BackGroundUI, UIType.MonsterHudUI); // ui에서 생성 제거
+                    OnHudClosed?.Invoke(_instanceId);
                 }
                 break;
         }
