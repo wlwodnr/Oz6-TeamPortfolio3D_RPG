@@ -556,6 +556,8 @@ MonoBehaviour:
   LayerMask_Enemy:
     serializedVersion: 2
     m_Bits: 128
+  Swordtrans: {fileID: 0}
+  SwordEffect: {fileID: 0}
   testClip: {fileID: -203655887218126122, guid: f11b6246e02bd6944b6427d3e301d59f, type: 3}
 --- !u!114 &9223192253580322591
 MonoBehaviour:

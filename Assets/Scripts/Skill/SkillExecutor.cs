@@ -114,7 +114,7 @@ public class SkillExecutor : MonoBehaviour
 
         if (overrideController != null && data.SkillClip != null)
         {
-            overrideController["Skill_Cast"] = data.SkillClip;
+            overrideController["DummyClip"] = data.SkillClip;
         }
 
         if (Animator_Owner != null)

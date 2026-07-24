@@ -30,7 +30,7 @@ public class Stats
             if(data == null)
             {
                 var skillData = GameDataManager.Instance.GetPassiveSkillData(itemId);
-                _rawModifiers.Add(itemId, skillData.StatModifiers);
+                _rawModifiers.Add(itemId, skillData.GetStatModifiers());
             }
             else
             {

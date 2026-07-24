@@ -89,6 +89,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleJumpPressed()
     {
+        Debug.Log("jump Execute");
         if (_jumpCount < 2)
         {
             Debug.Log($"JumpCount : {_jumpCount}");
