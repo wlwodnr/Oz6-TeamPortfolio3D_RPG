@@ -17,6 +17,15 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
+        if (InputManager.Instance == null)
+        {
+            return;
+        }
+        if(InputManager.Instance.CanProcessGameplayInput == false)
+        {
+            return;
+        }
+
         // 마우스 입력값 누적
         mouseX += Input.GetAxis("Mouse X") * sensitivity;
         mouseY -= Input.GetAxis("Mouse Y") * sensitivity; 
