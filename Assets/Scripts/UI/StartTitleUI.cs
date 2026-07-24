@@ -22,6 +22,7 @@ public class StartTitleUI : UIBase
 
         UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.PlayerProfileUI);
         UIManager.Instance.OpenUI(UIRootType.VeryFrontUI, UIType.TestUI);
+        UIManager.Instance.OpenQuestUI();
 
         UIManager.Instance.OpenTestUI();
     }
