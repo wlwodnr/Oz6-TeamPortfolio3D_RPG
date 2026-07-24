@@ -140,27 +140,6 @@ public class SkillExecutor : MonoBehaviour
                 Debug.LogWarning($"{data.Id} 스킬로 {gameObject.name}을(를) 공격했으나 Rigidbody_Owner가 할당되지 않았습니다.");
             }
         }
-
-        if (data.MultiHitPercentList != null && data.MultiHitPercentList.Count() > 0)
-        {
-            for (int i = 0; i < data.MultiHitPercentList.Count; i++)
-            {
-                if (_playerModel == null || gameObject == null) return;
-
-                ProcessHitDetection(data, data.MultiHitPercentList[i]);
-
-                if (i < data.MultiHitPercentList.Count - 1)
-                {
-                    float interval = data.HitInterval > 0f ? data.HitInterval : 0.1f;
-                    bool isCanceled = await UniTask.Delay(TimeSpan.FromSeconds(interval), cancellationToken: _cts.Token).SuppressCancellationThrow();
-                    if (isCanceled) return;
-                }
-            }
-        }
-        else if (data.DamageMultiplier > 0f)
-        {
-            ProcessHitDetection(data, 1.0f);
-        }
     }
 
     private void ProcessHitDetection(ActiveSkillData data, float hitPercent)
@@ -229,7 +208,7 @@ public class SkillExecutor : MonoBehaviour
     {
         if (!_isExecutingSkill || _currentSkillData == null)
         {
-            Debug.LogWarning("실행할 스킬 데이터가 없습니다.");
+            Debug.LogWarning("실행 중인 스킬 데이터가 없거나 이미 종료된 스킬입니다.");
             return;
         }
 
@@ -250,7 +229,10 @@ public class SkillExecutor : MonoBehaviour
 
     public void AttackEnd()
     {
-        Debug.Log($"[{_currentSkillData?.Name}] 스킬 종료. 스킬 정보를 초기화합니다.");
+        if (_currentSkillData != null)
+        {
+            Debug.Log($"[{_currentSkillData.Name}] 스킬 사용 종료. 스킬 정보를 초기화합니다.");
+        }
 
         _currentSkillData = null;
         _currentHitIndex = 0;
