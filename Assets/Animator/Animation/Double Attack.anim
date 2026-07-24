@@ -134790,21 +134790,21 @@ AnimationClip:
   - time: 1.3
     functionName: AttackHandler
     data: DoubleAttack
-    objectReferenceParameter: {fileID: 0}
+    objectReferenceParameter: {fileID: 11500000, guid: 0c52f475d64fdc64d808ffa9ea4ba306, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 2.1666667
     functionName: AttackHandler
     data: DoubleAttack
-    objectReferenceParameter: {fileID: 0}
+    objectReferenceParameter: {fileID: 11500000, guid: 0c52f475d64fdc64d808ffa9ea4ba306, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 3.2166667
     functionName: AttackEnd
     data: 
-    objectReferenceParameter: {fileID: 0}
+    objectReferenceParameter: {fileID: 11500000, guid: 0c52f475d64fdc64d808ffa9ea4ba306, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0

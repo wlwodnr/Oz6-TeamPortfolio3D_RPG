@@ -117,6 +117,13 @@ public class SkillExecutor : MonoBehaviour
             overrideController["DummyClip"] = data.SkillClip;
         }
 
+
+        if(data.SkillClip == null)
+        {
+            overrideController["DummyClip"] = testClip;
+        }
+
+
         if (Animator_Owner != null)
         {
             Animator_Owner.SetTrigger("SkillTrigger");

@@ -19505,7 +19505,7 @@ MonoBehaviour:
   - {fileID: 1791456769}
   - {fileID: 1319712064}
   FloorStart: {fileID: 8283423798979190028}
-  Prefab_Player: {fileID: 8132445902684612142, guid: 3eb124da5f3eb944ea8c12d9e791088d, type: 3}
+  Prefab_Player: {fileID: 8132445902684612142, guid: 715fc3574488d544c98e0c1f686c6b08, type: 3}
   _playerDataId: player_main
   Controller_Camera: {fileID: 873593641}
   transformPlayer: {fileID: 0}
