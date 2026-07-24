@@ -20675,7 +20675,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1635541636
 Transform:
   m_ObjectHideFlags: 0
@@ -20713,6 +20713,7 @@ MonoBehaviour:
   Canvas_ContentRoot: {fileID: 1222272303}
   Canvas_PopupRoot: {fileID: 356277419}
   Canvas_VeryFrontRoot: {fileID: 1654902698}
+  _testUIOption: 0
 --- !u!1 &1641183975
 GameObject:
   m_ObjectHideFlags: 0
@@ -27336,6 +27337,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameObjectManager
   Root_DynamicObject: {fileID: 1450028612}
+  _hudController: {fileID: 0}
 --- !u!1 &2486687984298057910
 GameObject:
   m_ObjectHideFlags: 0

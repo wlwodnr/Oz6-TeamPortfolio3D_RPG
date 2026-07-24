@@ -134,9 +134,11 @@ public class InventoryModel
     public int GetMaxSlotCount()
     {
         return _slots.Count;
+    }
+
     public InventoryData CaptureInventoryData()
     {
-        InventoryData saveData = new InventoryData(_maxSlotCount);
+        InventoryData saveData = new InventoryData();
 
         foreach(var item in _slots)
         {

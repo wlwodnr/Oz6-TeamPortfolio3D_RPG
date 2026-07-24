@@ -169,6 +169,8 @@ public class PlayerModel
             CurMp = _info.CurMp,
             Coins = _info.Coins
         };
+        return data;
+    }
     // 최대 스탯 오버 방지
     public void ChangeHp(float amount)
     {
@@ -204,9 +206,6 @@ public class PlayerModel
         }
 
         OnPlayerInfoChanged?.Invoke(nameof(PlayerInfo.CurMp));
-    }
-
-        return data;
     }
 
     // 아래는 임시

@@ -55,9 +55,6 @@ public class StoreManager : MonoBehaviour
             return;
         }
 
-        InputManager.Instance.UnlockCursor();
-        InputManager.Instance.DisableMove();
-        InputManager.Instance.DisableCamera();
 
         if(_cachedModel.ContainsKey(npcId) == false)
         {
@@ -82,18 +79,17 @@ public class StoreManager : MonoBehaviour
 
             StoreService.Initialize(_playerModel, _cachedModel[npcId]);
         }
+        InputManager.Instance.SetCursorAndInputState(true);
     }
 
     public void CloseStore()
     {
         if(_cachedStoreVM != null)
         {
-            InputManager.Instance.LockCursor();
-            InputManager.Instance.ActiveMove();
-            InputManager.Instance.ActiveCamera();
 
             _cachedStoreVM.Dispose();
             _cachedStoreVM = null;
+            InputManager.Instance.SetCursorAndInputState(false);
         }
     }
 
