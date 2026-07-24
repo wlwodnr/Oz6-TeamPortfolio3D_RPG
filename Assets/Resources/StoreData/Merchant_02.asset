@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StoreData
   NpcId: Merchant_02
   StoreName: "2\uBC88\uC0C1\uC778"
-  StoreItems: []
+  StoreItems:
+  - ItemId: Stat_01
+    Count: 10

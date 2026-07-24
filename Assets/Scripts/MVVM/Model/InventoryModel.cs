@@ -135,4 +135,16 @@ public class InventoryModel
     {
         return _slots.Count;
     }
+
+    public InventoryData CaptureInventoryData()
+    {
+        InventoryData saveData = new InventoryData();
+
+        foreach(var item in _slots)
+        {
+            saveData.InventoryItems.Add(new InventoryItemData(item.Key, item.Value.ItemId, item.Value.Count));
+        }
+
+        return saveData;
+    }
 }

@@ -12,13 +12,12 @@ public class PlayerModel
     private Dictionary<string,int> _inventory = new Dictionary<string, int>();    
     private Dictionary<string,int> _equipInventory = new Dictionary<string,int>();
 
-    private HashSet<string> _learnedSkills = new HashSet<string>();
-
     //itemId - 데이터
     private Dictionary<string, IHitEffect> _activeHitEffects = new Dictionary<string, IHitEffect>();
 
     public event Action<string> OnPlayerStatsChanged;
     public event Action<string> OnPlayerInfoChanged;
+    public event Action<string> OnSkillDataChanged;
 
     public PlayerModel()
     {
@@ -26,6 +25,8 @@ public class PlayerModel
         _stats = new Stats();
         _stats.OnStatsUpdated += HandleStatsUpdated;
         _info.OnInfoChanged += HandleInfoUpdated;
+
+        _info.Coins = 10000;
     }
 
     public void Additem(string itemId)
@@ -155,6 +156,21 @@ public class PlayerModel
         return _stats.GetValue(statType);
     }
 
+    public PlayerSaveData CaptureData()
+    {
+        PlayerSaveData data = new PlayerSaveData();
+        data.PlayerInfo = new PlayerInfo()
+        {
+            Name = _info.Name,
+            CurLevel = _info.CurLevel,
+            TotalExp = _info.TotalExp,
+            SkillPoint = _info.SkillPoint,
+            CurHp = _info.CurHp,
+            CurMp = _info.CurMp,
+            Coins = _info.Coins
+        };
+        return data;
+    }
     // 최대 스탯 오버 방지
     public void ChangeHp(float amount)
     {
@@ -192,7 +208,7 @@ public class PlayerModel
         OnPlayerInfoChanged?.Invoke(nameof(PlayerInfo.CurMp));
     }
 
-    // 아래는 스킬 관련 데이터/메서드 (수정될 확률 높음)
+    // 아래는 임시
 
     public HashSet<string> LearnedPassiveSkill = new HashSet<string>();
     public HashSet<string> LearnedActiveSkill = new HashSet<string>();
@@ -214,7 +230,7 @@ public class PlayerModel
     }
     public bool HasLearnedPassive(string id)
     {
-        if(LearnedPassiveSkill.Contains(id) == true)
+        if (LearnedPassiveSkill.Contains(id) == true)
         {
             return true;
         }

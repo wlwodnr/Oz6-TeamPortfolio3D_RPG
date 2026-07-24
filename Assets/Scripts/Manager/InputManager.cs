@@ -5,6 +5,7 @@ public class InputManager : MonoBehaviour
 {
     public static InputManager Instance;
     public Vector3 MoveInput {  get; private set; }
+    public CameraController CameraController;
     public static event Action OnJumpPressed;
     public static event Action OnAttackPressed;
     public static event Action OnInteractPressed;
@@ -32,6 +33,7 @@ public class InputManager : MonoBehaviour
     {
         if(Instance == null)
         {
+            CameraController = Camera.main.GetComponent<CameraController>();
             Instance = this;
         }
         else
@@ -51,21 +53,25 @@ public class InputManager : MonoBehaviour
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
 
+        MoveInput = new Vector3(horizontal, 0, vertical).normalized;
+
+        Debug.Log($"{MoveInput}");
         //UI가 열려있거나, Playing이 아니라면, 움직임 막기.
-        if(CanProcessGameplayInput == false)
+        if (CanProcessGameplayInput == false)
         {
             MoveInput = Vector3.zero;
             return;
         }
 
 
-        MoveInput = new Vector3(horizontal, 0, vertical).normalized;
-        if(Input.GetKeyDown(KeyCode.Space))
+
+
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             OnJumpPressed?.Invoke();
         }
 
-        if(Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             OnAttackPressed?.Invoke();
         }
@@ -74,6 +80,9 @@ public class InputManager : MonoBehaviour
         {
             OnInteractPressed?.Invoke();
         }
+
+
+
     }
 
     public void SetCursorAndInputState(bool isOpen)

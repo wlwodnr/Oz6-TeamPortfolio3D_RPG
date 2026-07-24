@@ -3873,7 +3873,7 @@ PrefabInstance:
     - target: {fileID: 6755528606012543679, guid: d17c9ed492357684d88c5183c6ff0079, type: 3}
       propertyPath: ColliderPortal
       value: 
-      objectReference: {fileID: 1483184369}
+      objectReference: {fileID: 0}
     - target: {fileID: 7192126383261928670, guid: d17c9ed492357684d88c5183c6ff0079, type: 3}
       propertyPath: m_LocalPosition.x
       value: -81.03658
@@ -3921,7 +3921,7 @@ PrefabInstance:
     - target: {fileID: 8672210866606462110, guid: d17c9ed492357684d88c5183c6ff0079, type: 3}
       propertyPath: ColliderPortal
       value: 
-      objectReference: {fileID: 474816790}
+      objectReference: {fileID: 0}
     - target: {fileID: 8672210866606462110, guid: d17c9ed492357684d88c5183c6ff0079, type: 3}
       propertyPath: ControllerDungeonFlow
       value: 
@@ -5675,11 +5675,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 473861467}
   m_CullTransparentMesh: 1
---- !u!65 &474816790 stripped
-BoxCollider:
-  m_CorrespondingSourceObject: {fileID: 3955613597219060250, guid: d17c9ed492357684d88c5183c6ff0079, type: 3}
-  m_PrefabInstance: {fileID: 322115094}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &488348760
 GameObject:
   m_ObjectHideFlags: 0
@@ -18662,11 +18657,6 @@ MonoBehaviour:
   Text_Base: {fileID: 0}
   Image_Base: {fileID: 0}
   Image_Select: {fileID: 0}
---- !u!65 &1483184369 stripped
-BoxCollider:
-  m_CorrespondingSourceObject: {fileID: 1404205230252375099, guid: d17c9ed492357684d88c5183c6ff0079, type: 3}
-  m_PrefabInstance: {fileID: 322115094}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1487317921
 GameObject:
   m_ObjectHideFlags: 0
@@ -20685,7 +20675,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1635541636
 Transform:
   m_ObjectHideFlags: 0
@@ -20723,6 +20713,7 @@ MonoBehaviour:
   Canvas_ContentRoot: {fileID: 1222272303}
   Canvas_PopupRoot: {fileID: 356277419}
   Canvas_VeryFrontRoot: {fileID: 1654902698}
+  _testUIOption: 0
 --- !u!1 &1641183975
 GameObject:
   m_ObjectHideFlags: 0
@@ -27303,6 +27294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67b89b3bc9b2dcc4d8993eac691687cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputManager
+  CameraController: {fileID: 0}
 --- !u!114 &1437799635937849755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27345,6 +27337,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameObjectManager
   Root_DynamicObject: {fileID: 1450028612}
+  _hudController: {fileID: 0}
 --- !u!1 &2486687984298057910
 GameObject:
   m_ObjectHideFlags: 0
