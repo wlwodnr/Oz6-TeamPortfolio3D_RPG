@@ -33,7 +33,7 @@ public class PlayerModel
         LearnActive("Active_H_02");
         LearnActive("Active_B_01");
         LearnActive("Active_B_02");
-        LearnActive("Active_02");
+        LearnActive("Active_03");
     }
 
     public void Additem(string itemId)

@@ -11,6 +11,12 @@ public class SkillExecutor : MonoBehaviour
     [SerializeField] private AnimatorOverrideController overrideController;
     [SerializeField] private Rigidbody Rigidbody_Owner;
     [SerializeField] private LayerMask LayerMask_Enemy;
+    [SerializeField] private AnimatorOverrideController overrideController;
+
+    [Header("CurrentSkillState")]
+    private ActiveSkillData _currentSkillData;
+    private int _currentHitIndex = 0;
+    private bool _isExecutingSkill = false;
 
     [SerializeField] private Transform Swordtrans;
     [SerializeField] private GameObject SwordEffect;
@@ -102,13 +108,21 @@ public class SkillExecutor : MonoBehaviour
             return;
         }
 
+        //애니메이터 관련 신규 로직
+        _currentSkillData = data;
+        _currentHitIndex = 0;
+        _isExecutingSkill = true;
 
-        overrideController["DummyClip"] = testClip;
+        if (overrideController != null && data.SkillClip != null)
+        {
+            overrideController["Skill_Cast"] = data.SkillClip;
+        }
 
         if (Animator_Owner != null)
         {
             Animator_Owner.SetTrigger("SkillTrigger");
         }
+        //123
 
         if (data.CastTime > 0f)
         {
@@ -195,6 +209,8 @@ public class SkillExecutor : MonoBehaviour
             if (enemy == null) continue;
             if (currentHitCount >= data.TargetCount) break;
 
+            Debug.Log($"{enemy.gameObject.name}");
+
             IGameObjectEntity targetEntity = enemy.GetComponentInParent<IGameObjectEntity>();
             if (targetEntity == null || targetEntity.InstanceId < 0)
             {
@@ -208,10 +224,13 @@ public class SkillExecutor : MonoBehaviour
             int finalCalculatedDamage = Mathf.RoundToInt(finalAtkDamage * data.DamageMultiplier * hitPercent);
 
             Vector3 knockbackDir = Vector3.zero;
+            float knockbackForce = 0f;
+
             if (string.Equals(data.CrowdControl, "KnockBack", StringComparison.OrdinalIgnoreCase))
             {
                 knockbackDir = transform.forward;
                 knockbackDir.y = 0f;
+                knockbackForce = data.KnockBackForce;
             }
 
             DamageInfo dmgInfo = new(
@@ -219,11 +238,46 @@ public class SkillExecutor : MonoBehaviour
                 false,
                 enemy.transform.position,
                 knockbackDir,
+                knockbackForce,
                 gameObject
             );
 
             GameObjectManager.Instance.RequestTakeDamage(targetEntity.InstanceId, dmgInfo);
             currentHitCount++;
         }
+
+    }
+
+    /// 애니메이션 관련 신규 로직
+    public void AttackHandler()
+    {
+        if (!_isExecutingSkill || _currentSkillData == null)
+        {
+            Debug.LogWarning("실행할 스킬 데이터가 없습니다.");
+            return;
+        }
+
+        float hitPercent = 1f;
+
+        if (_currentSkillData.MultiHitPercentList != null &&
+            _currentHitIndex < _currentSkillData.MultiHitPercentList.Count)
+        {
+            hitPercent = _currentSkillData.MultiHitPercentList[_currentHitIndex];
+        }
+
+        Debug.Log($"[{_currentSkillData.Name}] 스킬 {_currentHitIndex + 1}타 발동. (타격 비율: {hitPercent})");
+
+        ProcessHitDetection(_currentSkillData, hitPercent);
+
+        _currentHitIndex++;
+    }
+
+    public void AttackEnd()
+    {
+        Debug.Log($"[{_currentSkillData?.Name}] 스킬 종료. 스킬 정보를 초기화합니다.");
+
+        _currentSkillData = null;
+        _currentHitIndex = 0;
+        _isExecutingSkill = false;
     }
 }

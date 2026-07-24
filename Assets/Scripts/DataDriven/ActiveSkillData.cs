@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 [System.Serializable]
 public class ActiveSkillData : GameDataBase
@@ -18,10 +19,12 @@ public class ActiveSkillData : GameDataBase
     public float AttackRange;
     public int TargetCount;
     public string CrowdControl;
+    public float KnockBackForce;
     public float DashForce;
     public float HitInterval;
     public float AttackHeight;
     public string InputKey;
     public bool RequireAir;
     public bool IsModeChange;
+    public AnimationClip SkillClip;
 }
