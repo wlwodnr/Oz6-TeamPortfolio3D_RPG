@@ -93,36 +93,46 @@ public class GameManager : MonoBehaviour
 
     private void OnEnterBootState()
     {
+        InputManager.Instance?.SetGameplayInputState(false);
         Debug.Log("현재 초기화 상태에 돌입했습니다.");
     }
 
     private void OnEnterTitleState()
     {
+        Time.timeScale = 1f;
+        InputManager.Instance?.SetGameplayInputState(false);
         Debug.Log("현재 타이틀 상태에 돌입했습니다.");
     }
 
     private void OnEnterLoadingState()
     {
+        InputManager.Instance?.SetGameplayInputState(false);
         Debug.Log("현재 로딩 상태에 돌입했습니다.");
     }
 
     private void OnEnterPlayingState()
     {
+        Time.timeScale = 1f;
+        InputManager.Instance?.SetGameplayInputState(true);
+
         Debug.Log("현재 진행중인 상태에 돌입했습니다.");
     }
     private void OnEnterPausedState()
     {
         Time.timeScale = 0f;
+        InputManager.Instance?.SetGameplayInputState(false);
         Debug.Log("현재 일시 중지 상태에 돌입했습니다.");
     }
     private void OnEnterGameOverState()
     {
         Time.timeScale = 0f;
+        InputManager.Instance?.SetGameplayInputState(false);
         Debug.Log("현재 게임 오버 상태에 돌입했습니다.");
     }
     private void OnEnterClearState()
     {
         Time.timeScale = 0f;
+        InputManager.Instance?.SetGameplayInputState(false);
         Debug.Log("현재 게임 클리어 상태에 돌입했습니다.");
 
     }
