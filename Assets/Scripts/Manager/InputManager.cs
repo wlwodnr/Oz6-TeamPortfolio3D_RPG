@@ -11,8 +11,24 @@ public class InputManager : MonoBehaviour
     public static event Action OnAttackPressed;
     public static event Action OnInteractPressed;
 
+    private bool _isGamePlayInputEnable = false;
+
     private int _activeUiCount = 0;
-    public bool IsUIActive => _activeUiCount > 0;
+
+    public bool IsUIActive
+    {   get
+        {
+            return _activeUiCount > 0;
+        }
+    }
+
+    public bool CanProcessGameplayInput
+    {
+        get
+        {
+            return _isGamePlayInputEnable && IsUIActive == false;
+        }
+    }
 
     private void Awake()
     {
@@ -30,12 +46,25 @@ public class InputManager : MonoBehaviour
 
     private void Start()
     {
-        //UpdateCursorState();
+        _isGamePlayInputEnable = GameManager.Instance != null && GameManager.Instance.IsPlaying();
+        UpdateCursorState();
     }
 
     void Update()
     {
-        if(_isMoveActive == true)
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        float vertical = Input.GetAxisRaw("Vertical");
+
+        //UI가 열려있거나, Playing이 아니라면, 움직임 막기.
+        if(CanProcessGameplayInput == false)
+        {
+            MoveInput = Vector3.zero;
+            return;
+        }
+
+
+        MoveInput = new Vector3(horizontal, 0, vertical).normalized;
+        if(Input.GetKeyDown(KeyCode.Space))
         {
             float horizontal = Input.GetAxisRaw("Horizontal");
             float vertical = Input.GetAxisRaw("Vertical");
@@ -64,23 +93,34 @@ public class InputManager : MonoBehaviour
 
     }
 
-    //public void SetCursorAndInputState(bool isOpen)
-    //{
-    //    if (isOpen)
-    //    {
-    //        _activeUiCount++;
-    //    }
-    //    else
-    //    {
-    //        _activeUiCount = Mathf.Max(0, _activeUiCount - 1);
-    //    }
+    public void SetCursorAndInputState(bool isOpen)
+    {
+        if(isOpen)
+        {
+            _activeUiCount++;
+        }
+        else
+        {
+            _activeUiCount = Mathf.Max(0, _activeUiCount - 1);
+        }
 
-    //    UpdateCursorState();
-    //}
+        UpdateCursorState();
+    }
+
+    public void SetGameplayInputState(bool isEnable)
+    {
+        _isGamePlayInputEnable = isEnable;
+
+        if(_isGamePlayInputEnable == false)
+        {
+            MoveInput = Vector3.zero;
+        }
+        UpdateCursorState();
+    }
 
     private void UpdateCursorState()
     {
-        if (IsUIActive)
+        if(CanProcessGameplayInput == false)
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
@@ -89,37 +129,7 @@ public class InputManager : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+
         }
-    }
-
-    public void LockCursor()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-    }
-
-    public void UnlockCursor()
-    {
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-    }
-
-    public void ActiveMove()
-    {
-        _isMoveActive = true;
-    }
-    public void DisableMove()
-    {
-        _isMoveActive = false;
-    }
-
-    public void ActiveCamera()
-    {
-        CameraController.ActiveCameraMove();
-    }
-
-    public void DisableCamera()
-    {
-        CameraController.DisableCameraMove();
     }
 }

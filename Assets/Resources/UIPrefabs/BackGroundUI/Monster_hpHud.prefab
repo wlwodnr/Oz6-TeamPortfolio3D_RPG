@@ -46,6 +46,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6993178109947593697}
   - component: {fileID: 7362692881968237975}
+  - component: {fileID: 8741896799513354595}
   m_Layer: 5
   m_Name: Slider_HP
   m_TagString: Untagged
@@ -73,7 +74,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -149.81519, y: 145.7107}
-  m_SizeDelta: {x: 500, y: 40}
+  m_SizeDelta: {x: 200, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7362692881968237975
 MonoBehaviour:
@@ -126,6 +127,18 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!225 &8741896799513354595
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2515359791334610711}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &3856379590633654685
 GameObject:
   m_ObjectHideFlags: 0
@@ -184,7 +197,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0.5019608, a: 1}
+  m_Color: {r: 0.6470588, g: 0.1647059, b: 0.1647059, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -192,7 +205,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 3
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
@@ -323,7 +336,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MonsterHudUI
   Slider_HpBar: {fileID: 7362692881968237975}
   Text_Hp: {fileID: 3210785005013725457}
-  _offset: {x: 0, y: 2, z: 0}
+  _visualCanvasGroup: {fileID: 8741896799513354595}
+  _offset: {x: 0.8, y: 1, z: 0}
+  _maxVisibleDistance: 15
+  _referenceDistance: 5
+  _minScale: 0.3
+  _maxScale: 1
 --- !u!1 &8876680740240830483
 GameObject:
   m_ObjectHideFlags: 0

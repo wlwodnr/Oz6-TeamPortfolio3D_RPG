@@ -18,7 +18,7 @@ public class Stats
     {
         foreach(StatType type in Enum.GetValues(typeof(StatType)))
         {
-            _baseStats[type] = 1;  // 테스트용 초기화
+            _baseStats[type] = 100;  // 테스트용 초기화
         }
     }
 

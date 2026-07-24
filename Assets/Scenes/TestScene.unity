@@ -19803,6 +19803,9 @@ MonoBehaviour:
   Controller_Camera: {fileID: 873593641}
   transformPlayer: {fileID: 0}
   _transitionCooldown: 0.5
+  _currentFloor: {fileID: 0}
+  _isTransitioning: 0
+  _nextTransitionAllowedTime: 0
 --- !u!1 &1572095258
 GameObject:
   m_ObjectHideFlags: 0
@@ -20672,7 +20675,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1635541636
 Transform:
   m_ObjectHideFlags: 0

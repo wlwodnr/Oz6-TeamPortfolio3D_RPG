@@ -5,7 +5,6 @@ public class InventoryModel
 {
     private const string EMPTY_ITEM_ID = "";
 
-    private int _maxSlotCount;
     private Dictionary<long, InventorySlotModel> _slots = new Dictionary<long, InventorySlotModel>();
 
     public InventoryModel(InventoryData inventoryData)
@@ -31,7 +30,7 @@ public class InventoryModel
 
     private void Init(InventoryData inventoryData)
     {
-        _maxSlotCount = inventoryData.MaxSlotCount;
+        int _maxSlotCount = inventoryData.MaxSlotCount;
 
         for (long i = 0; i < _maxSlotCount; i++)
         {
@@ -132,6 +131,9 @@ public class InventoryModel
 
     public IEnumerable<InventorySlotModel> GetAllSlots() => _slots.Values;
 
+    public int GetMaxSlotCount()
+    {
+        return _slots.Count;
     public InventoryData CaptureInventoryData()
     {
         InventoryData saveData = new InventoryData(_maxSlotCount);

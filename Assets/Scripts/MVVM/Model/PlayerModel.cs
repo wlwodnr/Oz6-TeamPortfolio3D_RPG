@@ -169,6 +169,42 @@ public class PlayerModel
             CurMp = _info.CurMp,
             Coins = _info.Coins
         };
+    // 최대 스탯 오버 방지
+    public void ChangeHp(float amount)
+    {
+        Info.CurHp += amount;
+        float maxHp = GetStatValue(StatType.MaxHP);
+
+        if (Info.CurHp > maxHp)
+        {
+            Info.CurHp = maxHp;
+        }
+
+        if (Info.CurHp < 0f)
+        {
+            Info.CurHp = 0f;
+        }
+
+        OnPlayerInfoChanged?.Invoke(nameof(PlayerInfo.CurHp));
+    }
+
+    public void ChangeMp(float amount)
+    {
+        Info.CurMp += amount;
+        float maxMp = GetStatValue(StatType.MaxMP);
+
+        if (Info.CurMp > maxMp)
+        {
+            Info.CurMp = maxMp;
+        }
+
+        if (Info.CurMp < 0f)
+        {
+            Info.CurMp = 0f;
+        }
+
+        OnPlayerInfoChanged?.Invoke(nameof(PlayerInfo.CurMp));
+    }
 
         return data;
     }

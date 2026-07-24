@@ -9,6 +9,12 @@ public class CameraController : MonoBehaviour
 
     private bool _isActive = true;
 
+    private void Start()
+    {
+    }
+    private void OnDisable()
+    {
+    }
 
     void Update()
     {
@@ -36,13 +42,4 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    public void ActiveCameraMove()
-    {
-        _isActive = true;
-    }
-    
-    public void DisableCameraMove()
-    {
-        _isActive = false;
-    }
 }

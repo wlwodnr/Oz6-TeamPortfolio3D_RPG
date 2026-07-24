@@ -37,8 +37,7 @@ public class NetworkPlayerService
         return _localPlayerProfileViewModel;
     }
 
-
-
+    // 플레이어 스탯뷰모델
     public PlayerStatViewModel GetLocalPlayerStatModel()
     {
         if (_localPlayerStatViewModel == null)
@@ -55,14 +54,15 @@ public class NetworkPlayerService
         return _localPlayerStatViewModel;
     }
 
+
     public void RequestChangePlayerHp(float hp)
     {
-        _playerModel.Info.CurHp += hp;
+        _playerModel?.ChangeHp(hp);
     }
 
     public void RequestChangePlayerMp(float mp)
     {
-        _playerModel.Info.CurMp += mp;
+        _playerModel?.ChangeMp(mp);
     }
 
     public void RequestGiveExpToLocalPlayer(float exp)
@@ -82,7 +82,8 @@ public class NetworkPlayerService
 
     //public void RequestChangePlayerMaxHp(float maxHp)
     //{
-    //    _playerModel.ModifyBaseStat(StatType.MaxHP, maxHp);
+    //    _playerModel.Stats.BaseStats[StatType.MaxHP] = maxHp;
+    //    _playerModel.Stats.NotifyStatsUpdated(StatType.MaxHP.ToString());
     //}
 
     //public void RequestChangePlayerMaxMp(float maxMp)
