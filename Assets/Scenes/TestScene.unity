@@ -19510,6 +19510,9 @@ MonoBehaviour:
   Controller_Camera: {fileID: 873593641}
   transformPlayer: {fileID: 0}
   _transitionCooldown: 0.5
+  _currentFloor: {fileID: 0}
+  _isTransitioning: 0
+  _nextTransitionAllowedTime: 0
 --- !u!1 &1572095258
 GameObject:
   m_ObjectHideFlags: 0
@@ -20379,7 +20382,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1635541636
 Transform:
   m_ObjectHideFlags: 0
@@ -20392,12 +20395,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 382918043}
-  - {fileID: 1794171294}
-  - {fileID: 1222272300}
-  - {fileID: 356277416}
-  - {fileID: 1654902695}
+  m_Children: []
   m_Father: {fileID: 6492433760693941444}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1635541637
@@ -20412,11 +20410,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb2696010fc89284193a9d3e9cd0b857, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
-  Canvas_BgRoot: {fileID: 382918046}
-  Canvas_MainRoot: {fileID: 1794171297}
-  Canvas_ContentRoot: {fileID: 1222272303}
-  Canvas_PopupRoot: {fileID: 356277419}
-  Canvas_VeryFrontRoot: {fileID: 1654902698}
+  Canvas_BgRoot: {fileID: 0}
+  Canvas_MainRoot: {fileID: 0}
+  Canvas_ContentRoot: {fileID: 0}
+  Canvas_PopupRoot: {fileID: 0}
+  Canvas_VeryFrontRoot: {fileID: 0}
+  _testUIOption: 0
 --- !u!1 &1641183975
 GameObject:
   m_ObjectHideFlags: 0
@@ -26753,7 +26752,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &812832599508795758
 Transform:
   m_ObjectHideFlags: 0
@@ -26795,6 +26794,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67b89b3bc9b2dcc4d8993eac691687cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputManager
+  CameraController: {fileID: 0}
 --- !u!114 &1437799635937849755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26837,6 +26837,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameObjectManager
   Root_DynamicObject: {fileID: 1450028612}
+  _hudController: {fileID: 0}
 --- !u!1 &2486687984298057910
 GameObject:
   m_ObjectHideFlags: 0
@@ -27075,6 +27076,7 @@ Transform:
   - {fileID: 3343699255641557007}
   - {fileID: 681661753}
   - {fileID: 1566933311}
+  - {fileID: 1635541636}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &6751860820702035910

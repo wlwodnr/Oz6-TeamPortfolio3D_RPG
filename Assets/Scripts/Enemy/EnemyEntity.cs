@@ -37,4 +37,6 @@ public class EnemyEntity : MonoBehaviour, IGameObjectEntity
 
         //JU ToDo 나중에 Stat 등이 완성되면 HP, 상태, 타겟, 에니메이션, NavMeshAgent 등을 초기화 해야함
     }
+
+
 }

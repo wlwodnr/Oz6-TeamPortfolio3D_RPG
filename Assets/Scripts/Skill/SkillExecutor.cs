@@ -11,7 +11,6 @@ public class SkillExecutor : MonoBehaviour
     [SerializeField] private AnimatorOverrideController overrideController;
     [SerializeField] private Rigidbody Rigidbody_Owner;
     [SerializeField] private LayerMask LayerMask_Enemy;
-    [SerializeField] private AnimatorOverrideController overrideController;
 
     [Header("CurrentSkillState")]
     private ActiveSkillData _currentSkillData;
@@ -164,6 +163,7 @@ public class SkillExecutor : MonoBehaviour
 
         Destroy(vfx, 1.5f);
     }
+
     private void ProcessHitDetection(ActiveSkillData data, float hitPercent)
     {
         if (GameObjectManager.Instance == null)
@@ -228,8 +228,9 @@ public class SkillExecutor : MonoBehaviour
     }
 
     /// 애니메이션 관련 신규 로직
-    public void AttackHandler()
+    public void AttackHandler(string clipType)
     {
+        TestEffectTrigger(clipType);
         if (!_isExecutingSkill || _currentSkillData == null)
         {
             Debug.LogWarning("실행 중인 스킬 데이터가 없거나 이미 종료된 스킬입니다.");

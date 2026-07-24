@@ -12,7 +12,8 @@ public class PassiveSkillData : GameDataBase
     public string[] RequiredSkill;
     public string[] PassiveStatType;
     public float[] PassiveValue;
-    public float[] PassiveModifier;
+    public string[] PassiveModifierType;
+    //public float[] PassiveModifier;
     public float Duration;
     public float TimeInterval;
     public string TriggerCondition;
