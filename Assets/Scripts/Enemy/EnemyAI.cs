@@ -103,6 +103,15 @@ public class EnemyAI : MonoBehaviour
         {
             Debug.LogWarning($"[{gameObject.name}] Entity_Enemy가 인스펙터에 연결되지 않았습니다.");
         }
+
+        _states = new Dictionary<EnemyAIState, IEnemyAIState>
+        {
+            {EnemyAIState.Idle, new EnemyAIState_Idle() },
+            {EnemyAIState.Attack, new EnemyAIState_Attack() },
+            {EnemyAIState.Dead, new EnemyAIState_Dead() },
+            {EnemyAIState.Walk, new EnemyAIState_Walk() }
+
+        };
     }
 
 
@@ -268,6 +277,10 @@ public class EnemyAI : MonoBehaviour
 
     public void ChangeState(EnemyAIState newState)
     {
+        if(_states.ContainsKey(newState) == false) { return; }
+        
+        if(IsStateChangeable(newState)) { return; }
+        
         if (_currentState != null)
         {
             _currentState.ExitState(this);
@@ -276,6 +289,19 @@ public class EnemyAI : MonoBehaviour
         _currentState = _states[newState];
         _currentState.EnterState(this);
         _currentStateEnum = newState;
+    }
+
+    public bool IsStateChangeable(EnemyAIState newState)
+    {
+        if(newState == EnemyAIState.Attack)
+        {
+            if(_currentStateEnum == EnemyAIState.Walk)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 
