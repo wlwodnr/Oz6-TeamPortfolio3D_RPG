@@ -13,7 +13,7 @@ public partial class ChangeAnimationAction : Action
     protected override Status OnStart()
     {
         var battleAgentSelf = Self.Value.GetComponent<EnemyAI>();
-        if (battleAgentSelf != null)
+        if (battleAgentSelf)
         {
             battleAgentSelf.ChangeState(ChangeStateEnum);
         }
