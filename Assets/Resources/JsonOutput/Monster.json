@@ -10,7 +10,7 @@
     "DetectRange": 5,
     "AttackRange": 2,
     "DropEXP": 10,
-    "StopDistance": 1
+    "StopDistance": 1.8
   },
   {
     "Id": "mob_skeleton",

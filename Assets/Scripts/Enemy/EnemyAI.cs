@@ -340,7 +340,6 @@ public class EnemyAI : MonoBehaviour
         if(Agent_NavMesh != null && Agent_NavMesh.isOnNavMesh)
         {
             Agent_NavMesh.isStopped = true;
-            //경로 초기화 추가
             Agent_NavMesh.ResetPath();
         }
     }

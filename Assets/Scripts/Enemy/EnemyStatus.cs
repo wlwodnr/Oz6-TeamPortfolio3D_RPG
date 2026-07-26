@@ -14,6 +14,7 @@ public class EnemyStatus : MonoBehaviour, IDamageable
     private float _enemyMoveSpeed;
     private float _detectRange;
     private float _attackRange;
+    private float _stopDistance;
 
     public bool IsDead {  get { return _isDead; } }
     public int CurrentHp { get { return _currentHp; } }
@@ -22,6 +23,7 @@ public class EnemyStatus : MonoBehaviour, IDamageable
     public float MoveSpeed { get { return _enemyMoveSpeed; } }
     public float DetectRange { get { return _detectRange; } }
     public float AttackRange { get { return _attackRange; } }
+    public float StopDistance { get { return _stopDistance; } }
 
     public event Action OnDeadEvent;
 
@@ -108,6 +110,7 @@ public class EnemyStatus : MonoBehaviour, IDamageable
             _detectRange = _monsterData.DetectRange;
             _enemyAttack = _monsterData.BaseAttack;
             _enemyMoveSpeed = _monsterData.MoveSpeed;
+            _stopDistance = _monsterData.StopDistance;
         }
         else
         {
