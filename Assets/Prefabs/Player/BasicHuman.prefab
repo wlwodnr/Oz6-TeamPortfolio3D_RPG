@@ -500,7 +500,13 @@ MonoBehaviour:
   _groundCheck: {fileID: 468663617068536816}
   MoveSpeed: 10
   JumpPower: 5
+  InteractRange: 2
   _jumpCount: 0
+  Layer_wall:
+    serializedVersion: 2
+    m_Bits: 256
+  _wallSkinWidth: 0.02
+  _wallSlideIterations: 2
   boxSize: {x: 1, y: 1, z: 1}
   offset: {x: 0, y: 1, z: 1}
   enemyLayer:

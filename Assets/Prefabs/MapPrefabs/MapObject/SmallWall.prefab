@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3605620780780292846}
   - component: {fileID: 8351312280154062070}
   - component: {fileID: 8458049356390078763}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SmallWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1052806424052274230}
   - component: {fileID: 8831109143459878252}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ColliderContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +177,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4318351600789343017}
   - component: {fileID: 1309686094554843796}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ColliderContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}

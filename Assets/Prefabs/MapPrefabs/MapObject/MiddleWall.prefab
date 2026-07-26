@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7151655625455198849}
   - component: {fileID: 1590466137835716921}
   - component: {fileID: 655788008207254128}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: MiddleWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   m_Component:
   - component: {fileID: 275618807986421756}
   - component: {fileID: 5214308279395476201}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ColliderContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +177,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8068017294108813697}
   - component: {fileID: 8795913350499432375}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ColliderContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}

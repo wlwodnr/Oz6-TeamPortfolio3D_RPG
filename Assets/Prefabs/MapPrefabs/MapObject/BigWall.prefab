@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5359426576735078516}
   - component: {fileID: 7231187797935308026}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ColliderContainer (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -65,7 +65,7 @@ GameObject:
   - component: {fileID: 2877933013158299227}
   - component: {fileID: 2792869343262645029}
   - component: {fileID: 8155270919924780689}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BigWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +177,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2960005387291841324}
   - component: {fileID: 3051281705559303133}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ColliderContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
