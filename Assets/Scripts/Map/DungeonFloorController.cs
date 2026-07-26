@@ -15,7 +15,7 @@ public class DungeonFloorController : MonoBehaviour
     [Header("층 시작 설정")]
     [SerializeField] private bool _activateOnStart;
 
-    private DungeonFloorState _currentState = DungeonFloorState.None;
+    [SerializeField] private DungeonFloorState _currentState = DungeonFloorState.None;
 
     public event Action<DungeonFloorController> OnFloorActivated;
 

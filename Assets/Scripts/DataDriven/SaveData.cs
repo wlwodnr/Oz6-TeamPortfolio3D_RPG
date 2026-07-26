@@ -6,7 +6,7 @@ using System.Collections.Generic;
 [Serializable]
 public class SaveData  
 {
-    public PlayerStats Stats;
+    public PlayerSaveData PlayerData;
     public InventoryData Inventory;
     //public SkillData Skill;  플레이어 스킬 저장 데이터
     //public SpawnData Spawn; 플레이어 위치 저장 데이터
@@ -15,9 +15,9 @@ public class SaveData
 }
 
 [Serializable]
-public class PlayerStats
+public class PlayerSaveData
 {
-    // 플레이어 스탯 데이터 추가하기
+    public PlayerInfo PlayerInfo;
 }
 
 //[Serializable]

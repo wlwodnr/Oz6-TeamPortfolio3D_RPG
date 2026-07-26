@@ -26,15 +26,21 @@ public class SpawnSpot : MonoBehaviour
 
     private CancellationTokenSource _respawnCancellationTokenSource;
 
-    private bool _hasActiveWave;
+    [SerializeField] private bool _hasActiveWave;
 
-    private bool _isSpawnOperationActive;
+    [SerializeField] private bool _isSpawnOperationActive;
 
     public event Action<SpawnSpot> OnWaveSpawned;
 
     public event Action<SpawnSpot> OnWaveCleared;
 
     public event Action<SpawnSpot, int> OnSpawnedObjectDisabled;
+
+    [SerializeField] private int _debugAliveCount;
+    [SerializeField] private bool _debugIsWaitingRespawn;
+    [SerializeField] private string _debugLastResult;
+    [SerializeField] private List<int> _debugSpawnedInstanceIdList = new List<int>();
+
 
     public int AliveCount
     {
@@ -107,13 +113,13 @@ public class SpawnSpot : MonoBehaviour
         {
             _respawnDelay = 0f;
         }
-        if(_spawnEntryList == null)
+        if (_spawnEntryList == null)
         {
             return;
         }
-        foreach(SpawnEntry spawnEntry in _spawnEntryList)
+        foreach (SpawnEntry spawnEntry in _spawnEntryList)
         {
-            if(spawnEntry == null)
+            if (spawnEntry == null)
             {
                 continue;
             }
@@ -121,6 +127,20 @@ public class SpawnSpot : MonoBehaviour
         }
     }
 #endif
+
+    private void RefreshDebugState(string lastResult)
+    {
+        _debugAliveCount = _spawnedInstanceIdSet.Count;
+        _debugIsWaitingRespawn = _respawnCancellationTokenSource != null;
+        _debugLastResult = lastResult;
+
+        _debugSpawnedInstanceIdList.Clear();
+
+        foreach (int instanceId in _spawnedInstanceIdSet)
+        {
+            _debugSpawnedInstanceIdList.Add(instanceId);
+        }
+    }
 
     public void ActivateSpawnSpot()
     {
@@ -130,58 +150,92 @@ public class SpawnSpot : MonoBehaviour
             return;
         }
 
+        CleanInactiveSpawnObjectIds();
+
         _isSpawnOperationActive = true;
+        RefreshDebugState("ActivateSpawnSpot 실행");
         RequestSpawnWave();
     }
 
     public void DeactivateSpawnSpot()
     {
         _isSpawnOperationActive = false;
-        CancelRespawnTask();
-        RequestDisableAllSpawnedObjects();
 
         _hasActiveWave = false;
+
+        CancelRespawnTask();
+
+        RequestDisableAllSpawnedObjects();
+
+        if(_spawnedInstanceIdSet.Count > 0)
+        {
+            Debug.LogWarning($"SpawnSpot: [{gameObject.name}] 비활성화 후 남아 있는 InstanceId를 정리합니다. Count: {_spawnedInstanceIdSet.Count}", this);
+            _spawnedInstanceIdSet.Clear();
+        }
+        RefreshDebugState("DeactivateSpawnSpot 실행");
+
     }
 
     public void RequestSpawn()
     {
+        RefreshDebugState("RequestSpawn 호출됨");
         if (_isSpawnOperationActive == false)
         {
             ActivateSpawnSpot();
             return;
         }
         RequestSpawnWave();
+
     }
+
 
     public void RequestSpawnWave()
     {
+        RefreshDebugState("RequestSpawnWave 시작");
+
         if (_isSpawnOperationActive == false)
         {
+            RefreshDebugState("생성 차단: SpawnSpot 비활성");
+
             Debug.LogWarning($"SpawnSpot: [{gameObject.name}] SpawnSpot이 비활성 상태여서 웨이브를 생성할 수 없습니다.");
             return;
         }
 
         if (GameObjectManager.Instance == null)
         {
+            RefreshDebugState("생성 차단: GameObjectManager 없음");
             Debug.LogWarning($"SpawnSpot: [{gameObject.name}] GameObjectManager가 없어 웨이브를 생성할 수 없습니다.");
             return;
         }
         if (_spawnEntryList == null || _spawnEntryList.Count == 0)
         {
+            RefreshDebugState("생성 차단: SpawnEntry 없음");
+
             Debug.LogWarning($"SpawnSpot: [{gameObject.name}] SpawnEntry가 등록되지 않았습니다.");
             return;
         }
+
+        CleanInactiveSpawnObjectIds();
+
+        RefreshDebugState("비활성 InstanceId 정리 완료");
+
         if (_spawnedInstanceIdSet.Count > 0)
         {
+            RefreshDebugState($"생성 차단: 살아 있다고 기록된 몬스터 {_spawnedInstanceIdSet.Count}개");
+
             Debug.LogWarning($"SpawnSpot: [{gameObject.name}] 아직 살아 있는 몬스터가 있어 새 웨이브를 생성할 수 없습니다. " +
                 $"AliveCount: {_spawnedInstanceIdSet.Count}");
             return;
         }
         if (IsWaitingRespawn == true)
         {
+            RefreshDebugState("생성 차단: 리스폰 대기 중");
+
             Debug.LogWarning($"SpawnSpot: [{gameObject.name}] 현재 리스폰 대기 중이므로 웨이브를 중복 생성할 수 없습니다.");
             return;
         }
+
+
         _hasActiveWave = false;
 
         int requestedSpawnCount = 0;
@@ -232,10 +286,14 @@ public class SpawnSpot : MonoBehaviour
         {
             _hasActiveWave = false;
 
+            RefreshDebugState($"웨이브 생성 실패: 요청 {requestedSpawnCount}, 성공 0");
+
             Debug.LogWarning($"[{gameObject.name}] 생성에 성공한 몬스터가 없습니다. 요청 수: {requestedSpawnCount}");
             return;
         }
         _hasActiveWave = true;
+
+        RefreshDebugState($"웨이브 생성 성공: 요청 {requestedSpawnCount}, 성공 {successfulSpawnCount}");
 
         Debug.Log($"SpawnSpot: [{gameObject.name}] 웨이브 생성 완료. 요청 수: {requestedSpawnCount}, 성공 수: {successfulSpawnCount}");
 
@@ -278,6 +336,11 @@ public class SpawnSpot : MonoBehaviour
 
         if (wasRemoved == false)
         {
+            if(_isSpawnOperationActive == false)
+            {
+                return;
+            }
+
             Debug.LogWarning($"SpawnSpot: [{gameObject.name}] 이 SpawnSpot이 관리하지 않는 InstanceId가 전달되었습니다. InstanceId: {disabledInstanceId}", this);
             return;
         }
@@ -305,7 +368,7 @@ public class SpawnSpot : MonoBehaviour
 
         OnWaveCleared?.Invoke(this);
 
-        
+
         if (_enableWaveRespawn == false)
         {
             return;
@@ -418,28 +481,62 @@ public class SpawnSpot : MonoBehaviour
         _respawnCancellationTokenSource = null;
     }
 
+    private void CleanInactiveSpawnObjectIds()
+    {
+        if (_spawnedInstanceIdSet.Count == 0)
+        {
+            return;
+        }
+        if (GameObjectManager.Instance == null)
+        {
+            return;
+        }
+
+        List<int> inactiveInstanceIdList = new List<int>();
+
+        foreach (int instanceId in _spawnedInstanceIdSet)
+        {
+            GameObject spawnObject = GameObjectManager.Instance.GetGameObjectCanBeNull(instanceId);
+
+            if (spawnObject == null)
+            {
+                inactiveInstanceIdList.Add(instanceId);
+                continue;
+            }
+            if (spawnObject.activeSelf == false)
+            {
+                inactiveInstanceIdList.Add(instanceId);
+            }
+        }
+        foreach (int inactiveInstanceId in inactiveInstanceIdList)
+        {
+            _spawnedInstanceIdSet.Remove(inactiveInstanceId);
+            Debug.Log($"SpawnSpot: [{gameObject.name}] 비활성화된 몬스터의 추적 정보를 정리했습니다. InstanceId: {inactiveInstanceId}", this);
+        }
+    }
+
     private Transform GetSpawnPointCanBeNull(int spawnIndex)
     {
         if (_spawnPointList == null || _spawnPointList.Count == 0)
         {
             return null;
         }
-        int ValidSpawnPointCount = 0;
+        int validSpawnPointCount = 0;
 
         foreach (Transform spawnPoint in _spawnPointList)
         {
             if (spawnPoint != null)
             {
-                ValidSpawnPointCount++;
+                validSpawnPointCount++;
             }
         }
 
-        if (ValidSpawnPointCount == 0)
+        if (validSpawnPointCount == 0)
         {
             return null;
         }
 
-        int selectedValidIndex = spawnIndex % ValidSpawnPointCount;
+        int selectedValidIndex = spawnIndex % validSpawnPointCount;
 
         int currentValidIndex = 0;
 

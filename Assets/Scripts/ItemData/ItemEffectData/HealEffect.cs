@@ -7,5 +7,6 @@ public class HealEffect : ItemEffect
     public override void Apply()
     {
         // 회복 로직 추가하기
+        NetworkManager.Inst.LocalPlayerService.RequestChangePlayerHp(HealAmount);
     }
 }

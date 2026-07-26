@@ -46,12 +46,12 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        float distance = Vector3.Distance(transform.position, _currentInteractionTarget.position);
-        if(distance > InteractRange)
-        {
-            UIManager.Instance.CloseContentUI(UIType.DialogueUI);
-            _currentInteractionTarget = null;
-        }
+        //float distance = Vector3.Distance(transform.position, _currentInteractionTarget.position);
+       // if(distance > InteractRange)
+       // {
+       //     UIManager.Instance.CloseContentUI(UIType.DialogueUI);
+       //     _currentInteractionTarget = null;
+       // }
     }
 
     void FixedUpdate()

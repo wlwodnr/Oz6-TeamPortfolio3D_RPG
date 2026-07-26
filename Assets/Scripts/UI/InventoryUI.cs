@@ -59,6 +59,7 @@ public class InventoryUI : UIBase
         _invenVm = new InventoryViewModel();
         _invenVm.Initialize(invenModel);
         _invenVm.PropertyChanged += OnPropChanged_InvenView;
+        _invenVm.OnSelectionChanged += OnSlotSelected;
 
         ResetItemSlotAndCreateAll();
     }

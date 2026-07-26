@@ -4,6 +4,7 @@ using System.Collections.Generic;
 [System.Serializable]
 public class QuestData : GameDataBase
 {
+    public string QuestTitle;
     public string QuestType;
     public string Description;
     public string TargetId;

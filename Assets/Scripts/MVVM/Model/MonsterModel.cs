@@ -22,32 +22,37 @@ public class MonsterModel
         private set { _isDead = value; }
     }
 
-    public MonsterModel(float maxHp)
+    private EnemyStatus _targetStatus;
+
+    public MonsterModel(EnemyStatus targetStatus)
     {
-        MaxHP = maxHp;
-        _currentHp = maxHp;
-        _isDead = false;
-    }
+        _targetStatus = targetStatus;
 
-    public void TakeDamage(float damage)
-    {
-        if (_isDead) return;
-
-        _currentHp = Mathf.Clamp(_currentHp - damage, 0f, MaxHP);
-
-        OnHpChanged?.Invoke(nameof(CurrentHp));
-
-        if (_currentHp <= 0f)
+        if (_targetStatus != null)
         {
-            Die();
+            MaxHP = _targetStatus.MaxHp;
+            _currentHp = _targetStatus.CurrentHp;
+            _isDead = _targetStatus.IsDead;
         }
     }
 
-    private void Die()
+    public void UpdateStatusFromEntity()
     {
-        if (_isDead) return;
+        if (_targetStatus == null) return;
 
-        _isDead = true;
-        OnDied?.Invoke(nameof(IsDead));
+        if (_currentHp != _targetStatus.CurrentHp)
+        {
+            _currentHp = _targetStatus.CurrentHp;
+            OnHpChanged?.Invoke(nameof(CurrentHp));
+        }
+
+        if (_isDead != _targetStatus.IsDead)
+        {
+            _isDead = _targetStatus.IsDead;
+            if (_isDead)
+            {
+                OnDied?.Invoke(nameof(IsDead)); 
+            }
+        }
     }
 }

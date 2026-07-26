@@ -127,4 +127,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7190cac8cb6c48d478deb0e5fa074c11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCQuest
-  QuestId: 
+  QuestId: Quest_001

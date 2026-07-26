@@ -20,9 +20,9 @@ public class DungeonFlowController : MonoBehaviour
     [Min(0f)]
     [SerializeField] private float _transitionCooldown = 0.5f;
 
-    private DungeonFloorController _currentFloor;
-    private bool _isTransitioning;
-    private float _nextTransitionAllowedTime;
+    [SerializeField] private DungeonFloorController _currentFloor;
+    [SerializeField] private bool _isTransitioning;
+    [SerializeField] private float _nextTransitionAllowedTime;
 
     public event Action<DungeonFloorController, DungeonFloorController> OnFloorTransitionStarted;
     public event Action<DungeonFloorController, DungeonFloorController> OnFloorTransitionCompleted;

@@ -15,7 +15,7 @@ public class SlotView : MonoBehaviour
     {
         _vm = vm;
         _vm.PropertyChanged += OnPropChanged_View;
-        _vm.InvokeOnceOnInit();
+        OnceOnInit();
         Button_Select.onClick.AddListener(OnButtonClicked);
     }
 
@@ -24,6 +24,16 @@ public class SlotView : MonoBehaviour
         if(_vm != null)
         {
             _vm.PropertyChanged -= OnPropChanged_View;
+        }
+    }
+
+    private void OnceOnInit()
+    {
+        Image_ItemIcon.sprite = _vm.GetItemIconImage();
+        TextMesh_Count.text = _vm.Count.ToString();
+        if (_vm.Count <= 0)
+        {
+            Button_Select.interactable = false;
         }
     }
 
@@ -36,10 +46,11 @@ public class SlotView : MonoBehaviour
                 break;
             case nameof(SlotViewModel.Count):
                 TextMesh_Count.text = _vm.Count.ToString();
+
                 if(_vm.Count <= 0)
                 {
                     Button_Select.interactable = false;
-                    _vm.IsSelected = false;
+                    _vm.ButtonClicked();
                 }
                 break;
             case nameof(SlotViewModel.IsSelected):

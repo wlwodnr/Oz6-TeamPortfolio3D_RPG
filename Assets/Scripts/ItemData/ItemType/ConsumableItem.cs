@@ -18,7 +18,10 @@ public class ConsumableItem : ItemBase, ITradeable, IUseable
 
     public void Use()
     {
-
+        if (effect != null)
+        {
+            effect.Apply();
+        }
     }
     public void Buy()
     {

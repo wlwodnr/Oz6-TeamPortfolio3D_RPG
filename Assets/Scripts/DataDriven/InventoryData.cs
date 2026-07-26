@@ -25,9 +25,9 @@ public class InventoryData
 
     public List<InventoryItemData> InventoryItems;
 
-    public InventoryData(int maxSlotCount)
+    public InventoryData()
     {
-        MaxSlotCount = maxSlotCount;
+        MaxSlotCount = 30;
         InventoryItems = new List<InventoryItemData>();
     }
 }

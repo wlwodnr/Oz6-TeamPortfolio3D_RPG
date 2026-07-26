@@ -10,7 +10,7 @@ public class DungeonRoomController : MonoBehaviour
     [Header("방 시작 설정")]
     [SerializeField] private bool _activateOnStart;
 
-    private DungeonRoomState _currentState = DungeonRoomState.None;
+    [SerializeField] private DungeonRoomState _currentState = DungeonRoomState.None;
 
     public event Action<DungeonRoomController> OnRoomActivated;
 
@@ -119,10 +119,8 @@ public class DungeonRoomController : MonoBehaviour
                     continue;
                 }
 
-                if(spawnSpot.IsSpawnOperationActive == false)
-                {
-                    spawnSpot.ActivateSpawnSpot();
-                }
+                spawnSpot.RequestSpawn();
+                
                 activatedSpawnSpotCount++;
             }
         }

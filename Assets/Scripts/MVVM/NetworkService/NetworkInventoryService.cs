@@ -17,7 +17,7 @@ public class NetworkInventoryService
 
     private InventoryModel CreateLocalPlayerInventoryModel()
     {
-        InventoryData defaultData = new InventoryData(30);
+        InventoryData defaultData = new InventoryData();
         _localPlayerInventoryModel = new InventoryModel(defaultData);
         return _localPlayerInventoryModel;
     }
@@ -47,23 +47,13 @@ public class NetworkInventoryService
             return false;
         }
 
-        var itemData = ItemDataBase.GetItemData(slot.ItemId);
-        if (itemData is IUseable useableItem)
-        {
-            useableItem.Use();
+        bool isSuccess = ItemUseHandler.Execute(slot.ItemId);
 
+        if (isSuccess)
+        {
             RequestRemoveItem(requestUseTargetSlotId, 1);
             return true;
         }
-        else if (itemData is IEquipable equipableItem)
-        {
-            // 장비 착용 로직 예시
-            // EquipmentService.Equip(equipableItem);
-            return true;
-        }
-
-        // 아이템 효과 적용
-        // ItemUseHandler.UseItemFunction(itemData.UseItemType, itemData.UseItemParameterList);
 
         return false;
     }

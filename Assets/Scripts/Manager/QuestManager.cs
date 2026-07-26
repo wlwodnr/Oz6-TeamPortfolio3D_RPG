@@ -242,9 +242,24 @@ public class QuestManager : MonoBehaviour
         return completedId;
     }
 
+    //표시할 퀘스트 조회
+    public bool TryGetDisplayQuest(out string questId, out QuestModel model)
+    {
+        foreach(var kv in _activeQuests)
+        {
+            questId = kv.Key;
+            model = kv.Value;
+            return true;
+        }
+
+        questId = null;
+        model = null;
+        return false;
+    }
+
     [ContextMenu("테스트용 Quest_001 킬 3 증가")]
     private void Test_KillMonster001()
     {
-        UpdateProgress("Kill", "Monster_001", 3);
+        UpdateProgress("Kill", "mob_goblin_1", 3);
     }
 }
