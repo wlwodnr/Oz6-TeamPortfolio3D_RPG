@@ -1,14 +1,19 @@
 ﻿using System;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class EnemyStatus : MonoBehaviour, IDamageable
 {
     //빌드용 임시 체력
     [SerializeField] private int _temporaryMaxHp = 30;
 
+    [SerializeField] private LayerMask LayerMask_Player;
+
+
     private int _currentHp;
     private bool _isDead;
     private MonsterData _monsterData;
+    private MonsterModel _monsterModel;
 
     private int _enemyAttack;
     private float _enemyMoveSpeed;
@@ -41,6 +46,39 @@ public class EnemyStatus : MonoBehaviour, IDamageable
 
     }
 
+    public void AttackPlayer()
+    {
+        if (GameObjectManager.Instance == null)
+        {
+            Debug.LogWarning("GameObjectManager.Instance가 존재하지 않습니다.");
+            return;
+        }
+
+        int playerInstanceId = GameObjectManager.Instance.PlayerInstanceId;
+        GameObject playerObject = GameObjectManager.Instance.GetGameObjectCanBeNull(playerInstanceId);
+
+        Vector3 knockbackDir = Vector3.zero;
+        knockbackDir = transform.forward;
+        knockbackDir.y = 0f;
+
+        IGameObjectEntity targetEntity = playerObject.GetComponentInParent<IGameObjectEntity>();
+
+        float finalAtkDamage = _enemyAttack;
+        int finalCalculatedDamage = Mathf.RoundToInt(finalAtkDamage);
+
+        DamageInfo dmgInfo = new(
+                finalCalculatedDamage,
+                false,
+                playerObject.transform.position,
+                knockbackDir,
+                gameObject
+            );
+
+        GameObjectManager.Instance.RequestTakeDamage(targetEntity.InstanceId, dmgInfo);
+
+
+    }
+
     public void TakeDamage(DamageInfo damageInfo)
     {
         if (_isDead) return;
@@ -51,11 +89,14 @@ public class EnemyStatus : MonoBehaviour, IDamageable
             return;
         }
 
-        //TO Do: GameUTil 만들기 혹은 연동 기다리기
-        //int finalDamage = GameUtil.CalcCharacterFinalDamage();
+        int appliedDamage = damageInfo.BaseDamage;
+        if (damageInfo.IsCritical)
+        {
+            appliedDamage = appliedDamage * 2;
+        }
 
-        //_currentHP -= finalDamage;
-        //Debug.Log($"[{gameObject.name}] 피격당함! 최종 데미지: {finalDamage}, 남은 HP: {_currentHp} (공격자: { damageInfo.Attacker.name})");
+
+
 
         //TO DO:피격 애니메이션 및 이펙트 처리 요청
         //
@@ -69,7 +110,6 @@ public class EnemyStatus : MonoBehaviour, IDamageable
             return;
         }
 
-        int appliedDamage = damageInfo.BaseDamage;
         _currentHp = Mathf.Max(0, _currentHp - appliedDamage);
 
 
@@ -122,22 +162,6 @@ public class EnemyStatus : MonoBehaviour, IDamageable
         Debug.Log($"[{gameObject.name}] 상태가 초기화되었습니다.");
     }
 
-#if UNITY_EDITOR
-    // PlayerAttack이 완성되기 전 테스트용
-    [ContextMenu("TEST/10 데미지 받기")]
-    private void TestTakeDamage()
-    {
-        DamageInfo testDamageInfo = new DamageInfo(
-            10,
-            false,
-            transform.position,
-            Vector3.zero,
-            gameObject
-        );
-
-        TakeDamage(testDamageInfo);
-    }
-#endif
 }
 
 

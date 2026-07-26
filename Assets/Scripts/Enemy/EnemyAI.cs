@@ -9,7 +9,6 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private EnemyStatus Status_Enemy;
     [SerializeField] private LayerMask Layer_Target;
 
-    //1번 EnemyEntity 라는 컴포넌트에서 Enemy의 InstanceId 값을 저장중. 이 값을 갖고오도록 우선적으로 시킴.
     [SerializeField] private EnemyEntity Entity_Enemy;
     [SerializeField] private Animator Animator_Enemy;
 
@@ -21,14 +20,11 @@ public class EnemyAI : MonoBehaviour
 
     private bool _isDisableRequested = false;
 
-    //[SerializeField] private DaniTech_Entity _myEntity;
-
     private EnemyAIState _currentStateEnum;
     private IEnemyAIState _currentState;
     private Dictionary<EnemyAIState, IEnemyAIState> _states;
 
 
-    //EnemyEntity의 InstanceId 값을 갖고오도록 수정
     private int InstanceId
     {
         get
@@ -137,7 +133,6 @@ public class EnemyAI : MonoBehaviour
             return;
         }
 
-        //null인지 한번만 더 체크 null 체크는 들어갈 수 있는 한 많이
         if (Status_Enemy != null)
         {
             Status_Enemy.InitStatus(_monsterData);
@@ -330,6 +325,8 @@ public class EnemyAI : MonoBehaviour
     public void RequestAttack()
     {
         if(Status_Enemy.IsDead) return;
+
+        Status_Enemy.AttackPlayer();
 
         StopMoving();
         Debug.Log($"{gameObject.name}이(가) 타겟에게 공격을 시도합니다! (데미지: {_monsterData.BaseAttack})");
