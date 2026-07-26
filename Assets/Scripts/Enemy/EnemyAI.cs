@@ -198,8 +198,41 @@ public class EnemyAI : MonoBehaviour
         Debug.Log($"[{gameObject.name}] AI 작동 중지");
 
         NotifyKillQuestProgress();
+        RequestItemDrops();
 
         RequestDisableSelf();
+    }
+
+    private void RequestItemDrops()
+    {
+        if (GameDataManager.Instance == null)
+        {
+            Debug.LogWarning($"[{gameObject.name}] GameDataManager가 없어 드랍 데이터를 조회할 수 없습니다.");
+            return;
+        }
+
+        if (GameObjectManager.Instance == null)
+        {
+            Debug.LogWarning($"[{gameObject.name}] GameObjectManager가 없어 아이템을 드랍할 수 없습니다.");
+            return;
+        }
+
+        string monsterDataId = GetEnemyDataId();
+
+        if (string.IsNullOrEmpty(monsterDataId))
+        {
+            Debug.LogWarning($"[{gameObject.name}] MonsterDataId가 없어 아이템을 드랍할 수 없습니다.");
+            return;
+        }
+
+        if (DropItem.TryCreate(GameDataManager.Instance.DropDataList, monsterDataId, out DropItem dropItem) == false) return;
+
+        int itemDropInstanceId = GameObjectManager.Instance.RequestSpawnItemDrop(transform.position, dropItem);
+
+        if (itemDropInstanceId < 0)
+        {
+            Debug.LogWarning($"[{gameObject.name}] 아이템 드랍 생성에 실패했습니다. ItemDataId: {dropItem.ItemDataId}, Count: {dropItem.Count}");
+        }
     }
 
     private void NotifyKillQuestProgress()
