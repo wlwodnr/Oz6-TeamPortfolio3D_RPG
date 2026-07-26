@@ -27,14 +27,19 @@ public class Stats
         if(_rawModifiers.ContainsKey(itemId) == false)
         {
             var data = ItemDataBase.GetItemData(itemId) as StatUpItem;
+
+            if (data == null)
+            {
+                Debug.LogWarning($"[Stats] StatUpItem 데이터를 찾을 수 없습니다. ItemId: {itemId}");
+                return;
+            }
+
             _rawModifiers.Add(itemId, data.StatModifiers);
+            _counts.Add(itemId, 1);
         }
         else
         {
-            if(_counts.ContainsKey(itemId) == true)
-            {
-                _counts[itemId] = _counts[itemId] + 1;
-            }
+            _counts[itemId] = _counts.GetValueOrDefault(itemId, 0) + 1;
         }
 
         UpdateCache();

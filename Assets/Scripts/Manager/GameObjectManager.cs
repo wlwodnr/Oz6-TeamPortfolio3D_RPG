@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class GameObjectManager : MonoBehaviour
 {
+    private const string ItemDropPrefabResourcePath = "ItemDrop/ItemDrop";
+
     public static GameObjectManager Instance { get; private set; }
     [SerializeField] private Transform Root_DynamicObject;
     [SerializeField] private TestMonsterHudController _hudController;
@@ -16,6 +18,7 @@ public class GameObjectManager : MonoBehaviour
     private Dictionary<int, SpawnSpot> _spawnSpotContainer = new Dictionary<int, SpawnSpot>();
 
     private int _playerInstanceId = -1;
+    private GameObject _itemDropPrefab;
 
     public int PlayerInstanceId
     {
@@ -118,6 +121,61 @@ public class GameObjectManager : MonoBehaviour
 
         //JU 이 디버그는 테스트 후 삭제할 예정
         Debug.Log($"동적 오브젝트 생성 완료. InstanceId: {instanceId}, Name: {createdObject.name}");
+
+        return instanceId;
+    }
+
+    public int RequestSpawnItemDrop(Vector3 spawnPosition, DropItem dropItem)
+    {
+        if (dropItem == null || string.IsNullOrEmpty(dropItem.ItemDataId) || dropItem.Count <= 0)
+        {
+            Debug.LogWarning("아이템 드랍 요청 값이 올바르지 않습니다.");
+            return -1;
+        }
+
+        if (ItemDataBase.GetItemData(dropItem.ItemDataId) == null)
+        {
+            Debug.LogWarning($"드랍할 ItemData를 찾을 수 없습니다. ItemDataId: {dropItem.ItemDataId}");
+            return -1;
+        }
+
+        if (_itemDropPrefab == null)
+        {
+            _itemDropPrefab = Resources.Load<GameObject>(ItemDropPrefabResourcePath);
+        }
+
+        if (_itemDropPrefab == null)
+        {
+            Debug.LogWarning($"ItemDrop 프리팹을 찾을 수 없습니다. ResourcesPath: {ItemDropPrefabResourcePath}");
+            return -1;
+        }
+
+        int instanceId = RequestSpawnGameObject(_itemDropPrefab, spawnPosition, Quaternion.identity, dropItem.ItemDataId);
+
+        if (instanceId < 0)
+        {
+            return -1;
+        }
+
+        GameObject itemDropObject = GetGameObjectCanBeNull(instanceId);
+
+        if (itemDropObject == null)
+        {
+            return -1;
+        }
+
+        ItemDropEntity itemDropEntity = itemDropObject.GetComponent<ItemDropEntity>();
+
+        if (itemDropEntity == null)
+        {
+            Debug.LogWarning($"생성된 ItemDrop에 ItemDropEntity가 없습니다. InstanceId: {instanceId}, ObjectName: {itemDropObject.name}");
+            RequestDisableGameObject(instanceId);
+            return -1;
+        }
+
+        itemDropEntity.SetDropCount(dropItem.Count);
+
+        Debug.Log($"아이템 드랍 생성 완료. InstanceId: {instanceId}, ItemDataId: {dropItem.ItemDataId}, Count: {dropItem.Count}");
 
         return instanceId;
     }
