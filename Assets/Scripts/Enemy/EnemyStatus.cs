@@ -46,6 +46,11 @@ public class EnemyStatus : MonoBehaviour, IDamageable
 
     }
 
+    public void ReinforceAttack()
+    {
+        _enemyAttack = _enemyAttack + 10;
+    }
+
     public void AttackPlayer()
     {
         if (GameObjectManager.Instance == null)
@@ -96,15 +101,11 @@ public class EnemyStatus : MonoBehaviour, IDamageable
         }
 
 
-
-
-        //TO DO:피격 애니메이션 및 이펙트 처리 요청
-        //
-        if (damageInfo.BaseDamage <= 0)
+        if (appliedDamage <= 0)
         {
             Debug.LogWarning(
                 $"[{gameObject.name}] 유효하지 않은 데미지입니다. " +
-                $"Damage: {damageInfo.BaseDamage}"
+                $"Damage: {appliedDamage}"
             );
 
             return;

@@ -4,6 +4,7 @@ public enum EnemyAIState
 {
     Idle,
     Attack,
+    SpecialAttack,
     Dead,
     Walk
 }
@@ -68,6 +69,30 @@ public class EnemyAIState_Attack : IEnemyAIState
 
 }
 
+public class EnemyAIState_SpecialAttack : IEnemyAIState
+{
+    public void EnterState(EnemyAI entity)
+    {
+        var animator = entity.GetEntityAnimator();
+        if (animator == null)
+        {
+            return;
+        }
+
+        animator.SetTrigger("IsSpecialAttack");
+    }
+
+    public void UpdateState(EnemyAI entity)
+    {
+
+    }
+
+    public void ExitState(EnemyAI entity)
+    {
+
+    }
+
+}
 
 public class EnemyAIState_Dead : IEnemyAIState
 {

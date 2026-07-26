@@ -6,8 +6,8 @@ using Unity.Properties;
 using UnityEngine.AI;
 
 [Serializable, GeneratePropertyBag]
-[NodeDescription(name: "Chase", story: "[Self] Navigate To [Target]", category: "Action", id: "c72629ee6affc55658a69a3eb9911bce")]
-public partial class ChaseAction : Action
+[NodeDescription(name: "ChaseBoss", story: "[Self] Navigate to [Target]", category: "Action", id: "9ab9e420fa6d9cc005c2969c4fe4ca9d")]
+public partial class ChaseBossAction : Action
 {
     [SerializeReference] public BlackboardVariable<GameObject> Self;
     [SerializeReference] public BlackboardVariable<GameObject> Target;
@@ -17,7 +17,7 @@ public partial class ChaseAction : Action
     protected override Status OnStart()
     {
         _agent = Self.Value.GetComponent<NavMeshAgent>();
-        _agent.speed = 2.0f;
+        _agent.speed = UnityEngine.Random.Range(2.0f, 4.0f);
         _agent.SetDestination(Target.Value.transform.position);
 
         return Status.Running;
