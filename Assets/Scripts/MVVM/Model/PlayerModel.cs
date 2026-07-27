@@ -210,14 +210,9 @@ public class PlayerModel
         return _stats.GetValue(statType);
     }
 
-    public float GetRequiredExperienceForCurrentLevel()
+    public float GetRequiredTotalExperienceForNextLevel()
     {
-        return PlayerLevelProgression.GetRequiredExperienceForLevel(_info.CurLevel);
-    }
-
-    public float GetCurrentLevelExperience()
-    {
-        return PlayerLevelProgression.GetCurrentLevelExperience(_info.TotalExp);
+        return PlayerLevelProgression.GetRequiredTotalExperienceForNextLevel(_info.CurLevel);
     }
 
     public PlayerSaveData CaptureData()

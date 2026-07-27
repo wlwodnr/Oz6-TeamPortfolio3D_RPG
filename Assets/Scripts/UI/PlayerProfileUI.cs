@@ -63,7 +63,7 @@ public class PlayerProfileUI : UIBase
             case nameof(PlayerProfileViewModel.TotalExp):
             case nameof(PlayerProfileViewModel.CurrentLevel):
                 {
-                    Text_LevelAndExp.text = $"Lv.{_vm.CurrentLevel}({_vm.CurrentLevelExperience}/{_vm.RequiredLevelExperience})";
+                    Text_LevelAndExp.text = $"Lv.{_vm.CurrentLevel}({_vm.TotalExp}/{_vm.RequiredTotalExperienceForNextLevel})";
                     UpdateExpBar();
                 }
                 break;
@@ -104,13 +104,13 @@ public class PlayerProfileUI : UIBase
     {
         if (expBar != null && _vm != null)
         {
-            if (_vm.RequiredLevelExperience <= 0f)
+            if (_vm.RequiredTotalExperienceForNextLevel <= 0f)
             {
                 expBar.value = 0f;
                 return;
             }
 
-            expBar.value = _vm.CurrentLevelExperience / _vm.RequiredLevelExperience;
+            expBar.value = _vm.TotalExp / _vm.RequiredTotalExperienceForNextLevel;
         }
     }
 }
