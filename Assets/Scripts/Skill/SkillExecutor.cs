@@ -1,4 +1,4 @@
-using Cysharp.Threading.Tasks;
+Ôªøusing Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +8,18 @@ using UnityEngine;
 public class SkillExecutor : MonoBehaviour
 {
     [SerializeField] private Animator Animator_Owner;
+    [SerializeField] private AnimatorOverrideController overrideController;
     [SerializeField] private Rigidbody Rigidbody_Owner;
     [SerializeField] private LayerMask LayerMask_Enemy;
+
+    [Header("CurrentSkillState")]
+    private ActiveSkillData _currentSkillData;
+    private int _currentHitIndex = 0;
+    private bool _isExecutingSkill = false;
+
+    [SerializeField] private Transform Swordtrans;
+    [SerializeField] private GameObject SwordEffect;
+    [SerializeField] private AnimationClip testClip;
 
     private PlayerModel _playerModel;
     private SkillTracker _skillTracker;
@@ -22,6 +32,21 @@ public class SkillExecutor : MonoBehaviour
         _cts = new CancellationTokenSource();
     }
 
+    public void TestInit()
+    {
+        _cts = new CancellationTokenSource();
+    }
+    private void Awake()
+    {
+        if (Animator_Owner == null)
+            Animator_Owner = GetComponent<Animator>();
+
+        if (Rigidbody_Owner == null)
+            Rigidbody_Owner = GetComponent<Rigidbody>();
+
+
+        TestInit();
+    }
     private void OnDisable()
     {
         _cts?.Cancel();
@@ -30,22 +55,30 @@ public class SkillExecutor : MonoBehaviour
 
     public void TryExecuteSkill(string skillId)
     {
-        if (GameDataManager.Instance == null || _skillTracker == null || _playerModel == null) return;
-
-        ActiveSkillData skillData = GameDataManager.Instance.GetActiveSkillData(skillId);
-
-        if (skillData == null)
+        if (_skillTracker == null && SkillTracker.Instance != null)
         {
-            Debug.LogWarning($"{skillData.Name} Ω∫≈≥¿« µ•¿Ã≈Õ∏¶ ∫“∑Øø√ ºˆ æ¯Ω¿¥œ¥Ÿ.");
+            _skillTracker = SkillTracker.Instance;
+        }
+
+        if (_playerModel == null)
+        {
+            _playerModel = new PlayerModel();
+        }
+
+        if (GameDataManager.Instance == null || _skillTracker == null)
+        {
+            Debug.LogError($"GameDataManager ÎòêÎäî SkillTrackerÍ∞Ä Ï°¥Ïû¨ÌïòÏßÄ ÏïäÏäµÎãàÎã§.");
             return;
         }
 
-        if (!_skillTracker.SkillModel.IsSkillReady(skillId)) return;
-        if (!_playerModel.HasLearnedActive(skillId)) return;
+        ActiveSkillData skillData = GameDataManager.Instance.GetActiveSkillData(skillId);
+        if (skillData == null) return;
 
-        if (_playerModel.Info.CurMp < skillData.Cost)
+        if (!_skillTracker.SkillModel.IsSkillReady(skillId)) return;
+
+        if (!skillData.IsModeChange && !_playerModel.HasLearnedActive(skillId))
         {
-            Debug.LogWarning($"{skillData.Name} Ω∫≈≥¿ª ªÁøÎ«œ±‚ ¿ß«— ∏∂≥™∞° ∫Œ¡∑«’¥œ¥Ÿ.");
+            Debug.LogWarning($"{skillData.Name} Ïä§ÌÇ¨Ïù¥ ÏäµÎìùÎêòÏßÄ ÏïäÏùÄ ÏÉÅÌÉúÏûÖÎãàÎã§.");
             return;
         }
 
@@ -56,19 +89,39 @@ public class SkillExecutor : MonoBehaviour
     {
         _skillTracker.SkillModel.StartCoolTime(data.Id, data.CoolDown);
 
-        _playerModel.Info.CurMp -= data.Cost;
-
-        if (data.DamageMultiplier <= 0f && (data.TargetMode == "Hunt" || data.TargetMode == "Boss"))
+        if (_playerModel != null && _playerModel.Info != null)
         {
-            CharacterMode targetMode = _skillTracker.SkillModel.CurrentMode == CharacterMode.Hunt ? CharacterMode.Boss : CharacterMode.Hunt;
+            _playerModel.Info.CurMp -= data.Cost;
+        }
+
+        if (data.IsModeChange)
+        {
+            CharacterMode currentMode = _skillTracker.SkillModel.CurrentMode;
+
+            CharacterMode targetMode = (currentMode == CharacterMode.Hunt) ? CharacterMode.Boss : CharacterMode.Hunt;
+
+            Debug.Log($"Î™®Îìú Î≥ÄÍ≤Ω. {currentMode} -> {targetMode}");
+
             _skillTracker.ChangeMode(targetMode);
+            
             return;
+        }
+
+        //Ïï†ÎãàÎ©îÏù¥ÌÑ∞ Í¥ÄÎ†® Ïã†Í∑ú Î°úÏßÅ
+        _currentSkillData = data;
+        _currentHitIndex = 0;
+        _isExecutingSkill = true;
+
+        if (overrideController != null && data.SkillClip != null)
+        {
+            overrideController["Skill_Cast"] = data.SkillClip;
         }
 
         if (Animator_Owner != null)
         {
-            Animator_Owner.SetTrigger(data.Id);
+            Animator_Owner.SetTrigger("SkillTrigger");
         }
+        //123
 
         if (data.CastTime > 0f)
         {
@@ -88,37 +141,34 @@ public class SkillExecutor : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning($"{data.Id} Ω∫≈≥∑Œ {gameObject.name}¿ª(∏¶) ∞¯∞›«ﬂ¿∏≥™ Rigidbody_Owner∞° «“¥Áµ«¡ˆ æ æ“Ω¿¥œ¥Ÿ.");
+                Debug.LogWarning($"{data.Id} Ïä§ÌÇ¨Î°ú {gameObject.name}ÏùÑ(Î•º) Í≥µÍ≤©ÌñàÏúºÎÇò Rigidbody_OwnerÍ∞Ä Ìï†ÎãπÎêòÏßÄ ÏïäÏïòÏäµÎãàÎã§.");
             }
         }
+    }
 
-        if (data.MultiHitPercentList != null && data.MultiHitPercentList.Count() > 0)
+    public void TestEffectTrigger(string cliptype)
+    {
+        Vector3 spawnPos = transform.position;
+        spawnPos.y += 1.5f;
+        Quaternion spawnRot = Swordtrans.rotation * Quaternion.Euler(180f, 130f, -90f);
+        if (cliptype == "DoubleAttack")
         {
-            for (int i = 0; i < data.MultiHitPercentList.Count; i++)
-            {
-                if (_playerModel == null || gameObject == null) return;
-
-                ProcessHitDetection(data, data.MultiHitPercentList[i]);
-
-                if (i < data.MultiHitPercentList.Count - 1)
-                {
-                    float interval = data.HitInterval > 0f ? data.HitInterval : 0.1f;
-                    bool isCanceled = await UniTask.Delay(TimeSpan.FromSeconds(interval), cancellationToken: _cts.Token).SuppressCancellationThrow();
-                    if (isCanceled) return;
-                }
-            }
+            spawnRot = Swordtrans.rotation * Quaternion.Euler(180f, 80f, -90f);
         }
-        else if (data.DamageMultiplier > 0f)
+        else if (cliptype == "RushAttack")
         {
-            ProcessHitDetection(data, 1.0f);
+            spawnRot = Swordtrans.rotation * Quaternion.Euler(180f, 130f, -90f);
         }
+        GameObject vfx = Instantiate(SwordEffect, spawnPos, spawnRot);
+
+        Destroy(vfx, 1.5f);
     }
 
     private void ProcessHitDetection(ActiveSkillData data, float hitPercent)
     {
         if (GameObjectManager.Instance == null)
         {
-            Debug.LogWarning("GameObjectManager.Instance∞° ¡∏¿Á«œ¡ˆ æ Ω¿¥œ¥Ÿ.");
+            Debug.LogWarning("GameObjectManager.InstanceÍ∞Ä Ï°¥Ïû¨ÌïòÏßÄ ÏïäÏäµÎãàÎã§.");
             return;
         }
 
@@ -131,15 +181,19 @@ public class SkillExecutor : MonoBehaviour
         HashSet<int> attackedInstanceIdSet = new();
         int currentHitCount = 0;
 
+
         foreach (Collider enemy in hitEnemies)
         {
+            Debug.Log($"{enemy.gameObject.name}");
             if (enemy == null) continue;
             if (currentHitCount >= data.TargetCount) break;
+
+            Debug.Log($"{enemy.gameObject.name}");
 
             IGameObjectEntity targetEntity = enemy.GetComponentInParent<IGameObjectEntity>();
             if (targetEntity == null || targetEntity.InstanceId < 0)
             {
-                Debug.LogWarning($"¿˚ ø¿∫Í¡ß∆Æ [{enemy.gameObject.name}]ø°º≠ ¿Ø»ø«— IGameObjectEntity∏¶ »πµÊ«œ¡ˆ ∏¯«ﬂΩ¿¥œ¥Ÿ.");
+                Debug.LogWarning($"Ï†Å Ïò§Î∏åÏ†ùÌä∏ [{enemy.gameObject.name}]ÏóêÏÑú Ïú†Ìö®Ìïú IGameObjectEntityÎ•º ÌöçÎìùÌïòÏßÄ Î™ªÌñàÏäµÎãàÎã§.");
                 continue;
             }
 
@@ -149,10 +203,13 @@ public class SkillExecutor : MonoBehaviour
             int finalCalculatedDamage = Mathf.RoundToInt(finalAtkDamage * data.DamageMultiplier * hitPercent);
 
             Vector3 knockbackDir = Vector3.zero;
+            float knockbackForce = 0f;
+
             if (string.Equals(data.CrowdControl, "KnockBack", StringComparison.OrdinalIgnoreCase))
             {
                 knockbackDir = transform.forward;
                 knockbackDir.y = 0f;
+                knockbackForce = data.KnockBackForce;
             }
 
             DamageInfo dmgInfo = new(
@@ -160,11 +217,50 @@ public class SkillExecutor : MonoBehaviour
                 false,
                 enemy.transform.position,
                 knockbackDir,
+                knockbackForce,
                 gameObject
             );
 
             GameObjectManager.Instance.RequestTakeDamage(targetEntity.InstanceId, dmgInfo);
             currentHitCount++;
         }
+
+    }
+
+    /// Ïï†ÎãàÎ©îÏù¥ÏÖò Í¥ÄÎ†® Ïã†Í∑ú Î°úÏßÅ
+    public void AttackHandler(string clipType)
+    {
+        TestEffectTrigger(clipType);
+        if (!_isExecutingSkill || _currentSkillData == null)
+        {
+            Debug.LogWarning("Ïã§Ìñâ Ï§ëÏù∏ Ïä§ÌÇ¨ Îç∞Ïù¥ÌÑ∞Í∞Ä ÏóÜÍ±∞ÎÇò Ïù¥ÎØ∏ Ï¢ÖÎ£åÎêú Ïä§ÌÇ¨ÏûÖÎãàÎã§.");
+            return;
+        }
+
+        float hitPercent = 1f;
+
+        if (_currentSkillData.MultiHitPercentList != null &&
+            _currentHitIndex < _currentSkillData.MultiHitPercentList.Count)
+        {
+            hitPercent = _currentSkillData.MultiHitPercentList[_currentHitIndex];
+        }
+
+        Debug.Log($"[{_currentSkillData.Name}] Ïä§ÌÇ¨ {_currentHitIndex + 1}ÌÉÄ Î∞úÎèô. (ÌÉÄÍ≤© ÎπÑÏú®: {hitPercent})");
+
+        ProcessHitDetection(_currentSkillData, hitPercent);
+
+        _currentHitIndex++;
+    }
+
+    public void AttackEnd()
+    {
+        if (_currentSkillData != null)
+        {
+            Debug.Log($"[{_currentSkillData.Name}] Ïä§ÌÇ¨ ÏÇ¨Ïö© Ï¢ÖÎ£å. Ïä§ÌÇ¨ Ï†ïÎ≥¥Î•º Ï¥àÍ∏∞ÌôîÌï©ÎãàÎã§.");
+        }
+
+        _currentSkillData = null;
+        _currentHitIndex = 0;
+        _isExecutingSkill = false;
     }
 }
