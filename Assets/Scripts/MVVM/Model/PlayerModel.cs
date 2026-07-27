@@ -238,8 +238,7 @@ public class PlayerModel
             CurMp = _info.CurMp,
             Coins = _info.Coins
         };
-        data.SkillData = new SkillData();
-        data.SkillData.LearnedSkills.AddRange(_learnedSkills); // 신규-스킬데이터
+
         
         return data;
     }
@@ -291,7 +290,7 @@ public class PlayerModel
         {
             LearnedPassiveSkill.Add(id);
             _learnedSkills.Add(id); // 신규 - 스킬아이디 해시셋 등록
-            _stats.AddModifierBySkill(id); // 신규 - 패시브로 증가한 스탯 연동
+            _stats.AddModifier(id); // 신규 - 패시브로 증가한 스탯 연동
             OnSkillDataChanged?.Invoke(id);  // 신규 - 이벤트 발생 알림
         }
     }
