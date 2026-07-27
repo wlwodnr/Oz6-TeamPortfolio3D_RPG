@@ -85,4 +85,12 @@ public class NetworkInventoryService
         return model.GetAllSlots();
     }
 
+    public void LoadInventoryData(InventoryData invSaveData)
+    {
+        if (invSaveData == null) return;
+
+        var model = GetLocalPlayerInventoryModel();
+
+        model.Refresh(invSaveData);
+    }
 }

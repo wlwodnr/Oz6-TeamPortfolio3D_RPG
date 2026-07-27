@@ -13,7 +13,6 @@ public class PlayerModel
 
     public PlayerInfo Info => _info;
     // itemId - 갯수
-    private Dictionary<string,int> _inventory = new Dictionary<string, int>();    
     private Dictionary<string,int> _equipInventory = new Dictionary<string,int>();
 
     //itemId - 데이터
@@ -103,7 +102,7 @@ public class PlayerModel
         }
         else
         {
-            AddInventory(itemId);
+            return;
         }
     }
 
@@ -130,7 +129,7 @@ public class PlayerModel
         }
         else
         {
-            AddInventory(itemId);
+            return;
         }
     }
 
@@ -144,7 +143,6 @@ public class PlayerModel
         {
             _equipInventory.Add(itemId, 1);
         }
-        // 여기서 장비템 정보창 MVVM 구조 VM 정보전달 메서드 실행
     }
 
     public void RemoveEquipInventory(string itemId)
@@ -158,35 +156,9 @@ public class PlayerModel
         {
             _equipInventory.Remove(itemId);
         }
-        // 여기서 장비템 정보창 MVVM 구조 VM 정보전달 메서드 실행
     }
 
-    public void AddInventory(string itemId)
-    {
-        if (_inventory.ContainsKey(itemId) == true)
-        {
-            _inventory[itemId] = _inventory[itemId] + 1;
-        }
-        else
-        {
-            _inventory.Add(itemId, 1);
-        }
-        // 여기서 인벤토리 MVVM 구조 VM 정보전달 메서드 실행
-    }
 
-    public void RemoveInventory(string itemId)
-    {
-        if (_inventory.ContainsKey(itemId) == true)
-        {
-            _inventory[itemId] = _inventory[itemId] - 1;
-        }
-
-        if (_inventory[itemId] <= 0)
-        {
-            _inventory.Remove(itemId);
-        }
-        // 여기서 인벤토리 MVVM 구조 VM 정보전달 메서드 실행
-    }
 
     private void HandleStatsUpdated(string changedType)
     {

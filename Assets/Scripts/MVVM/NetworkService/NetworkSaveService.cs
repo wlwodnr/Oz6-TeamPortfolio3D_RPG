@@ -61,11 +61,9 @@ public class NetworkSaveService
     {
         if (saveData == null) return;
 
-        var PlayerModel = NetworkManager.Inst.LocalPlayerService.GetLocalPlayerModel();
-
-        PlayerModel.LoadPlayerInfo(saveData.PlayerData);
-        PlayerModel.LoadSkillData(saveData.Skill);
+        NetworkManager.Inst.LocalPlayerService.LoadData(saveData);
         QuestManager.Instance.LoadQuestData(saveData.Quest);
+        NetworkManager.Inst.InventoryService.LoadInventoryData(saveData.Inventory);
     }
 
 }
