@@ -1,6 +1,6 @@
 [
   {
-    "Id": "drop_goblin_attack",
+    "Id": "dropAttackDamage",
     "MonsterDataId": "mob_goblin_1",
     "ItemDataId": "Stat_02",
     "DropChance": 0.2,
