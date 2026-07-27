@@ -57,7 +57,6 @@ public class ItemDropEntity : MonoBehaviour, IGameObjectEntity
         _isPickupRequested = false;
 
         RefreshVisual();
-        gameObject.SetActive(true);
     }
 
     public void SetDropCount(int count)
