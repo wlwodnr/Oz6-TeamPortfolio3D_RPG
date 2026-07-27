@@ -62,6 +62,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9293a4e5f0d33e54fa605d7c3eb63ba7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 9078804050790164435}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9293a4e5f0d33e54fa605d7c3eb63ba7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6377468954458472816}
   m_SourcePrefab: {fileID: 100100000, guid: 9293a4e5f0d33e54fa605d7c3eb63ba7, type: 3}
 --- !u!1 &2144786661550180328 stripped
 GameObject:
@@ -104,3 +107,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCStore
   NpcId: Merchant_01
+--- !u!95 &6377468954458472816
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2144786661550180328}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: d0b677e5b14fac64ebd548cf459f2dd4, type: 3}
+  m_Controller: {fileID: 9100000, guid: 5fd08979898279d47a95e93ffdd9402d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
