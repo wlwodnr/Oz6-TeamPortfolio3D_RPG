@@ -841,6 +841,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputManager
   CameraController: {fileID: 0}
+--- !u!4 &928522021 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6463582156032259737, guid: 440357a41134ba1438e35440a78fefd7, type: 3}
+  m_PrefabInstance: {fileID: 275817280}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1087751988
 GameObject:
   m_ObjectHideFlags: 0
@@ -1125,7 +1130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e18992eb4b388bb478b6535418d7d5bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraController
-  target: {fileID: 0}
+  target: {fileID: 928522021}
   sensitivity: 2
   offset: {x: 0, y: 2, z: -5}
 --- !u!114 &1226808670
@@ -1410,6 +1415,7 @@ Transform:
   - {fileID: 1759168472}
   - {fileID: 1087751989}
   - {fileID: 1100188293}
+  - {fileID: 1808395667}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1665403621
@@ -1583,6 +1589,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b1371bc171e0004a85f4fe6aef98863, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
+--- !u!1 &1808395666
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1808395667}
+  - component: {fileID: 1808395668}
+  m_Layer: 0
+  m_Name: QuestManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1808395667
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808395666}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1597307260}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1808395668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808395666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af036bead8b43384fb6fd7afe3b9031a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QuestManager
 --- !u!1 &1925168588
 GameObject:
   m_ObjectHideFlags: 0

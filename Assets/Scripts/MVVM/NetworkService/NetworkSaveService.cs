@@ -8,7 +8,7 @@ public class NetworkSaveService
 
     private string GetPath()
     {
-        return Path.Combine(Application.persistentDataPath, "DaniTechSaveData.json");
+        return Path.Combine(Application.persistentDataPath, "PlayerSaveData.json");
     }
 
 

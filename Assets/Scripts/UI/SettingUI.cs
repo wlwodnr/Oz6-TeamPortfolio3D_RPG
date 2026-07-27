@@ -92,7 +92,8 @@ public class SettingUI : UIBase
 
     private void OnClickSaveButton()
     {
-
+        //일단 테스트용
+        GameManager.Instance.SaveGame();
     }
 
     private void OnClickClose()
