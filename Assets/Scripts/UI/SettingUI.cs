@@ -12,9 +12,12 @@ public class SettingUI : UIBase
     [SerializeField] private GameObject layoutGameplay;
     [SerializeField] private GameObject layoutSound;
 
-    [Header("Sound Controls")]
+    [Header("Sound Panel")]
     [SerializeField] private Slider bgmSlider;
-    [SerializeField] private AudioSource bgmAudioSource;
+    [SerializeField] private Slider sfxSlider;
+
+    [Header("Gameplay Panel")]
+    [SerializeField] private UIButton Btn_Save;
 
     private void Awake()
     {
@@ -29,6 +32,7 @@ public class SettingUI : UIBase
         Btn_GameplayTab.BindOnClickButtonEvent(OnClickGameplayTab);
         Btn_SoundTab.BindOnClickButtonEvent(OnClickSoundTab);
         Btn_Close.BindOnClickButtonEvent(OnClickClose);
+        Btn_Save.BindOnClickButtonEvent(OnClickSaveButton);
 
         if (layoutGameplay != null)
         {
@@ -51,6 +55,7 @@ public class SettingUI : UIBase
         Btn_GameplayTab.UnBindAllOnClickButtonEvent();
         Btn_SoundTab.UnBindAllOnClickButtonEvent();
         Btn_Close.UnBindAllOnClickButtonEvent();
+        Btn_Save.UnBindAllOnClickButtonEvent();
     }
 
     private void OnClickGameplayTab()
@@ -83,6 +88,11 @@ public class SettingUI : UIBase
         //{
         //    SoundManager.Inst.SetBGMVolume(value);
         //}
+    }
+
+    private void OnClickSaveButton()
+    {
+
     }
 
     private void OnClickClose()
