@@ -3183,7 +3183,8 @@ MonoBehaviour:
   layoutGameplay: {fileID: 5548939037422303294}
   layoutSound: {fileID: 2306356889556042407}
   bgmSlider: {fileID: 4778863640122052914}
-  bgmAudioSource: {fileID: 0}
+  sfxSlider: {fileID: 0}
+  Btn_Save: {fileID: 5200874321721757202}
 --- !u!1 &6669812636119063830
 GameObject:
   m_ObjectHideFlags: 0
