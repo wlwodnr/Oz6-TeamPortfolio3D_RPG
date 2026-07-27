@@ -13,6 +13,21 @@ public class PlayerController : MonoBehaviour
     private Animator _anim;
     private Transform _currentInteractionTarget;
 
+
+    //벽뚫 방지용 코드용 변수
+    private CapsuleCollider _movementCollider;
+
+    [SerializeField] private LayerMask Layer_wall;
+
+    [SerializeField, Min(0.01f)] private float _wallSkinWidth = 0.02f;
+
+    [SerializeField, Range(1, 4)] private int _wallSlideIterations = 2;
+
+    private const int WallHitBufferSize = 16;
+    private readonly RaycastHit[] _wallHitBuffer = new RaycastHit[WallHitBufferSize];
+    //
+
+
     private Rigidbody _rb;
 
     //아래는 1차빌드용 공격기능 변수 (이후에 바뀔 수 있음)
@@ -27,16 +42,64 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        _groundCheck.OnGrounded += HandleGrounded;
+        _rb = GetComponent<Rigidbody>();
+        _mainCamera = Camera.main;
+        _anim = GetComponent<Animator>();
+        _movementCollider = GetComponent<CapsuleCollider>();
+    }
+
+    private void OnEnable()
+    {
+        if (_groundCheck != null)
+        {
+            _groundCheck.OnGrounded -= HandleGrounded;
+            _groundCheck.OnGrounded += HandleGrounded;
+        }
+
+        InputManager.OnJumpPressed -= HandleJumpPressed;
+        InputManager.OnAttackPressed -= HandleAttackPressed;
+        InputManager.OnInteractPressed -= HandleInteractPressed;
         InputManager.OnJumpPressed += HandleJumpPressed;
         InputManager.OnAttackPressed += HandleAttackPressed;
         InputManager.OnInteractPressed += HandleInteractPressed;
     }
+
+    private void OnDisable()
+    {
+        if (_groundCheck != null)
+        {
+            _groundCheck.OnGrounded -= HandleGrounded;
+        }
+
+        InputManager.OnJumpPressed -= HandleJumpPressed;
+        InputManager.OnAttackPressed -= HandleAttackPressed;
+        InputManager.OnInteractPressed -= HandleInteractPressed;
+    }
+
     private void Start()
     {
-        _rb = GetComponent<Rigidbody>();
-        _mainCamera = Camera.main;
-        _anim = GetComponent<Animator>();
+        if(Layer_wall.value == 0)
+        {
+            Debug.LogWarning($"[{gameObject.name}] PlayerController의 Layer_Wall이 설정되지 않았습니다. 벽 사전 검사를 사용하려면 Inspector에서 Wall 레이어를 지정해야 합니다.", this);
+        }
+    }
+
+    public void ResetControllerForPool()
+    {
+        _jumpCount = 0;
+        _currentInteractionTarget = null;
+
+        if (_rb != null)
+        {
+            _rb.linearVelocity = Vector3.zero;
+            _rb.angularVelocity = Vector3.zero;
+        }
+
+        if (_anim != null)
+        {
+            _anim.Rebind();
+            _anim.Update(0f);
+        }
     }
 
     private void Update()
@@ -65,20 +128,180 @@ public class PlayerController : MonoBehaviour
         {
             Vector3 moveDirection = _mainCamera.transform.TransformDirection(direction);
             moveDirection.y = 0f;
-            _rb.MovePosition(_rb.position + (moveDirection * MoveSpeed * Time.deltaTime));
 
-            _anim.SetFloat("MoveSpeed", 1.0f, 0.15f, Time.deltaTime);
+            Vector3 desiredDisplacement = moveDirection * MoveSpeed * Time.fixedDeltaTime;
 
-            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 0.2f);
+            Vector3 resolvedDisplacement = ResolveWallDisplacement(desiredDisplacement);
+
+            if(resolvedDisplacement.sqrMagnitude > 0.000001f)
+            {
+                _rb.MovePosition(_rb.position + resolvedDisplacement);
+                Quaternion targetRotation = Quaternion.LookRotation(resolvedDisplacement.normalized);
+
+                _rb.MoveRotation(Quaternion.Slerp(_rb.rotation, targetRotation, 0.2f));
+
+                _anim.SetFloat("MoveSpeed", 1.0f, 0.15f, Time.fixedDeltaTime);
+            }
+            else
+            {
+                _anim.SetFloat("MoveSpeed", 0.0f, 0.02f, Time.fixedDeltaTime);
+            }
         }
         else
         {
-            _anim.SetFloat("MoveSpeed", 0.0f, 0.02f, Time.deltaTime);
+            _anim.SetFloat("MoveSpeed", 0.0f, 0.02f, Time.fixedDeltaTime);
         }
 
         _anim.SetFloat("yVelocity", _rb.linearVelocity.y);
 
+    }
+
+    private Vector3 ResolveWallDisplacement(Vector3 desiredDisplacement)
+    {
+        if(desiredDisplacement.sqrMagnitude <= 0.000001f)
+        {
+            return Vector3.zero;
+        }
+        if(Layer_wall.value == 0)
+        {
+            return desiredDisplacement;
+        }
+
+        GetMovementCapsuleWorldGeometry(out Vector3 capsulePointA, out Vector3 capsulePointB, out float capsuleRadius);
+
+        float effectiveSkinWidth = Mathf.Min(_wallSkinWidth, capsuleRadius * 0.5f);
+
+        float castRadius = Mathf.Max(capsuleRadius - effectiveSkinWidth, 0.001f);
+
+        Vector3 resolvedDisplacement = Vector3.zero;
+        Vector3 remainingDisplacement = desiredDisplacement;
+
+        for(int iteration = 0; iteration < _wallSlideIterations; iteration++)
+        {
+            float remainingDistance = remainingDisplacement.magnitude;
+
+            if(remainingDistance <= 0.001f)
+            {
+                break;
+            }
+
+            Vector3 moveDirection = remainingDisplacement / remainingDistance;
+
+            Vector3 currentPointA = capsulePointA + resolvedDisplacement;
+
+            Vector3 currentPointB = capsulePointB + resolvedDisplacement;
+
+            bool hitWall = TryGetNearestWallHit(currentPointA, currentPointB, castRadius, moveDirection, remainingDistance + effectiveSkinWidth, out RaycastHit nearestHit);
+
+            if(hitWall == false)
+            {
+                resolvedDisplacement += remainingDisplacement;
+                break;
+            }
+
+            float allowedDistance = Mathf.Clamp(nearestHit.distance - effectiveSkinWidth, 0f, remainingDistance);
+
+            Vector3 allowedDisplacement = moveDirection * allowedDistance;
+
+            resolvedDisplacement += allowedDisplacement;
+
+            Vector3 blockedRemainder = remainingDisplacement - allowedDisplacement;
+
+            Vector3 wallNormal = nearestHit.normal;
+            wallNormal.y = 0f;
+
+            if(wallNormal.sqrMagnitude <= 0.000001f)
+            {
+                break;
+            }
+
+            wallNormal.Normalize();
+
+            remainingDisplacement = Vector3.ProjectOnPlane(blockedRemainder, wallNormal);
+            
+            remainingDisplacement.y = 0f;
+
+        }
+        return resolvedDisplacement;
+        
+    }
+
+    private bool TryGetNearestWallHit(Vector3 capsulePointA, Vector3 capsulePointB, float capsuleRadius, Vector3 direction, float distance, out RaycastHit nearestHit)
+    {
+        int hitCount = Physics.CapsuleCastNonAlloc(capsulePointA, capsulePointB, capsuleRadius, direction, _wallHitBuffer, distance, Layer_wall.value, QueryTriggerInteraction.Ignore);
+
+        nearestHit = default;
+        float nearestDistance = float.PositiveInfinity;
+        bool foundWall = false;
+
+        for(int i = 0; i < hitCount; i++)
+        {
+            RaycastHit currentHit = _wallHitBuffer[i];
+
+            if (currentHit.collider == null)
+            {
+                continue;
+            }
+            if(currentHit.collider.transform == transform || currentHit.collider.transform.IsChildOf(transform))
+            {
+                continue;
+            }
+
+            if(currentHit.distance >= nearestDistance)
+            {
+                continue;
+            }
+            nearestDistance = currentHit.distance;
+            nearestHit = currentHit;
+            foundWall = true;
+
+        }
+        return foundWall;
+    }
+
+    private void GetMovementCapsuleWorldGeometry(out Vector3 pointA, out Vector3 pointB, out float radius)
+    {
+        Vector3 lossyScale = transform.lossyScale;
+
+        Vector3 absoluteScale = new Vector3(Mathf.Abs(lossyScale.x), Mathf.Abs(lossyScale.y), Mathf.Abs(lossyScale.z));
+
+        Vector3 localAxis;
+        float heightScale;
+        float radiusScale;
+
+        switch(_movementCollider.direction)
+        {
+            case 0:
+                localAxis = Vector3.right;
+                heightScale = absoluteScale.x;
+                radiusScale = Mathf.Max(absoluteScale.y, absoluteScale.z);
+                break;
+            case 2:
+                localAxis = Vector3.forward;
+                heightScale = absoluteScale.z;
+                radiusScale = Mathf.Max(absoluteScale.x, absoluteScale.y);
+                break;
+            default:
+                localAxis = Vector3.up;
+                heightScale = absoluteScale.y;
+                radiusScale = Mathf.Max(absoluteScale.x, absoluteScale.z);
+                break;
+        }
+        radius = _movementCollider.radius * radiusScale;
+
+        float height = Mathf.Max(_movementCollider.height * heightScale, radius * 2f);
+
+        float halfSegmentLength = Mathf.Max(0f, height * 0.5f - radius);
+
+        Vector3 scaledLocalCenter = Vector3.Scale(_movementCollider.center, lossyScale);
+
+        Vector3 worldCenter = _rb.position + (_rb.rotation * scaledLocalCenter);
+
+        Vector3 worldAxis = (_rb.rotation * localAxis).normalized;
+
+        pointA = worldCenter + worldAxis * halfSegmentLength;
+
+        pointB = worldCenter - worldAxis * halfSegmentLength;
     }
 
     private void HandleGrounded()
@@ -153,9 +376,26 @@ public class PlayerController : MonoBehaviour
 
             Vector3 direction = (enemy.transform.position - transform.position).normalized;
             direction.y = 0f;
-            DamageInfo dmgInfo = new DamageInfo(_temporaryAttackDamage, false, Vector3.zero, direction, transform.gameObject);
+            DamageInfo dmgInfo = new DamageInfo(GetAttackDamage(), false, Vector3.zero, direction, transform.gameObject);
             GameObjectManager.Instance.RequestTakeDamage(targetInstanceId, dmgInfo);
         }
+    }
+
+    private int GetAttackDamage()
+    {
+        if (NetworkManager.Inst == null || NetworkManager.Inst.LocalPlayerService == null)
+        {
+            return _temporaryAttackDamage;
+        }
+
+        PlayerModel playerModel = NetworkManager.Inst.LocalPlayerService.GetLocalPlayerModel();
+
+        if (playerModel == null)
+        {
+            return _temporaryAttackDamage;
+        }
+
+        return Mathf.Max(1, Mathf.RoundToInt(playerModel.GetStatValue(StatType.AttackPower)));
     }
 
     private void HandleInteractPressed()

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Xml;
+using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour
@@ -18,6 +20,13 @@ public class EnemyAI : MonoBehaviour
     private SpawnSpot _spawnOriginSpot;
 
     private bool _isDisableRequested = false;
+
+    //[SerializeField] private DaniTech_Entity _myEntity;
+
+    private EnemyAIState _currentStateEnum;
+    private IEnemyAIState _currentState;
+    private Dictionary<EnemyAIState, IEnemyAIState> _states;
+
 
     //EnemyEntity의 InstanceId 값을 갖고오도록 수정
     private int InstanceId
@@ -94,6 +103,15 @@ public class EnemyAI : MonoBehaviour
         {
             Debug.LogWarning($"[{gameObject.name}] Entity_Enemy가 인스펙터에 연결되지 않았습니다.");
         }
+
+        _states = new Dictionary<EnemyAIState, IEnemyAIState>
+        {
+            {EnemyAIState.Idle, new EnemyAIState_Idle() },
+            {EnemyAIState.Attack, new EnemyAIState_Attack() },
+            {EnemyAIState.Dead, new EnemyAIState_Dead() },
+            {EnemyAIState.Walk, new EnemyAIState_Walk() }
+
+        };
     }
 
 
@@ -180,8 +198,58 @@ public class EnemyAI : MonoBehaviour
         Debug.Log($"[{gameObject.name}] AI 작동 중지");
 
         NotifyKillQuestProgress();
+        RequestExperienceReward();
+        RequestItemDrops();
 
         RequestDisableSelf();
+    }
+
+    private void RequestExperienceReward()
+    {
+        if (_monsterData == null || _monsterData.DropEXP <= 0f)
+        {
+            return;
+        }
+
+        if (NetworkManager.Inst == null || NetworkManager.Inst.LocalPlayerService == null)
+        {
+            Debug.LogWarning($"[{gameObject.name}] LocalPlayerService가 없어 경험치를 지급할 수 없습니다. MonsterDataId: {_monsterDataId}, Experience: {_monsterData.DropEXP}");
+            return;
+        }
+
+        NetworkManager.Inst.LocalPlayerService.RequestGiveExpToLocalPlayer(_monsterData.DropEXP);
+    }
+
+    private void RequestItemDrops()
+    {
+        if (GameDataManager.Instance == null)
+        {
+            Debug.LogWarning($"[{gameObject.name}] GameDataManager가 없어 드랍 데이터를 조회할 수 없습니다.");
+            return;
+        }
+
+        if (GameObjectManager.Instance == null)
+        {
+            Debug.LogWarning($"[{gameObject.name}] GameObjectManager가 없어 아이템을 드랍할 수 없습니다.");
+            return;
+        }
+
+        string monsterDataId = GetEnemyDataId();
+
+        if (string.IsNullOrEmpty(monsterDataId))
+        {
+            Debug.LogWarning($"[{gameObject.name}] MonsterDataId가 없어 아이템을 드랍할 수 없습니다.");
+            return;
+        }
+
+        if (DropItem.TryCreate(GameDataManager.Instance.DropDataList, monsterDataId, out DropItem dropItem) == false) return;
+
+        int itemDropInstanceId = GameObjectManager.Instance.RequestSpawnItemDrop(transform.position, dropItem);
+
+        if (itemDropInstanceId < 0)
+        {
+            Debug.LogWarning($"[{gameObject.name}] 아이템 드랍 생성에 실패했습니다. ItemDataId: {dropItem.ItemDataId}, Count: {dropItem.Count}");
+        }
     }
 
     private void NotifyKillQuestProgress()
@@ -236,25 +304,116 @@ public class EnemyAI : MonoBehaviour
     {
         _spawnOriginSpot = newSpawnSpot;
         _currentTarget = null;
+        _isDisableRequested = false;
 
-
-        Status_Enemy.ResetStatus();
+        if (Status_Enemy != null)
+        {
+            Status_Enemy.ResetStatus();
+        }
 
         if(Agent_NavMesh != null)
         {
             Agent_NavMesh.enabled = true;
+            if (_monsterData != null)
+            {
+                Agent_NavMesh.speed = _monsterData.MoveSpeed;
+            }
             if (Agent_NavMesh.isOnNavMesh)
             {
+                Agent_NavMesh.ResetPath();
                 Agent_NavMesh.isStopped = false;
             }
         }
 
-        
+        ResetAnimatorForPool();
+        ResetAIStateForPool();
+    }
+
+    public void PrepareEnemyAIForPool()
+    {
+        ClearTarget();
+
+        if (Agent_NavMesh != null)
+        {
+            if (Agent_NavMesh.enabled == true && Agent_NavMesh.isOnNavMesh == true)
+            {
+                Agent_NavMesh.isStopped = true;
+                Agent_NavMesh.ResetPath();
+            }
+
+            Agent_NavMesh.enabled = false;
+        }
+
+        if (Status_Enemy != null)
+        {
+            Status_Enemy.PrepareStatusForPool();
+        }
+
+        ResetAnimatorForPool();
+        _currentState = null;
+        _currentStateEnum = EnemyAIState.Idle;
+        _spawnOriginSpot = null;
+        _monsterDataId = string.Empty;
+        _monsterData = null;
+        _isDisableRequested = false;
+    }
+
+    private void ResetAnimatorForPool()
+    {
+        if (Animator_Enemy == null)
+        {
+            return;
+        }
+
+        Animator_Enemy.ResetTrigger("IsAttack");
+        Animator_Enemy.Rebind();
+        Animator_Enemy.Update(0f);
+    }
+
+    private void ResetAIStateForPool()
+    {
+        if (_states == null || _states.ContainsKey(EnemyAIState.Idle) == false)
+        {
+            return;
+        }
+
+        _currentStateEnum = EnemyAIState.Idle;
+        _currentState = _states[EnemyAIState.Idle];
+        _currentState.EnterState(this);
     }
 
     public Animator GetEntityAnimator()
     {
         return Animator_Enemy;
+    }
+
+    public void ChangeState(EnemyAIState newState)
+    {
+        if(_states.ContainsKey(newState) == false) { return; }
+        
+        if(IsStateChangeable(newState)) { return; }
+        
+        if (_currentState != null)
+        {
+            _currentState.ExitState(this);
+        }
+
+        _currentState = _states[newState];
+        _currentState.EnterState(this);
+        _currentStateEnum = newState;
+    }
+
+    public bool IsStateChangeable(EnemyAIState newState)
+    {
+        if(newState == EnemyAIState.Attack)
+        {
+            if(_currentStateEnum == EnemyAIState.Walk)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 
@@ -293,7 +452,6 @@ public class EnemyAI : MonoBehaviour
         if(Agent_NavMesh != null && Agent_NavMesh.isOnNavMesh)
         {
             Agent_NavMesh.isStopped = true;
-            //경로 초기화 추가
             Agent_NavMesh.ResetPath();
         }
     }

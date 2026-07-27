@@ -246,11 +246,7 @@ public class DialogueUI : UIBase
 
         if (isActive)
         {
-            var characterData = GameDataManager.Instance.GetCharacterData(characterDataId);
-            if (characterData != null)
-            {
-                Text_character.text = characterData.Name;
-            }
+            Text_character.text = characterDataId;
         }
     }
 

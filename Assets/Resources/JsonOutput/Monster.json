@@ -8,8 +8,21 @@
     "BaseAttack": 10,
     "MoveSpeed": 5,
     "DetectRange": 5,
-    "AttackRange": 1,
+    "AttackRange": 2,
     "DropEXP": 10,
-    "StopDistance": 0.8
+    "StopDistance": 1.8
+  },
+  {
+    "Id": "mob_skeleton",
+    "Name": "스켈레톤",
+    "Description": "1층에서 출현하는 몹이다",
+    "PrefabPath": null,
+    "BaseHp": 50,
+    "BaseAttack": 10,
+    "MoveSpeed": 5,
+    "DetectRange": 10,
+    "AttackRange": 2,
+    "DropEXP": 10,
+    "StopDistance": 1
   }
 ]

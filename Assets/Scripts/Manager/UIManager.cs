@@ -189,7 +189,6 @@ public class UIManager : MonoBehaviour
             case UIType.StartTitleUI:
             case UIType.DialogueUI:
             case UIType.InventoryUI:
-            case UIType.QuestUI:
             case UIType.PlayerStatInfoUI:
                 {
                     return true;

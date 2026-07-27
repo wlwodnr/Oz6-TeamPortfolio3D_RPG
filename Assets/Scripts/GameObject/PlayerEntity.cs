@@ -5,6 +5,8 @@ public class PlayerEntity : MonoBehaviour, IGameObjectEntity
     [SerializeField] private int _instanceId = -1;
     [SerializeField] private string _playerDataId;
 
+    private PlayerController _playerController;
+
     public int InstanceId
     {
         get 
@@ -21,17 +23,25 @@ public class PlayerEntity : MonoBehaviour, IGameObjectEntity
         }
     }
 
+    private void Awake()
+    {
+        _playerController = GetComponent<PlayerController>();
+    }
+
     public void InitEntity(int instanceId, string dataId)
     {
         _instanceId = instanceId;
         _playerDataId = dataId;
-
-        gameObject.SetActive(true);
     }
 
     public void ResetEntity()
     {
         _instanceId = -1;
         _playerDataId = string.Empty;
+
+        if (_playerController != null)
+        {
+            _playerController.ResetControllerForPool();
+        }
     }
 }
