@@ -8,6 +8,7 @@ public class PlayerModel
     private PlayerInfo _info;
 
     public PlayerInfo Info => _info;
+    public Stats Stats => _stats;
     // itemId - 갯수
     private Dictionary<string,int> _inventory = new Dictionary<string, int>();    
     private Dictionary<string,int> _equipInventory = new Dictionary<string,int>();

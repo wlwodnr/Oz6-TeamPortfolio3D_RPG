@@ -8,14 +8,18 @@ using UnityEngine;
 public class SkillExecutor : MonoBehaviour
 {
     [SerializeField] private Animator Animator_Owner;
+    [SerializeField] private AnimatorOverrideController overrideController;
     [SerializeField] private Rigidbody Rigidbody_Owner;
     [SerializeField] private LayerMask LayerMask_Enemy;
-    [SerializeField] private AnimatorOverrideController overrideController;
 
     [Header("CurrentSkillState")]
     private ActiveSkillData _currentSkillData;
     private int _currentHitIndex = 0;
     private bool _isExecutingSkill = false;
+
+    [SerializeField] private Transform Swordtrans;
+    [SerializeField] private GameObject SwordEffect;
+    [SerializeField] private AnimationClip testClip;
 
     private PlayerModel _playerModel;
     private SkillTracker _skillTracker;
@@ -142,6 +146,24 @@ public class SkillExecutor : MonoBehaviour
         }
     }
 
+    public void TestEffectTrigger(string cliptype)
+    {
+        Vector3 spawnPos = transform.position;
+        spawnPos.y += 1.5f;
+        Quaternion spawnRot = Swordtrans.rotation * Quaternion.Euler(180f, 130f, -90f);
+        if (cliptype == "DoubleAttack")
+        {
+            spawnRot = Swordtrans.rotation * Quaternion.Euler(180f, 80f, -90f);
+        }
+        else if (cliptype == "RushAttack")
+        {
+            spawnRot = Swordtrans.rotation * Quaternion.Euler(180f, 130f, -90f);
+        }
+        GameObject vfx = Instantiate(SwordEffect, spawnPos, spawnRot);
+
+        Destroy(vfx, 1.5f);
+    }
+
     private void ProcessHitDetection(ActiveSkillData data, float hitPercent)
     {
         if (GameObjectManager.Instance == null)
@@ -159,8 +181,10 @@ public class SkillExecutor : MonoBehaviour
         HashSet<int> attackedInstanceIdSet = new();
         int currentHitCount = 0;
 
+
         foreach (Collider enemy in hitEnemies)
         {
+            Debug.Log($"{enemy.gameObject.name}");
             if (enemy == null) continue;
             if (currentHitCount >= data.TargetCount) break;
 
@@ -204,8 +228,9 @@ public class SkillExecutor : MonoBehaviour
     }
 
     /// 애니메이션 관련 신규 로직
-    public void AttackHandler()
+    public void AttackHandler(string clipType)
     {
+        TestEffectTrigger(clipType);
         if (!_isExecutingSkill || _currentSkillData == null)
         {
             Debug.LogWarning("실행 중인 스킬 데이터가 없거나 이미 종료된 스킬입니다.");
