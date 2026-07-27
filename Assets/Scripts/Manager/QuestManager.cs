@@ -196,12 +196,24 @@ public class QuestManager : MonoBehaviour
         if (data == null)
             return;
 
+        if (NetworkManager.Inst == null || NetworkManager.Inst.LocalPlayerService == null)
+        {
+            Debug.LogWarning($"QuestManager: LocalPlayerService가 없어 퀘스트 보상을 지급할 수 없습니다. QuestId: {questId}");
+            return;
+        }
+
+        if (data.RewardExp > 0)
+        {
+            NetworkManager.Inst.LocalPlayerService.RequestGiveExpToLocalPlayer(data.RewardExp);
+        }
+
+        if (data.RewardGold > 0)
+        {
+            NetworkManager.Inst.LocalPlayerService.RequestGiveGoldToLocalPlayer(data.RewardGold);
+        }
+
         model.IsRewardReceived = true;
         Debug.Log($"보상 지급 요청: EXP: {data.RewardExp}, 골드: {data.RewardGold}");
-        // 나중에 경험치는 경험치관리 매니저, 아이템은 아이템관리 매니너, 스킬포인트는 스킬포인트관리하는 매니저에게 요청
-        // 예시) GameManager.Instance.AddExp(data.RewardExp); / SkillManager.Instance.AddSkillPoint(data.RewardSkillPoint);
-
-
         _activeQuests.Remove(questId);
         _completedQuestIds.Add(questId);
         Debug.Log($"퀘스트 클리어! 현재 퀘스트 목록에서 제거됩니다 : {questId}");
