@@ -48,7 +48,7 @@ public class EnemyStatus : MonoBehaviour, IDamageable
 
     public void ReinforceAttack()
     {
-        _enemyAttack = _enemyAttack + 10;
+        _enemyAttack = _enemyAttack + 20;
     }
 
     public void AttackPlayer()
