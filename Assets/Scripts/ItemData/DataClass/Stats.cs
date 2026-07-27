@@ -44,26 +44,35 @@ public class Stats
 
     public void AddModifier(string itemId)  // item뿐 아니라 패시브 스킬도 따로 id를 만들어서 이걸로 추가하기
     {
-        StatUpItem data = ItemDataBase.GetItemData(itemId) as StatUpItem;
-
-        if (data == null)
+        if (_rawModifiers.ContainsKey(itemId) == false)
         {
-            Debug.LogWarning($"[Stats] StatUpItem 데이터를 찾을 수 없습니다. ItemId: {itemId}");
-            return;
+            var data = ItemDataBase.GetItemData(itemId) as StatUpItem;
+            if (data == null)
+            {
+                var skillData = GameDataManager.Instance.GetPassiveSkillData(itemId);
+                _rawModifiers.Add(itemId, skillData.GetStatModifiers());
+            }
+            else
+            {
+                _rawModifiers.Add(itemId, data.StatModifiers);
+            }
+
+        }
+        else
+        {
+            if (_counts.ContainsKey(itemId) == true)
+            {
+                _counts[itemId] = _counts[itemId] + 1;
+            }
         }
 
-        int modifierCount = 1;
-
-        if (_counts.ContainsKey(itemId))
-        {
-            modifierCount = _counts[itemId] + 1;
-        }
-
-        SetModifierCount(itemId, data.StatModifiers, modifierCount);
         UpdateCache();
-        NotifyModifierStatsUpdated(data.StatModifiers);
-    }
 
+        foreach (var list in _rawModifiers[itemId])
+        {
+            OnStatsUpdated?.Invoke(list.Type.ToString());
+        }
+    }
     public void RemoveModifier(string itemId)
     {
         if (_rawModifiers.ContainsKey(itemId) == false || _counts.ContainsKey(itemId) == false)
