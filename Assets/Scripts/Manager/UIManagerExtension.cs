@@ -93,7 +93,7 @@ public static class UIManagerExtension
 
     public static void OpenSettingUI(this UIManager uiManager)
     {
-        var uiBase = uiManager.OpenUI(UIRootType.BackGroundUI, UIType.SettingUI);
+        var uiBase = uiManager.OpenPopupUI(UIType.SettingUI);
         if (uiBase == null)
         {
             Debug.LogWarning("UI가 생성되지 않았습니다");
@@ -102,6 +102,6 @@ public static class UIManagerExtension
     }
     public static void CloseSettingUI(this UIManager uiManager)
     {
-        uiManager.CloseUI(UIRootType.BackGroundUI, UIType.SettingUI);
+        uiManager.ClosePopupUI(UIType.SettingUI);
     }
 }

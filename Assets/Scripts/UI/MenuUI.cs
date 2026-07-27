@@ -23,10 +23,11 @@ public class MenuButtonUI : UIBase
     private void OnClickOpenMenuPopup()
     {
         OpenMenuPopup();
-        _isSettingUIOpen = true;
     }
     private void OpenMenuPopup()
     {
+        _isSettingUIOpen = !_isSettingUIOpen;
+
         if (_isSettingUIOpen == true)
         {
             UIManager.Instance.CloseSettingUI();
