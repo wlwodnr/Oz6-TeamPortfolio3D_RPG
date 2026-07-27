@@ -6,7 +6,8 @@ public enum EnemyAIState
     Attack,
     SpecialAttack,
     Dead,
-    Walk
+    Walk,
+    RangeAttack
 }
 
 public interface IEnemyAIState

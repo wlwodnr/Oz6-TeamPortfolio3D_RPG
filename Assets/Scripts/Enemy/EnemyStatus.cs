@@ -6,19 +6,23 @@ public class EnemyStatus : MonoBehaviour, IDamageable
 {
     //빌드용 임시 체력
     [SerializeField] private int _temporaryMaxHp = 30;
+    [SerializeField] private GameObject GameObject_Enemy;
 
     private int _currentHp;
     private bool _isDead;
     private MonsterData _monsterData;
     private MonsterModel _monsterModel;
+    private EnemyStatus _enemyStatus;
+     
 
     private int _enemyAttack;
     private float _enemyMoveSpeed;
     private float _detectRange;
     private float _attackRange;
     private float _stopDistance;
+    private float _knockBackForce;
 
-    public bool IsDead {  get { return _isDead; } }
+    public bool IsDead { get { return _isDead; } }
     public int CurrentHp { get { return _currentHp; } }
     public int MaxHp { get { return _monsterData != null ? _monsterData.BaseHp : _temporaryMaxHp; } }
 
@@ -27,6 +31,7 @@ public class EnemyStatus : MonoBehaviour, IDamageable
     public float DetectRange { get { return _detectRange; } }
     public float AttackRange { get { return _attackRange; } }
     public float StopDistance { get { return _stopDistance; } }
+    public float KnockBackForce { get { return _knockBackForce; } }
 
     public event Action OnDeadEvent;
 
@@ -62,18 +67,23 @@ public class EnemyStatus : MonoBehaviour, IDamageable
         Vector3 knockbackDir = Vector3.zero;
         knockbackDir = transform.forward;
         knockbackDir.y = 0f;
+        float knockbackForce = 0f;
+        knockbackForce = _monsterData.KnockBackForce;
 
         IGameObjectEntity targetEntity = playerObject.GetComponentInParent<IGameObjectEntity>();
 
         float finalAtkDamage = _enemyAttack;
         int finalCalculatedDamage = Mathf.RoundToInt(finalAtkDamage);
 
+
         DamageInfo dmgInfo = new(
                 finalCalculatedDamage,
                 false,
                 playerObject.transform.position,
                 knockbackDir,
-                gameObject
+                knockbackForce,
+                playerObject
+
             );
 
         GameObjectManager.Instance.RequestTakeDamage(targetEntity.InstanceId, dmgInfo);
@@ -142,7 +152,7 @@ public class EnemyStatus : MonoBehaviour, IDamageable
     public void ResetStatus()
     {
         _isDead = false;
-        if(_monsterData != null)
+        if (_monsterData != null)
         {
             _currentHp = _monsterData.BaseHp;
             _attackRange = _monsterData.AttackRange;
@@ -150,6 +160,7 @@ public class EnemyStatus : MonoBehaviour, IDamageable
             _enemyAttack = _monsterData.BaseAttack;
             _enemyMoveSpeed = _monsterData.MoveSpeed;
             _stopDistance = _monsterData.StopDistance;
+            _knockBackForce = _monsterData.KnockBackForce;
         }
         else
         {
@@ -171,24 +182,9 @@ public class EnemyStatus : MonoBehaviour, IDamageable
         _attackRange = 0f;
         _stopDistance = 0f;
     }
-
-#if UNITY_EDITOR
-    // PlayerAttack이 완성되기 전 테스트용
-    [ContextMenu("TEST/10 데미지 받기")]
-    private void TestTakeDamage()
-    {
-        DamageInfo testDamageInfo = new DamageInfo(
-            10,
-            false,
-            transform.position,
-            Vector3.zero,
-            gameObject
-        );
-
-        TakeDamage(testDamageInfo);
-    }
-#endif
 }
+
+
 
 
 

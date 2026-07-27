@@ -105,8 +105,9 @@ public class EnemyAI : MonoBehaviour
             {EnemyAIState.Idle, new EnemyAIState_Idle() },
             {EnemyAIState.Attack, new EnemyAIState_Attack() },
             {EnemyAIState.Dead, new EnemyAIState_Dead() },
-            {EnemyAIState.Walk, new EnemyAIState_Walk() }
-
+            {EnemyAIState.Walk, new EnemyAIState_Walk() },
+            {EnemyAIState.RangeAttack, new EnemyAIState_RangeAttack() },
+            {EnemyAIState.SpecialAttack, new EnemyAIState_SpecialAttack() }
         };
     }
 
