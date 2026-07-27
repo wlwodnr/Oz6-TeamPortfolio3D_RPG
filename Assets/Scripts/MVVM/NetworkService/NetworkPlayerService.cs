@@ -60,6 +60,11 @@ public class NetworkPlayerService
         _playerModel?.ChangeHp(hp);
     }
 
+    public void RequestDamagePlayerHp(float dmg)
+    {
+        _playerModel.Info.CurHp -= dmg;
+    }
+
     public void RequestAddItem(string itemId)
     {
         _playerModel?.Additem(itemId);
