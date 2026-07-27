@@ -14,7 +14,7 @@ public partial class PatrolAroundAction : Action
     private NavMeshAgent _agent;
     private Vector3 _patrolPosition;
     private float _currentPatrolTime;
-    private float _maxPatrolTime = 5.0f;
+    private float _maxPatrolTime = 3.0f;
 
     protected override Status OnStart()
     {

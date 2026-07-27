@@ -3,23 +3,21 @@ using Unity.Behavior;
 using UnityEngine;
 using Action = Unity.Behavior.Action;
 using Unity.Properties;
-using UnityEngine.AI;
 
 [Serializable, GeneratePropertyBag]
-[NodeDescription(name: "NormalAttack", story: "[Self] Try NormalAttack", category: "Action", id: "8ff75793ada6f5cc51ee69f9a432a65a")]
-public partial class NormalAttackAction : Action
+[NodeDescription(name: "SpecialAttack", story: "[Self] try SpecialAttack", category: "Action", id: "f78d2f4cd53cf45149a27fa65a105ac4")]
+public partial class SpecialAttackAction : Action
 {
     [SerializeReference] public BlackboardVariable<GameObject> Self;
-    [SerializeReference] public BlackboardVariable<float> AttackDist;
 
     private EnemyAI _enemyAISelf;
+    private EnemyStatus _enemyStatus;
     private float _attackCooldown = 3.0f;
     private float _lastAttackTime = -3.0f;
-    
 
     protected override Status OnStart()
     {
-        if ( _enemyAISelf == null && Self.Value != null)
+        if (_enemyAISelf == null && Self.Value != null)
         {
             _enemyAISelf = Self.Value.GetComponent<EnemyAI>();
         }
@@ -31,17 +29,21 @@ public partial class NormalAttackAction : Action
     {
         if (_enemyAISelf == null) return Status.Failure;
 
-        if ( Time.time -  _lastAttackTime < _attackCooldown)
+        if (Time.time - _lastAttackTime < _attackCooldown)
         {
             return Status.Failure;
         }
-        
+
+        _enemyStatus.ReinforceAttack();
         _enemyAISelf.RequestAttack();
         _lastAttackTime = Time.time;
+
 
         return Status.Success;
     }
 
-
+    protected override void OnEnd()
+    {
+    }
 }
 
