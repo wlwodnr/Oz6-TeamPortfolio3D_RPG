@@ -315,4 +315,14 @@ public class PlayerModel
             return false;
         }
     }
+
+    public SkillSaveData CaptureSkillData()
+    {
+        SkillSaveData skillSaveData = new SkillSaveData();
+
+        skillSaveData.LearnedActiveSkills.AddRange(LearnedActiveSkill);
+        skillSaveData.LearnedPassiveSkills.AddRange(LearnedPassiveSkill);
+
+        return skillSaveData;
+    }
 }

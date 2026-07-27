@@ -8,7 +8,7 @@ public class SaveData
 {
     public PlayerSaveData PlayerData;
     public InventoryData Inventory;
-    //public SkillData Skill;  플레이어 스킬 저장 데이터
+    public SkillSaveData Skill;  
     public QuestSaveData Quest;  
 }
 
@@ -18,13 +18,6 @@ public class PlayerSaveData
     public PlayerInfo PlayerInfo;
 }
 
-//[Serializable]
-//public class InventoryData
-//{
-//    public int Coins;
-//    public List<ItemSlot> Slots = new List<ItemSlot>();
-//}
-
 [Serializable]
 public class ItemSlot
 {
@@ -33,9 +26,10 @@ public class ItemSlot
 }
 
 [Serializable]
-public class SkillData
+public class SkillSaveData
 {
-    public List<string> LearnedSkills = new List<string>();  
+    public List<string> LearnedActiveSkills = new List<string>();
+    public List<string> LearnedPassiveSkills = new List<string>();
 }
 
 [Serializable] 

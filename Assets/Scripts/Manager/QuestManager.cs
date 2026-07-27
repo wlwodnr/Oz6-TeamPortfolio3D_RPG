@@ -284,7 +284,9 @@ public class QuestManager : MonoBehaviour
             var proQuest = new ProgressQuest(data);
             questData.ActiveQuests.Add(proQuest);
         }
+
         questData.CompletedQuestIds.AddRange(_completedQuestIds);
+
         return questData;
     }
 }

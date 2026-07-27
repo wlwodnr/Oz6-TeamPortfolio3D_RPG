@@ -21,14 +21,15 @@ public class NetworkSaveService
 
         createdSaveData.PlayerData = PlayerModel.CaptureData();
         createdSaveData.Inventory = InventoryModel.CaptureInventoryData();
-
+        createdSaveData.Quest = QuestManager.Instance.CaptureQuestData();
+        createdSaveData.Skill = PlayerModel.CaptureSkillData();
 
 
 
         return createdSaveData;
     }
 
-    public void RequstSaveData()
+    public void RequestSaveData()
     {
         var createdSaveModel = CreateSaveData();
 
@@ -37,7 +38,7 @@ public class NetworkSaveService
         Debug.Log($"저장 완료: {GetPath()}");
     }
 
-    public void RequstLoadSaveData()
+    public void RequestLoadSaveData()
     {
         string path = GetPath();
         if (File.Exists(path))
@@ -45,18 +46,18 @@ public class NetworkSaveService
             string json = File.ReadAllText(path);
             SaveData data = JsonUtility.FromJson<SaveData>(json);
             Debug.Log("데이터를 불러왔습니다.");
-            SetAllViewModelOnLoad(data);
+            SetAllModelOnLoad(data);
         }
         else
         {
             Debug.LogWarning("세이브 파일이 없습니다. 새 데이터를 생성합니다.");
-            RequstSaveData();
-            RequstLoadSaveData();
+            RequestSaveData();
+            RequestLoadSaveData();
         }
     }
 
 
-    public void SetAllViewModelOnLoad(SaveData saveData)
+    public void SetAllModelOnLoad(SaveData saveData)
     {
 
     }
