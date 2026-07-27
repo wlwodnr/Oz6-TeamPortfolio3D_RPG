@@ -77,7 +77,6 @@ GameObject:
   - component: {fileID: 4710146236937803943}
   - component: {fileID: 1615243754503060377}
   - component: {fileID: 3154810720739332444}
-  - component: {fileID: 8255651654017127624}
   m_Layer: 0
   m_Name: ThisisSword
   m_TagString: Untagged
@@ -158,29 +157,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &8255651654017127624
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1873519823494755483}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5833023144534515277
 GameObject:
   m_ObjectHideFlags: 0
@@ -412,6 +388,11 @@ MonoBehaviour:
   JumpPower: 5
   InteractRange: 2
   _jumpCount: 0
+  Layer_wall:
+    serializedVersion: 2
+    m_Bits: 0
+  _wallSkinWidth: 0.02
+  _wallSlideIterations: 2
   boxSize: {x: 1, y: 1, z: 1}
   offset: {x: 0, y: 1, z: 1}
   enemyLayer:
