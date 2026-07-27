@@ -6,23 +6,18 @@ public class EnemyStatus : MonoBehaviour, IDamageable
 {
     //빌드용 임시 체력
     [SerializeField] private int _temporaryMaxHp = 30;
-    [SerializeField] private GameObject GameObject_Enemy;
 
     private int _currentHp;
     private bool _isDead;
     private MonsterData _monsterData;
-    private MonsterModel _monsterModel;
-    private EnemyStatus _enemyStatus;
-     
 
     private int _enemyAttack;
     private float _enemyMoveSpeed;
     private float _detectRange;
     private float _attackRange;
     private float _stopDistance;
-    private float _knockBackForce;
 
-    public bool IsDead { get { return _isDead; } }
+    public bool IsDead {  get { return _isDead; } }
     public int CurrentHp { get { return _currentHp; } }
     public int MaxHp { get { return _monsterData != null ? _monsterData.BaseHp : _temporaryMaxHp; } }
 
@@ -31,7 +26,6 @@ public class EnemyStatus : MonoBehaviour, IDamageable
     public float DetectRange { get { return _detectRange; } }
     public float AttackRange { get { return _attackRange; } }
     public float StopDistance { get { return _stopDistance; } }
-    public float KnockBackForce { get { return _knockBackForce; } }
 
     public event Action OnDeadEvent;
 
@@ -118,6 +112,7 @@ public class EnemyStatus : MonoBehaviour, IDamageable
             return;
         }
 
+        int appliedDamage = damageInfo.BaseDamage;
         _currentHp = Mathf.Max(0, _currentHp - appliedDamage);
 
 
@@ -152,7 +147,7 @@ public class EnemyStatus : MonoBehaviour, IDamageable
     public void ResetStatus()
     {
         _isDead = false;
-        if (_monsterData != null)
+        if(_monsterData != null)
         {
             _currentHp = _monsterData.BaseHp;
             _attackRange = _monsterData.AttackRange;
@@ -160,7 +155,6 @@ public class EnemyStatus : MonoBehaviour, IDamageable
             _enemyAttack = _monsterData.BaseAttack;
             _enemyMoveSpeed = _monsterData.MoveSpeed;
             _stopDistance = _monsterData.StopDistance;
-            _knockBackForce = _monsterData.KnockBackForce;
         }
         else
         {
