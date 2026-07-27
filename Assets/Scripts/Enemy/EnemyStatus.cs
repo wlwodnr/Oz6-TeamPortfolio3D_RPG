@@ -10,9 +10,21 @@ public class EnemyStatus : MonoBehaviour, IDamageable
     private bool _isDead;
     private MonsterData _monsterData;
 
+    private int _enemyAttack;
+    private float _enemyMoveSpeed;
+    private float _detectRange;
+    private float _attackRange;
+    private float _stopDistance;
+
     public bool IsDead {  get { return _isDead; } }
     public int CurrentHp { get { return _currentHp; } }
-    public int MaxHp { get { return _temporaryMaxHp; } }
+    public int MaxHp { get { return _monsterData != null ? _monsterData.BaseHp : _temporaryMaxHp; } }
+
+    public int BaseAttack { get { return _enemyAttack; } }
+    public float MoveSpeed { get { return _enemyMoveSpeed; } }
+    public float DetectRange { get { return _detectRange; } }
+    public float AttackRange { get { return _attackRange; } }
+    public float StopDistance { get { return _stopDistance; } }
 
     public event Action OnDeadEvent;
 
@@ -95,7 +107,11 @@ public class EnemyStatus : MonoBehaviour, IDamageable
         if(_monsterData != null)
         {
             _currentHp = _monsterData.BaseHp;
-
+            _attackRange = _monsterData.AttackRange;
+            _detectRange = _monsterData.DetectRange;
+            _enemyAttack = _monsterData.BaseAttack;
+            _enemyMoveSpeed = _monsterData.MoveSpeed;
+            _stopDistance = _monsterData.StopDistance;
         }
         else
         {
@@ -104,6 +120,18 @@ public class EnemyStatus : MonoBehaviour, IDamageable
         }
         //
         Debug.Log($"[{gameObject.name}] 상태가 초기화되었습니다.");
+    }
+
+    public void PrepareStatusForPool()
+    {
+        _monsterData = null;
+        _currentHp = 0;
+        _isDead = false;
+        _enemyAttack = 0;
+        _enemyMoveSpeed = 0f;
+        _detectRange = 0f;
+        _attackRange = 0f;
+        _stopDistance = 0f;
     }
 
 #if UNITY_EDITOR
@@ -116,6 +144,7 @@ public class EnemyStatus : MonoBehaviour, IDamageable
             false,
             transform.position,
             Vector3.zero,
+            1,
             gameObject
         );
 

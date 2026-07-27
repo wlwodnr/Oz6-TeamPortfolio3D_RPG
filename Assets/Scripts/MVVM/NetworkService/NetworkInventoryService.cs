@@ -22,7 +22,7 @@ public class NetworkInventoryService
         return _localPlayerInventoryModel;
     }
 
-    public bool ReuestAddItem(string itemDataId, int addItemCount)
+    public bool RequestAddItem(string itemDataId, int addItemCount)
     {
         var model = GetLocalPlayerInventoryModel();
         
@@ -85,4 +85,12 @@ public class NetworkInventoryService
         return model.GetAllSlots();
     }
 
+    public void LoadInventoryData(InventoryData invSaveData)
+    {
+        if (invSaveData == null) return;
+
+        var model = GetLocalPlayerInventoryModel();
+
+        model.Refresh(invSaveData);
+    }
 }

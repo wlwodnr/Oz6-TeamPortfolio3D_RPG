@@ -45,9 +45,11 @@ public class PlayerProfileViewModel : ViewModelBase
                 break;
             case nameof(PlayerInfo.TotalExp):
                 OnPropertyChanged(nameof(TotalExp));
+                OnPropertyChanged(nameof(RequiredTotalExperienceForNextLevel));
                 break;
             case nameof(PlayerInfo.CurLevel):
                 OnPropertyChanged(nameof(CurrentLevel));
+                OnPropertyChanged(nameof(RequiredTotalExperienceForNextLevel));
                 break;
             case nameof(PlayerInfo.CurHp):
                 OnPropertyChanged(nameof(CurrentHP));
@@ -74,6 +76,11 @@ public class PlayerProfileViewModel : ViewModelBase
     {
         get => _playerModel.Info.CurLevel;
         set { if (_playerModel.Info.CurLevel != value) _playerModel.Info.CurLevel = value; }
+    }
+
+    public float RequiredTotalExperienceForNextLevel
+    {
+        get { return _playerModel.GetRequiredTotalExperienceForNextLevel(); }
     }
 
     public float CurrentHP

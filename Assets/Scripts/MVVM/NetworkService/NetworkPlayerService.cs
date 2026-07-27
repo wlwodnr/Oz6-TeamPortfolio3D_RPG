@@ -60,6 +60,16 @@ public class NetworkPlayerService
         _playerModel?.ChangeHp(hp);
     }
 
+    public void RequestDamagePlayerHp(float dmg)
+    {
+        _playerModel.Info.CurHp -= dmg;
+    }
+
+    public void RequestAddItem(string itemId)
+    {
+        _playerModel?.Additem(itemId);
+    }
+
     public void RequestChangePlayerMp(float mp)
     {
         _playerModel?.ChangeMp(mp);
@@ -67,17 +77,42 @@ public class NetworkPlayerService
 
     public void RequestGiveExpToLocalPlayer(float exp)
     {
-        _playerModel.Info.TotalExp += exp;
+        if (exp <= 0f || float.IsNaN(exp) || float.IsInfinity(exp))
+        {
+            Debug.LogWarning($"지급할 경험치는 0보다 커야 합니다. Experience: {exp}");
+            return;
+        }
+
+        GetLocalPlayerModel().AddExperience(exp);
+    }
+
+    public void RequestGiveGoldToLocalPlayer(int gold)
+    {
+        if (gold <= 0)
+        {
+            Debug.LogWarning($"지급할 골드는 0보다 커야 합니다. Gold: {gold}");
+            return;
+        }
+
+        GetLocalPlayerModel().AddGold(gold);
     }
 
     public void RequestChangePlayerLevel(int level)
     {
-        _playerModel.Info.CurLevel = level;
+        GetLocalPlayerModel().Info.CurLevel = level;
     }
 
     public void RequestChangePlayerName(string newName)
     {
         _playerModel.Info.Name = newName;
+    }
+
+    public void LoadData(SaveData saveData)
+    {
+        if (saveData == null) return;
+
+        _playerModel.LoadPlayerInfo(saveData.PlayerData);
+        _playerModel.LoadSkillData(saveData.Skill);
     }
 
     //public void RequestChangePlayerMaxHp(float maxHp)
@@ -99,4 +134,14 @@ public class NetworkPlayerService
     //{
     //    _playerModel.ModifyBaseStat(StatType.AttackSpeed, addAtk);
     //}
+
+    public float GetPlayerDefense()
+    {
+        return _playerModel.GetStatValue(StatType.Defense);
+    }
+
+    public void HandlePlayerDead()
+    {
+        // 여기서 처리 순서가 상관없다면 이벤트로 쏘고, 아니라면 여기서 전부 순서대로 처리
+    }
 }

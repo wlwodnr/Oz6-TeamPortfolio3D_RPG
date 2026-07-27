@@ -8,24 +8,21 @@ public class SaveData
 {
     public PlayerSaveData PlayerData;
     public InventoryData Inventory;
-    //public SkillData Skill;  플레이어 스킬 저장 데이터
-    //public SpawnData Spawn; 플레이어 위치 저장 데이터
-    //public QuestSaveData Quest;  퀘스트 저장 데이터
-    //public DungeonData Dungeon; 던전관련 저장 데이터
+    public SkillSaveData Skill;  
+    public QuestSaveData Quest;  
 }
 
 [Serializable]
 public class PlayerSaveData
 {
-    public PlayerInfo PlayerInfo;
+    public string Name;
+    public int CurLevel = 1;
+    public float TotalExp;
+    public int SkillPoint;
+    public float CurHp;
+    public float CurMp;
+    public int Coins;
 }
-
-//[Serializable]
-//public class InventoryData
-//{
-//    public int Coins;
-//    public List<ItemSlot> Slots = new List<ItemSlot>();
-//}
 
 [Serializable]
 public class ItemSlot
@@ -35,9 +32,10 @@ public class ItemSlot
 }
 
 [Serializable]
-public class SkillData
+public class SkillSaveData
 {
-    public List<string> LearnedSkills = new List<string>();  
+    public List<string> LearnedActiveSkills = new List<string>();
+    public List<string> LearnedPassiveSkills = new List<string>();
 }
 
 [Serializable] 
@@ -55,6 +53,15 @@ public class ProgressQuest
     public bool IsAccepted;
     public bool IsCompleted;
     public bool IsRewardReceived;
+
+    public ProgressQuest(QuestModel data)
+    {
+        QuestDataId = data.QuestDataId;
+        CurrentCount = data.CurrentCount;
+        IsAccepted = data.IsAccepted;
+        IsCompleted = data.IsCompleted;
+        IsRewardReceived = data.IsRewardReceived;
+    }
 }
 
 [Serializable]
@@ -64,18 +71,4 @@ public class ObjectiveData
     public int CurrentCount;
     public int TargetCount;
     public bool IsCompleted;
-}
-
-[Serializable]
-public class DungeonData
-{
-    public int ClearedFloor;
-}
-
-[Serializable]
-public class SpawnData
-{
-    public float PlayerPosX;
-    public float PlayerPosY;
-    public float PlayerPosZ;
 }

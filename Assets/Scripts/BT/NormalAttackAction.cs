@@ -33,7 +33,6 @@ public partial class NormalAttackAction : Action
         if ( Time.time -  _lastAttackTime < _attackCooldown)
         {
             return Status.Failure;
-            //return Status.Running // 공격 쿨타임 중에 추격불가능
         }
         
         _enemyAISelf.RequestAttack();

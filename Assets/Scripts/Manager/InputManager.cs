@@ -55,7 +55,7 @@ public class InputManager : MonoBehaviour
 
         MoveInput = new Vector3(horizontal, 0, vertical).normalized;
 
-        Debug.Log($"{MoveInput}");
+        //Debug.Log($"{MoveInput}");
         //UI가 열려있거나, Playing이 아니라면, 움직임 막기.
         if (CanProcessGameplayInput == false)
         {

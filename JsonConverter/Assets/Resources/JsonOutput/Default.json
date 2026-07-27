@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "Id": "drop_goblin_attack",
+    "MonsterDataId": "mob_goblin_1",
+    "ItemDataId": "Stat_02",
+    "DropChance": 0.2,
+    "MinCount": 1,
+    "MaxCount": 1
+  }
+]

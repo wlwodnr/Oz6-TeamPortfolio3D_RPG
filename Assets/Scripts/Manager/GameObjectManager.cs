@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class GameObjectManager : MonoBehaviour
 {
+    private const string ItemDropPrefabResourcePath = "ItemDrop/ItemDrop";
+
     public static GameObjectManager Instance { get; private set; }
     [SerializeField] private Transform Root_DynamicObject;
     [SerializeField] private TestMonsterHudController _hudController;
@@ -16,6 +18,7 @@ public class GameObjectManager : MonoBehaviour
     private Dictionary<int, SpawnSpot> _spawnSpotContainer = new Dictionary<int, SpawnSpot>();
 
     private int _playerInstanceId = -1;
+    private GameObject _itemDropPrefab;
 
     public int PlayerInstanceId
     {
@@ -122,6 +125,61 @@ public class GameObjectManager : MonoBehaviour
         return instanceId;
     }
 
+    public int RequestSpawnItemDrop(Vector3 spawnPosition, DropItem dropItem)
+    {
+        if (dropItem == null || string.IsNullOrEmpty(dropItem.ItemDataId) || dropItem.Count <= 0)
+        {
+            Debug.LogWarning("아이템 드랍 요청 값이 올바르지 않습니다.");
+            return -1;
+        }
+
+        if (ItemDataBase.GetItemData(dropItem.ItemDataId) == null)
+        {
+            Debug.LogWarning($"드랍할 ItemData를 찾을 수 없습니다. ItemDataId: {dropItem.ItemDataId}");
+            return -1;
+        }
+
+        if (_itemDropPrefab == null)
+        {
+            _itemDropPrefab = Resources.Load<GameObject>(ItemDropPrefabResourcePath);
+        }
+
+        if (_itemDropPrefab == null)
+        {
+            Debug.LogWarning($"ItemDrop 프리팹을 찾을 수 없습니다. ResourcesPath: {ItemDropPrefabResourcePath}");
+            return -1;
+        }
+
+        int instanceId = RequestSpawnGameObject(_itemDropPrefab, spawnPosition, Quaternion.identity, dropItem.ItemDataId);
+
+        if (instanceId < 0)
+        {
+            return -1;
+        }
+
+        GameObject itemDropObject = GetGameObjectCanBeNull(instanceId);
+
+        if (itemDropObject == null)
+        {
+            return -1;
+        }
+
+        ItemDropEntity itemDropEntity = itemDropObject.GetComponent<ItemDropEntity>();
+
+        if (itemDropEntity == null)
+        {
+            Debug.LogWarning($"생성된 ItemDrop에 ItemDropEntity가 없습니다. InstanceId: {instanceId}, ObjectName: {itemDropObject.name}");
+            RequestDisableGameObject(instanceId);
+            return -1;
+        }
+
+        itemDropEntity.SetDropCount(dropItem.Count);
+
+        Debug.Log($"아이템 드랍 생성 완료. InstanceId: {instanceId}, ItemDataId: {dropItem.ItemDataId}, Count: {dropItem.Count}");
+
+        return instanceId;
+    }
+
     private bool TryReuseInactiveGameObject(GameObject prefab, Vector3 spawnPosition, Quaternion spawnRotation, string dataId, SpawnSpot ownerSpawnSpot, out int reusedInstanceId)
     {
         foreach (var pair in _createdGameObjectContainer)
@@ -183,13 +241,16 @@ public class GameObjectManager : MonoBehaviour
             if (enemyAI != null)
             {
                 enemyAI.InitEnemyInfo(instanceId, dataId, ownerSpawnSpot);
-
-                enemyAI.ResetEnemyAIForPool(ownerSpawnSpot);
             }
 
             if (pooledObject.activeSelf == false)
             {
                 pooledObject.SetActive(true);
+            }
+
+            if (enemyAI != null)
+            {
+                enemyAI.ResetEnemyAIForPool(ownerSpawnSpot);
             }
 
             // 풀링 재사용 시 HUD 생성
@@ -385,6 +446,8 @@ public class GameObjectManager : MonoBehaviour
             return;
         }
 
+        bool shouldRequestGameClear = IsDeadBoss(targetObject);
+
         if (_playerInstanceId == instanceId)
         {
             _playerInstanceId = -1;
@@ -415,6 +478,39 @@ public class GameObjectManager : MonoBehaviour
         {
             ownerSpawnSpot.NotifySpawnedObjectDisabled(instanceId);
         }
+
+        if (shouldRequestGameClear == true)
+        {
+            RequestGameClear();
+        }
+    }
+
+    private bool IsDeadBoss(GameObject targetObject)
+    {
+        BossEntity bossEntity = targetObject.GetComponent<BossEntity>();
+
+        if (bossEntity == null)
+        {
+            bossEntity = targetObject.GetComponentInChildren<BossEntity>(true);
+        }
+
+        return bossEntity != null && bossEntity.IsDead;
+    }
+
+    private void RequestGameClear()
+    {
+        if (GameManager.Instance == null)
+        {
+            Debug.LogWarning("GameObjectManager: GameManager가 없어 게임 클리어를 요청할 수 없습니다.");
+            return;
+        }
+
+        if (GameManager.Instance.IsPlaying() == false)
+        {
+            return;
+        }
+
+        GameManager.Instance.ClearGame();
     }
 
     public bool RequestTakeDamage(int instanceId, DamageInfo damageInfo)

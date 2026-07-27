@@ -20,9 +20,23 @@ public class ItemUseHandler
             return true;
         }
 
-        else if (itemData is IEquipable equipableItem)
+        else if (itemData is IEquipable)
         {
-            // EquipmentService.Equip(equipableItem);
+            if (NetworkManager.Inst == null || NetworkManager.Inst.LocalPlayerService == null)
+            {
+                Debug.LogWarning($"[ItemUseHandler] LocalPlayerService가 없어 장비 아이템을 사용할 수 없습니다: {itemId}");
+                return false;
+            }
+
+            PlayerModel localPlayerModel = NetworkManager.Inst.LocalPlayerService.GetLocalPlayerModel();
+
+            if (localPlayerModel == null)
+            {
+                Debug.LogWarning($"[ItemUseHandler] PlayerModel을 찾을 수 없어 장비 아이템을 사용할 수 없습니다: {itemId}");
+                return false;
+            }
+
+            localPlayerModel.Additem(itemId);
             return true;
         }
 
