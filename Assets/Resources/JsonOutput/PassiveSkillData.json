@@ -1,1 +1,300 @@
-[]
+[
+  {
+    "Id": "Passive_A_01",
+    "Name": "아이언 바디",
+    "Description": "신체를 강철과도 같이 단련하여 최대 체력이 증가한다.",
+    "IconPath": null,
+    "TargetMode": "Always",
+    "RequiredLevel": 5,
+    "RequiredSkill": [
+      "[]"
+    ],
+    "PassiveStatType": [
+      "[\"MaxHP\"",
+      "\"MaxHp\"]"
+    ],
+    "PassiveValue": [
+      0,
+      0
+    ],
+    "ModifierType": [
+      "[\"flat\"",
+      "\"percent\"]"
+    ],
+    "Duration": 0,
+    "TimeInterval": 0,
+    "TriggerCondition": "None",
+    "TriggerValue": 0,
+    "CoolDown": 0,
+    "MaxStack": 1
+  },
+  {
+    "Id": "Passive_H_01",
+    "Name": "컴뱃 에피션시 I",
+    "Description": "전투 경험을 통해 다수의 적과의 전투의 효율성이 증가해 얻는 경험치가 증가한다. ",
+    "IconPath": null,
+    "TargetMode": "Hunt",
+    "RequiredLevel": 10,
+    "RequiredSkill": [
+      "[]"
+    ],
+    "PassiveStatType": [
+      "[\"Exp\"]"
+    ],
+    "PassiveValue": [
+      0
+    ],
+    "ModifierType": [
+      "[\"percent\"]"
+    ],
+    "Duration": 0,
+    "TimeInterval": 0,
+    "TriggerCondition": "None",
+    "TriggerValue": 0,
+    "CoolDown": 0,
+    "MaxStack": 1
+  },
+  {
+    "Id": "Passive_B_01",
+    "Name": "보스 킬러 I",
+    "Description": "전투 경험을 통해 보스와의 전투의 효율성이 증가해 공격력이 증가한다.",
+    "IconPath": null,
+    "TargetMode": "Boss",
+    "RequiredLevel": 10,
+    "RequiredSkill": [
+      "[]"
+    ],
+    "PassiveStatType": [
+      "[\"AttackPower\"]"
+    ],
+    "PassiveValue": [
+      0
+    ],
+    "ModifierType": [
+      "[\"flat\"]"
+    ],
+    "Duration": 0,
+    "TimeInterval": 0,
+    "TriggerCondition": "None",
+    "TriggerValue": 0,
+    "CoolDown": 0,
+    "MaxStack": 1
+  },
+  {
+    "Id": "Passive_A_02",
+    "Name": "고양",
+    "Description": "전투의 열기로 스스로를 고양시켜 지속적으로 체력과 마나를 회복한다.",
+    "IconPath": null,
+    "TargetMode": "Always",
+    "RequiredLevel": 10,
+    "RequiredSkill": [
+      "[]"
+    ],
+    "PassiveStatType": [
+      "[\"HpRegen\"",
+      "\"MpRegen\"]"
+    ],
+    "PassiveValue": [
+      0,
+      0
+    ],
+    "ModifierType": [
+      "[\"percent\"",
+      "\"percent\"]"
+    ],
+    "Duration": 0,
+    "TimeInterval": 3,
+    "TriggerCondition": "None",
+    "TriggerValue": 0,
+    "CoolDown": 0,
+    "MaxStack": 1
+  },
+  {
+    "Id": "Passive_H_02",
+    "Name": "힘줄 끊기",
+    "Description": "공격이 적들의 급소를 집중 타격해 둔화를 유발한다.",
+    "IconPath": null,
+    "TargetMode": "Hunt",
+    "RequiredLevel": 15,
+    "RequiredSkill": [
+      "[]"
+    ],
+    "PassiveStatType": [
+      "[\"MoveSpeed\"]"
+    ],
+    "PassiveValue": [
+      0
+    ],
+    "ModifierType": [
+      "[\"percent\"]"
+    ],
+    "Duration": 3,
+    "TimeInterval": 0,
+    "TriggerCondition": "OnHit",
+    "TriggerValue": 0,
+    "CoolDown": 0,
+    "MaxStack": 1
+  },
+  {
+    "Id": "Passive_B_02",
+    "Name": "드레인",
+    "Description": "적에게 입힌 데미지의 일부를 자신의 체력으로 흡수한다.",
+    "IconPath": null,
+    "TargetMode": "Boss",
+    "RequiredLevel": 15,
+    "RequiredSkill": [
+      "[]"
+    ],
+    "PassiveStatType": [
+      "[\"LifeSteal\"]"
+    ],
+    "PassiveValue": [
+      0
+    ],
+    "ModifierType": [
+      "[\"percent\"]"
+    ],
+    "Duration": 0,
+    "TimeInterval": 0,
+    "TriggerCondition": "OnHit",
+    "TriggerValue": 0,
+    "CoolDown": 0,
+    "MaxStack": 1
+  },
+  {
+    "Id": "Passive_A_03",
+    "Name": "피지컬 트레이닝",
+    "Description": "신체를 단련하여 공격력과 최대 체력이 증가한다.",
+    "IconPath": null,
+    "TargetMode": "Always",
+    "RequiredLevel": 15,
+    "RequiredSkill": [
+      "[]"
+    ],
+    "PassiveStatType": [
+      "[\"AttackPower\"",
+      "\"MaxHP\"]"
+    ],
+    "PassiveValue": [
+      0,
+      0
+    ],
+    "ModifierType": [
+      "[\"flat\"",
+      "\"flat\"]"
+    ],
+    "Duration": 0,
+    "TimeInterval": 0,
+    "TriggerCondition": "None",
+    "TriggerValue": 0,
+    "CoolDown": 0,
+    "MaxStack": 1
+  },
+  {
+    "Id": "Passive_H_03",
+    "Name": "컴뱃 에피션시 Ⅱ",
+    "Description": "전투 경험을 통해 다수의 적과의 전투의 효율성이 증가해 얻는 경험치가 추가로 증가한다. ",
+    "IconPath": null,
+    "TargetMode": "Hunt",
+    "RequiredLevel": 20,
+    "RequiredSkill": [
+      "[\"Passive_H_01\"]"
+    ],
+    "PassiveStatType": [
+      "[\"Exp\"]"
+    ],
+    "PassiveValue": [
+      0
+    ],
+    "ModifierType": [
+      "[\"percent\"]"
+    ],
+    "Duration": 0,
+    "TimeInterval": 0,
+    "TriggerCondition": "None",
+    "TriggerValue": 0,
+    "CoolDown": 0,
+    "MaxStack": 1
+  },
+  {
+    "Id": "Passive_B_03",
+    "Name": "보스 킬러 Ⅱ",
+    "Description": "전투 경험을 통해 보스와의 전투의 효율성이 증가해 공격력이 추가로 증가한다.",
+    "IconPath": null,
+    "TargetMode": "Boss",
+    "RequiredLevel": 20,
+    "RequiredSkill": [
+      "[\"Passive_B_01\"]"
+    ],
+    "PassiveStatType": [
+      "[\"AttackPower\"]"
+    ],
+    "PassiveValue": [
+      0
+    ],
+    "ModifierType": [
+      "[\"flat\"]"
+    ],
+    "Duration": 0,
+    "TimeInterval": 0,
+    "TriggerCondition": "None",
+    "TriggerValue": 0,
+    "CoolDown": 0,
+    "MaxStack": 1
+  },
+  {
+    "Id": "Passive_A_04",
+    "Name": "웨폰 엑셀러레이션",
+    "Description": "무기를 더 잘 다룰 수 있게 되어 공격 속도가 증가한다.",
+    "IconPath": null,
+    "TargetMode": "Always",
+    "RequiredLevel": 20,
+    "RequiredSkill": [
+      "[]"
+    ],
+    "PassiveStatType": [
+      "[\"AttackSpeed\"]"
+    ],
+    "PassiveValue": [
+      0
+    ],
+    "ModifierType": [
+      "[\"flat\"]"
+    ],
+    "Duration": 0,
+    "TimeInterval": 0,
+    "TriggerCondition": "None",
+    "TriggerValue": 0,
+    "CoolDown": 0,
+    "MaxStack": 1
+  },
+  {
+    "Id": "Passive_A_05",
+    "Name": "최후의 저항",
+    "Description": "죽음의 위기에 저항해 HP가 일정 수치 이하로 떨어지면 즉시 체력을 회복하고 일정 시간 동안 흡혈을 얻는다.",
+    "IconPath": null,
+    "TargetMode": "Always",
+    "RequiredLevel": 30,
+    "RequiredSkill": [
+      "[]"
+    ],
+    "PassiveStatType": [
+      "[\"HpHeal\"",
+      "\"LifeSteal\"]"
+    ],
+    "PassiveValue": [
+      0,
+      0
+    ],
+    "ModifierType": [
+      "[\"percent\"",
+      "\"percent\"]"
+    ],
+    "Duration": 10,
+    "TimeInterval": 0,
+    "TriggerCondition": "OnHpBelow",
+    "TriggerValue": 0.05,
+    "CoolDown": 180,
+    "MaxStack": 1
+  }
+]

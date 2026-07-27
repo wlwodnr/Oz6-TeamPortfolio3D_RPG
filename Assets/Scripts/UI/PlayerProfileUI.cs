@@ -20,8 +20,6 @@ public class PlayerProfileUI : UIBase
     // 뷰에서 절대 new로 VewModel을 하지 않고, 네트워크 매니저를 통해 생성된 뷰 모델을 받아야 한다
     private PlayerProfileViewModel _vm;
 
-    private const float MaxExpPerLevel = 100f;
-
     private void OnEnable()
     {
         Btn_OpenStatInfoUI.BindOnClickButtonEvent(OnClick_OpenPlayerStatInfoUI);
@@ -63,8 +61,9 @@ public class PlayerProfileUI : UIBase
                 }
                 break;
             case nameof(PlayerProfileViewModel.TotalExp):
+            case nameof(PlayerProfileViewModel.CurrentLevel):
                 {
-                    Text_LevelAndExp.text = $"Lv.{_vm.CurrentLevel}({_vm.TotalExp})";
+                    Text_LevelAndExp.text = $"Lv.{_vm.CurrentLevel}({_vm.TotalExp}/{_vm.RequiredTotalExperienceForNextLevel})";
                     UpdateExpBar();
                 }
                 break;
@@ -105,8 +104,13 @@ public class PlayerProfileUI : UIBase
     {
         if (expBar != null && _vm != null)
         {
-            float currentLevelExp = _vm.TotalExp % MaxExpPerLevel;
-            expBar.value = currentLevelExp / MaxExpPerLevel;
+            if (_vm.RequiredTotalExperienceForNextLevel <= 0f)
+            {
+                expBar.value = 0f;
+                return;
+            }
+
+            expBar.value = _vm.TotalExp / _vm.RequiredTotalExperienceForNextLevel;
         }
     }
 }

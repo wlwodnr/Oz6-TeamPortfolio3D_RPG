@@ -7,7 +7,6 @@ public class SkillModel
 {
     private CharacterMode _currentMode = CharacterMode.Hunt;
     private readonly Dictionary<string, float> _remainCoolTimes = new();
-
     private readonly List<string> _coolTimeKeysCache = new();
 
     public CharacterMode CurrentMode

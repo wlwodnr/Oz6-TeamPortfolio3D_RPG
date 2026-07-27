@@ -22,16 +22,45 @@ public class Stats
         }
     }
 
+    public void InitializeBaseStats(PlayerStatData playerStatData)
+    {
+        if (playerStatData == null)
+        {
+            Debug.LogWarning("[Stats] PlayerStatData가 없어 기본 스탯을 초기화할 수 없습니다.");
+            return;
+        }
+
+        foreach (StatType type in Enum.GetValues(typeof(StatType)))
+        {
+            _baseStats[type] = 0f;
+        }
+
+        _baseStats[StatType.AttackPower] = playerStatData.Atk;
+        _baseStats[StatType.MaxHP] = playerStatData.HP;
+        _baseStats[StatType.MaxMP] = playerStatData.MP;
+        _baseStats[StatType.AttackSpeed] = playerStatData.AtkSpeed;
+        NotifyAllStatsUpdated();
+    }
+
     public void AddModifier(string itemId)  // item뿐 아니라 패시브 스킬도 따로 id를 만들어서 이걸로 추가하기
     {
-        if(_rawModifiers.ContainsKey(itemId) == false)
+        if (_rawModifiers.ContainsKey(itemId) == false)
         {
             var data = ItemDataBase.GetItemData(itemId) as StatUpItem;
-            _rawModifiers.Add(itemId, data.StatModifiers);
+            if (data == null)
+            {
+                var skillData = GameDataManager.Instance.GetPassiveSkillData(itemId);
+                _rawModifiers.Add(itemId, skillData.GetStatModifiers());
+            }
+            else
+            {
+                _rawModifiers.Add(itemId, data.StatModifiers);
+            }
+
         }
         else
         {
-            if(_counts.ContainsKey(itemId) == true)
+            if (_counts.ContainsKey(itemId) == true)
             {
                 _counts[itemId] = _counts[itemId] + 1;
             }
@@ -44,27 +73,42 @@ public class Stats
             OnStatsUpdated?.Invoke(list.Type.ToString());
         }
     }
-
     public void RemoveModifier(string itemId)
     {
-        if(_rawModifiers.ContainsKey(itemId) == true)
+        if (_rawModifiers.ContainsKey(itemId) == false || _counts.ContainsKey(itemId) == false)
         {
-            _counts[itemId] = _counts[itemId] - 1;
+            return;
+        }
+
+        List<StatModifier> statModifiers = _rawModifiers[itemId];
+        int modifierCount = _counts[itemId] - 1;
+        SetModifierCount(itemId, statModifiers, modifierCount);
+        UpdateCache();
+        NotifyModifierStatsUpdated(statModifiers); 
+    }
+
+    public void SetModifierCount(string modifierId, List<StatModifier> statModifiers, int modifierCount)
+    {
+        if (string.IsNullOrEmpty(modifierId) || statModifiers == null)
+        {
+            return;
+        }
+
+        if (modifierCount <= 0)
+        {
+            _counts.Remove(modifierId);
+            _rawModifiers.Remove(modifierId);
+        }
+        else
+        {
+            _rawModifiers[modifierId] = statModifiers;
+            _counts[modifierId] = modifierCount;
         }
 
         UpdateCache();
-        foreach (var list in _rawModifiers[itemId])
-        {
-            OnStatsUpdated?.Invoke(list.Type.ToString());
-        }
-
-        if (_counts[itemId] <= 0)
-        {
-            _counts.Remove(itemId);
-            _rawModifiers.Remove(itemId);
-        }
-
+        NotifyModifierStatsUpdated(statModifiers);
     }
+
     private void UpdateCache()
     {
         _flatCache.Clear();
@@ -101,5 +145,20 @@ public class Stats
         return (_baseStats[type] + flat) * (1 + percent);
     }
 
+    private void NotifyModifierStatsUpdated(List<StatModifier> statModifiers)
+    {
+        foreach (StatModifier statModifier in statModifiers)
+        {
+            OnStatsUpdated?.Invoke(statModifier.Type.ToString());
+        }
+    }
+
+    private void NotifyAllStatsUpdated()
+    {
+        foreach (StatType statType in Enum.GetValues(typeof(StatType)))
+        {
+            OnStatsUpdated?.Invoke(statType.ToString());
+        }
+    }
 
 }

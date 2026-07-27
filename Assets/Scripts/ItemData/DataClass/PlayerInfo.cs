@@ -22,7 +22,18 @@ public class PlayerInfo
     public int CurLevel
     {
         get => _curLevel;
-        set { _curLevel = value; OnInfoChanged?.Invoke(nameof(CurLevel)); }
+        set
+        {
+            int nextLevel = Mathf.Max(1, value);
+
+            if (_curLevel == nextLevel)
+            {
+                return;
+            }
+
+            _curLevel = nextLevel;
+            OnInfoChanged?.Invoke(nameof(CurLevel));
+        }
     }
 
     public float CurHp
@@ -39,12 +50,17 @@ public class PlayerInfo
     public float TotalExp
     {
         get => _totalExp;
-        set { _totalExp = value; OnInfoChanged?.Invoke(nameof(TotalExp));
-            int calculatedLevel = ((int)_totalExp / 100) + 1;
+        set
+        {
+            _totalExp = float.IsNaN(value) || float.IsInfinity(value) ? 0f : Mathf.Max(0f, value);
+            int calculatedLevel = PlayerLevelProgression.CalculateLevel(_totalExp);
+
             if (_curLevel != calculatedLevel)
             {
                 CurLevel = calculatedLevel;
             }
+
+            OnInfoChanged?.Invoke(nameof(TotalExp));
         }
     }
     public int SkillPoint
