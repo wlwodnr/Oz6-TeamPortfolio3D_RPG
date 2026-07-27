@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting.Antlr3.Runtime;
+using UnityEngine;
 
 public class MenuButtonUI : UIBase
 {
@@ -30,11 +31,13 @@ public class MenuButtonUI : UIBase
 
         if (_isSettingUIOpen == true)
         {
-            UIManager.Instance.CloseSettingUI();
+            UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.MenuLayoutUI);
+            InputManager.Instance.SetCursorAndInputState(true);
         }
         else
         {
-            UIManager.Instance.OpenSettingUI();
+            UIManager.Instance.CloseUI(UIRootType.MainUI, UIType.MenuLayoutUI);
+            InputManager.Instance.SetCursorAndInputState(false);
         }
     }
 }

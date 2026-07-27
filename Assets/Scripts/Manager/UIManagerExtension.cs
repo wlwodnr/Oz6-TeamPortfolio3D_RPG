@@ -24,7 +24,8 @@ public enum UIType
     LoadingUI,
     GuideUI,
     SettingUI,
-    MenuUI,
+    MenuButtonUI,
+    MenuLayoutUI,
 
     TestUI
 }
