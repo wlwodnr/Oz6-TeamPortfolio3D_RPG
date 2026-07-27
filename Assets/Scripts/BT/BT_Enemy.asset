@@ -317,7 +317,7 @@ MonoBehaviour:
   - rid: 8347205885623796226
   - rid: 8347205885623796543
   - rid: 8347205901663076493
-  m_VersionTimestamp: 639207186081069884
+  m_VersionTimestamp: 639207465821852334
   m_SerializedVersion: 3
   m_DebugInfo: {fileID: -685256319207625508}
   m_RuntimeGraph: {fileID: 1181879012300508477}
@@ -509,11 +509,6 @@ MonoBehaviour:
         m_SerializableType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
       Tooltip: 
-    - Name: ChangeStateEnum
-      Type:
-        m_SerializableType: EnemyAIState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-          PublicKeyToken=null
-      Tooltip: 
     NamedChildren: []
     IsPlaceholder: 0
   - Name: PatrolAroundAction
@@ -566,8 +561,6 @@ MonoBehaviour:
   m_HasMissingTypeInManagedRef: 0
   m_EnumDependencyCache:
     Entries:
-    - EnumTypeId: EnemyAIState, Assembly-CSharp
-      SignatureHash: 81ddc3abaa4aa9ac3ef2d8818eaf1f2e
     - EnumTypeId: EnemyBTState, Assembly-CSharp
       SignatureHash: 4517c2c60e24d5ef3b839efce8b805c5
   references:
@@ -2974,7 +2967,6 @@ MonoBehaviour:
           m_Value1: 6626823417970424890
         m_FieldValues:
         - rid: 8347205851725693244
-        - rid: 8347205851725693307
     - rid: 8347205851725693242
       type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
       data:
@@ -3013,25 +3005,6 @@ MonoBehaviour:
           m_Value1: 0
         Name: 
         m_Value: {fileID: 0}
-    - rid: 8347205851725693307
-      type: {class: BehaviorGraphNodeModel/FieldModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
-      data:
-        FieldName: ChangeStateEnum
-        Type:
-          m_SerializableType: EnemyAIState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-            PublicKeyToken=null
-        LocalValue:
-          rid: 8347205851725693308
-        LinkedVariable:
-          rid: -2
-    - rid: 8347205851725693308
-      type: {class: 'BlackboardVariable`1[[EnemyAIState, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: 0
     - rid: 8347205851725693309
       type: {class: ActionNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
       data:
@@ -3051,7 +3024,6 @@ MonoBehaviour:
           m_Value1: 6626823417970424890
         m_FieldValues:
         - rid: 8347205851725693312
-        - rid: 8347205851725693313
     - rid: 8347205851725693310
       type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
       data:
@@ -3082,17 +3054,6 @@ MonoBehaviour:
           rid: 8347205851725693315
         LinkedVariable:
           rid: 8347205851725693314
-    - rid: 8347205851725693313
-      type: {class: BehaviorGraphNodeModel/FieldModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
-      data:
-        FieldName: ChangeStateEnum
-        Type:
-          m_SerializableType: EnemyAIState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-            PublicKeyToken=null
-        LocalValue:
-          rid: 8347205851725693316
-        LinkedVariable:
-          rid: -2
     - rid: 8347205851725693314
       type: {class: 'TypedVariableModel`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
       data:
@@ -3111,14 +3072,6 @@ MonoBehaviour:
           m_Value1: 0
         Name: 
         m_Value: {fileID: 0}
-    - rid: 8347205851725693316
-      type: {class: 'BlackboardVariable`1[[EnemyAIState, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: 4
     - rid: 8347205851725693412
       type: {class: CompositeNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
       data:
@@ -3216,7 +3169,6 @@ MonoBehaviour:
           m_Value1: 6626823417970424890
         m_FieldValues:
         - rid: 8347205851725693852
-        - rid: 8347205851725693853
     - rid: 8347205851725693850
       type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
       data:
@@ -3247,17 +3199,6 @@ MonoBehaviour:
           rid: 8347205851725693854
         LinkedVariable:
           rid: 8347205851725693314
-    - rid: 8347205851725693853
-      type: {class: BehaviorGraphNodeModel/FieldModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
-      data:
-        FieldName: ChangeStateEnum
-        Type:
-          m_SerializableType: EnemyAIState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-            PublicKeyToken=null
-        LocalValue:
-          rid: 8347205851725693855
-        LinkedVariable:
-          rid: -2
     - rid: 8347205851725693854
       type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -3266,14 +3207,6 @@ MonoBehaviour:
           m_Value1: 0
         Name: 
         m_Value: {fileID: 0}
-    - rid: 8347205851725693855
-      type: {class: 'BlackboardVariable`1[[EnemyAIState, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: 4
     - rid: 8347205851725693940
       type: {class: CompositeNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
       data:
@@ -3332,7 +3265,6 @@ MonoBehaviour:
           m_Value1: 6626823417970424890
         m_FieldValues:
         - rid: 8347205853335257250
-        - rid: 8347205853335257251
     - rid: 8347205853335257248
       type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
       data:
@@ -3363,17 +3295,6 @@ MonoBehaviour:
           rid: 8347205853335257252
         LinkedVariable:
           rid: 8347205851725693314
-    - rid: 8347205853335257251
-      type: {class: BehaviorGraphNodeModel/FieldModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
-      data:
-        FieldName: ChangeStateEnum
-        Type:
-          m_SerializableType: EnemyAIState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-            PublicKeyToken=null
-        LocalValue:
-          rid: 8347205853335257253
-        LinkedVariable:
-          rid: -2
     - rid: 8347205853335257252
       type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -3382,14 +3303,6 @@ MonoBehaviour:
           m_Value1: 0
         Name: 
         m_Value: {fileID: 0}
-    - rid: 8347205853335257253
-      type: {class: 'BlackboardVariable`1[[EnemyAIState, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: 1
     - rid: 8347205885623795787
       type: {class: ActionNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
       data:
@@ -3763,7 +3676,7 @@ MonoBehaviour:
         BlackboardGroupReferences: []
         Root:
           rid: 8347205911198302931
-        m_VersionTimestamp: 639207186081069884
+        m_VersionTimestamp: 639207465821852334
     - rid: 8347205516191858929
       type: {class: BlackboardReference, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -3960,22 +3873,6 @@ MonoBehaviour:
           m_Value1: 0
         Name: 
         m_Value: 2
-    - rid: 8347205911198302865
-      type: {class: 'BlackboardVariable`1[[EnemyAIState, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: 0
-    - rid: 8347205911198302868
-      type: {class: 'BlackboardVariable`1[[EnemyAIState, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: 4
     - rid: 8347205911198302873
       type: {class: 'BlackboardVariable`1[[EnemyBTState, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -3984,14 +3881,6 @@ MonoBehaviour:
           m_Value1: 0
         Name: 
         m_Value: 3
-    - rid: 8347205911198302874
-      type: {class: 'BlackboardVariable`1[[EnemyAIState, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: 1
     - rid: 8347205911198302875
       type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -4032,14 +3921,6 @@ MonoBehaviour:
           m_Value1: 0
         Name: 
         m_Value: 5
-    - rid: 8347205911198302882
-      type: {class: 'BlackboardVariable`1[[EnemyAIState, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: 4
     - rid: 8347205911198302931
       type: {class: ParallelAllComposite, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -4510,8 +4391,6 @@ MonoBehaviour:
           rid: 8347205911198302955
         Self:
           rid: 8347205911198302465
-        ChangeStateEnum:
-          rid: 8347205911198302865
     - rid: 8347205911198302964
       type: {class: SequenceComposite, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -4538,8 +4417,6 @@ MonoBehaviour:
           rid: 8347205911198302957
         Self:
           rid: 8347205911198302465
-        ChangeStateEnum:
-          rid: 8347205911198302868
     - rid: 8347205911198302966
       type: {class: SequenceComposite, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -4596,8 +4473,6 @@ MonoBehaviour:
           rid: 8347205911198302961
         Self:
           rid: 8347205911198302465
-        ChangeStateEnum:
-          rid: 8347205911198302874
     - rid: 8347205911198302970
       type: {class: NormalAttackAction, ns: , asm: Assembly-CSharp}
       data:
@@ -4701,8 +4576,6 @@ MonoBehaviour:
           rid: 8347205911198302975
         Self:
           rid: 8347205911198302465
-        ChangeStateEnum:
-          rid: 8347205911198302882
     - rid: 8347205911198302978
       type: {class: ChaseAction, ns: , asm: Assembly-CSharp}
       data:
