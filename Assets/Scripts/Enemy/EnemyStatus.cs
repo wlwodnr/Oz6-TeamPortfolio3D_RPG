@@ -144,6 +144,7 @@ public class EnemyStatus : MonoBehaviour, IDamageable
             false,
             transform.position,
             Vector3.zero,
+            1,
             gameObject
         );
 

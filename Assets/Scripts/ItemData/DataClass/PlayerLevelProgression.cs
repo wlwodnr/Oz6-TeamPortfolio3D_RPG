@@ -1,6 +1,6 @@
 public static class PlayerLevelProgression
 {
-    public static float GetRequiredExperienceForLevel(int currentLevel)
+    public static float GetRequiredTotalExperienceForNextLevel(int currentLevel)
     {
         if (currentLevel <= 1)
         {
@@ -8,22 +8,26 @@ public static class PlayerLevelProgression
         }
         if (currentLevel == 2)
         {
-            return 70f;
+            return 120f;
         }
         if (currentLevel == 3)
         {
-            return 100f;
+            return 220f;
         }
         if (currentLevel == 4)
         {
-            return 150f;
+            return 370f;
         }
         if (currentLevel == 5)
         {
-            return 200f;
+            return 570f;
         }
 
-        return 200f + ((currentLevel - 5) * 50f);
+        int additionalLevelCount = currentLevel - 5;
+        float firstAdditionalRequirement = 250f;
+        float lastAdditionalRequirement = 200f + (additionalLevelCount * 50f);
+        float additionalTotalExperience = additionalLevelCount * (firstAdditionalRequirement + lastAdditionalRequirement) * 0.5f;
+        return 570f + additionalTotalExperience;
     }
 
     public static int CalculateLevel(float totalExperience)
@@ -33,34 +37,13 @@ public static class PlayerLevelProgression
             return 1;
         }
 
-        float remainingExperience = totalExperience;
         int currentLevel = 1;
 
-        while (remainingExperience >= GetRequiredExperienceForLevel(currentLevel))
+        while (totalExperience >= GetRequiredTotalExperienceForNextLevel(currentLevel))
         {
-            remainingExperience -= GetRequiredExperienceForLevel(currentLevel);
             currentLevel++;
         }
 
         return currentLevel;
-    }
-
-    public static float GetCurrentLevelExperience(float totalExperience)
-    {
-        if (totalExperience <= 0f || float.IsNaN(totalExperience) || float.IsInfinity(totalExperience))
-        {
-            return 0f;
-        }
-
-        float remainingExperience = totalExperience;
-        int currentLevel = 1;
-
-        while (remainingExperience >= GetRequiredExperienceForLevel(currentLevel))
-        {
-            remainingExperience -= GetRequiredExperienceForLevel(currentLevel);
-            currentLevel++;
-        }
-
-        return remainingExperience;
     }
 }

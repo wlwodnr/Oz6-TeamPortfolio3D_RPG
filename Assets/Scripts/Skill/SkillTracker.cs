@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class SkillTracker : MonoBehaviour
 {
@@ -18,7 +18,7 @@ public class SkillTracker : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"Áßº¹µÈ SkillTracker°¡ ¹ß°ßµÇ¾î ÆÄ±«ÇÕ´Ï´Ù.");
+            Debug.LogWarning($"ì¤‘ë³µëœ SkillTrackerê°€ ë°œê²¬ë˜ì–´ íŒŒê´´í•©ë‹ˆë‹¤.");
             Destroy(gameObject);
         }
     }
@@ -27,7 +27,7 @@ public class SkillTracker : MonoBehaviour
     {
         if (playerModel == null)
         {
-            Debug.LogWarning($"PlayerModelÀÌ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
+            Debug.LogWarning($"PlayerModelì´ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
             return;
         }
 
@@ -50,7 +50,7 @@ public class SkillTracker : MonoBehaviour
         ActiveSkillData data = GameDataManager.Instance.GetActiveSkillData(skillId);
         if (data == null)
         {
-            Debug.LogWarning($"¾×Æ¼ºê ½ºÅ³ {skillId}ÀÇ µ¥ÀÌÅÍ¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogWarning($"ì•¡í‹°ë¸Œ ìŠ¤í‚¬ {skillId}ì˜ ë°ì´í„°ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             return false;
         }
 
@@ -58,7 +58,7 @@ public class SkillTracker : MonoBehaviour
 
         if (_playerModel.Info.CurLevel < data.RequiredLevel)
         {
-            Debug.LogWarning($"·¹º§ÀÌ ºÎÁ·ÇÏ¿© {skillId} ½ºÅ³À» ½ÀµæÇÒ ¼ö ¾ø½À´Ï´Ù. ¿ä±¸ ·¹º§: {data.RequiredLevel}");
+            Debug.LogWarning($"ë ˆë²¨ì´ ë¶€ì¡±í•˜ì—¬ {skillId} ìŠ¤í‚¬ì„ ìŠµë“í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤. ìš”êµ¬ ë ˆë²¨: {data.RequiredLevel}");
             return false;
         }
 
@@ -68,14 +68,14 @@ public class SkillTracker : MonoBehaviour
             {
                 if (!_playerModel.HasLearnedActive(reqSkillId))
                 {
-                    Debug.LogWarning($"¼±Çà ½ºÅ³À» ½ÀµæÇÏÁö ¾Ê¾Æ {skillId} ½ºÅ³À» ½ÀµæÇÒ ¼ö ¾ø½À´Ï´Ù. ¿ä±¸ ¼±Çà ½ºÅ³: {reqSkillId}");
+                    Debug.LogWarning($"ì„ í–‰ ìŠ¤í‚¬ì„ ìŠµë“í•˜ì§€ ì•Šì•„ {skillId} ìŠ¤í‚¬ì„ ìŠµë“í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤. ìš”êµ¬ ì„ í–‰ ìŠ¤í‚¬: {reqSkillId}");
                     return false;
                 }
             }
         }
 
         _playerModel.LearnActive(skillId);
-        Debug.Log($"{skillId} ½ºÅ³ÀÌ Á¤»óÀûÀ¸·Î ½ÀµæµÈ »óÅÂÀÔ´Ï´Ù.");
+        Debug.Log($"{skillId} ìŠ¤í‚¬ì´ ì •ìƒì ìœ¼ë¡œ ìŠµë“ëœ ìƒíƒœì…ë‹ˆë‹¤.");
         return true;
     }
 
@@ -86,7 +86,7 @@ public class SkillTracker : MonoBehaviour
         PassiveSkillData data = GameDataManager.Instance.GetPassiveSkillData(skillId);
         if (data == null)
         {
-            Debug.LogWarning($"ÆĞ½Ãºê ½ºÅ³ {skillId}ÀÇ µ¥ÀÌÅÍ¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogWarning($"íŒ¨ì‹œë¸Œ ìŠ¤í‚¬ {skillId}ì˜ ë°ì´í„°ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             return false;
         }
 
@@ -94,7 +94,7 @@ public class SkillTracker : MonoBehaviour
 
         if (_playerModel.Info.CurLevel < data.RequiredLevel)
         {
-            Debug.LogWarning($"·¹º§ÀÌ ºÎÁ·ÇÏ¿© {skillId} ½ºÅ³À» ½ÀµæÇÒ ¼ö ¾ø½À´Ï´Ù. ¿ä±¸ ·¹º§: {data.RequiredLevel}");
+            Debug.LogWarning($"ë ˆë²¨ì´ ë¶€ì¡±í•˜ì—¬ {skillId} ìŠ¤í‚¬ì„ ìŠµë“í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤. ìš”êµ¬ ë ˆë²¨: {data.RequiredLevel}");
             return false;
         }
 
@@ -105,14 +105,14 @@ public class SkillTracker : MonoBehaviour
                 bool hasReq = _playerModel.HasLearnedActive(reqSkillId) || _playerModel.HasLearnedPassive(reqSkillId);
                 if (!hasReq)
                 {
-                    Debug.LogWarning($"¼±Çà ½ºÅ³À» ½ÀµæÇÏÁö ¾Ê¾Æ {skillId} ½ºÅ³À» ½ÀµæÇÒ ¼ö ¾ø½À´Ï´Ù. ¿ä±¸ ¼±Çà ½ºÅ³: {reqSkillId}");
+                    Debug.LogWarning($"ì„ í–‰ ìŠ¤í‚¬ì„ ìŠµë“í•˜ì§€ ì•Šì•„ {skillId} ìŠ¤í‚¬ì„ ìŠµë“í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤. ìš”êµ¬ ì„ í–‰ ìŠ¤í‚¬: {reqSkillId}");
                     return false;
                 }
             }
         }
 
         _playerModel.LearnPassive(skillId);
-        Debug.Log($"{skillId} ½ºÅ³ÀÌ Á¤»óÀûÀ¸·Î ½ÀµæµÈ »óÅÂÀÔ´Ï´Ù.");
+        Debug.Log($"{skillId} ìŠ¤í‚¬ì´ ì •ìƒì ìœ¼ë¡œ ìŠµë“ëœ ìƒíƒœì…ë‹ˆë‹¤.");
 
         RefreshModePassives();
         return true;
@@ -125,7 +125,7 @@ public class SkillTracker : MonoBehaviour
         RemoveCurrentModePassive();
 
         _skillModel.CurrentMode = newMode;
-        Debug.Log($"{newMode}·Î ¸ğµå¸¦ ÀüÈ¯ÇÕ´Ï´Ù.");
+        Debug.Log($"{newMode}ë¡œ ëª¨ë“œë¥¼ ì „í™˜í•©ë‹ˆë‹¤.");
 
         RefreshModePassives();
     }
@@ -139,13 +139,13 @@ public class SkillTracker : MonoBehaviour
             PassiveSkillData data = GameDataManager.Instance.GetPassiveSkillData(passiveId);
             if (data == null)
             {
-                Debug.LogWarning($"{passiveId}ÀÇ µ¥ÀÌÅÍ¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+                Debug.LogWarning($"{passiveId}ì˜ ë°ì´í„°ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
                 continue;
             }
 
             if (data.TargetMode == "Always" || data.TargetMode == _skillModel.CurrentMode.ToString())
             {
-                _playerModel.Additem(passiveId);
+                _playerModel.Stats.AddModifier(passiveId);
             }
         }
     }
@@ -161,8 +161,19 @@ public class SkillTracker : MonoBehaviour
 
             if (data.TargetMode == _skillModel.CurrentMode.ToString() && data.TargetMode != "Always")
             {
-                _playerModel.RemoveItem(passiveId);
+                _playerModel.Stats.RemoveModifier(passiveId);
             }
         }
+    }
+
+    public void ToggleMode()
+    {
+        if (_skillModel == null) return;
+
+        CharacterMode targetMode = (_skillModel.CurrentMode == CharacterMode.Hunt)
+            ? CharacterMode.Boss
+            : CharacterMode.Hunt;
+
+        ChangeMode(targetMode);
     }
 }
