@@ -112,7 +112,6 @@ public class EnemyStatus : MonoBehaviour, IDamageable
             return;
         }
 
-        int appliedDamage = damageInfo.BaseDamage;
         _currentHp = Mathf.Max(0, _currentHp - appliedDamage);
 
 
