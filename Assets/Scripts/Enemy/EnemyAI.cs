@@ -193,8 +193,58 @@ public class EnemyAI : MonoBehaviour
         Debug.Log($"[{gameObject.name}] AI 작동 중지");
 
         NotifyKillQuestProgress();
+        RequestExperienceReward();
+        RequestItemDrops();
 
         RequestDisableSelf();
+    }
+
+    private void RequestExperienceReward()
+    {
+        if (_monsterData == null || _monsterData.DropEXP <= 0f)
+        {
+            return;
+        }
+
+        if (NetworkManager.Inst == null || NetworkManager.Inst.LocalPlayerService == null)
+        {
+            Debug.LogWarning($"[{gameObject.name}] LocalPlayerService가 없어 경험치를 지급할 수 없습니다. MonsterDataId: {_monsterDataId}, Experience: {_monsterData.DropEXP}");
+            return;
+        }
+
+        NetworkManager.Inst.LocalPlayerService.RequestGiveExpToLocalPlayer(_monsterData.DropEXP);
+    }
+
+    private void RequestItemDrops()
+    {
+        if (GameDataManager.Instance == null)
+        {
+            Debug.LogWarning($"[{gameObject.name}] GameDataManager가 없어 드랍 데이터를 조회할 수 없습니다.");
+            return;
+        }
+
+        if (GameObjectManager.Instance == null)
+        {
+            Debug.LogWarning($"[{gameObject.name}] GameObjectManager가 없어 아이템을 드랍할 수 없습니다.");
+            return;
+        }
+
+        string monsterDataId = GetEnemyDataId();
+
+        if (string.IsNullOrEmpty(monsterDataId))
+        {
+            Debug.LogWarning($"[{gameObject.name}] MonsterDataId가 없어 아이템을 드랍할 수 없습니다.");
+            return;
+        }
+
+        if (DropItem.TryCreate(GameDataManager.Instance.DropDataList, monsterDataId, out DropItem dropItem) == false) return;
+
+        int itemDropInstanceId = GameObjectManager.Instance.RequestSpawnItemDrop(transform.position, dropItem);
+
+        if (itemDropInstanceId < 0)
+        {
+            Debug.LogWarning($"[{gameObject.name}] 아이템 드랍 생성에 실패했습니다. ItemDataId: {dropItem.ItemDataId}, Count: {dropItem.Count}");
+        }
     }
 
     private void NotifyKillQuestProgress()
@@ -249,20 +299,82 @@ public class EnemyAI : MonoBehaviour
     {
         _spawnOriginSpot = newSpawnSpot;
         _currentTarget = null;
+        _isDisableRequested = false;
 
-
-        Status_Enemy.ResetStatus();
+        if (Status_Enemy != null)
+        {
+            Status_Enemy.ResetStatus();
+        }
 
         if(Agent_NavMesh != null)
         {
             Agent_NavMesh.enabled = true;
+            if (_monsterData != null)
+            {
+                Agent_NavMesh.speed = _monsterData.MoveSpeed;
+            }
             if (Agent_NavMesh.isOnNavMesh)
             {
+                Agent_NavMesh.ResetPath();
                 Agent_NavMesh.isStopped = false;
             }
         }
 
-        
+        ResetAnimatorForPool();
+        ResetAIStateForPool();
+    }
+
+    public void PrepareEnemyAIForPool()
+    {
+        ClearTarget();
+
+        if (Agent_NavMesh != null)
+        {
+            if (Agent_NavMesh.enabled == true && Agent_NavMesh.isOnNavMesh == true)
+            {
+                Agent_NavMesh.isStopped = true;
+                Agent_NavMesh.ResetPath();
+            }
+
+            Agent_NavMesh.enabled = false;
+        }
+
+        if (Status_Enemy != null)
+        {
+            Status_Enemy.PrepareStatusForPool();
+        }
+
+        ResetAnimatorForPool();
+        _currentState = null;
+        _currentStateEnum = EnemyAIState.Idle;
+        _spawnOriginSpot = null;
+        _monsterDataId = string.Empty;
+        _monsterData = null;
+        _isDisableRequested = false;
+    }
+
+    private void ResetAnimatorForPool()
+    {
+        if (Animator_Enemy == null)
+        {
+            return;
+        }
+
+        Animator_Enemy.ResetTrigger("IsAttack");
+        Animator_Enemy.Rebind();
+        Animator_Enemy.Update(0f);
+    }
+
+    private void ResetAIStateForPool()
+    {
+        if (_states == null || _states.ContainsKey(EnemyAIState.Idle) == false)
+        {
+            return;
+        }
+
+        _currentStateEnum = EnemyAIState.Idle;
+        _currentState = _states[EnemyAIState.Idle];
+        _currentState.EnterState(this);
     }
 
     public Animator GetEntityAnimator()

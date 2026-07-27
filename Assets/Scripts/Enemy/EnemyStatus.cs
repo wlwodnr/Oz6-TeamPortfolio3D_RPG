@@ -23,7 +23,7 @@ public class EnemyStatus : MonoBehaviour, IDamageable
 
     public bool IsDead {  get { return _isDead; } }
     public int CurrentHp { get { return _currentHp; } }
-    public int MaxHp { get { return _temporaryMaxHp; } }
+    public int MaxHp { get { return _monsterData != null ? _monsterData.BaseHp : _temporaryMaxHp; } }
 
     public int BaseAttack { get { return _enemyAttack; } }
     public float MoveSpeed { get { return _enemyMoveSpeed; } }
@@ -163,6 +163,34 @@ public class EnemyStatus : MonoBehaviour, IDamageable
         Debug.Log($"[{gameObject.name}] 상태가 초기화되었습니다.");
     }
 
+    public void PrepareStatusForPool()
+    {
+        _monsterData = null;
+        _currentHp = 0;
+        _isDead = false;
+        _enemyAttack = 0;
+        _enemyMoveSpeed = 0f;
+        _detectRange = 0f;
+        _attackRange = 0f;
+        _stopDistance = 0f;
+    }
+
+#if UNITY_EDITOR
+    // PlayerAttack이 완성되기 전 테스트용
+    [ContextMenu("TEST/10 데미지 받기")]
+    private void TestTakeDamage()
+    {
+        DamageInfo testDamageInfo = new DamageInfo(
+            10,
+            false,
+            transform.position,
+            Vector3.zero,
+            gameObject
+        );
+
+        TakeDamage(testDamageInfo);
+    }
+#endif
 }
 
 
