@@ -40,7 +40,9 @@ public class NetworkStoreService
             {
                 slot.Count -= 1;
                 _playerModel.Info.Coins -= price;
-                // 여기에 인벤토리에 추가 로직 넣기 or 인벤토리 꽉찼는지 검사
+                // 일단 인벤토리에 넣긴했지만 스탯아이템도 인벤토리에 넣을건지?? 아니면 따로 보여주는 창을 만들건지 확인해야함
+                NetworkManager.Inst.InventoryService.RequestAddItem(item.ItemId, 1);
+                _playerModel.Additem(item.ItemId);
             }
         }
         else

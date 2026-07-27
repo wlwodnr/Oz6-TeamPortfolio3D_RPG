@@ -47,7 +47,7 @@ public class MVVMTestUI : UIBase
 
     private void OnClick_AddTestItem()
     {
-        NetworkManager.Inst.InventoryService.ReuestAddItem("Consumable_01", 1);
+        NetworkManager.Inst.InventoryService.RequestAddItem("Consumable_01", 1);
     }
 
     private void OnClick_OpenInventory()

@@ -6,6 +6,9 @@ public class EnemyEntity : MonoBehaviour, IGameObjectEntity
 
     [SerializeField] private string _enemyDataId;
 
+    private EnemyAI _enemyAI;
+    private Rigidbody _rigidbody;
+
     public int InstanceId
     {
         get { return _instanceId; }
@@ -17,14 +20,22 @@ public class EnemyEntity : MonoBehaviour, IGameObjectEntity
         get { return _enemyDataId; }
     }
 
+    private void Awake()
+    {
+        _enemyAI = GetComponent<EnemyAI>();
+        if (_enemyAI == null)
+        {
+            _enemyAI = GetComponentInChildren<EnemyAI>(true);
+        }
+
+        _rigidbody = GetComponent<Rigidbody>();
+    }
+
     public void InitEntity(int instanceId, string dataId)
     {
         _instanceId = instanceId;
         _enemyDataId = dataId;
 
-        gameObject.SetActive(true);
-
-        //JU ToDo 데이터 드리븐으로 EnemyData를 갖고오는 작업을 해야한다.
         Debug.Log($"Enemy 초기화 완료. InstanceId: {_instanceId}, EnemyDataId: {_enemyDataId}");
     }
 
@@ -35,7 +46,16 @@ public class EnemyEntity : MonoBehaviour, IGameObjectEntity
         _instanceId = -1;
         _enemyDataId = string.Empty;
 
-        //JU ToDo 나중에 Stat 등이 완성되면 HP, 상태, 타겟, 에니메이션, NavMeshAgent 등을 초기화 해야함
+        if (_enemyAI != null)
+        {
+            _enemyAI.PrepareEnemyAIForPool();
+        }
+
+        if (_rigidbody != null)
+        {
+            _rigidbody.linearVelocity = Vector3.zero;
+            _rigidbody.angularVelocity = Vector3.zero;
+        }
     }
 
 

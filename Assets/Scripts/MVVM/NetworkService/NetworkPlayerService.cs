@@ -60,9 +60,9 @@ public class NetworkPlayerService
         _playerModel?.ChangeHp(hp);
     }
 
-    public void RequestDamagePlayerHp(float dmg)
+    public void RequestAddItem(string itemId)
     {
-        _playerModel.Info.CurHp -= dmg;
+        _playerModel?.Additem(itemId);
     }
 
     public void RequestChangePlayerMp(float mp)
@@ -72,12 +72,29 @@ public class NetworkPlayerService
 
     public void RequestGiveExpToLocalPlayer(float exp)
     {
-        _playerModel.Info.TotalExp += exp;
+        if (exp <= 0f || float.IsNaN(exp) || float.IsInfinity(exp))
+        {
+            Debug.LogWarning($"지급할 경험치는 0보다 커야 합니다. Experience: {exp}");
+            return;
+        }
+
+        GetLocalPlayerModel().AddExperience(exp);
+    }
+
+    public void RequestGiveGoldToLocalPlayer(int gold)
+    {
+        if (gold <= 0)
+        {
+            Debug.LogWarning($"지급할 골드는 0보다 커야 합니다. Gold: {gold}");
+            return;
+        }
+
+        GetLocalPlayerModel().AddGold(gold);
     }
 
     public void RequestChangePlayerLevel(int level)
     {
-        _playerModel.Info.CurLevel = level;
+        GetLocalPlayerModel().Info.CurLevel = level;
     }
 
     public void RequestChangePlayerName(string newName)

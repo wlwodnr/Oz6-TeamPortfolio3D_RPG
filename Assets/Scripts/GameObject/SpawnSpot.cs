@@ -3,14 +3,22 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class SpawnSpot : MonoBehaviour
 {
+    private const int SpawnGridSize = 3;
+    private const int MaxSpawnSlotCount = SpawnGridSize * SpawnGridSize;
+
     [Header("웨이브 몬스터 설정")]
     [SerializeField] private List<SpawnEntry> _spawnEntryList = new List<SpawnEntry>();
 
     [Header("몬스터 생성 위치")]
     [SerializeField] private List<Transform> _spawnPointList = new List<Transform>();
+
+    [Header("몬스터 생성 슬롯")]
+    [Min(0.1f)]
+    [SerializeField] private float _spawnSlotSpacing = 1.5f;
 
     [Header("스폰 시작 설정")]
     [SerializeField] private bool _spawnOnStart = true;
@@ -112,6 +120,10 @@ public class SpawnSpot : MonoBehaviour
         if (_respawnDelay < 0f)
         {
             _respawnDelay = 0f;
+        }
+        if (_spawnSlotSpacing < 0.1f)
+        {
+            _spawnSlotSpacing = 0.1f;
         }
         if (_spawnEntryList == null)
         {
@@ -241,9 +253,20 @@ public class SpawnSpot : MonoBehaviour
         int requestedSpawnCount = 0;
         int successfulSpawnCount = 0;
         int spawnPositionIndex = 0;
+        int configuredSpawnCount = GetConfiguredSpawnCount();
+        List<int> spawnSlotIndexList = CreateRandomSpawnSlotIndexList();
+
+        if (configuredSpawnCount > MaxSpawnSlotCount)
+        {
+            Debug.LogWarning($"SpawnSpot: [{gameObject.name}] 한 웨이브의 최대 생성 수는 {MaxSpawnSlotCount}마리입니다. 요청 수: {configuredSpawnCount}, 실제 생성 시도 수: {MaxSpawnSlotCount}");
+        }
 
         foreach (SpawnEntry spawnEntry in _spawnEntryList)
         {
+            if (spawnPositionIndex >= MaxSpawnSlotCount)
+            {
+                break;
+            }
             if (spawnEntry == null)
             {
                 Debug.LogWarning($"SpawnSpot: [{gameObject.name}] SpawnEntry 목록에 null 항목이 있습니다.");
@@ -255,11 +278,16 @@ public class SpawnSpot : MonoBehaviour
             }
             for (int spawnIndex = 0; spawnIndex < spawnEntry.SpawnCount; spawnIndex++)
             {
+                if (spawnPositionIndex >= MaxSpawnSlotCount)
+                {
+                    break;
+                }
                 requestedSpawnCount++;
 
-                Vector3 spawnPosition = GetSpawnPosition(spawnPositionIndex);
+                int spawnSlotIndex = spawnSlotIndexList[spawnPositionIndex];
+                Vector3 spawnPosition = GetSpawnPosition(spawnSlotIndex);
 
-                Quaternion spawnRotation = GetSpawnRotation(spawnPositionIndex);
+                Quaternion spawnRotation = GetSpawnRotation();
 
                 int instanceId = GameObjectManager.Instance.RequestSpawnGameObject(spawnEntry.MonsterPrefab, spawnPosition, spawnRotation, spawnEntry.MonsterDataId, this);
 
@@ -298,6 +326,48 @@ public class SpawnSpot : MonoBehaviour
         Debug.Log($"SpawnSpot: [{gameObject.name}] 웨이브 생성 완료. 요청 수: {requestedSpawnCount}, 성공 수: {successfulSpawnCount}");
 
         OnWaveSpawned?.Invoke(this);
+    }
+
+    private int GetConfiguredSpawnCount()
+    {
+        int configuredSpawnCount = 0;
+
+        if (_spawnEntryList == null)
+        {
+            return configuredSpawnCount;
+        }
+
+        foreach (SpawnEntry spawnEntry in _spawnEntryList)
+        {
+            if (spawnEntry == null)
+            {
+                continue;
+            }
+
+            configuredSpawnCount += spawnEntry.SpawnCount;
+        }
+
+        return configuredSpawnCount;
+    }
+
+    private List<int> CreateRandomSpawnSlotIndexList()
+    {
+        List<int> spawnSlotIndexList = new List<int>(MaxSpawnSlotCount);
+
+        for (int slotIndex = 0; slotIndex < MaxSpawnSlotCount; slotIndex++)
+        {
+            spawnSlotIndexList.Add(slotIndex);
+        }
+
+        for (int currentIndex = spawnSlotIndexList.Count - 1; currentIndex > 0; currentIndex--)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, currentIndex + 1);
+            int temporarySlotIndex = spawnSlotIndexList[currentIndex];
+            spawnSlotIndexList[currentIndex] = spawnSlotIndexList[randomIndex];
+            spawnSlotIndexList[randomIndex] = temporarySlotIndex;
+        }
+
+        return spawnSlotIndexList;
     }
 
     private bool ValidateSpawnEntry(SpawnEntry spawnEntry)
@@ -557,20 +627,41 @@ public class SpawnSpot : MonoBehaviour
         return null;
     }
 
-    private Vector3 GetSpawnPosition(int spawnIndex)
+    private Vector3 GetSpawnPosition(int spawnSlotIndex)
     {
-        Transform spawnPoint = GetSpawnPointCanBeNull(spawnIndex);
+        Transform spawnPoint = GetSpawnPointCanBeNull(0);
 
         if (spawnPoint == null)
         {
-            return transform.position;
+            spawnPoint = transform;
         }
-        return spawnPoint.position;
+
+        Vector3 spawnPosition = GetSpawnSlotWorldPosition(spawnPoint, spawnSlotIndex);
+        float navMeshSampleDistance = Mathf.Max(0.1f, _spawnSlotSpacing * 0.5f);
+
+        if (NavMesh.SamplePosition(spawnPosition, out NavMeshHit navMeshHit, navMeshSampleDistance, NavMesh.AllAreas))
+        {
+            return navMeshHit.position;
+        }
+
+        Debug.LogWarning($"SpawnSpot: [{gameObject.name}] 슬롯 위치 주변에서 NavMesh를 찾지 못해 계산된 위치를 그대로 사용합니다. SlotIndex: {spawnSlotIndex}, Position: {spawnPosition}", this);
+        return spawnPosition;
     }
 
-    private Quaternion GetSpawnRotation(int spawnIndex)
+    private Vector3 GetSpawnSlotWorldPosition(Transform spawnPoint, int spawnSlotIndex)
     {
-        Transform spawnPoint = GetSpawnPointCanBeNull(spawnIndex);
+        int row = spawnSlotIndex / SpawnGridSize;
+        int column = spawnSlotIndex % SpawnGridSize;
+        float localPositionX = (column - 1) * _spawnSlotSpacing;
+        float localPositionZ = (1 - row) * _spawnSlotSpacing;
+        Vector3 localPosition = new Vector3(localPositionX, 0f, localPositionZ);
+
+        return spawnPoint.TransformPoint(localPosition);
+    }
+
+    private Quaternion GetSpawnRotation()
+    {
+        Transform spawnPoint = GetSpawnPointCanBeNull(0);
 
         if (spawnPoint == null)
         {
@@ -600,22 +691,18 @@ public class SpawnSpot : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        if (_spawnPointList == null || _spawnPointList.Count == 0)
+        Transform spawnPoint = GetSpawnPointCanBeNull(0);
+
+        if (spawnPoint == null)
         {
-            Gizmos.DrawWireSphere(transform.position, 0.4f);
-            return;
+            spawnPoint = transform;
         }
 
-        foreach (Transform spawnPoint in _spawnPointList)
+        for (int spawnSlotIndex = 0; spawnSlotIndex < MaxSpawnSlotCount; spawnSlotIndex++)
         {
-            if (spawnPoint == null)
-            {
-                continue;
-            }
-
-            Gizmos.DrawWireSphere(spawnPoint.position, 0.4f);
-
-            Gizmos.DrawLine(transform.position, spawnPoint.position);
+            Vector3 spawnPosition = GetSpawnSlotWorldPosition(spawnPoint, spawnSlotIndex);
+            Gizmos.DrawWireSphere(spawnPosition, 0.4f);
+            Gizmos.DrawLine(spawnPoint.position, spawnPosition);
         }
     }
 #endif

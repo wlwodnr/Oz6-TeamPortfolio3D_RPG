@@ -18,13 +18,14 @@ public class StartTitleUI : UIBase
         {
             GameManager.Instance.StartGame();
         }
+        UIManager.Instance.OpenUI(UIRootType.VeryFrontUI, UIType.LoadingUI);
         UIManager.Instance.CloseUI(UIRootType.MainUI, UIType.StartTitleUI);
 
         UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.PlayerProfileUI);
-        UIManager.Instance.OpenUI(UIRootType.VeryFrontUI, UIType.TestUI);
+        UIManager.Instance.OpenUI(UIRootType.BackGroundUI, UIType.GuideUI);
         UIManager.Instance.OpenQuestUI();
 
-        UIManager.Instance.OpenTestUI();
+        //UIManager.Instance.OpenTestUI();
     }
     
     private void OnClickEndButton()

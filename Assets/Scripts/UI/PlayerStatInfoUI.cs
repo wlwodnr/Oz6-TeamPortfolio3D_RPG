@@ -27,7 +27,7 @@ public class PlayerStatInfoUI : UIBase
 
     private void OnClick_ClosePopup()
     {
-        UIManager.Instance.ClosePlayerStatInfoUI();
+        UIManager.Instance.ClosePopupUI(UIType.PlayerStatInfoUI);
     }
      
     public void BindViewModel(PlayerStatViewModel vm)

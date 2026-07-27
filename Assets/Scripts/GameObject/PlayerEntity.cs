@@ -7,6 +7,8 @@ public class PlayerEntity : MonoBehaviour, IGameObjectEntity, IDamageable
     private bool _isDead;
     public bool IsDead { get { return _isDead; } }
 
+    private PlayerController _playerController;
+
     public int InstanceId
     {
         get 
@@ -23,18 +25,26 @@ public class PlayerEntity : MonoBehaviour, IGameObjectEntity, IDamageable
         }
     }
 
+    private void Awake()
+    {
+        _playerController = GetComponent<PlayerController>();
+    }
+
     public void InitEntity(int instanceId, string dataId)
     {
         _instanceId = instanceId;
         _playerDataId = dataId;
-
-        gameObject.SetActive(true);
     }
 
     public void ResetEntity()
     {
         _instanceId = -1;
         _playerDataId = string.Empty;
+
+        if (_playerController != null)
+        {
+            _playerController.ResetControllerForPool();
+        }
     }
     public void TakeDamage(DamageInfo damageInfo)
     {

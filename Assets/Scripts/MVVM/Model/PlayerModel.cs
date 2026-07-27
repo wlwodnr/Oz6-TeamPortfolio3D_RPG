@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class PlayerModel 
 {
+    private const string LevelUpModifierId = "player_level_up";
+
     private Stats _stats;
     private PlayerInfo _info;
+    private readonly List<StatModifier> _levelUpStatModifiers = new List<StatModifier>();
 
     public PlayerInfo Info => _info;
     public Stats Stats => _stats;
@@ -28,6 +31,10 @@ public class PlayerModel
         _stats.OnStatsUpdated += HandleStatsUpdated;
         _info.OnInfoChanged += HandleInfoUpdated;
 
+        _levelUpStatModifiers.Add(new StatModifier { Type = StatType.AttackPower, ModType = ModifierType.Flat, Value = 3f });
+        _levelUpStatModifiers.Add(new StatModifier { Type = StatType.MaxHP, ModType = ModifierType.Flat, Value = 30f });
+        _levelUpStatModifiers.Add(new StatModifier { Type = StatType.MaxMP, ModType = ModifierType.Flat, Value = 10f });
+
         _info.Coins = 10000;
         _learnedSkills = new HashSet<string>();  // 신규 - 스킬 테스트용 액티브 스킬 습득
 
@@ -37,6 +44,22 @@ public class PlayerModel
         LearnActive("Active_B_02");
         LearnActive("Active_03");
 
+    }
+
+    public void InitializeStats(PlayerStatData playerStatData)
+    {
+        _stats.InitializeBaseStats(playerStatData);
+        ApplyLevelUpStatModifiers();
+
+        if (_info.CurHp <= 0f)
+        {
+            _info.CurHp = GetStatValue(StatType.MaxHP);
+        }
+
+        if (_info.CurMp <= 0f)
+        {
+            _info.CurMp = GetStatValue(StatType.MaxMP);
+        }
     }
 
     public void Additem(string itemId)
@@ -158,12 +181,48 @@ public class PlayerModel
 
     private void HandleInfoUpdated(string changedType)
     {
+        if (changedType == nameof(PlayerInfo.CurLevel))
+        {
+            ApplyLevelUpStatModifiers();
+        }
+
         OnPlayerInfoChanged?.Invoke(changedType);
+    }
+
+    private void ApplyLevelUpStatModifiers()
+    {
+        int levelUpCount = Mathf.Max(0, _info.CurLevel - 1);
+        _stats.SetModifierCount(LevelUpModifierId, _levelUpStatModifiers, levelUpCount);
+    }
+
+    public void AddExperience(float experience)
+    {
+        if (experience <= 0f)
+        {
+            return;
+        }
+
+        _info.TotalExp += experience;
+    }
+
+    public void AddGold(int gold)
+    {
+        if (gold <= 0)
+        {
+            return;
+        }
+
+        _info.Coins += gold;
     }
 
     public float GetStatValue(StatType statType)
     {
         return _stats.GetValue(statType);
+    }
+
+    public float GetRequiredTotalExperienceForNextLevel()
+    {
+        return PlayerLevelProgression.GetRequiredTotalExperienceForNextLevel(_info.CurLevel);
     }
 
     public PlayerSaveData CaptureData()
