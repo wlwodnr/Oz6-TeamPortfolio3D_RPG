@@ -42,22 +42,63 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        _groundCheck.OnGrounded += HandleGrounded;
+        _rb = GetComponent<Rigidbody>();
+        _mainCamera = Camera.main;
+        _anim = GetComponent<Animator>();
+        _movementCollider = GetComponent<CapsuleCollider>();
+    }
+
+    private void OnEnable()
+    {
+        if (_groundCheck != null)
+        {
+            _groundCheck.OnGrounded -= HandleGrounded;
+            _groundCheck.OnGrounded += HandleGrounded;
+        }
+
+        InputManager.OnJumpPressed -= HandleJumpPressed;
+        InputManager.OnAttackPressed -= HandleAttackPressed;
+        InputManager.OnInteractPressed -= HandleInteractPressed;
         InputManager.OnJumpPressed += HandleJumpPressed;
         InputManager.OnAttackPressed += HandleAttackPressed;
         InputManager.OnInteractPressed += HandleInteractPressed;
     }
+
+    private void OnDisable()
+    {
+        if (_groundCheck != null)
+        {
+            _groundCheck.OnGrounded -= HandleGrounded;
+        }
+
+        InputManager.OnJumpPressed -= HandleJumpPressed;
+        InputManager.OnAttackPressed -= HandleAttackPressed;
+        InputManager.OnInteractPressed -= HandleInteractPressed;
+    }
+
     private void Start()
     {
-        _rb = GetComponent<Rigidbody>();
-        _mainCamera = Camera.main;
-        _anim = GetComponent<Animator>();
-
-        _movementCollider = GetComponent<CapsuleCollider>();
         if(Layer_wall.value == 0)
         {
-            Debug.LogWarning($"[{gameObject.name}] PlayerController의 Layer_Wall이 설정되지 않았습니다. " +
-                "벽 사전 검사를 사용하려면 Inspector에서 Wall 레이어를 지정해야 합니다.", this);
+            Debug.LogWarning($"[{gameObject.name}] PlayerController의 Layer_Wall이 설정되지 않았습니다. 벽 사전 검사를 사용하려면 Inspector에서 Wall 레이어를 지정해야 합니다.", this);
+        }
+    }
+
+    public void ResetControllerForPool()
+    {
+        _jumpCount = 0;
+        _currentInteractionTarget = null;
+
+        if (_rb != null)
+        {
+            _rb.linearVelocity = Vector3.zero;
+            _rb.angularVelocity = Vector3.zero;
+        }
+
+        if (_anim != null)
+        {
+            _anim.Rebind();
+            _anim.Update(0f);
         }
     }
 
@@ -335,9 +376,26 @@ public class PlayerController : MonoBehaviour
 
             Vector3 direction = (enemy.transform.position - transform.position).normalized;
             direction.y = 0f;
-            DamageInfo dmgInfo = new DamageInfo(_temporaryAttackDamage, false, Vector3.zero, direction, transform.gameObject);
+            DamageInfo dmgInfo = new DamageInfo(GetAttackDamage(), false, Vector3.zero, direction, transform.gameObject);
             GameObjectManager.Instance.RequestTakeDamage(targetInstanceId, dmgInfo);
         }
+    }
+
+    private int GetAttackDamage()
+    {
+        if (NetworkManager.Inst == null || NetworkManager.Inst.LocalPlayerService == null)
+        {
+            return _temporaryAttackDamage;
+        }
+
+        PlayerModel playerModel = NetworkManager.Inst.LocalPlayerService.GetLocalPlayerModel();
+
+        if (playerModel == null)
+        {
+            return _temporaryAttackDamage;
+        }
+
+        return Mathf.Max(1, Mathf.RoundToInt(playerModel.GetStatValue(StatType.AttackPower)));
     }
 
     private void HandleInteractPressed()
