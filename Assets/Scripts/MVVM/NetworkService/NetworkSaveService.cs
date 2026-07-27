@@ -65,6 +65,7 @@ public class NetworkSaveService
 
         PlayerModel.LoadPlayerInfo(saveData.PlayerData);
         PlayerModel.LoadSkillData(saveData.Skill);
+        QuestManager.Instance.LoadQuestData(saveData.Quest);
     }
 
 }

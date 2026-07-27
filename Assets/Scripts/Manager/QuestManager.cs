@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class QuestManager : MonoBehaviour
@@ -288,5 +289,20 @@ public class QuestManager : MonoBehaviour
         questData.CompletedQuestIds.AddRange(_completedQuestIds);
 
         return questData;
+    }
+
+    public void LoadQuestData(QuestSaveData questSaveData)
+    {
+        if (questSaveData == null) return;
+
+        _completedQuestIds.Clear();
+        _activeQuests.Clear();
+
+        foreach (var data in questSaveData.ActiveQuests)
+        {
+            _activeQuests.Add(data.QuestDataId, new QuestModel(data));
+        }
+
+        _completedQuestIds.AddRange(questSaveData.CompletedQuestIds);
     }
 }
