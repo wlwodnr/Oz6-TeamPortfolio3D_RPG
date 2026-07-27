@@ -274,4 +274,17 @@ public class QuestManager : MonoBehaviour
     {
         UpdateProgress("Kill", "mob_goblin_1", 3);
     }
+
+    public QuestSaveData CaptureQuestData()
+    {
+        QuestSaveData questData = new QuestSaveData();
+
+        foreach(var data in _activeQuests.Values)
+        {
+            var proQuest = new ProgressQuest(data);
+            questData.ActiveQuests.Add(proQuest);
+        }
+        questData.CompletedQuestIds.AddRange(_completedQuestIds);
+        return questData;
+    }
 }

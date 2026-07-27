@@ -60,6 +60,8 @@ public class Stats
         }
 
         SetModifierCount(itemId, data.StatModifiers, modifierCount);
+        UpdateCache();
+        NotifyModifierStatsUpdated(data.StatModifiers);
     }
 
     public void RemoveModifier(string itemId)
@@ -72,6 +74,8 @@ public class Stats
         List<StatModifier> statModifiers = _rawModifiers[itemId];
         int modifierCount = _counts[itemId] - 1;
         SetModifierCount(itemId, statModifiers, modifierCount);
+        UpdateCache();
+        NotifyModifierStatsUpdated(statModifiers); 
     }
 
     public void SetModifierCount(string modifierId, List<StatModifier> statModifiers, int modifierCount)
