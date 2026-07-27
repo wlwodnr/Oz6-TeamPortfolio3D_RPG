@@ -22,6 +22,7 @@ public enum UIType
     InventoryUI,
     QuestUI,
     LoadingUI,
+    GuideUI,
 
     TestUI
 }
