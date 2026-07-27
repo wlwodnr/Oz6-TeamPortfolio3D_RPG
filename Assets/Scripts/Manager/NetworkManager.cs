@@ -25,9 +25,11 @@ public class NetworkManager : MonoBehaviour
         // 앞으로 네트워크 매니저에서 사용할 다양한 서비스를 생성
         LocalPlayerService = new NetworkPlayerService();
         InventoryService = new NetworkInventoryService();
+        SkillService = new NetworkSkillService();
 
         var localPlayerModel = new PlayerModel();
         LocalPlayerService.Initialize(localPlayerModel);
+        SkillService.Init(localPlayerModel);
 
         //아래는 임시로 만든거!!! 나중에 합치면 지워야함
         LocalPlayerModel = localPlayerModel;

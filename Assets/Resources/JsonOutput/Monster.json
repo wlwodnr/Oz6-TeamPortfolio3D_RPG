@@ -17,12 +17,25 @@
     "Name": "스켈레톤",
     "Description": "1층에서 출현하는 몹이다",
     "PrefabPath": null,
-    "BaseHp": 50,
-    "BaseAttack": 10,
+    "BaseHp": 30,
+    "BaseAttack": 5,
     "MoveSpeed": 5,
     "DetectRange": 10,
     "AttackRange": 2,
-    "DropEXP": 10,
+    "DropEXP": 30,
+    "StopDistance": 1
+  },
+  {
+    "Id": "mob_skeletonv2",
+    "Name": "스켈레톤",
+    "Description": "2층에서 출현하는 몹이다",
+    "PrefabPath": null,
+    "BaseHp": 50,
+    "BaseAttack": 10,
+    "MoveSpeed": 7,
+    "DetectRange": 10,
+    "AttackRange": 2,
+    "DropEXP": 80,
     "StopDistance": 1
   }
 ]

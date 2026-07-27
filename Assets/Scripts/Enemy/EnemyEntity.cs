@@ -57,4 +57,6 @@ public class EnemyEntity : MonoBehaviour, IGameObjectEntity
             _rigidbody.angularVelocity = Vector3.zero;
         }
     }
+
+
 }

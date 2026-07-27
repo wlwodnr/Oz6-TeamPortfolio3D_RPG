@@ -11,9 +11,11 @@ public class PlayerModel
     private readonly List<StatModifier> _levelUpStatModifiers = new List<StatModifier>();
 
     public PlayerInfo Info => _info;
+    public Stats Stats => _stats;
     // itemId - 갯수
     private Dictionary<string,int> _inventory = new Dictionary<string, int>();    
     private Dictionary<string,int> _equipInventory = new Dictionary<string,int>();
+    private HashSet<string> _learnedSkills = new HashSet<string>();
 
     //itemId - 데이터
     private Dictionary<string, IHitEffect> _activeHitEffects = new Dictionary<string, IHitEffect>();
@@ -34,6 +36,14 @@ public class PlayerModel
         _levelUpStatModifiers.Add(new StatModifier { Type = StatType.MaxMP, ModType = ModifierType.Flat, Value = 10f });
 
         _info.Coins = 10000;
+        _learnedSkills = new HashSet<string>();  // 신규 - 스킬 테스트용 액티브 스킬 습득
+
+        LearnActive("Active_H_01");
+        LearnActive("Active_H_02");
+        LearnActive("Active_B_01");
+        LearnActive("Active_B_02");
+        LearnActive("Active_03");
+
     }
 
     public void InitializeStats(PlayerStatData playerStatData)
@@ -210,14 +220,9 @@ public class PlayerModel
         return _stats.GetValue(statType);
     }
 
-    public float GetRequiredExperienceForCurrentLevel()
+    public float GetRequiredTotalExperienceForNextLevel()
     {
-        return PlayerLevelProgression.GetRequiredExperienceForLevel(_info.CurLevel);
-    }
-
-    public float GetCurrentLevelExperience()
-    {
-        return PlayerLevelProgression.GetCurrentLevelExperience(_info.TotalExp);
+        return PlayerLevelProgression.GetRequiredTotalExperienceForNextLevel(_info.CurLevel);
     }
 
     public PlayerSaveData CaptureData()
@@ -233,6 +238,9 @@ public class PlayerModel
             CurMp = _info.CurMp,
             Coins = _info.Coins
         };
+        data.SkillData = new SkillData();
+        data.SkillData.LearnedSkills.AddRange(_learnedSkills); // 신규-스킬데이터
+        
         return data;
     }
     // 최대 스탯 오버 방지
@@ -282,6 +290,9 @@ public class PlayerModel
         if (LearnedPassiveSkill.Contains(id) == false)
         {
             LearnedPassiveSkill.Add(id);
+            _learnedSkills.Add(id); // 신규 - 스킬아이디 해시셋 등록
+            _stats.AddModifierBySkill(id); // 신규 - 패시브로 증가한 스탯 연동
+            OnSkillDataChanged?.Invoke(id);  // 신규 - 이벤트 발생 알림
         }
     }
 
@@ -290,6 +301,8 @@ public class PlayerModel
         if (LearnedActiveSkill.Contains(id) == false)
         {
             LearnedActiveSkill.Add(id);
+            _learnedSkills.Add(id); // 신규 - 스킬아이디 해시셋 등록
+            OnSkillDataChanged?.Invoke(id);  // 신규 - 이벤트 발생 알림
         }
     }
     public bool HasLearnedPassive(string id)

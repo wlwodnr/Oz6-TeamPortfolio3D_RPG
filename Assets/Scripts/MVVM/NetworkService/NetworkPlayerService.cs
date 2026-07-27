@@ -60,6 +60,11 @@ public class NetworkPlayerService
         _playerModel?.ChangeHp(hp);
     }
 
+    public void RequestAddItem(string itemId)
+    {
+        _playerModel?.Additem(itemId);
+    }
+
     public void RequestChangePlayerMp(float mp)
     {
         _playerModel?.ChangeMp(mp);
@@ -116,4 +121,14 @@ public class NetworkPlayerService
     //{
     //    _playerModel.ModifyBaseStat(StatType.AttackSpeed, addAtk);
     //}
+
+    public float GetPlayerDefense()
+    {
+        return _playerModel.GetStatValue(StatType.Defense);
+    }
+
+    public void HandlePlayerDead()
+    {
+        // 여기서 처리 순서가 상관없다면 이벤트로 쏘고, 아니라면 여기서 전부 순서대로 처리
+    }
 }

@@ -17,7 +17,7 @@ MonoBehaviour:
   StoreItems:
   - ItemId: Stat_02
     Count: 2
-  - ItemId: Consuamble_01
+  - ItemId: Consumable_01
     Count: 3
   - ItemId: Stat_01
     Count: 4
