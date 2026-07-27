@@ -7,9 +7,6 @@ public class EnemyStatus : MonoBehaviour, IDamageable
     //빌드용 임시 체력
     [SerializeField] private int _temporaryMaxHp = 30;
 
-    [SerializeField] private LayerMask LayerMask_Player;
-
-
     private int _currentHp;
     private bool _isDead;
     private MonsterData _monsterData;

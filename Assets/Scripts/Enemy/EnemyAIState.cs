@@ -27,8 +27,8 @@ public class EnemyAIState_Idle : IEnemyAIState
             return;
         }
 
-        animator.SetBool("IsRun", false);
-        animator.SetBool("IsWalk", false);
+        animator.SetBool("IsIdle", true);
+
     }
 
     public void UpdateState(EnemyAI entity)
@@ -55,6 +55,31 @@ public class EnemyAIState_Attack : IEnemyAIState
         }
 
         animator.SetTrigger("IsAttack");
+    }
+
+    public void UpdateState(EnemyAI entity)
+    {
+
+    }
+
+    public void ExitState(EnemyAI entity)
+    {
+
+    }
+
+}
+
+public class EnemyAIState_RangeAttack : IEnemyAIState
+{
+    public void EnterState(EnemyAI entity)
+    {
+        var animator = entity.GetEntityAnimator();
+        if (animator == null)
+        {
+            return;
+        }
+
+        animator.SetTrigger("IsRangeAttack");
     }
 
     public void UpdateState(EnemyAI entity)

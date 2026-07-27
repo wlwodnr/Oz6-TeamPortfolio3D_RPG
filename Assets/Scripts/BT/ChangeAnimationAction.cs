@@ -9,17 +9,14 @@ using Unity.Properties;
 public partial class ChangeAnimationAction : Action
 {
     [SerializeReference] public BlackboardVariable<GameObject> Self;
-    
-    
-    private EnemyAIState ChangeStateEnum;
-    
+    [SerializeReference] public BlackboardVariable<EnemyAIState> ChangeStateEnum;
+
     protected override Status OnStart()
     {
         var battleAgentSelf = Self.Value.GetComponent<EnemyAI>();
-        if (battleAgentSelf)
-        {
-            battleAgentSelf.ChangeState(ChangeStateEnum);
-        }
+        
+        battleAgentSelf.ChangeState(ChangeStateEnum);
+        
 
         return Status.Success;
     }
