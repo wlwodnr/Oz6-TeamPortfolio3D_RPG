@@ -10,6 +10,7 @@ public class NetworkManager : MonoBehaviour
 
     public NetworkPlayerService LocalPlayerService { get; private set; }
     public NetworkInventoryService InventoryService { get; private set; }
+    public NetworkSkillService SkillService { get; private set; }
 
     public PlayerModel LocalPlayerModel; // 테스트용 임시 변수
     [SerializeField] private string _playerStatDataId = "stat_dummy";

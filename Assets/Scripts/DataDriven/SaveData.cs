@@ -8,7 +8,7 @@ public class SaveData
 {
     public PlayerSaveData PlayerData;
     public InventoryData Inventory;
-    //public SkillData Skill;  플레이어 스킬 저장 데이터
+    public SkillData SkillData;
     //public SpawnData Spawn; 플레이어 위치 저장 데이터
     //public QuestSaveData Quest;  퀘스트 저장 데이터
     //public DungeonData Dungeon; 던전관련 저장 데이터
