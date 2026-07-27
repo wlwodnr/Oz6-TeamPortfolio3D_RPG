@@ -23,6 +23,8 @@ public enum UIType
     QuestUI,
     LoadingUI,
     GuideUI,
+    SettingUI,
+    MenuUI,
 
     TestUI
 }
@@ -43,7 +45,7 @@ public static class UIManagerExtension
     }
 
 
-    public static void OpenLoadingUI(this UIManager uiManager, string characterDataId)
+    public static void OpenLoadingUI(this UIManager uiManager)
     {
         var uiBase = uiManager.OpenUI(UIRootType.VeryFrontUI, UIType.LoadingUI);
         if (uiBase == null)
@@ -75,7 +77,6 @@ public static class UIManagerExtension
         Debug.LogWarning("생성된 UI가 DialogueUI 타입이 아닙니다");
         return null;
     }
-
     public static void CloseDialogueUI(this UIManager uIManager)
     {
         uIManager.CloseContentUI(UIType.DialogueUI);
@@ -85,9 +86,22 @@ public static class UIManagerExtension
     {
         uiManager.OpenUI(UIRootType.MainUI, UIType.QuestUI);
     }
-
     public static void CloseQuestUI(this UIManager uiManager)
     {
         uiManager.CloseUI(UIRootType.MainUI, UIType.QuestUI);
+    }
+
+    public static void OpenSettingUI(this UIManager uiManager)
+    {
+        var uiBase = uiManager.OpenUI(UIRootType.BackGroundUI, UIType.SettingUI);
+        if (uiBase == null)
+        {
+            Debug.LogWarning("UI가 생성되지 않았습니다");
+            return;
+        }
+    }
+    public static void CloseSettingUI(this UIManager uiManager)
+    {
+        uiManager.CloseUI(UIRootType.BackGroundUI, UIType.SettingUI);
     }
 }
