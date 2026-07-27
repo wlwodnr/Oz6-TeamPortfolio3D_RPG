@@ -59,7 +59,12 @@ public class NetworkSaveService
 
     public void SetAllModelOnLoad(SaveData saveData)
     {
+        if (saveData == null) return;
 
+        var PlayerModel = NetworkManager.Inst.LocalPlayerService.GetLocalPlayerModel();
+
+        PlayerModel.LoadPlayerInfo(saveData.PlayerData);
+        PlayerModel.LoadSkillData(saveData.Skill);
     }
 
 }

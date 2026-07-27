@@ -15,7 +15,13 @@ public class SaveData
 [Serializable]
 public class PlayerSaveData
 {
-    public PlayerInfo PlayerInfo;
+    public string Name;
+    public int CurLevel = 1;
+    public float TotalExp;
+    public int SkillPoint;
+    public float CurHp;
+    public float CurMp;
+    public int Coins;
 }
 
 [Serializable]

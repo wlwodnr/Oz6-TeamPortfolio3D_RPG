@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerModel 
@@ -50,6 +51,29 @@ public class PlayerModel
         {
             _info.CurMp = GetStatValue(StatType.MaxMP);
         }
+    }
+
+    public void LoadPlayerInfo(PlayerSaveData playerSaveData)
+    {
+        if (playerSaveData == null) return;
+
+        _info.Name = playerSaveData.Name;
+        _info.CurLevel = playerSaveData.CurLevel;
+        _info.TotalExp = playerSaveData.TotalExp;
+        _info.CurHp = playerSaveData.CurHp;
+        _info.CurMp= playerSaveData.CurMp;
+        _info.Coins= playerSaveData.Coins;
+    }
+
+    public void LoadSkillData(SkillSaveData skillSaveData)
+    {
+        if(skillSaveData == null) return;
+
+        LearnedActiveSkill.Clear();
+        LearnedPassiveSkill.Clear();
+
+        LearnedActiveSkill.AddRange(skillSaveData.LearnedActiveSkills);
+        LearnedPassiveSkill.AddRange(skillSaveData.LearnedPassiveSkills);
     }
 
     public void Additem(string itemId)
