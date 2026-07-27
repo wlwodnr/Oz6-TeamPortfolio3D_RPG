@@ -43,17 +43,18 @@ public class SkillData
 [Serializable] 
 public class QuestSaveData
 {
-    public List<string> CompleteQuests = new List<string>();
     public List<ProgressQuest> ActiveQuests = new List<ProgressQuest>();
-    public List<string> InCompleteQuests = new List<string>();
+    public List<string> CompletedQuestIds = new List<string>();
 }
 
 [Serializable]
 public class ProgressQuest
 {
-    public string QuestId;
+    public string QuestDataId;
+    public int CurrentCount;
+    public bool IsAccepted;
     public bool IsCompleted;
-    public List<ObjectiveData> Objectives;
+    public bool IsRewardReceived;
 }
 
 [Serializable]
