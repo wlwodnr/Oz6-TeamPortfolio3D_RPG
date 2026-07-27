@@ -21,6 +21,8 @@ public enum UIType
     DialogueUI,
     InventoryUI,
     QuestUI,
+    LoadingUI,
+
     TestUI
 }
 
@@ -37,38 +39,21 @@ public static class UIManagerExtension
     public static void ShowStartupUIOnGameStart(this UIManager uiManager)
     {
         uiManager.OpenUI(UIRootType.MainUI, UIType.StartTitleUI);
-        //uiManager.OpenUI(UIRootType.MainUI, UIType.PlayerProfileUI);      테스트용 바로 나오게
-        //uiManager.OpenUI(UIRootType.VeryFrontUI, UIType.TestUI);
     }
 
-    public static UIBase OpenPlayerStatInfoUI(this UIManager uiManager)
-    {
-        var uiBase = uiManager.OpenPopupUI(UIType.PlayerStatInfoUI);
-        if (uiBase == null)
-        {
-            Debug.LogWarning($"UI가 생성되지 않았습니다");
-            return null;
-        }
-        return uiBase;
-    }
-    public static void ClosePlayerStatInfoUI(this UIManager uiManager)
-    {
-        uiManager.ClosePopupUI(UIType.PlayerStatInfoUI);
-    }
 
-    public static void OpenPlayerProfileUI(this UIManager uiManager, string characterDataId)
+    public static void OpenLoadingUI(this UIManager uiManager, string characterDataId)
     {
-        var uiBase = uiManager.OpenUI(UIRootType.MainUI, UIType.PlayerProfileUI);
+        var uiBase = uiManager.OpenUI(UIRootType.VeryFrontUI, UIType.LoadingUI);
         if (uiBase == null)
         {
             Debug.LogWarning("UI가 생성되지 않았습니다");
             return;
         }
-
-        //if (uiBase is PlayerProfileUI profileUI)
-        //{
-        //    profileUI.RefreshCharacterUI(characterDataId);
-        //}
+    }
+    public static void CloseLoadingUI(this UIManager uiManager)
+    {
+        uiManager.CloseUI(UIRootType.VeryFrontUI, UIType.LoadingUI);
     }
 
     public static DialogueUI OpenDialogueUI(this UIManager uiManager)

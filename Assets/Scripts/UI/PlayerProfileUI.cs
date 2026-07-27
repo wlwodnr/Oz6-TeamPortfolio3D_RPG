@@ -35,7 +35,7 @@ public class PlayerProfileUI : UIBase
 
     private void OnClick_OpenPlayerStatInfoUI()
     {
-        UIManager.Instance.OpenPlayerStatInfoUI();
+        UIManager.Instance.OpenPopupUI(UIType.PlayerStatInfoUI);
     }
 
     public void BindViewModel(PlayerProfileViewModel vm)
