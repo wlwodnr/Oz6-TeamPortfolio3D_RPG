@@ -107,6 +107,14 @@ public class NetworkPlayerService
         _playerModel.Info.Name = newName;
     }
 
+    public void LoadData(SaveData saveData)
+    {
+        if (saveData == null) return;
+
+        _playerModel.LoadPlayerInfo(saveData.PlayerData);
+        _playerModel.LoadSkillData(saveData.Skill);
+    }
+
     //public void RequestChangePlayerMaxHp(float maxHp)
     //{
     //    _playerModel.Stats.BaseStats[StatType.MaxHP] = maxHp;

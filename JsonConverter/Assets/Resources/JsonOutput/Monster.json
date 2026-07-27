@@ -8,9 +8,9 @@
     "BaseAttack": 10,
     "MoveSpeed": 5,
     "DetectRange": 5,
-    "AttackRange": 1,
+    "AttackRange": 2,
     "DropEXP": 10,
-    "StopDistance": 0.8
+    "StopDistance": 1
   },
   {
     "Id": "mob_skeleton",

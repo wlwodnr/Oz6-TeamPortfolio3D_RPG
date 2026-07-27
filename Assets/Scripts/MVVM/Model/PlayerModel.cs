@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerModel 
@@ -13,7 +14,6 @@ public class PlayerModel
     public PlayerInfo Info => _info;
     public Stats Stats => _stats;
     // itemId - 갯수
-    private Dictionary<string,int> _inventory = new Dictionary<string, int>();    
     private Dictionary<string,int> _equipInventory = new Dictionary<string,int>();
     private HashSet<string> _learnedSkills = new HashSet<string>();
 
@@ -62,6 +62,29 @@ public class PlayerModel
         }
     }
 
+    public void LoadPlayerInfo(PlayerSaveData playerSaveData)
+    {
+        if (playerSaveData == null) return;
+
+        _info.Name = playerSaveData.Name;
+        _info.CurLevel = playerSaveData.CurLevel;
+        _info.TotalExp = playerSaveData.TotalExp;
+        _info.CurHp = playerSaveData.CurHp;
+        _info.CurMp= playerSaveData.CurMp;
+        _info.Coins= playerSaveData.Coins;
+    }
+
+    public void LoadSkillData(SkillSaveData skillSaveData)
+    {
+        if(skillSaveData == null) return;
+
+        LearnedActiveSkill.Clear();
+        LearnedPassiveSkill.Clear();
+
+        LearnedActiveSkill.AddRange(skillSaveData.LearnedActiveSkills);
+        LearnedPassiveSkill.AddRange(skillSaveData.LearnedPassiveSkills);
+    }
+
     public void Additem(string itemId)
     {
         var itemData = ItemDataBase.GetItemData(itemId);
@@ -89,7 +112,7 @@ public class PlayerModel
         }
         else
         {
-            AddInventory(itemId);
+            return;
         }
     }
 
@@ -116,7 +139,7 @@ public class PlayerModel
         }
         else
         {
-            AddInventory(itemId);
+            return;
         }
     }
 
@@ -130,7 +153,6 @@ public class PlayerModel
         {
             _equipInventory.Add(itemId, 1);
         }
-        // 여기서 장비템 정보창 MVVM 구조 VM 정보전달 메서드 실행
     }
 
     public void RemoveEquipInventory(string itemId)
@@ -144,35 +166,9 @@ public class PlayerModel
         {
             _equipInventory.Remove(itemId);
         }
-        // 여기서 장비템 정보창 MVVM 구조 VM 정보전달 메서드 실행
     }
 
-    public void AddInventory(string itemId)
-    {
-        if (_inventory.ContainsKey(itemId) == true)
-        {
-            _inventory[itemId] = _inventory[itemId] + 1;
-        }
-        else
-        {
-            _inventory.Add(itemId, 1);
-        }
-        // 여기서 인벤토리 MVVM 구조 VM 정보전달 메서드 실행
-    }
 
-    public void RemoveInventory(string itemId)
-    {
-        if (_inventory.ContainsKey(itemId) == true)
-        {
-            _inventory[itemId] = _inventory[itemId] - 1;
-        }
-
-        if (_inventory[itemId] <= 0)
-        {
-            _inventory.Remove(itemId);
-        }
-        // 여기서 인벤토리 MVVM 구조 VM 정보전달 메서드 실행
-    }
 
     private void HandleStatsUpdated(string changedType)
     {
@@ -227,8 +223,7 @@ public class PlayerModel
 
     public PlayerSaveData CaptureData()
     {
-        PlayerSaveData data = new PlayerSaveData();
-        data.PlayerInfo = new PlayerInfo()
+        PlayerSaveData data = new PlayerSaveData()
         {
             Name = _info.Name,
             CurLevel = _info.CurLevel,
@@ -238,7 +233,6 @@ public class PlayerModel
             CurMp = _info.CurMp,
             Coins = _info.Coins
         };
-
         
         return data;
     }
@@ -326,5 +320,15 @@ public class PlayerModel
         {
             return false;
         }
+    }
+
+    public SkillSaveData CaptureSkillData()
+    {
+        SkillSaveData skillSaveData = new SkillSaveData();
+
+        skillSaveData.LearnedActiveSkills.AddRange(LearnedActiveSkill);
+        skillSaveData.LearnedPassiveSkills.AddRange(LearnedPassiveSkill);
+
+        return skillSaveData;
     }
 }

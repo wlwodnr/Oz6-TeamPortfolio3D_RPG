@@ -446,6 +446,8 @@ public class GameObjectManager : MonoBehaviour
             return;
         }
 
+        bool shouldRequestGameClear = IsDeadBoss(targetObject);
+
         if (_playerInstanceId == instanceId)
         {
             _playerInstanceId = -1;
@@ -476,6 +478,39 @@ public class GameObjectManager : MonoBehaviour
         {
             ownerSpawnSpot.NotifySpawnedObjectDisabled(instanceId);
         }
+
+        if (shouldRequestGameClear == true)
+        {
+            RequestGameClear();
+        }
+    }
+
+    private bool IsDeadBoss(GameObject targetObject)
+    {
+        BossEntity bossEntity = targetObject.GetComponent<BossEntity>();
+
+        if (bossEntity == null)
+        {
+            bossEntity = targetObject.GetComponentInChildren<BossEntity>(true);
+        }
+
+        return bossEntity != null && bossEntity.IsDead;
+    }
+
+    private void RequestGameClear()
+    {
+        if (GameManager.Instance == null)
+        {
+            Debug.LogWarning("GameObjectManager: GameManager가 없어 게임 클리어를 요청할 수 없습니다.");
+            return;
+        }
+
+        if (GameManager.Instance.IsPlaying() == false)
+        {
+            return;
+        }
+
+        GameManager.Instance.ClearGame();
     }
 
     public bool RequestTakeDamage(int instanceId, DamageInfo damageInfo)
