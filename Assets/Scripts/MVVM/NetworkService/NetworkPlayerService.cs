@@ -60,6 +60,11 @@ public class NetworkPlayerService
         _playerModel?.ChangeHp(hp);
     }
 
+    public void RequestAddItem(string itemId)
+    {
+        _playerModel?.Additem(itemId);
+    }
+
     public void RequestChangePlayerMp(float mp)
     {
         _playerModel?.ChangeMp(mp);
