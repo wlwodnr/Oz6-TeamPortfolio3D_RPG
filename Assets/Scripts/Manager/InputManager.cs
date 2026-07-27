@@ -76,7 +76,7 @@ public class InputManager : MonoBehaviour
             OnAttackPressed?.Invoke();
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.F))
         {
             OnInteractPressed?.Invoke();
         }
