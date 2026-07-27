@@ -9,6 +9,10 @@ public class QuestModel
     public bool IsCompleted;
     public bool IsRewardReceived;
 
+    public QuestModel()
+    {
+
+    }
     public QuestModel(ProgressQuest data)
     {
         QuestDataId = data.QuestDataId;

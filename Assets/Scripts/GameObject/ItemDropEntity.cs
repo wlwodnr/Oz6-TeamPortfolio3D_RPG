@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ItemDropEntity : MonoBehaviour, IGameObjectEntity
 {
@@ -116,7 +116,7 @@ public class ItemDropEntity : MonoBehaviour, IGameObjectEntity
             return;
         }
 
-        bool isAdded = NetworkManager.Inst.InventoryService.ReuestAddItem(_itemDataId, _count);
+        bool isAdded = NetworkManager.Inst.InventoryService.RequestAddItem(_itemDataId, _count);
 
         if (isAdded == false)
         {

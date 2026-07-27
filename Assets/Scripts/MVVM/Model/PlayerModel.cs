@@ -246,8 +246,7 @@ public class PlayerModel
 
     public PlayerSaveData CaptureData()
     {
-        PlayerSaveData data = new PlayerSaveData();
-        data.PlayerInfo = new PlayerInfo()
+        PlayerSaveData data = new PlayerSaveData()
         {
             Name = _info.Name,
             CurLevel = _info.CurLevel,
