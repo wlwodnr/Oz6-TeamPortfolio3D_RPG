@@ -241,13 +241,16 @@ public class GameObjectManager : MonoBehaviour
             if (enemyAI != null)
             {
                 enemyAI.InitEnemyInfo(instanceId, dataId, ownerSpawnSpot);
-
-                enemyAI.ResetEnemyAIForPool(ownerSpawnSpot);
             }
 
             if (pooledObject.activeSelf == false)
             {
                 pooledObject.SetActive(true);
+            }
+
+            if (enemyAI != null)
+            {
+                enemyAI.ResetEnemyAIForPool(ownerSpawnSpot);
             }
 
             // 풀링 재사용 시 HUD 생성
