@@ -301,6 +301,8 @@ public class DungeonFlowController : MonoBehaviour
 
         OnFloorTransitionStarted?.Invoke(previousFloor, targetFloor);
 
+        UIManager.Instance.OpenUI(UIRootType.VeryFrontUI, UIType.LoadingUI); // 포탈 이동시 로딩 활성화
+
         if (previousFloor != null)
         {
             previousFloor.DeactivateFloor();
