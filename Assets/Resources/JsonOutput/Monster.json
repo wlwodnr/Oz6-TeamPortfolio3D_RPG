@@ -37,5 +37,18 @@
     "AttackRange": 2,
     "DropEXP": 80,
     "StopDistance": 1
+  },
+  {
+    "Id": "mob_Boss",
+    "Name": "보스",
+    "Description": "보스 몹이다",
+    "PrefabPath": null,
+    "BaseHp": 100,
+    "BaseAttack": 20,
+    "MoveSpeed": 4,
+    "DetectRange": 10,
+    "AttackRange": 2,
+    "DropEXP": 500,
+    "StopDistance": 1
   }
 ]
