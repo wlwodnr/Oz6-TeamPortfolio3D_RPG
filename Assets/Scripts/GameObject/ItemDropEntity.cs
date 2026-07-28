@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
+using System;
+using System.Threading;
+using UnityEngine;
 
 public class ItemDropEntity : MonoBehaviour, IGameObjectEntity
 {
@@ -8,7 +11,9 @@ public class ItemDropEntity : MonoBehaviour, IGameObjectEntity
     private string _itemDataId;
     private int _count;
     private bool _isPickupRequested;
+    private bool _isCanPickup = false;
     private Camera _mainCamera;
+    private CancellationTokenSource _cts;
 
     public int InstanceId
     {
@@ -29,6 +34,10 @@ public class ItemDropEntity : MonoBehaviour, IGameObjectEntity
     {
         _isPickupRequested = false;
         _mainCamera = Camera.main;
+        _cts?.Cancel();
+        _cts = new CancellationTokenSource();
+
+        EnablePickupAfterDelay(_cts.Token).Forget();
     }
 
     private void LateUpdate()
@@ -47,6 +56,13 @@ public class ItemDropEntity : MonoBehaviour, IGameObjectEntity
         {
             Renderer_ItemIcon.transform.rotation = _mainCamera.transform.rotation;
         }
+    }
+
+    private async UniTaskVoid EnablePickupAfterDelay(CancellationToken cancellationToken)
+    {
+        await UniTask.Delay(TimeSpan.FromSeconds(3), cancellationToken: cancellationToken);
+
+        _isCanPickup = true;
     }
 
     public void InitEntity(int instanceId, string dataId)
@@ -98,6 +114,11 @@ public class ItemDropEntity : MonoBehaviour, IGameObjectEntity
 
     private void OnTriggerEnter(Collider other)
     {
+        if(_isCanPickup == false)
+        {
+            return;
+        }
+
         if (_isPickupRequested == true)
         {
             return;

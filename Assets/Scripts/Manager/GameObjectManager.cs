@@ -18,7 +18,7 @@ public class GameObjectManager : MonoBehaviour
     private Dictionary<int, SpawnSpot> _spawnSpotContainer = new Dictionary<int, SpawnSpot>();
 
     private int _playerInstanceId = -1;
-    private GameObject _itemDropPrefab;
+    [SerializeField] private GameObject _itemDropPrefab;
 
     public int PlayerInstanceId
     {
@@ -388,6 +388,14 @@ public class GameObjectManager : MonoBehaviour
 
         IGameObjectEntity entity = createdObject.GetComponent<IGameObjectEntity>();
 
+        if (createdObject.GetComponent<ItemDropEntity>() != null)
+        {
+            entity.InitEntity(instanceId, dataId);
+            return;
+        }
+
+
+
         if (entity == null)
         {
             Debug.LogWarning($"생성된 오브젝트에 IGameObjectEntity가 없습니다. ObjectName: {createdObject.name}");
@@ -576,5 +584,60 @@ public class GameObjectManager : MonoBehaviour
         damageable.TakeDamage(damageInfo);
         Debug.Log($"데미지 전달 완료.InstanceId: {instanceId}, Damage: {damageInfo.BaseDamage},ObjectName: {targetObject.name}");
         return true;
+    }
+
+    public int RequestSpawnTreasureItemDrop(Vector3 spawnPosition, string itemId, int count)
+    {
+        if (string.IsNullOrEmpty(itemId) || count <= 0)
+        {
+            Debug.LogWarning("아이템 드랍 요청 값이 올바르지 않습니다.");
+            return -1;
+        }
+
+        if (ItemDataBase.GetItemData(itemId) == null)
+        {
+            Debug.LogWarning($"드랍할 ItemData를 찾을 수 없습니다. ItemDataId: {itemId}");
+            return -1;
+        }
+
+        if (_itemDropPrefab == null)
+        {
+            _itemDropPrefab = Resources.Load<GameObject>(ItemDropPrefabResourcePath);
+        }
+
+        if (_itemDropPrefab == null)
+        {
+            Debug.LogWarning($"ItemDrop 프리팹을 찾을 수 없습니다. ResourcesPath: {ItemDropPrefabResourcePath}");
+            return -1;
+        }
+
+        int instanceId = RequestSpawnGameObject(_itemDropPrefab, spawnPosition, Random.rotation, itemId);
+
+        if (instanceId < 0)
+        {
+            return -1;
+        }
+
+        GameObject itemDropObject = GetGameObjectCanBeNull(instanceId);
+
+        if (itemDropObject == null)
+        {
+            return -1;
+        }
+
+        ItemDropEntity itemDropEntity = itemDropObject.GetComponent<ItemDropEntity>();
+
+        if (itemDropEntity == null)
+        {
+            Debug.LogWarning($"생성된 ItemDrop에 ItemDropEntity가 없습니다. InstanceId: {instanceId}, ObjectName: {itemDropObject.name}");
+            RequestDisableGameObject(instanceId);
+            return -1;
+        }
+
+        itemDropEntity.SetDropCount(count);
+
+        Debug.Log($"아이템 드랍 생성 완료. InstanceId: {instanceId}, ItemDataId: {itemId}, Count: {count}");
+
+        return instanceId;
     }
 }
