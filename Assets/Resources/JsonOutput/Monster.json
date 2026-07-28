@@ -47,7 +47,7 @@
     "BaseAttack": 20,
     "MoveSpeed": 4,
     "DetectRange": 10,
-    "AttackRange": 2,
+    "AttackRange": 4,
     "DropEXP": 500,
     "StopDistance": 1
   }

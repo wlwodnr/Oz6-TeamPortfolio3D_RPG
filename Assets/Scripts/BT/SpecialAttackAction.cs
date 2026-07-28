@@ -9,6 +9,7 @@ using Unity.Properties;
 public partial class SpecialAttackAction : Action
 {
     [SerializeReference] public BlackboardVariable<GameObject> Self;
+    [SerializeReference] public BlackboardVariable<float> AttackDist;
 
     private EnemyAI _enemyAISelf;
     private EnemyStatus _enemyStatus;
@@ -20,6 +21,11 @@ public partial class SpecialAttackAction : Action
         if (_enemyAISelf == null && Self.Value != null)
         {
             _enemyAISelf = Self.Value.GetComponent<EnemyAI>();
+        }
+
+        if (_enemyStatus == null)
+        {
+            _enemyStatus = Self.Value.GetComponent<EnemyStatus>();
         }
 
         return Status.Running;
