@@ -40,6 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5671304157562776203}
+  - component: {fileID: 5599762139037052344}
   m_Layer: 0
   m_Name: DungeonMap-4
   m_TagString: Untagged
@@ -63,8 +64,168 @@ Transform:
   - {fileID: 4859349446909189820}
   - {fileID: 2297664284734165687}
   - {fileID: 5815830423752988979}
+  - {fileID: 1424129639714639469}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5599762139037052344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3140791455137669872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d69001d26b715784e895a7212d935c56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DungeonFloorController
+  _floorId: dungeon_floor_02
+  _roomList:
+  - {fileID: 4648627712927881089}
+  - {fileID: 7298692991507729433}
+  - {fileID: 6133543610194646284}
+  PointEntrance: {fileID: 1424129639714639469}
+  _activateOnStart: 0
+  _currentState: 0
+--- !u!1 &5462928520684809506
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6343558653222370895}
+  - component: {fileID: 6133543610194646284}
+  m_Layer: 0
+  m_Name: RoomBoos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6343558653222370895
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5462928520684809506}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.44, y: 0, z: 29.29}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 583068064554211271}
+  m_Father: {fileID: 5815830423752988979}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6133543610194646284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5462928520684809506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d04a39982999f304bb57a76d278a2c11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DungeonRoomController
+  _spawnSpotList: []
+  _activateOnStart: 0
+  _currentState: 0
+--- !u!1 &5710213368712746449
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1424129639714639469}
+  m_Layer: 0
+  m_Name: SpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1424129639714639469
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5710213368712746449}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 6.58, y: 5, z: -9.91}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5671304157562776203}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6605589243600934626
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 583068064554211271}
+  - component: {fileID: 3039951950375239994}
+  m_Layer: 0
+  m_Name: SpawnSpot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &583068064554211271
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6605589243600934626}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6343558653222370895}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3039951950375239994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6605589243600934626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a69658fe588f05149a97200483b8dfe8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnSpot
+  _spawnEntryList:
+  - Prefab_Monster: {fileID: 1913851654636915420, guid: 641e3a4bd3f3bc7429231c99d11df4c0, type: 3}
+    _monsterDataId: mob_Boos
+    _spawnCount: 1
+  _spawnPointList:
+  - {fileID: 583068064554211271}
+  _spawnSlotSpacing: 1.5
+  _spawnOnStart: 1
+  _enableWaveRespawn: 1
+  _respawnDelay: 5
+  _hasActiveWave: 0
+  _isSpawnOperationActive: 0
+  _debugAliveCount: 0
+  _debugIsWaitingRespawn: 0
+  _debugLastResult: 
+  _debugSpawnedInstanceIdList: 
 --- !u!1 &6650907585781980523
 GameObject:
   m_ObjectHideFlags: 0
@@ -949,6 +1110,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5671304157562776203}
     m_Modifications:
+    - target: {fileID: 3318530883590179155, guid: b2f6d7a8e4ae18e439ba58e145ec04e7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 23.94
+      objectReference: {fileID: 0}
+    - target: {fileID: 3318530883590179155, guid: b2f6d7a8e4ae18e439ba58e145ec04e7, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.96
+      objectReference: {fileID: 0}
     - target: {fileID: 6219216483521332109, guid: b2f6d7a8e4ae18e439ba58e145ec04e7, type: 3}
       propertyPath: _spawnEntryList.Array.data[0]._monsterDataId
       value: mob_skeletonv2
@@ -1001,20 +1170,49 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7869637329365078566, guid: b2f6d7a8e4ae18e439ba58e145ec04e7, type: 3}
+      propertyPath: _spawnEntryList.Array.data[0]._monsterDataId
+      value: mob_skeletonv2
+      objectReference: {fileID: 0}
     - target: {fileID: 8757061383086121331, guid: b2f6d7a8e4ae18e439ba58e145ec04e7, type: 3}
       propertyPath: m_Name
       value: RoomContainer
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 7497835181560168707, guid: b2f6d7a8e4ae18e439ba58e145ec04e7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6343558653222370895}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2f6d7a8e4ae18e439ba58e145ec04e7, type: 3}
+--- !u!114 &4648627712927881089 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8663639173506043825, guid: b2f6d7a8e4ae18e439ba58e145ec04e7, type: 3}
+  m_PrefabInstance: {fileID: 4087108658509830192}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d04a39982999f304bb57a76d278a2c11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DungeonRoomController
 --- !u!4 &5815830423752988979 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7497835181560168707, guid: b2f6d7a8e4ae18e439ba58e145ec04e7, type: 3}
   m_PrefabInstance: {fileID: 4087108658509830192}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7298692991507729433 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6769606439902467113, guid: b2f6d7a8e4ae18e439ba58e145ec04e7, type: 3}
+  m_PrefabInstance: {fileID: 4087108658509830192}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d04a39982999f304bb57a76d278a2c11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DungeonRoomController
 --- !u!1001 &4258193909304196465
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1509,6 +1707,10 @@ PrefabInstance:
       propertyPath: ColliderPortal
       value: 
       objectReference: {fileID: 6639849601650500601}
+    - target: {fileID: 8135204070575817519, guid: c391756ae9955ae41ab025b604a67325, type: 3}
+      propertyPath: LayerPlayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 8135204070575817519, guid: c391756ae9955ae41ab025b604a67325, type: 3}
       propertyPath: Transform_TargetPoint
       value: 

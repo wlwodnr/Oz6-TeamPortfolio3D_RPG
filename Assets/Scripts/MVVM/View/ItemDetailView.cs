@@ -7,6 +7,14 @@ public class ItemDetailView : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _nameText;
     [SerializeField] private TextMeshProUGUI _descText;
     [SerializeField] private TextMeshProUGUI _priceText;
+    [SerializeField] private RectTransform _rect;
+
+
+
+    private void Awake()
+    {
+        _rect = GetComponent<RectTransform>();
+    }
 
     public void Bind(string itemId)
     {
@@ -31,6 +39,7 @@ public class ItemDetailView : MonoBehaviour
             }
 
             gameObject.SetActive(true);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(_rect);
         }
     }
 }

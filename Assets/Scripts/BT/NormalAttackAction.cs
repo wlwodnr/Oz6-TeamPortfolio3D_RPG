@@ -10,11 +10,12 @@ using UnityEngine.AI;
 public partial class NormalAttackAction : Action
 {
     [SerializeReference] public BlackboardVariable<GameObject> Self;
+    [SerializeReference] public BlackboardVariable<float> AttackDist;
 
     private EnemyAI _enemyAISelf;
     private float _attackCooldown = 3.0f;
     private float _lastAttackTime = -3.0f;
-
+    
 
     protected override Status OnStart()
     {

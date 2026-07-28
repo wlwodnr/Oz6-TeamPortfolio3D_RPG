@@ -11,6 +11,7 @@ public class NetworkManager : MonoBehaviour
     public NetworkPlayerService LocalPlayerService { get; private set; }
     public NetworkInventoryService InventoryService { get; private set; }
     public NetworkSkillService SkillService { get; private set; }
+    public NetworkSaveService SaveService { get; private set; }
 
     public PlayerModel LocalPlayerModel; // 테스트용 임시 변수
     [SerializeField] private string _playerStatDataId = "stat_dummy";
@@ -27,6 +28,7 @@ public class NetworkManager : MonoBehaviour
         LocalPlayerService = new NetworkPlayerService();
         InventoryService = new NetworkInventoryService();
         SkillService = new NetworkSkillService();
+        SaveService = new NetworkSaveService();
 
         var localPlayerModel = new PlayerModel();
         LocalPlayerService.Initialize(localPlayerModel);
@@ -70,45 +72,6 @@ public class NetworkManager : MonoBehaviour
     //}
 
     // 파일 저장 경로 설정 (C:/Users/이름/.../projectName/save.json)
-    private string GetPath()
-    {
-        return Path.Combine(Application.persistentDataPath, "DaniTechSaveData.json");
-    }
 
-    // 세이브 기능 구현
-    public void RequstSaveData(PlayerModel data)
-    {
-        // prettyPrint = true는 JSON을 보기 좋게 정렬
-        string json = JsonUtility.ToJson(data, true);
-        File.WriteAllText(GetPath(), json); // 파일 쓰기는 상당한 비용이 소모됨!
-        Debug.Log($"저장 완료: {GetPath()}");
-    }
 
-    // 로드 기능
-    public PlayerModel RequstLoadSaveData()
-    {
-        string path = GetPath();
-        if (File.Exists(path))
-        {
-            string json = File.ReadAllText(path);
-            PlayerModel data = JsonUtility.FromJson<PlayerModel>(json);
-            Debug.Log("데이터를 불러왔습니다.");
-            return data;
-        }
-        else
-        {
-            Debug.LogWarning("세이브 파일이 없습니다. 새 데이터를 생성합니다.");
-            var playerData = GetDefaultPlayerData();
-            RequstSaveData(GetDefaultPlayerData());
-            return playerData;
-        }
-    }
-
-    public PlayerModel GetDefaultPlayerData()
-    {
-        var newPlayerData = new PlayerModel();
-        // newPlayerData.PlayerName = "NoName";
-        // newPlayerData.PlayerTotalExp = 0;
-        return newPlayerData;
-    }
 }

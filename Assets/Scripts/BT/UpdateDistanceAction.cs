@@ -43,7 +43,7 @@ public partial class UpdateDistanceAction : Action
             return Status.Failure;
         }
 
-        CurrentDist.Value = Vector2.Distance(Self.Value.transform.position, Target.Value.transform.position);
+        CurrentDist.Value = Vector3.Distance(Self.Value.transform.position, Target.Value.transform.position);
         
         return Status.Success;
     }

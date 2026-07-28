@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 5662020813744869764}
   - component: {fileID: 4097224269024735}
   - component: {fileID: -6849704565491119341}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Skeleton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,7 +110,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6282718999841074786}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
+  m_Avatar: {fileID: 9000000, guid: be3776e9bd6e31341b3490a035f6ea50, type: 3}
   m_Controller: {fileID: 9100000, guid: 1beea0e75acea554db79f569f3721fad, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0

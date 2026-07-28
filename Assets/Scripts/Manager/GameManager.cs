@@ -146,6 +146,8 @@ public class GameManager : MonoBehaviour
 
         ChangeGameState(GameState.Loading);
 
+        NetworkManager.Inst.SaveService.RequestLoadSaveData();
+
         ChangeGameState(GameState.Playing);
     }
 
@@ -159,7 +161,10 @@ public class GameManager : MonoBehaviour
 
         ChangeGameState(GameState.Paused);
     }
-
+    public void SaveGame()
+    {
+        NetworkManager.Inst.SaveService.RequestSaveData();
+    }
     public void ResumeGame()
     {
         if(_currentState != GameState.Paused)

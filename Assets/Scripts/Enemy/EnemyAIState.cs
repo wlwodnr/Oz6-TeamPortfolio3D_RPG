@@ -4,8 +4,10 @@ public enum EnemyAIState
 {
     Idle,
     Attack,
+    SpecialAttack,
     Dead,
-    Walk
+    Walk,
+    RangeAttack
 }
 
 public interface IEnemyAIState
@@ -26,8 +28,8 @@ public class EnemyAIState_Idle : IEnemyAIState
             return;
         }
 
-        animator.SetBool("IsRun", false);
-        animator.SetBool("IsWalk", false);
+        animator.SetBool("IsIdle", true);
+
     }
 
     public void UpdateState(EnemyAI entity)
@@ -68,6 +70,55 @@ public class EnemyAIState_Attack : IEnemyAIState
 
 }
 
+public class EnemyAIState_RangeAttack : IEnemyAIState
+{
+    public void EnterState(EnemyAI entity)
+    {
+        var animator = entity.GetEntityAnimator();
+        if (animator == null)
+        {
+            return;
+        }
+
+        animator.SetTrigger("IsRangeAttack");
+    }
+
+    public void UpdateState(EnemyAI entity)
+    {
+
+    }
+
+    public void ExitState(EnemyAI entity)
+    {
+
+    }
+
+}
+
+public class EnemyAIState_SpecialAttack : IEnemyAIState
+{
+    public void EnterState(EnemyAI entity)
+    {
+        var animator = entity.GetEntityAnimator();
+        if (animator == null)
+        {
+            return;
+        }
+
+        animator.SetTrigger("IsSpecialAttack");
+    }
+
+    public void UpdateState(EnemyAI entity)
+    {
+
+    }
+
+    public void ExitState(EnemyAI entity)
+    {
+
+    }
+
+}
 
 public class EnemyAIState_Dead : IEnemyAIState
 {

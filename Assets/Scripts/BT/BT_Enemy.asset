@@ -337,7 +337,7 @@ MonoBehaviour:
   - rid: 8347205885623795787
   - rid: 8347205885623796226
   - rid: 8347205885623796543
-  m_VersionTimestamp: 639207585713212034
+  m_VersionTimestamp: 639207707136971145
   m_SerializedVersion: 3
   m_DebugInfo: {fileID: -685256319207625508}
   m_RuntimeGraph: {fileID: 1181879012300508477}
@@ -461,6 +461,11 @@ MonoBehaviour:
       Type:
         m_SerializableType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
+      Tooltip: 
+    - Name: AttackDist
+      Type:
+        m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089
       Tooltip: 
     NamedChildren: []
     IsPlaceholder: 0
@@ -628,7 +633,7 @@ MonoBehaviour:
   m_EnumDependencyCache:
     Entries:
     - EnumTypeId: EnemyAIState, Assembly-CSharp
-      SignatureHash: 64be61e14327b460955becf92ff89dba
+      SignatureHash: b66f53f441c566b45fbaa2821383fe1b
     - EnumTypeId: EnemyBTState, Assembly-CSharp
       SignatureHash: 4517c2c60e24d5ef3b839efce8b805c5
   references:
@@ -636,6 +641,25 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
+    - rid: 6383305515553259774
+      type: {class: BehaviorGraphNodeModel/FieldModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
+      data:
+        FieldName: AttackDist
+        Type:
+          m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        LocalValue:
+          rid: 6383305515553259775
+        LinkedVariable:
+          rid: -2
+    - rid: 6383305515553259775
+      type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 0
+          m_Value1: 0
+        Name: 
+        m_Value: 0
     - rid: 8347205516191858926
       type: {class: StartNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
       data:
@@ -2206,6 +2230,7 @@ MonoBehaviour:
           m_Value1: 6531963993687977553
         m_FieldValues:
         - rid: 8347205625156731700
+        - rid: 6383305515553259774
     - rid: 8347205625156731658
       type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
       data:
@@ -4557,6 +4582,8 @@ MonoBehaviour:
           rid: 4425656960244515253
         Self:
           rid: 8347205888335675429
+        AttackDist:
+          rid: -2
     - rid: 4425656960244515269
       type: {class: 'BlackboardVariable`1[[Unity.Behavior.ConditionOperator, Unity.Behavior]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -4720,7 +4747,7 @@ MonoBehaviour:
         BlackboardGroupReferences: []
         Root:
           rid: 4425656960244515218
-        m_VersionTimestamp: 639207585713212034
+        m_VersionTimestamp: 639207707136971145
     - rid: 8347205516191858929
       type: {class: BlackboardReference, ns: Unity.Behavior, asm: Unity.Behavior}
       data:

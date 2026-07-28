@@ -21,3 +21,11 @@ MonoBehaviour:
     Count: 3
   - ItemId: Stat_01
     Count: 4
+  - ItemId: Stat_03
+    Count: 4
+  - ItemId: Stat_04
+    Count: 4
+  - ItemId: Stat_05
+    Count: 4
+  - ItemId: Stat_06
+    Count: 4

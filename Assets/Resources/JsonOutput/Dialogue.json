@@ -7,41 +7,41 @@
   {
     "Id": "dialogue_group_Quest_001_2",
     "CharacterDataId": "접수원",
-    "Description": "최근 마을 주변을 돌아다니는\n고블린들이 많아졌습니다."
+    "Description": "던전의 스켈레톤이\n언제 포탈을 타고 나올지 모릅니다"
   },
   {
     "Id": "dialogue_group_Quest_001_3",
     "CharacterDataId": "접수원",
-    "Description": "고블린 3마리를 처치하고 오신다면\n보상을 드리겠습니다."
+    "Description": "스켈레톤 3마리를 처치하고 오신다면\n보상을 드리겠습니다."
   },
   {
     "Id": "dialogue_Quest_001_Repeat",
     "CharacterDataId": "접수원",
-    "Description": "고블린 3마리는 다 잡으셨나요?"
+    "Description": "스켈레톤 3마리는 다 잡으셨나요?"
   },
   {
     "Id": "dialogue_Quest_001_Clear",
     "CharacterDataId": "접수원",
-    "Description": "고블린을 모두 처치하셨군요.\n감사합니다!"
+    "Description": "스켈레톤을 모두 처치하셨군요.\n감사합니다!"
   },
   {
     "Id": "dialogue_group_Quest_002_1",
     "CharacterDataId": "접수원",
-    "Description": "고블린이 아직 줄어들 기미가 보이지 않는군요...\n그래서 한번 더 부탁드리겠습니다"
+    "Description": "스켈레톤이 아직 줄어들 기미가 보이지 않는군요...\n그래서 한번 더 부탁드리겠습니다"
   },
   {
     "Id": "dialogue_group_Quest_002_2",
     "CharacterDataId": "접수원",
-    "Description": "이번에는 고블린을 잡고 낮은 확률로 나오는\n고블린의 이빨을 2개 부탁드립니다<np>이번에는 더 큰 보상이 있을 것 입니다."
+    "Description": "이번에는 스켈레톤을 잡고 낮은 확률로 나오는\n스켈레톤의 이빨을 2개 부탁드립니다<np>이번에는 더 큰 보상이 있을 것 입니다."
   },
   {
     "Id": "dialogue_Quest_002_Repeat",
     "CharacterDataId": "접수원",
-    "Description": "고블린의 이빨은\n낮은 확률로 얻을 수 있을 것입니다.\n2개 부탁드립니다."
+    "Description": "스켈레톤의 이빨은\n낮은 확률로 얻을 수 있을 것입니다.\n2개 부탁드립니다."
   },
   {
     "Id": "dialogue_Quest_002_Clear",
     "CharacterDataId": "접수원",
-    "Description": "고블린의 이빨을 모두 모아오셨군요.\n약속했던 보상입니다."
+    "Description": "스켈레톤의 이빨을 모두 모아오셨군요.\n약속했던 보상입니다."
   }
 ]

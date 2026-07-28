@@ -32,6 +32,9 @@ public class BehaviorAgent : MonoBehaviour
             BehaviorAgent_Self.SetVariableValue("AttackDist",EnemyStatus_Self.AttackRange);
             BehaviorAgent_Self.SetVariableValue("ChaseDist", EnemyStatus_Self.DetectRange);
             BehaviorAgent_Self.SetVariableValue("StopDist",EnemyStatus_Self.StopDistance);
+            BehaviorAgent_Self.SetVariableValue("HalfHp",EnemyStatus_Self.MaxHp/2);
+            BehaviorAgent_Self.SetVariableValue("CurrentHp",EnemyStatus_Self.CurrentHp);
+
         }
 
 

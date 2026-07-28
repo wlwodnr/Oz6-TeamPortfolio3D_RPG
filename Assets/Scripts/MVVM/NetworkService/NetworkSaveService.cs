@@ -8,7 +8,7 @@ public class NetworkSaveService
 
     private string GetPath()
     {
-        return Path.Combine(Application.persistentDataPath, "DaniTechSaveData.json");
+        return Path.Combine(Application.persistentDataPath, "PlayerSaveData.json");
     }
 
 
@@ -23,7 +23,7 @@ public class NetworkSaveService
         createdSaveData.Inventory = InventoryModel.CaptureInventoryData();
         createdSaveData.Quest = QuestManager.Instance.CaptureQuestData();
         createdSaveData.Skill = PlayerModel.CaptureSkillData();
-
+        createdSaveData.Treasure = GameObjectManager.Instance.CaptureTreasureIdData();
 
 
         return createdSaveData;
@@ -64,6 +64,7 @@ public class NetworkSaveService
         NetworkManager.Inst.LocalPlayerService.LoadData(saveData);
         QuestManager.Instance.LoadQuestData(saveData.Quest);
         NetworkManager.Inst.InventoryService.LoadInventoryData(saveData.Inventory);
+        GameObjectManager.Instance.LoadOpenedTreasureId(saveData.Treasure.OpenedId);
     }
 
 }
