@@ -23,7 +23,7 @@ public class NetworkSaveService
         createdSaveData.Inventory = InventoryModel.CaptureInventoryData();
         createdSaveData.Quest = QuestManager.Instance.CaptureQuestData();
         createdSaveData.Skill = PlayerModel.CaptureSkillData();
-        createdSaveData.Treasure.OpenedId = GameObjectManager.Instance.CaptureTreasureIdData();
+        createdSaveData.Treasure = GameObjectManager.Instance.CaptureTreasureIdData();
 
 
         return createdSaveData;

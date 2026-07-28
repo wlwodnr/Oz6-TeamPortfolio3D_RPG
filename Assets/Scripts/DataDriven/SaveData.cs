@@ -29,7 +29,7 @@ public class PlayerSaveData
 [Serializable]
 public class TreasureData
 {
-    public List<string> OpenedId;
+    public List<string> OpenedId = new List<string>();
 }
 
 [Serializable]

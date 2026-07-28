@@ -653,16 +653,17 @@ public class GameObjectManager : MonoBehaviour
         }
     }
 
-    public List<string> CaptureTreasureIdData()
+    public TreasureData CaptureTreasureIdData()
     {
+        var treasureData = new TreasureData();
         var list = new List<string>(); 
 
         foreach(string id in _openedTreasureId)
         {
             list.Add(id);
         }
-
-        return list;
+        treasureData.OpenedId = list;
+        return treasureData;
     }
 
     public void AddOpenedTreasureId(string id)
