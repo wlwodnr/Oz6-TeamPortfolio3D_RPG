@@ -151,8 +151,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 10, y: 0}
-  m_SizeDelta: {x: -20, y: 200}
+  m_AnchoredPosition: {x: 7.6747, y: -32.6956}
+  m_SizeDelta: {x: -15.3493, y: 265.3912}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3205022599411075047
 CanvasRenderer:
@@ -196,7 +196,8 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "Q = \uACF5\uACA9\uAE30 \n(\uB354\uBE14 \uC2AC\uB798\uC26C)\n\r\nE = \uB3CC\uC9C4\uAE30
-    \n(\uC4F0\uB7EC\uC2A4\uD2B8 \uCC28\uC9C0)\n\r\nR = \uBAA8\uB4DC \uCCB4\uC778\uC9C0"
+    \n(\uC4F0\uB7EC\uC2A4\uD2B8 \uCC28\uC9C0)\n\r\nR = \uBAA8\uB4DC \uCCB4\uC778\uC9C0\n\nM=
+    \uBA54\uB274 \uC5F4\uAE30\n\nF= \uC0C1\uD638 \uC791\uC6A9"
 --- !u!1 &7989532455957721396
 GameObject:
   m_ObjectHideFlags: 0
