@@ -17,6 +17,8 @@ public class GameObjectManager : MonoBehaviour
 
     private Dictionary<int, SpawnSpot> _spawnSpotContainer = new Dictionary<int, SpawnSpot>();
 
+    private HashSet<string> _openedTreasureId = new HashSet<string>();
+
     private int _playerInstanceId = -1;
     [SerializeField] private GameObject _itemDropPrefab;
 
@@ -639,5 +641,40 @@ public class GameObjectManager : MonoBehaviour
         Debug.Log($"아이템 드랍 생성 완료. InstanceId: {instanceId}, ItemDataId: {itemId}, Count: {count}");
 
         return instanceId;
+    }
+
+    public void LoadOpenedTreasureId(List<string> list)
+    {
+        if (list == null) return;
+
+        foreach(string id in list)
+        {
+            _openedTreasureId.Add(id);
+        }
+    }
+
+    public List<string> CaptureTreasureIdData()
+    {
+        var list = new List<string>(); 
+
+        foreach(string id in _openedTreasureId)
+        {
+            list.Add(id);
+        }
+
+        return list;
+    }
+
+    public void AddOpenedTreasureId(string id)
+    {
+        if (id == null) return;
+
+        _openedTreasureId.Add(id);
+    }
+
+    public bool HasOpenedTreasureId(string id)
+    {
+        if (_openedTreasureId.Contains(id)) return true;
+        return false;
     }
 }
