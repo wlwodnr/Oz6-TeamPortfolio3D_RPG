@@ -3766,11 +3766,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 309289466}
   m_CullTransparentMesh: 1
---- !u!65 &311779304 stripped
-BoxCollider:
-  m_CorrespondingSourceObject: {fileID: 7356769462667688842, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
-  m_PrefabInstance: {fileID: 1279663894}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &317916652
 GameObject:
   m_ObjectHideFlags: 0
@@ -3846,100 +3841,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1001 &322115094
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 638447427}
-    m_Modifications:
-    - target: {fileID: 1404205230252375099, guid: d17c9ed492357684d88c5183c6ff0079, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3502701056246702664, guid: d17c9ed492357684d88c5183c6ff0079, type: 3}
-      propertyPath: m_Name
-      value: DungeonMap-2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3502701056246702664, guid: d17c9ed492357684d88c5183c6ff0079, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3955613597219060250, guid: d17c9ed492357684d88c5183c6ff0079, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6755528606012543679, guid: d17c9ed492357684d88c5183c6ff0079, type: 3}
-      propertyPath: ColliderPortal
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7192126383261928670, guid: d17c9ed492357684d88c5183c6ff0079, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7192126383261928670, guid: d17c9ed492357684d88c5183c6ff0079, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7192126383261928670, guid: d17c9ed492357684d88c5183c6ff0079, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7192126383261928670, guid: d17c9ed492357684d88c5183c6ff0079, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7192126383261928670, guid: d17c9ed492357684d88c5183c6ff0079, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7192126383261928670, guid: d17c9ed492357684d88c5183c6ff0079, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7192126383261928670, guid: d17c9ed492357684d88c5183c6ff0079, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7192126383261928670, guid: d17c9ed492357684d88c5183c6ff0079, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7192126383261928670, guid: d17c9ed492357684d88c5183c6ff0079, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7192126383261928670, guid: d17c9ed492357684d88c5183c6ff0079, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8672210866606462110, guid: d17c9ed492357684d88c5183c6ff0079, type: 3}
-      propertyPath: FloorTarget
-      value: 
-      objectReference: {fileID: 1791456769}
-    - target: {fileID: 8672210866606462110, guid: d17c9ed492357684d88c5183c6ff0079, type: 3}
-      propertyPath: ColliderPortal
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8672210866606462110, guid: d17c9ed492357684d88c5183c6ff0079, type: 3}
-      propertyPath: ControllerDungeonFlow
-      value: 
-      objectReference: {fileID: 1566933312}
-    - target: {fileID: 8672210866606462110, guid: d17c9ed492357684d88c5183c6ff0079, type: 3}
-      propertyPath: Transform_TargetPoint
-      value: 
-      objectReference: {fileID: 1522975000}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: d17c9ed492357684d88c5183c6ff0079, type: 3}
---- !u!4 &322115095 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7192126383261928670, guid: d17c9ed492357684d88c5183c6ff0079, type: 3}
-  m_PrefabInstance: {fileID: 322115094}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &329684599
 GameObject:
   m_ObjectHideFlags: 0
@@ -6010,6 +5911,59 @@ MonoBehaviour:
   Btn_next: {fileID: 738194781}
   Btn_exit: {fileID: 1971474425}
   Btn_accept: {fileID: 348487152}
+--- !u!1 &545309074 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3140791455137669872, guid: 41cb9c2eee68cce45ae3417cb32ea040, type: 3}
+  m_PrefabInstance: {fileID: 210317457889468897}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &545309075 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5671304157562776203, guid: 41cb9c2eee68cce45ae3417cb32ea040, type: 3}
+  m_PrefabInstance: {fileID: 210317457889468897}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &545309076 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5599762139037052344, guid: 41cb9c2eee68cce45ae3417cb32ea040, type: 3}
+  m_PrefabInstance: {fileID: 210317457889468897}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 545309074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d69001d26b715784e895a7212d935c56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DungeonFloorController
+--- !u!114 &545309077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 545309074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 381abb3843b48204c8f7dc9e29509ec4, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &545497897
 GameObject:
   m_ObjectHideFlags: 0
@@ -6966,8 +6920,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8283423798979190027}
-  - {fileID: 1279663895}
-  - {fileID: 322115095}
+  - {fileID: 1864437054}
+  - {fileID: 545309075}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &640414568
@@ -10922,11 +10876,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!4 &946158077 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7735222750415785930, guid: d17c9ed492357684d88c5183c6ff0079, type: 3}
-  m_PrefabInstance: {fileID: 322115094}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &952095791
 GameObject:
   m_ObjectHideFlags: 0
@@ -11626,6 +11575,11 @@ MonoBehaviour:
   Text_Base: {fileID: 0}
   Image_Base: {fileID: 0}
   Image_Select: {fileID: 0}
+--- !u!4 &1013189839 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1424129639714639469, guid: 41cb9c2eee68cce45ae3417cb32ea040, type: 3}
+  m_PrefabInstance: {fileID: 210317457889468897}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1015759926
 GameObject:
   m_ObjectHideFlags: 0
@@ -15978,136 +15932,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1279145627}
   m_CullTransparentMesh: 1
---- !u!1001 &1279663894
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 638447427}
-    m_Modifications:
-    - target: {fileID: 562460017895268701, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
-      propertyPath: m_Name
-      value: Geometry
-      objectReference: {fileID: 0}
-    - target: {fileID: 1291238507769576726, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
-      propertyPath: FloorTarget
-      value: 
-      objectReference: {fileID: 1319712064}
-    - target: {fileID: 1291238507769576726, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
-      propertyPath: ColliderPortal
-      value: 
-      objectReference: {fileID: 311779304}
-    - target: {fileID: 1291238507769576726, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
-      propertyPath: ControllerDungeonFlow
-      value: 
-      objectReference: {fileID: 1566933312}
-    - target: {fileID: 1291238507769576726, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
-      propertyPath: Transform_TargetPoint
-      value: 
-      objectReference: {fileID: 946158077}
-    - target: {fileID: 1386559816339350332, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
-      propertyPath: _spawnEntryList.Array.data[0].Prefab_Monster
-      value: 
-      objectReference: {fileID: 6282718999841074786, guid: c370e0843313a19499f18c75f34c57a7, type: 3}
-    - target: {fileID: 1921754747442888306, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3543157799315619133, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
-      propertyPath: _spawnEntryList.Array.data[0].Prefab_Monster
-      value: 
-      objectReference: {fileID: 6282718999841074786, guid: c370e0843313a19499f18c75f34c57a7, type: 3}
-    - target: {fileID: 7334177010950035959, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
-      propertyPath: m_Name
-      value: DungeonMap-1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7334177010950035959, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7356769462667688842, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7829454098041805258, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
-      propertyPath: _floorId
-      value: dungeon_floor_01
-      objectReference: {fileID: 0}
-    - target: {fileID: 7829454098041805258, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
-      propertyPath: PointEntrance
-      value: 
-      objectReference: {fileID: 2117597008}
-    - target: {fileID: 8085113065540538414, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
-      propertyPath: FloorTarget
-      value: 
-      objectReference: {fileID: 8283423798979190028}
-    - target: {fileID: 8085113065540538414, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
-      propertyPath: ControllerDungeonFlow
-      value: 
-      objectReference: {fileID: 1566933312}
-    - target: {fileID: 8085113065540538414, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
-      propertyPath: Transform_TargetPoint
-      value: 
-      objectReference: {fileID: 440160985}
-    - target: {fileID: 8511411094586112854, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
-      propertyPath: _spawnEntryList.Array.data[0].Prefab_Monster
-      value: 
-      objectReference: {fileID: 6282718999841074786, guid: c370e0843313a19499f18c75f34c57a7, type: 3}
-    - target: {fileID: 8693517207457233975, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8693517207457233975, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8693517207457233975, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8693517207457233975, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8693517207457233975, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8693517207457233975, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8693517207457233975, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8693517207457233975, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8693517207457233975, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8693517207457233975, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8894402164904480806, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
-      propertyPath: _spawnEntryList.Array.data[0].Prefab_Monster
-      value: 
-      objectReference: {fileID: 6282718999841074786, guid: c370e0843313a19499f18c75f34c57a7, type: 3}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
---- !u!4 &1279663895 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8693517207457233975, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
-  m_PrefabInstance: {fileID: 1279663894}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1281747492
 GameObject:
   m_ObjectHideFlags: 0
@@ -16321,17 +16145,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1309480137}
   m_CullTransparentMesh: 1
---- !u!114 &1319712064 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2780032114595137719, guid: d17c9ed492357684d88c5183c6ff0079, type: 3}
-  m_PrefabInstance: {fileID: 322115094}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d69001d26b715784e895a7212d935c56, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DungeonFloorController
 --- !u!1 &1319796124
 GameObject:
   m_ObjectHideFlags: 0
@@ -18609,11 +18422,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1515548278}
   m_CullTransparentMesh: 1
---- !u!4 &1522975000 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3499066197803022892, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
-  m_PrefabInstance: {fileID: 1279663894}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1523626266
 GameObject:
   m_ObjectHideFlags: 0
@@ -19519,7 +19327,7 @@ MonoBehaviour:
   _floorList:
   - {fileID: 8283423798979190028}
   - {fileID: 617421015}
-  - {fileID: 0}
+  - {fileID: 545309076}
   - {fileID: 0}
   FloorStart: {fileID: 8283423798979190028}
   Prefab_Player: {fileID: 8132445902684612142, guid: 715fc3574488d544c98e0c1f686c6b08, type: 3}
@@ -22358,17 +22166,6 @@ MonoBehaviour:
   Image_Icon: {fileID: 1021207711}
   Image_Frame: {fileID: 2023204949}
   Image_Selected: {fileID: 955510199}
---- !u!114 &1791456769 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7829454098041805258, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
-  m_PrefabInstance: {fileID: 1279663894}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d69001d26b715784e895a7212d935c56, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DungeonFloorController
 --- !u!1 &1791903125
 GameObject:
   m_ObjectHideFlags: 0
@@ -23116,6 +22913,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1841905929}
   m_CullTransparentMesh: 1
+--- !u!4 &1864437054 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2364318547828375380, guid: 7e7ffcc6059775e4db601488c2033e43, type: 3}
+  m_PrefabInstance: {fileID: 3969593101229807009}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1865186067
 GameObject:
   m_ObjectHideFlags: 0
@@ -25824,6 +25626,17 @@ MonoBehaviour:
   Text_Base: {fileID: 0}
   Image_Base: {fileID: 0}
   Image_Select: {fileID: 0}
+--- !u!114 &2069129947 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3039951950375239994, guid: 41cb9c2eee68cce45ae3417cb32ea040, type: 3}
+  m_PrefabInstance: {fileID: 210317457889468897}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a69658fe588f05149a97200483b8dfe8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnSpot
 --- !u!1 &2085803684
 GameObject:
   m_ObjectHideFlags: 0
@@ -26315,11 +26128,6 @@ MonoBehaviour:
   Image_Icon: {fileID: 2143416308}
   Image_Frame: {fileID: 1572095260}
   Image_Selected: {fileID: 6141556}
---- !u!4 &2117597008 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4898667852123235576, guid: d683aafc650187a4893bf0e8f002ebd0, type: 3}
-  m_PrefabInstance: {fileID: 1279663894}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2122612939
 GameObject:
   m_ObjectHideFlags: 0
@@ -26783,11 +26591,39 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 638447427}
     m_Modifications:
+    - target: {fileID: 1424129639714639469, guid: 41cb9c2eee68cce45ae3417cb32ea040, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 1424129639714639469, guid: 41cb9c2eee68cce45ae3417cb32ea040, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1424129639714639469, guid: 41cb9c2eee68cce45ae3417cb32ea040, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -11.846
+      objectReference: {fileID: 0}
+    - target: {fileID: 2297664284734165687, guid: 41cb9c2eee68cce45ae3417cb32ea040, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4.948
+      objectReference: {fileID: 0}
+    - target: {fileID: 2297664284734165687, guid: 41cb9c2eee68cce45ae3417cb32ea040, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 3039951950375239994, guid: 41cb9c2eee68cce45ae3417cb32ea040, type: 3}
+      propertyPath: _spawnEntryList.Array.data[0]._monsterDataId
+      value: mob_Boss
+      objectReference: {fileID: 0}
     - target: {fileID: 3140791455137669872, guid: 41cb9c2eee68cce45ae3417cb32ea040, type: 3}
       propertyPath: m_Name
       value: DungeonMap-4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3140791455137669872, guid: 41cb9c2eee68cce45ae3417cb32ea040, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5671304157562776203, guid: 41cb9c2eee68cce45ae3417cb32ea040, type: 3}
       propertyPath: m_LocalPosition.x
@@ -26829,10 +26665,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6133543610194646284, guid: 41cb9c2eee68cce45ae3417cb32ea040, type: 3}
+      propertyPath: _spawnSpotList.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6133543610194646284, guid: 41cb9c2eee68cce45ae3417cb32ea040, type: 3}
+      propertyPath: '_spawnSpotList.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2069129947}
+    - target: {fileID: 6165079203270314518, guid: 41cb9c2eee68cce45ae3417cb32ea040, type: 3}
+      propertyPath: _spawnEntryList.Array.data[0].Prefab_Monster
+      value: 
+      objectReference: {fileID: 6282718999841074786, guid: 148263d40f2aa5b42891ed76199182ef, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3140791455137669872, guid: 41cb9c2eee68cce45ae3417cb32ea040, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 545309077}
   m_SourcePrefab: {fileID: 100100000, guid: 41cb9c2eee68cce45ae3417cb32ea040, type: 3}
 --- !u!4 &812832599508795758
 Transform:
@@ -27032,7 +26883,7 @@ PrefabInstance:
     - target: {fileID: 645233343521591984, guid: 3f2997e4742dfe345b6ee1da3ea9340b, type: 3}
       propertyPath: FloorTarget
       value: 
-      objectReference: {fileID: 1791456769}
+      objectReference: {fileID: 0}
     - target: {fileID: 645233343521591984, guid: 3f2997e4742dfe345b6ee1da3ea9340b, type: 3}
       propertyPath: ColliderPortal
       value: 
@@ -27056,7 +26907,7 @@ PrefabInstance:
     - target: {fileID: 1998390013238467022, guid: 3f2997e4742dfe345b6ee1da3ea9340b, type: 3}
       propertyPath: Transform_TargetPoint
       value: 
-      objectReference: {fileID: 2117597008}
+      objectReference: {fileID: 1181149127}
     - target: {fileID: 2302047857079085597, guid: 3f2997e4742dfe345b6ee1da3ea9340b, type: 3}
       propertyPath: _floorId
       value: guild_map
@@ -27113,7 +26964,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 638447427}
     m_Modifications:
     - target: {fileID: 1856738542837041225, guid: 7e7ffcc6059775e4db601488c2033e43, type: 3}
       propertyPath: PointEntrance
@@ -27137,15 +26988,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2364318547828375380, guid: 7e7ffcc6059775e4db601488c2033e43, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2364318547828375380, guid: 7e7ffcc6059775e4db601488c2033e43, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2364318547828375380, guid: 7e7ffcc6059775e4db601488c2033e43, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2364318547828375380, guid: 7e7ffcc6059775e4db601488c2033e43, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -27164,13 +27015,29 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8283423798979190028}
     - target: {fileID: 3389509777518016405, guid: 7e7ffcc6059775e4db601488c2033e43, type: 3}
+      propertyPath: LayerPlayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 3389509777518016405, guid: 7e7ffcc6059775e4db601488c2033e43, type: 3}
       propertyPath: ControllerDungeonFlow
       value: 
       objectReference: {fileID: 1566933312}
     - target: {fileID: 3538250147728444664, guid: 7e7ffcc6059775e4db601488c2033e43, type: 3}
+      propertyPath: FloorTarget
+      value: 
+      objectReference: {fileID: 545309076}
+    - target: {fileID: 3538250147728444664, guid: 7e7ffcc6059775e4db601488c2033e43, type: 3}
+      propertyPath: LayerPlayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 3538250147728444664, guid: 7e7ffcc6059775e4db601488c2033e43, type: 3}
       propertyPath: ControllerDungeonFlow
       value: 
       objectReference: {fileID: 1566933312}
+    - target: {fileID: 3538250147728444664, guid: 7e7ffcc6059775e4db601488c2033e43, type: 3}
+      propertyPath: Transform_TargetPoint
+      value: 
+      objectReference: {fileID: 1013189839}
     - target: {fileID: 4484882467543044366, guid: 7e7ffcc6059775e4db601488c2033e43, type: 3}
       propertyPath: m_Name
       value: DungeonMap-3
@@ -27339,5 +27206,3 @@ SceneRoots:
   - {fileID: 6492433760693941444}
   - {fileID: 1450028612}
   - {fileID: 638447427}
-  - {fileID: 3969593101229807009}
-  - {fileID: 210317457889468897}
