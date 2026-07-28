@@ -9960,6 +9960,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 863418173}
   m_CullTransparentMesh: 1
+--- !u!224 &867002209 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5241762349813537466, guid: 755ffed7d52db6b46a31308c0561f0b9, type: 3}
+  m_PrefabInstance: {fileID: 1915334517}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &872526394
 GameObject:
   m_ObjectHideFlags: 0
@@ -23783,6 +23788,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6492433760693941444}
     m_Modifications:
+    - target: {fileID: 2434468785977209723, guid: 755ffed7d52db6b46a31308c0561f0b9, type: 3}
+      propertyPath: _testUIOption
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2464784782449094404, guid: 755ffed7d52db6b46a31308c0561f0b9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 131.62349
@@ -26712,8 +26721,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19f11d0c1830f644994303a4e5c0eb38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StoreManager
-  _storeViewPrefab: {fileID: 5242954883320343595, guid: 4bb1588c10d5b6445836c28e90a98f9e, type: 3}
-  _storeCanvas: {fileID: 398158607}
+  _storeViewPrefab: {fileID: 1934376350407445964, guid: 70e99a084898c5849842fe394051b676, type: 3}
+  _storeCanvas: {fileID: 867002209}
 --- !u!114 &1081614896979777084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26916,6 +26925,10 @@ PrefabInstance:
       propertyPath: PointEntrance
       value: 
       objectReference: {fileID: 440160985}
+    - target: {fileID: 2641138384370608844, guid: 3f2997e4742dfe345b6ee1da3ea9340b, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4864088070293319178, guid: 3f2997e4742dfe345b6ee1da3ea9340b, type: 3}
       propertyPath: m_TagString
       value: Ground
@@ -26926,10 +26939,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5094478256192693651, guid: 3f2997e4742dfe345b6ee1da3ea9340b, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6127003734131767114, guid: 3f2997e4742dfe345b6ee1da3ea9340b, type: 3}
       propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8545069846093718166, guid: 3f2997e4742dfe345b6ee1da3ea9340b, type: 3}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8826443892601120752, guid: 3f2997e4742dfe345b6ee1da3ea9340b, type: 3}
