@@ -61,9 +61,7 @@ public class EnemyStatus : MonoBehaviour, IDamageable
         Vector3 knockbackDir = Vector3.zero;
         knockbackDir = transform.forward;
         knockbackDir.y = 0f;
-        float knockbackForce = 0f;
-        knockbackForce = _monsterData.KnockBackForce;
-
+        float knockbackForce = 1f;
         IGameObjectEntity targetEntity = playerObject.GetComponentInParent<IGameObjectEntity>();
 
         float finalAtkDamage = _enemyAttack;

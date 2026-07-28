@@ -15,7 +15,6 @@ public class MonsterData : GameDataBase
     public float DetectRange;
     public float AttackRange;
 
-    public float KnockBackForce;
     
     public float DropEXP;
     public float StopDistance;

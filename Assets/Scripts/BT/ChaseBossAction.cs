@@ -17,7 +17,7 @@ public partial class ChaseBossAction : Action
     protected override Status OnStart()
     {
         _agent = Self.Value.GetComponent<NavMeshAgent>();
-        _agent.speed = UnityEngine.Random.Range(2.0f, 4.0f);
+        _agent.speed = UnityEngine.Random.Range(2.0f, 3.0f);
         _agent.SetDestination(Target.Value.transform.position);
 
         return Status.Running;
