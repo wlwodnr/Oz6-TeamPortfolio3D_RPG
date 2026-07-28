@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JetBrains.Annotations;
+using System;
 using System.Collections.Generic;
 
 
@@ -9,7 +10,8 @@ public class SaveData
     public PlayerSaveData PlayerData;
     public InventoryData Inventory;
     public SkillSaveData Skill;  
-    public QuestSaveData Quest;  
+    public QuestSaveData Quest;
+    public TreasureData Treasure;
 }
 
 [Serializable]
@@ -22,6 +24,12 @@ public class PlayerSaveData
     public float CurHp;
     public float CurMp;
     public int Coins;
+}
+
+[Serializable]
+public class TreasureData
+{
+    public List<string> OpenedId = new List<string>();
 }
 
 [Serializable]

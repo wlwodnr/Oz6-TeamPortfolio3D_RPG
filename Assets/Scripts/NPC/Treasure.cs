@@ -1,5 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using System.Threading;
+using Unity.VisualScripting;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Treasure : MonoBehaviour, IInteractable
@@ -11,21 +13,55 @@ public class Treasure : MonoBehaviour, IInteractable
     private float targetX = 120f;
 
     [Header("아이템 드랍 설정")]
-    public string[] dropItemIds;         
-    public int[] dropCounts;           
+    public List<string> dropItemIds = new List<string>();     
     public Transform dropSpawnPoint;     
     public float popForceMin = 3f;       
     public float popForceMax = 6f;
     public bool CanInteract { set; get; }
 
+    [Header("상자 데이터")]
+    public string treasureId;
+    public bool isOpened;
+    public int dropCoins;
+
     private void Awake()
     {
-        CanInteract = true;
+        CanInteract = true;  // GameObjectManager를 거치지않은 테스트 소환용
+    }
+
+    public void InitData(TreasureDropData data)
+    {
+        treasureId = data.TreasureId;
+        dropCoins = data.DropCoins;
+
+        for(int i = 0; i < data.ItemDropCount; i++)
+        {
+            var item = ItemDataBase.GetRandomItem();
+            if(item != null)
+            {
+                dropItemIds.Add(item.ItemId);
+            }
+        }
+
+        if(GameObjectManager.Instance.HasOpenedTreasureId(treasureId) == true)
+        {
+            isOpened = true;
+            CanInteract = false;
+            Quaternion targetRotation = Quaternion.Euler(targetX, 0, 0);
+            _treasureChild.transform.rotation = targetRotation;
+        }
+        else
+        {
+            isOpened = false;
+            CanInteract = true;
+        }
     }
 
     public void Interact()
     {
         CanInteract = false;
+        isOpened = true;
+        GameObjectManager.Instance.AddOpenedTreasureId(treasureId);
         _cts?.Cancel();
         _cts = new CancellationTokenSource();
 
@@ -36,7 +72,7 @@ public class Treasure : MonoBehaviour, IInteractable
     private async UniTaskVoid RotateRoutineAsync(float targetX, CancellationToken cancellationToken)
     {
         Quaternion startRotation = _treasureChild.transform.rotation;
-        Quaternion targetRotation = Quaternion.Euler(targetX, _treasureChild.transform.eulerAngles.y, _treasureChild.transform.eulerAngles.z);
+        Quaternion targetRotation = Quaternion.Euler(targetX, 0, 0);
 
         float duration = 0.5f; 
         float elapsedTime = 0f;
@@ -58,19 +94,18 @@ public class Treasure : MonoBehaviour, IInteractable
 
     private void SpawnAndDropItems()
     {
-        if (dropItemIds == null || dropItemIds.Length == 0) return;
+        if (dropItemIds == null || dropItemIds.Count == 0) return;
 
-        for (int i = 0; i < dropItemIds.Length; i++)
+        for (int i = 0; i < dropItemIds.Count; i++)
         {
             string itemId = dropItemIds[i];
-            int count = (dropCounts != null && i < dropCounts.Length) ? dropCounts[i] : 1;
 
             if (string.IsNullOrEmpty(itemId)) continue;
 
             var spawnPoint = dropSpawnPoint.position;
             spawnPoint.y += 1;
 
-            int instanceId = GameObjectManager.Instance.RequestSpawnTreasureItemDrop(spawnPoint, itemId, count);
+            int instanceId = GameObjectManager.Instance.RequestSpawnTreasureItemDrop(spawnPoint, itemId, 1);
 
             if (instanceId < 0) continue;
 

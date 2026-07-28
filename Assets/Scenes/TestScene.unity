@@ -26779,6 +26779,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameObjectManager
   Root_DynamicObject: {fileID: 1450028612}
   _hudController: {fileID: 0}
+  _itemDropPrefab: {fileID: 1152483888066077581, guid: 9521b0720d10bbb439bb6a1238c3b066, type: 3}
 --- !u!1 &2486687984298057910
 GameObject:
   m_ObjectHideFlags: 0
