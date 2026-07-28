@@ -1,10 +1,10 @@
 [
   {
     "Id": "Quest_001",
-    "QuestTitle": "말썽쟁이 고블린",
+    "QuestTitle": "위험한 스켈레톤",
     "QuestType": "Kill",
-    "Description": "마을 주변의 고블린을 처치하자",
-    "TargetId": "mob_goblin_1",
+    "Description": "던전의 스켈레톤을 처치하자",
+    "TargetId": "mob_skeleton",
     "TargetCount": 3,
     "RewardExp": 10,
     "RewardGold": 20,
