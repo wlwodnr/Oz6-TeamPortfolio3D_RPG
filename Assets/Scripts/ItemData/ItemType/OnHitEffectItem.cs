@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 
+
 [CreateAssetMenu(fileName = "NewItemData", menuName = "Item/OnHitItem")]
 public class OnHitEffectItem : ItemBase, ITradeable, IEquipable
 {

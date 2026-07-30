@@ -18,7 +18,8 @@ public class PlayerModel
     private HashSet<string> _learnedSkills = new HashSet<string>();
 
     //itemId - 데이터
-    private Dictionary<string, IHitEffect> _activeHitEffects = new Dictionary<string, IHitEffect>();
+    private Dictionary<string, int> _activeHitEffects = new Dictionary<string, int>();
+    public IReadOnlyDictionary<string, int> ActiveHitEffects => _activeHitEffects;
 
     public event Action<string> OnPlayerStatsChanged;
     public event Action<string> OnPlayerInfoChanged;
@@ -97,17 +98,13 @@ public class PlayerModel
         {
             if (_activeHitEffects.ContainsKey(itemId))
             {
-                _activeHitEffects[itemId].StackCount += 1;
+                _activeHitEffects[itemId] += 1;
                 AddEquipInventory(itemId);
             }
             else
             {
-                var effect = ItemEffectFactory.Create(itemData, equipable.EffectType);
-                if (effect != null)
-                {
-                    _activeHitEffects.Add(itemId, effect);
-                    AddEquipInventory(itemId);
-                }
+                _activeHitEffects.Add(itemId, 1);
+                AddEquipInventory(itemId);
             }
         }
         else
@@ -127,13 +124,9 @@ public class PlayerModel
                     _stats.RemoveModifier(itemId);
                     RemoveEquipInventory(itemId);
                     break;
-                case EffectType.LifeSteal:
-                    var effect = ItemEffectFactory.Create(itemData, equipable.EffectType);
-                    if (effect != null)
-                    {
-                        _activeHitEffects.Add(itemId, effect);
-                        RemoveEquipInventory(itemId);
-                    }
+                default:
+                    _activeHitEffects.Remove(itemId);
+                    RemoveEquipInventory(itemId);
                     break;
             }
         }

@@ -71,6 +71,11 @@ public class SkillExecutor : MonoBehaviour
             return;
         }
 
+        if (_isExecutingSkill)
+        {
+            AttackEnd();
+        }
+
         ActiveSkillData skillData = GameDataManager.Instance.GetActiveSkillData(skillId);
         if (skillData == null) return;
 
@@ -222,7 +227,13 @@ public class SkillExecutor : MonoBehaviour
             );
 
             GameObjectManager.Instance.RequestTakeDamage(targetEntity.InstanceId, dmgInfo);
+
             currentHitCount++;
+
+            if(_playerModel.ActiveHitEffects.Count >= 0)
+            {
+
+            }
         }
 
     }

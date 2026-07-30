@@ -19,5 +19,4 @@ public class LifeStealEffect : IHitEffect
     public void OnHit(PlayerModel player, EnemyEntity target)
     {
         //대충 플레이어 체력회복
-    }
-}
+    }}
