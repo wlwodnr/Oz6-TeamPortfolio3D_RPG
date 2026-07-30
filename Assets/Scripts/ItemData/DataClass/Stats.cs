@@ -51,10 +51,12 @@ public class Stats
             {
                 var skillData = GameDataManager.Instance.GetPassiveSkillData(itemId);
                 _rawModifiers.Add(itemId, skillData.GetStatModifiers());
+                _counts.Add(itemId, 1);
             }
             else
             {
                 _rawModifiers.Add(itemId, data.StatModifiers);
+                _counts.Add(itemId, 1);
             }
 
         }
