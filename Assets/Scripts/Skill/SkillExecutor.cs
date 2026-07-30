@@ -62,7 +62,7 @@ public class SkillExecutor : MonoBehaviour
 
         if (_playerModel == null)
         {
-            _playerModel = new PlayerModel();
+            _playerModel = NetworkManager.Inst.LocalPlayerModel;
         }
 
         if (GameDataManager.Instance == null || _skillTracker == null)

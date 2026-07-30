@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class Stats
 {
@@ -55,8 +56,11 @@ public class Stats
             }
             else
             {
-                _rawModifiers.Add(itemId, data.StatModifiers);
+                var list = new List<StatModifier>();
+                list.AddRange(data.StatModifiers);
+                _rawModifiers.Add(itemId, list);
                 _counts.Add(itemId, 1);
+                Debug.Log($"{itemId} - {_counts[itemId]} 11");
             }
 
         }
@@ -65,6 +69,7 @@ public class Stats
             if (_counts.ContainsKey(itemId) == true)
             {
                 _counts[itemId] = _counts[itemId] + 1;
+                Debug.Log($"{itemId} - {_counts[itemId]} 22");
             }
         }
 
@@ -130,6 +135,7 @@ public class Stats
                     _percentCache[mod.Type] = _percentCache.GetValueOrDefault(mod.Type) + (mod.Value * count);
             }
         }
+        Debug.Log($"{_flatCache[StatType.AttackPower]}  12323");
     }
 
     public void ClearAllData() //초기화때만 사용
@@ -144,6 +150,7 @@ public class Stats
     {
         float flat = _flatCache.GetValueOrDefault(type, 0);
         float percent = _percentCache.GetValueOrDefault(type, 0);
+        Debug.Log($"[Stats] - {type} flat - {flat}, percent - {percent}");
         return (_baseStats[type] + flat) * (1 + percent);
     }
 
