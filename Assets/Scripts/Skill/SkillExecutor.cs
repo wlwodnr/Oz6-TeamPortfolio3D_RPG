@@ -24,6 +24,7 @@ public class SkillExecutor : MonoBehaviour
     private PlayerModel _playerModel;
     private SkillTracker _skillTracker;
     private CancellationTokenSource _cts;
+    private Dictionary<CharacterMode,GameObject> EffectDic = new Dictionary<CharacterMode, GameObject>();
 
     public void Init(PlayerModel playerModel, SkillTracker tracker)
     {
@@ -44,13 +45,29 @@ public class SkillExecutor : MonoBehaviour
         if (Rigidbody_Owner == null)
             Rigidbody_Owner = GetComponent<Rigidbody>();
 
-
+        LoadEffect(CharacterMode.Hunt);
+        LoadEffect(CharacterMode.Boss);
         TestInit();
     }
     private void OnDisable()
     {
         _cts?.Cancel();
         _cts?.Dispose();
+    }
+    public void LoadEffect(CharacterMode key)
+    {
+        if (EffectDic.ContainsKey(key)) return;
+
+        GameObject prefab = Resources.Load<GameObject>("Effects/"+key.ToString() + "SlashEffect");
+
+        if (prefab != null)
+        {
+            EffectDic.Add(key, prefab);
+        }
+        else
+        {
+            Debug.LogError($"[Resources] 프리팹 로드 실패: {key}");
+        }
     }
 
     public void TryExecuteSkill(string skillId)
@@ -164,7 +181,7 @@ public class SkillExecutor : MonoBehaviour
         {
             spawnRot = Swordtrans.rotation * Quaternion.Euler(180f, 130f, -90f);
         }
-        GameObject vfx = Instantiate(SwordEffect, spawnPos, spawnRot);
+        GameObject vfx = Instantiate(EffectDic[_skillTracker.SkillModel.CurrentMode], spawnPos, spawnRot);
 
         Destroy(vfx, 1.5f);
     }

@@ -694,7 +694,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   Swordtrans: {fileID: 2663167486743572946}
-  SwordEffect: {fileID: 3894563636541966133, guid: a7fbabaeb2acd7d49a011242c2a7d77e, type: 3}
+  SwordEffect: {fileID: 1737387875744588960, guid: 71ee46965d7c7504cb9f3738288a133d, type: 3}
   testClip: {fileID: 7400000, guid: c3d88a4a27f9e9f479e308f11f116a0e, type: 2}
 --- !u!114 &-1381121920948568532
 MonoBehaviour:
