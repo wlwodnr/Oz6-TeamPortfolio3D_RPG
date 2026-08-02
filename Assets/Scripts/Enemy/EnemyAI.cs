@@ -12,6 +12,9 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private EnemyEntity Entity_Enemy;
     [SerializeField] private Animator Animator_Enemy;
 
+    [Header("아이템 드랍 설정")]
+    [SerializeField, Min(0f)] private float _itemDropHeightOffset = 0.5f;
+
     private string _monsterDataId;
     private MonsterData _monsterData;
     private Transform _currentTarget;
@@ -240,7 +243,8 @@ public class EnemyAI : MonoBehaviour
 
         if (DropItem.TryCreate(GameDataManager.Instance.DropDataList, monsterDataId, out DropItem dropItem) == false) return;
 
-        int itemDropInstanceId = GameObjectManager.Instance.RequestSpawnItemDrop(transform.position, dropItem);
+        Vector3 itemDropSpawnPosition = transform.position + Vector3.up * _itemDropHeightOffset;
+        int itemDropInstanceId = GameObjectManager.Instance.RequestSpawnItemDrop(itemDropSpawnPosition, dropItem);
 
         if (itemDropInstanceId < 0)
         {
