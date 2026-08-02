@@ -77,6 +77,7 @@ Transform:
   - {fileID: 6671284623490526297}
   - {fileID: 8371674481866726122}
   - {fileID: 934934820134353541}
+  - {fileID: 1501898627184432924}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1856738542837041225
@@ -161,6 +162,66 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2364318547828375380}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5280788888172003248
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1501898627184432924}
+  - component: {fileID: 8935039433447628749}
+  m_Layer: 0
+  m_Name: TreasureSpawnSpot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1501898627184432924
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5280788888172003248}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 19.72, y: 0.39, z: 10.39}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2364318547828375380}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8935039433447628749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5280788888172003248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a69658fe588f05149a97200483b8dfe8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnSpot
+  _spawnEntryList: []
+  _spawnPointList: []
+  _spawnSlotSpacing: 1.5
+  _spawnOnStart: 1
+  _useSingleSpawn: 1
+  _singleSpawnSpotExtension:
+    Prefab_SpawnObject: {fileID: 716490554313852975, guid: 793ee745bf9052745ac51c6f8b1d2995, type: 3}
+    _dataId: Treasure_01
+  _enableWaveRespawn: 1
+  _respawnDelay: 5
+  _hasActiveWave: 0
+  _isSpawnOperationActive: 0
+  _debugAliveCount: 0
+  _debugIsWaitingRespawn: 0
+  _debugLastResult: 
+  _debugSpawnedInstanceIdList: 
 --- !u!1 &8742714062120105145
 GameObject:
   m_ObjectHideFlags: 0

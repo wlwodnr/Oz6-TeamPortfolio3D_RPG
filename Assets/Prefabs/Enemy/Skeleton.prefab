@@ -88,6 +88,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStatus
   _temporaryMaxHp: 30
+  _hitFeedbackRendererList:
+  - {fileID: 1339420277345819375}
+  - {fileID: 8514044361170741081}
+  - {fileID: 8704256543251260332}
+  _hitFeedbackColor: {r: 1, g: 0, b: 0, a: 1}
+  _hitFeedbackDuration: 0.5
 --- !u!114 &9168676501225912848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -636,5 +642,20 @@ PrefabInstance:
 --- !u!4 &1267006029965292777 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2199628841774520173, guid: 61b3e3801d56a3f429556c96ea2f07d6, type: 3}
+  m_PrefabInstance: {fileID: 1086468681828361092}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &1339420277345819375 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2127240707794041195, guid: 61b3e3801d56a3f429556c96ea2f07d6, type: 3}
+  m_PrefabInstance: {fileID: 1086468681828361092}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &8514044361170741081 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8733640481680426205, guid: 61b3e3801d56a3f429556c96ea2f07d6, type: 3}
+  m_PrefabInstance: {fileID: 1086468681828361092}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &8704256543251260332 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8635743231443402792, guid: 61b3e3801d56a3f429556c96ea2f07d6, type: 3}
   m_PrefabInstance: {fileID: 1086468681828361092}
   m_PrefabAsset: {fileID: 0}

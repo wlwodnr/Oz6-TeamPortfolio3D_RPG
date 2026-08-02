@@ -108,16 +108,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Treasure
   _treasureChild: {fileID: 7344238674340863002}
   _coinEffect: {fileID: 7745574655572566353, guid: 81022698250584c75b8a065cd76ded52, type: 3}
+  _instanceId: -1
   rotationSpeed: 90
   dropItemIds:
   - Stat_01
   - Stat_02
   - Stat_03
   - Stat_04
-  dropCounts: 01000000010000000100000001000000
   dropSpawnPoint: {fileID: 7517308433526981203}
   popForceMin: 3
   popForceMax: 6
+  treasureId: 
+  isOpened: 0
+  dropCoins: 0
 --- !u!136 &429091547799189545
 CapsuleCollider:
   m_ObjectHideFlags: 0

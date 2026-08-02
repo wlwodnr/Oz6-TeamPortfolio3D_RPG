@@ -5905,12 +5905,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 757c381d0f9bfd841a8ba7df6e8b4fea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DaniTech_DialogueUI
-  Layout_characterName: {fileID: 619797727}
-  Text_character: {fileID: 2021980678}
-  Text_description: {fileID: 1561905551}
-  Btn_next: {fileID: 738194781}
-  Btn_exit: {fileID: 1971474425}
-  Btn_accept: {fileID: 348487152}
 --- !u!1 &545309074 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3140791455137669872, guid: 41cb9c2eee68cce45ae3417cb32ea040, type: 3}
@@ -26940,7 +26934,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5094478256192693651, guid: 3f2997e4742dfe345b6ee1da3ea9340b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6127003734131767114, guid: 3f2997e4742dfe345b6ee1da3ea9340b, type: 3}
       propertyPath: m_IsTrigger
