@@ -88,15 +88,20 @@ public class SkillExecutor : MonoBehaviour
             return;
         }
 
-        if (_isExecutingSkill)
-        {
-            AttackEnd();
-        }
-
         ActiveSkillData skillData = GameDataManager.Instance.GetActiveSkillData(skillId);
         if (skillData == null) return;
 
-        if (!_skillTracker.SkillModel.IsSkillReady(skillId)) return;
+        if (!_skillTracker.SkillModel.IsSkillReady(skillId))
+        {
+            Debug.Log($"[{skillData.Name}] 스킬 쿨타임이 남아 있어 입력을 무시합니다.");
+            return;
+        }
+
+        if (_isExecutingSkill)
+        {
+            Debug.Log($"[{skillData.Name}] 다른 스킬이 실행 중이어서 입력을 무시합니다.");
+            return;
+        }
 
         if (!skillData.IsModeChange && !_playerModel.HasLearnedActive(skillId))
         {
