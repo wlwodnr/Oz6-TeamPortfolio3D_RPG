@@ -1161,7 +1161,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 757c381d0f9bfd841a8ba7df6e8b4fea, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DaniTech_DialogueUI
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueUI
   Layout_characterName: {fileID: 5339847173305761790}
   Text_character: {fileID: 7736579415094484559}
   Text_description: {fileID: 1717363172198074309}
