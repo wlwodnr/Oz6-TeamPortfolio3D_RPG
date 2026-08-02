@@ -10,7 +10,8 @@
     "DetectRange": 5,
     "AttackRange": 2,
     "DropEXP": 10,
-    "StopDistance": 1.8
+    "StopDistance": 1.8,
+    "DropGold": 100
   },
   {
     "Id": "mob_skeleton",
@@ -23,7 +24,8 @@
     "DetectRange": 10,
     "AttackRange": 2,
     "DropEXP": 30,
-    "StopDistance": 1
+    "StopDistance": 1,
+    "DropGold": 300
   },
   {
     "Id": "mob_skeletonv2",
@@ -36,7 +38,8 @@
     "DetectRange": 10,
     "AttackRange": 2,
     "DropEXP": 80,
-    "StopDistance": 1
+    "StopDistance": 1,
+    "DropGold": 700
   },
   {
     "Id": "mob_Boss",
@@ -49,6 +52,7 @@
     "DetectRange": 10,
     "AttackRange": 2,
     "DropEXP": 500,
-    "StopDistance": 1
+    "StopDistance": 1,
+    "DropGold": 10000
   }
 ]

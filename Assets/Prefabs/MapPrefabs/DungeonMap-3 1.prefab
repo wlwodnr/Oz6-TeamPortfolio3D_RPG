@@ -188,7 +188,7 @@ Transform:
   m_GameObject: {fileID: 5280788888172003248}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 19.72, y: 0.39, z: 10.39}
+  m_LocalPosition: {x: 19.72, y: 0, z: 10.39}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -212,7 +212,7 @@ MonoBehaviour:
   _spawnOnStart: 1
   _useSingleSpawn: 1
   _singleSpawnSpotExtension:
-    Prefab_SpawnObject: {fileID: 716490554313852975, guid: 793ee745bf9052745ac51c6f8b1d2995, type: 3}
+    Prefab_SpawnObject: {fileID: 1291963233306981687, guid: cc403312fb0bc644ab715cc714e664f5, type: 3}
     _dataId: Treasure_01
   _enableWaveRespawn: 1
   _respawnDelay: 5

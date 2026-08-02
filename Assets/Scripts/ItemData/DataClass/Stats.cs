@@ -135,7 +135,7 @@ public class Stats
                     _percentCache[mod.Type] = _percentCache.GetValueOrDefault(mod.Type) + (mod.Value * count);
             }
         }
-        Debug.Log($"{_flatCache[StatType.AttackPower]}  12323");
+        //Debug.Log($"{_flatCache[StatType.AttackPower]}  12323");
     }
 
     public void ClearAllData() //초기화때만 사용
