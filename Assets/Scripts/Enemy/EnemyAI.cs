@@ -69,7 +69,6 @@ public class EnemyAI : MonoBehaviour
             return;
         }
 
-        //혹시나 있을 이미 들어가있는 경우를 대비하여 빼고 넣기
         Status_Enemy.OnDeadEvent -= OnEnemyDead;
         Status_Enemy.OnDeadEvent += OnEnemyDead;
     }
@@ -431,28 +430,7 @@ public class EnemyAI : MonoBehaviour
     }
 
 
-    // BT에서 호출할 메서드들
-
-    public void MoveToPosition(Vector3 targetPosition)
-    {
-
-        if (Status_Enemy.IsDead || Agent_NavMesh == null || !Agent_NavMesh.gameObject.activeInHierarchy) return;
-
-        if (Agent_NavMesh.isOnNavMesh)
-        {
-            Agent_NavMesh.isStopped = false;
-            Agent_NavMesh.SetDestination(targetPosition);
-        }
-    }
-
-    public void ChaseTarget()
-    {
-        if(_currentTarget != null)
-        {
-            MoveToPosition(_currentTarget.position);
-        }
-    }
-
+    
     public void RequestAttack()
     {
         if(Status_Enemy.IsDead) return;
@@ -477,37 +455,8 @@ public class EnemyAI : MonoBehaviour
         _currentTarget = null;
     }
 
-    public bool SearchTarget()
-    {
-        if(Status_Enemy.IsDead || _monsterData == null) return false;
 
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, _monsterData.DetectRange, Layer_Target);
-
-        if(hitColliders.Length > 0)
-        {
-            _currentTarget = hitColliders[0].transform;
-            return true;
-        }
-
-        return false;
-    }
-
-    public bool CheckAttackRange()
-    {
-        if (_currentTarget == null || _monsterData == null) return false;
-
-        float distance = Vector3.Distance(transform.position, _currentTarget.position);
-        return distance <= _monsterData.AttackRange;
-    }
-
-    //public bool CheckExceededSpawnLimit()
-    //{
-    //    if (_monsterData == null) return false;
-
-    //    float distanceFromHome = Vector3.Distance(transform.position, SpawnPosition);
-    //    return distanceFromHome > _monsterData.SpawnLimitRange;
-    //}
-
+   
 
 
 }

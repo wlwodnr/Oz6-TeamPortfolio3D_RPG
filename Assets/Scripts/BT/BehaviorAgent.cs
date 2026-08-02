@@ -11,14 +11,7 @@ public class BehaviorAgent : MonoBehaviour
 
 
     private void Start()
-    {
-        if (PatrolSpotGameObjectList != null && PatrolSpotGameObjectList.Count > 0)
-        {
-            BehaviorAgent_Self.SetVariableValue("PatrolSpotList", PatrolSpotGameObjectList);
-        }
-
-        
-        
+    {       
         int playerInstanceId = GameObjectManager.Instance.PlayerInstanceId;
         GameObject playerObject = GameObjectManager.Instance.GetGameObjectCanBeNull(playerInstanceId);
 
