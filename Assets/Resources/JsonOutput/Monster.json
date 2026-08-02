@@ -20,10 +20,10 @@
     "BaseHp": 30,
     "BaseAttack": 5,
     "MoveSpeed": 5,
-    "DetectRange": 10,
+    "DetectRange": 5,
     "AttackRange": 2,
     "DropEXP": 30,
-    "StopDistance": 1
+    "StopDistance": 1.8
   },
   {
     "Id": "mob_skeletonv2",
@@ -33,10 +33,10 @@
     "BaseHp": 50,
     "BaseAttack": 10,
     "MoveSpeed": 7,
-    "DetectRange": 10,
+    "DetectRange": 5,
     "AttackRange": 2,
     "DropEXP": 80,
-    "StopDistance": 1
+    "StopDistance": 1.8
   },
   {
     "Id": "mob_Boss",
@@ -49,6 +49,6 @@
     "DetectRange": 10,
     "AttackRange": 4,
     "DropEXP": 500,
-    "StopDistance": 1
+    "StopDistance": 3.5
   }
 ]
