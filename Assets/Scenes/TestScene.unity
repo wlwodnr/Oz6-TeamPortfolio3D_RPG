@@ -26703,6 +26703,10 @@ PrefabInstance:
       propertyPath: _spawnEntryList.Array.data[0].Prefab_Monster
       value: 
       objectReference: {fileID: 6282718999841074786, guid: 148263d40f2aa5b42891ed76199182ef, type: 3}
+    - target: {fileID: 6639849601650500601, guid: 41cb9c2eee68cce45ae3417cb32ea040, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
