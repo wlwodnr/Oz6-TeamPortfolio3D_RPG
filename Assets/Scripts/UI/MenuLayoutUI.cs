@@ -10,7 +10,7 @@ public class MenuLayoutUI : UIBase
     {
         Btn_Inventory.BindOnClickButtonEvent(OnClickOpenInventory);
         Btn_SettingPopup.BindOnClickButtonEvent(OnClickOpenSettingPopup);
-        Btn_CloseSelf.BindOnClickButtonEvent(OnclickCloseSelf);
+        //Btn_CloseSelf.BindOnClickButtonEvent(OnclickCloseSelf);
     }
 
     private void OnClickOpenSettingPopup()
