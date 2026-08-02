@@ -30,6 +30,8 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody _rb;
 
+    private bool _hasLoggedMissingInputManager;
+
     //아래는 1차빌드용 공격기능 변수 (이후에 바뀔 수 있음)
     [Header("1차 빌드용 공격관련 변수")]
     public Vector3 boxSize = new Vector3(1, 1, 1); 
@@ -117,8 +119,19 @@ public class PlayerController : MonoBehaviour
        // }
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
+        if (InputManager.Instance == null)
+        {
+            if (_hasLoggedMissingInputManager == false)
+            {
+                Debug.LogWarning($"PlayerController: [{gameObject.name}] InputManager가 아직 준비되지 않아 이동 처리를 대기합니다.", this);
+                _hasLoggedMissingInputManager = true;
+            }
+            return;
+        }
+
+        _hasLoggedMissingInputManager = false;
         MovePlayer(InputManager.Instance.MoveInput);
     }
 

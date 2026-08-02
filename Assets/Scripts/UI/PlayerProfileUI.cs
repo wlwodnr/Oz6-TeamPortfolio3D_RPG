@@ -22,13 +22,42 @@ public class PlayerProfileUI : UIBase
 
     private void OnEnable()
     {
-        Btn_OpenStatInfoUI.BindOnClickButtonEvent(OnClick_OpenPlayerStatInfoUI);
-
-        var profileVm = NetworkManager.Inst.LocalPlayerService.GetLocalPlayerProfileModel();
-        if (profileVm != null)
+        if (Btn_OpenStatInfoUI != null)
         {
-            BindViewModel(profileVm);
+            Btn_OpenStatInfoUI.BindOnClickButtonEvent(OnClick_OpenPlayerStatInfoUI);
         }
+
+        TryBindViewModel();
+    }
+
+    private void Start()
+    {
+        if (TryBindViewModel() == false)
+        {
+            Debug.LogWarning($"PlayerProfileUI: NetworkManager 또는 LocalPlayerService가 준비되지 않아 ViewModel을 연결하지 못했습니다.", this);
+        }
+    }
+
+    private bool TryBindViewModel()
+    {
+        if (_vm != null)
+        {
+            return true;
+        }
+        if (NetworkManager.Inst == null || NetworkManager.Inst.LocalPlayerService == null)
+        {
+            return false;
+        }
+
+        PlayerProfileViewModel profileViewModel = NetworkManager.Inst.LocalPlayerService.GetLocalPlayerProfileModel();
+
+        if (profileViewModel == null)
+        {
+            return false;
+        }
+
+        BindViewModel(profileViewModel);
+        return true;
     }
 
     private void OnClick_OpenPlayerStatInfoUI()
@@ -38,6 +67,15 @@ public class PlayerProfileUI : UIBase
 
     public void BindViewModel(PlayerProfileViewModel vm)
     {
+        if (_vm == vm)
+        {
+            return;
+        }
+        if (_vm != null)
+        {
+            _vm.PropertyChanged -= OnPropChagned_View;
+        }
+
         _vm = vm;
         _vm.PropertyChanged += OnPropChagned_View;
         _vm.InvokeOnceOnInit();

@@ -18,8 +18,23 @@ public class NetworkManager : MonoBehaviour
 
     private void Awake()
     {
+        if (Inst != null && Inst != this)
+        {
+            Debug.LogWarning($"NetworkManager: 중복된 NetworkManager를 제거합니다. Object: {gameObject.name}", this);
+            Destroy(this);
+            return;
+        }
+
         Inst = this;
         InitNetworkService();
+    }
+
+    private void OnDestroy()
+    {
+        if (Inst == this)
+        {
+            Inst = null;
+        }
     }
 
     private void InitNetworkService()

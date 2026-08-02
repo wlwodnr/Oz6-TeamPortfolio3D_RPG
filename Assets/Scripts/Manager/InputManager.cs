@@ -31,14 +31,36 @@ public class InputManager : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance != null && Instance != this)
         {
-            CameraController = Camera.main.GetComponent<CameraController>();
-            Instance = this;
-        }
-        else
-        {
+            Debug.LogWarning($"InputManager: 중복된 InputManager를 제거합니다. Object: {gameObject.name}", this);
             Destroy(this);
+            return;
+        }
+
+        Instance = this;
+
+        if (CameraController != null)
+        {
+            return;
+        }
+
+        Camera mainCamera = Camera.main;
+
+        if (mainCamera == null)
+        {
+            Debug.LogWarning($"InputManager: MainCamera가 아직 준비되지 않아 CameraController를 연결하지 못했습니다.", this);
+            return;
+        }
+
+        CameraController = mainCamera.GetComponent<CameraController>();
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
         }
     }
 
