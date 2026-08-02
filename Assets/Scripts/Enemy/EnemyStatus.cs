@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using static UnityEngine.EventSystems.EventTrigger;
 
@@ -6,6 +9,15 @@ public class EnemyStatus : MonoBehaviour, IDamageable
 {
     //빌드용 임시 체력
     [SerializeField] private int _temporaryMaxHp = 30;
+
+    [Header("피격 피드백")]
+    [SerializeField] private List<Renderer> _hitFeedbackRendererList = new List<Renderer>();
+    [SerializeField] private Color _hitFeedbackColor = Color.red;
+    [Min(0f)]
+    [SerializeField] private float _hitFeedbackDuration = 0.12f;
+
+    private static readonly int BaseColorPropertyId = Shader.PropertyToID("_BaseColor");
+    private static readonly int ColorPropertyId = Shader.PropertyToID("_Color");
 
     private int _currentHp;
     private bool _isDead;
@@ -16,6 +28,8 @@ public class EnemyStatus : MonoBehaviour, IDamageable
     private float _detectRange;
     private float _attackRange;
     private float _stopDistance;
+    private readonly List<HitFeedbackMaterialState> _hitFeedbackMaterialStateList = new List<HitFeedbackMaterialState>();
+    private CancellationTokenSource _hitFeedbackCancellationTokenSource;
 
     public bool IsDead {  get { return _isDead; } }
     public int CurrentHp { get { return _currentHp; } }
@@ -29,9 +43,19 @@ public class EnemyStatus : MonoBehaviour, IDamageable
 
     public event Action OnDeadEvent;
 
+    private void Awake()
+    {
+        CacheHitFeedbackMaterialStates();
+    }
+
     private void OnEnable()
     {
         ResetStatus();
+    }
+
+    private void OnDisable()
+    {
+        CancelHitFeedback(true);
     }
 
     public void InitStatus(MonsterData monsterData)
@@ -114,7 +138,7 @@ public class EnemyStatus : MonoBehaviour, IDamageable
 
         _currentHp = Mathf.Max(0, _currentHp - appliedDamage);
 
-
+        PlayHitFeedback();
         Debug.Log($"[{name}] TakeDamage() 실행 확인");
         transform.GetComponent<Rigidbody>().AddForce(damageInfo.KnockbackDir * 10f, ForceMode.Impulse);
 
@@ -145,6 +169,7 @@ public class EnemyStatus : MonoBehaviour, IDamageable
 
     public void ResetStatus()
     {
+        CancelHitFeedback(true);
         _isDead = false;
         if(_monsterData != null)
         {
@@ -166,6 +191,7 @@ public class EnemyStatus : MonoBehaviour, IDamageable
 
     public void PrepareStatusForPool()
     {
+        CancelHitFeedback(true);
         _monsterData = null;
         _currentHp = 0;
         _isDead = false;
@@ -174,6 +200,165 @@ public class EnemyStatus : MonoBehaviour, IDamageable
         _detectRange = 0f;
         _attackRange = 0f;
         _stopDistance = 0f;
+    }
+
+    private void CacheHitFeedbackMaterialStates()
+    {
+        _hitFeedbackMaterialStateList.Clear();
+
+        foreach (Renderer targetRenderer in _hitFeedbackRendererList)
+        {
+            if (targetRenderer == null)
+            {
+                continue;
+            }
+
+            Material[] sharedMaterialArray = targetRenderer.sharedMaterials;
+            for (int materialIndex = 0; materialIndex < sharedMaterialArray.Length; materialIndex++)
+            {
+                Material sharedMaterial = sharedMaterialArray[materialIndex];
+                if (sharedMaterial == null)
+                {
+                    continue;
+                }
+
+                bool hasBaseColor = sharedMaterial.HasProperty(BaseColorPropertyId);
+                bool hasColor = sharedMaterial.HasProperty(ColorPropertyId);
+                if (hasBaseColor == false && hasColor == false)
+                {
+                    continue;
+                }
+
+                MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
+                targetRenderer.GetPropertyBlock(propertyBlock, materialIndex);
+                Color originalBaseColor = hasBaseColor ? GetCurrentColor(propertyBlock, sharedMaterial, BaseColorPropertyId) : Color.white;
+                Color originalColor = hasColor ? GetCurrentColor(propertyBlock, sharedMaterial, ColorPropertyId) : Color.white;
+                _hitFeedbackMaterialStateList.Add(new HitFeedbackMaterialState(targetRenderer, materialIndex, propertyBlock, hasBaseColor, hasColor, originalBaseColor, originalColor));
+            }
+        }
+    }
+
+    private Color GetCurrentColor(MaterialPropertyBlock propertyBlock, Material sharedMaterial, int propertyId)
+    {
+        if (propertyBlock.HasColor(propertyId))
+        {
+            return propertyBlock.GetColor(propertyId);
+        }
+
+        return sharedMaterial.GetColor(propertyId);
+    }
+
+    private void PlayHitFeedback()
+    {
+        if (_hitFeedbackDuration <= 0f || _hitFeedbackMaterialStateList.Count == 0)
+        {
+            return;
+        }
+
+        CancelHitFeedback(false);
+        SetHitFeedbackColor(_hitFeedbackColor);
+        _hitFeedbackCancellationTokenSource = new CancellationTokenSource();
+        RestoreHitFeedbackAfterDelayAsync(_hitFeedbackCancellationTokenSource).Forget();
+    }
+
+    private async UniTask RestoreHitFeedbackAfterDelayAsync(CancellationTokenSource cancellationTokenSource)
+    {
+        bool isCanceled = await UniTask.Delay(TimeSpan.FromSeconds(_hitFeedbackDuration), cancellationToken: cancellationTokenSource.Token).SuppressCancellationThrow();
+        if (isCanceled || _hitFeedbackCancellationTokenSource != cancellationTokenSource)
+        {
+            return;
+        }
+
+        _hitFeedbackCancellationTokenSource = null;
+        cancellationTokenSource.Dispose();
+        RestoreHitFeedbackColor();
+    }
+
+    private void CancelHitFeedback(bool restoreColor)
+    {
+        CancellationTokenSource cancellationTokenSource = _hitFeedbackCancellationTokenSource;
+        _hitFeedbackCancellationTokenSource = null;
+
+        if (cancellationTokenSource != null)
+        {
+            cancellationTokenSource.Cancel();
+            cancellationTokenSource.Dispose();
+        }
+
+        if (restoreColor)
+        {
+            RestoreHitFeedbackColor();
+        }
+    }
+
+    private void SetHitFeedbackColor(Color targetColor)
+    {
+        foreach (HitFeedbackMaterialState materialState in _hitFeedbackMaterialStateList)
+        {
+            if (materialState.TargetRenderer == null)
+            {
+                continue;
+            }
+
+            materialState.TargetRenderer.GetPropertyBlock(materialState.PropertyBlock, materialState.MaterialIndex);
+            if (materialState.HasBaseColor)
+            {
+                materialState.PropertyBlock.SetColor(BaseColorPropertyId, targetColor);
+            }
+
+            if (materialState.HasColor)
+            {
+                materialState.PropertyBlock.SetColor(ColorPropertyId, targetColor);
+            }
+
+            materialState.TargetRenderer.SetPropertyBlock(materialState.PropertyBlock, materialState.MaterialIndex);
+        }
+    }
+
+    private void RestoreHitFeedbackColor()
+    {
+        foreach (HitFeedbackMaterialState materialState in _hitFeedbackMaterialStateList)
+        {
+            if (materialState.TargetRenderer == null)
+            {
+                continue;
+            }
+
+            materialState.TargetRenderer.GetPropertyBlock(materialState.PropertyBlock, materialState.MaterialIndex);
+            if (materialState.HasBaseColor)
+            {
+                materialState.PropertyBlock.SetColor(BaseColorPropertyId, materialState.OriginalBaseColor);
+            }
+
+            if (materialState.HasColor)
+            {
+                materialState.PropertyBlock.SetColor(ColorPropertyId, materialState.OriginalColor);
+            }
+
+            materialState.TargetRenderer.SetPropertyBlock(materialState.PropertyBlock, materialState.MaterialIndex);
+        }
+    }
+
+    private sealed class HitFeedbackMaterialState
+    {
+        public Renderer TargetRenderer { get; }
+        public int MaterialIndex { get; }
+        public MaterialPropertyBlock PropertyBlock { get; }
+        public bool HasBaseColor { get; }
+        public bool HasColor { get; }
+        public Color OriginalBaseColor { get; }
+        public Color OriginalColor { get; }
+
+        public HitFeedbackMaterialState(Renderer targetRenderer, int materialIndex, MaterialPropertyBlock propertyBlock, bool hasBaseColor, bool hasColor, Color originalBaseColor, Color originalColor)
+        {
+            TargetRenderer = targetRenderer;
+            MaterialIndex = materialIndex;
+            PropertyBlock = propertyBlock;
+            HasBaseColor = hasBaseColor;
+            HasColor = hasColor;
+            OriginalBaseColor = originalBaseColor;
+            OriginalColor = originalColor;
+        }
     }
 }
 
