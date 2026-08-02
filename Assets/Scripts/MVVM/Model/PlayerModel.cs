@@ -10,6 +10,7 @@ public class PlayerModel
     private Stats _stats;
     private PlayerInfo _info;
     private readonly List<StatModifier> _levelUpStatModifiers = new List<StatModifier>();
+    private int _lastProcessedLevel;
 
     public PlayerInfo Info => _info;
     public Stats Stats => _stats;
@@ -31,6 +32,7 @@ public class PlayerModel
         _stats = new Stats();
         _stats.OnStatsUpdated += HandleStatsUpdated;
         _info.OnInfoChanged += HandleInfoUpdated;
+        _lastProcessedLevel = _info.CurLevel;
 
         _levelUpStatModifiers.Add(new StatModifier { Type = StatType.AttackPower, ModType = ModifierType.Flat, Value = 3f });
         _levelUpStatModifiers.Add(new StatModifier { Type = StatType.MaxHP, ModType = ModifierType.Flat, Value = 30f });
@@ -172,7 +174,16 @@ public class PlayerModel
     {
         if (changedType == nameof(PlayerInfo.CurLevel))
         {
+            int currentLevel = _info.CurLevel;
+            bool didLevelUp = currentLevel > _lastProcessedLevel;
+
             ApplyLevelUpStatModifiers();
+            _lastProcessedLevel = currentLevel;
+
+            if (didLevelUp == true)
+            {
+                RestoreHealthAndManaToMaximum();
+            }
         }
 
         OnPlayerInfoChanged?.Invoke(changedType);
@@ -182,6 +193,12 @@ public class PlayerModel
     {
         int levelUpCount = Mathf.Max(0, _info.CurLevel - 1);
         _stats.SetModifierCount(LevelUpModifierId, _levelUpStatModifiers, levelUpCount);
+    }
+
+    private void RestoreHealthAndManaToMaximum()
+    {
+        _info.CurHp = GetStatValue(StatType.MaxHP);
+        _info.CurMp = GetStatValue(StatType.MaxMP);
     }
 
     public void AddExperience(float experience)
