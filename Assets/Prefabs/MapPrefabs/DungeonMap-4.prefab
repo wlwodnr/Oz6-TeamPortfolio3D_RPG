@@ -132,7 +132,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d04a39982999f304bb57a76d278a2c11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DungeonRoomController
-  _spawnSpotList: []
+  _spawnSpotList:
+  - {fileID: 3039951950375239994}
   _activateOnStart: 0
   _currentState: 0
 --- !u!1 &5710213368712746449
@@ -212,13 +213,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpawnSpot
   _spawnEntryList:
   - Prefab_Monster: {fileID: 1913851654636915420, guid: 641e3a4bd3f3bc7429231c99d11df4c0, type: 3}
-    _monsterDataId: mob_Boos
+    _monsterDataId: mob_Boss
     _spawnCount: 1
   _spawnPointList:
   - {fileID: 583068064554211271}
   _spawnSlotSpacing: 1.5
   _spawnOnStart: 1
-  _enableWaveRespawn: 1
+  _useSingleSpawn: 1
+  _singleSpawnSpotExtension:
+    Prefab_SpawnObject: {fileID: 1913851654636915420, guid: 641e3a4bd3f3bc7429231c99d11df4c0, type: 3}
+    _dataId: mob_Boss
+  _enableWaveRespawn: 0
   _respawnDelay: 5
   _hasActiveWave: 0
   _isSpawnOperationActive: 0

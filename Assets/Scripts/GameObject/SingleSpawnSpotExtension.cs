@@ -27,6 +27,11 @@ public class SingleSpawnSpotExtension
             Debug.LogWarning($"SingleSpawnSpotExtension: [{ownerSpawnSpot.gameObject.name}] GameObjectManager가 없어 오브젝트를 생성할 수 없습니다.", ownerSpawnSpot);
             return -1;
         }
+        if (Prefab_SpawnObject.GetComponent<Treasure>() != null && GameObjectManager.Instance.HasOpenedTreasureId(_dataId))
+        {
+            Debug.Log($"SingleSpawnSpotExtension: [{ownerSpawnSpot.gameObject.name}] 이미 열린 보물상자이므로 다시 생성하지 않습니다. TreasureDataId: {_dataId}", ownerSpawnSpot);
+            return -1;
+        }
 
         Transform targetSpawnPoint = spawnPoint == null ? ownerSpawnSpot.transform : spawnPoint;
 

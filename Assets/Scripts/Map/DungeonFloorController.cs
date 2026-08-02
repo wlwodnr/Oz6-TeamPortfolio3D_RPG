@@ -9,6 +9,9 @@ public class DungeonFloorController : MonoBehaviour
     [Header("층 소속 방 설정")]
     [SerializeField] private List<DungeonRoomController> _roomList = new List<DungeonRoomController>();
 
+    [Header("층 독립 스폰 설정")]
+    [SerializeField] private List<SpawnSpot> _floorSpawnSpotList = new List<SpawnSpot>();
+
     [Header("층 입장 위치")]
     [SerializeField] private Transform PointEntrance;
 
@@ -119,6 +122,18 @@ public class DungeonFloorController : MonoBehaviour
             }
             Debug.LogWarning($"DungeonFloorController: [{gameObject.name}] Room List의 Element {index}가 비어 있습니다.", this);
         }
+        if (_floorSpawnSpotList == null)
+        {
+            return;
+        }
+        for (int index = 0; index < _floorSpawnSpotList.Count; index++)
+        {
+            if (_floorSpawnSpotList[index] != null)
+            {
+                continue;
+            }
+            Debug.LogWarning($"DungeonFloorController: [{gameObject.name}] Floor Spawn Spot List의 Element {index}가 비어 있습니다.", this);
+        }
     }
 #endif
 
@@ -162,9 +177,24 @@ public class DungeonFloorController : MonoBehaviour
             }
         }
 
+        int activatedFloorSpawnSpotCount = 0;
+
+        if (_floorSpawnSpotList != null)
+        {
+            foreach (SpawnSpot spawnSpot in _floorSpawnSpotList)
+            {
+                if (spawnSpot == null)
+                {
+                    continue;
+                }
+                spawnSpot.RequestSpawn();
+                activatedFloorSpawnSpotCount++;
+            }
+        }
+
         ChangeState(DungeonFloorState.Active);
 
-        Debug.Log($"DungeonFloorController: [{gameObject.name}] 층 활성화 완료. FloorId: {_floorId}, 방 수: {activateRoomCount}", this);
+        Debug.Log($"DungeonFloorController: [{gameObject.name}] 층 활성화 완료. FloorId: {_floorId}, 방 수: {activateRoomCount}, 층 독립 SpawnSpot 수: {activatedFloorSpawnSpotCount}", this);
 
         OnFloorActivated?.Invoke(this);
     }
@@ -193,7 +223,17 @@ public class DungeonFloorController : MonoBehaviour
 
                 room.DeactivateRoom();
             }
-            
+        }
+        if (_floorSpawnSpotList != null)
+        {
+            foreach (SpawnSpot spawnSpot in _floorSpawnSpotList)
+            {
+                if (spawnSpot == null)
+                {
+                    continue;
+                }
+                spawnSpot.DeactivateSpawnSpot();
+            }
         }
         ChangeState(DungeonFloorState.Inactive);
 
