@@ -19,5 +19,5 @@ public class MonsterData : GameDataBase
     
     public float DropEXP;
     public float StopDistance;
-    public float DropGold;
+    public int DropGold;
 }

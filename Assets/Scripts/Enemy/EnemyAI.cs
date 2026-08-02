@@ -198,6 +198,7 @@ public class EnemyAI : MonoBehaviour
 
         NotifyKillQuestProgress();
         RequestExperienceReward();
+        RequestGoldReward();
         RequestItemDrops();
 
         RequestDisableSelf();
@@ -217,6 +218,22 @@ public class EnemyAI : MonoBehaviour
         }
 
         NetworkManager.Inst.LocalPlayerService.RequestGiveExpToLocalPlayer(_monsterData.DropEXP);
+    }
+
+    private void RequestGoldReward()
+    {
+        if (_monsterData == null || _monsterData.DropGold <= 0)
+        {
+            return;
+        }
+
+        if (NetworkManager.Inst == null || NetworkManager.Inst.LocalPlayerService == null)
+        {
+            Debug.LogWarning($"[{gameObject.name}] LocalPlayerService가 없어 골드를 지급할 수 없습니다. MonsterDataId: {_monsterDataId}, Gold: {_monsterData.DropGold}");
+            return;
+        }
+
+        NetworkManager.Inst.LocalPlayerService.RequestGiveGoldToLocalPlayer(_monsterData.DropGold);
     }
 
     private void RequestItemDrops()
