@@ -74,7 +74,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   Entity_Enemy: {fileID: 3731377969135106166}
-  Animator_Enemy: {fileID: 1260742256400050893}
+  Animator_Enemy: {fileID: 5149131227636575891}
 --- !u!114 &8372731997652561619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 913633221a6db5a498de73ba13ac1e41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimatorController
-  Animator_Enemy: {fileID: 1260742256400050893}
+  Animator_Enemy: {fileID: 5149131227636575891}
 --- !u!95 &1260742256400050893
 Animator:
   serializedVersion: 7
@@ -648,5 +648,10 @@ PrefabInstance:
 --- !u!4 &1267006029965292777 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2199628841774520173, guid: 61b3e3801d56a3f429556c96ea2f07d6, type: 3}
+  m_PrefabInstance: {fileID: 1086468681828361092}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &5149131227636575891 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5217009034759064855, guid: 61b3e3801d56a3f429556c96ea2f07d6, type: 3}
   m_PrefabInstance: {fileID: 1086468681828361092}
   m_PrefabAsset: {fileID: 0}

@@ -111,6 +111,12 @@ public class EnemyAI : MonoBehaviour
         };
     }
 
+    private void Update()
+    {
+        if (Status_Enemy != null && Status_Enemy.IsDead) return;
+
+        _currentState?.UpdateState(this);
+    }
 
     public void InitEnemyInfo(int generatedId, string monsterDataId, SpawnSpot ownerSpot)
     {
@@ -385,16 +391,28 @@ public class EnemyAI : MonoBehaviour
 
     public void ChangeState(EnemyAIState newState)
     {
-        if(_states.ContainsKey(newState) == false) { return; }
+        if (_currentStateEnum == newState && newState != EnemyAIState.Attack && newState != EnemyAIState.RangeAttack && newState != EnemyAIState.SpecialAttack)
+        {
+            return;
+        }
+
+        if (_states.ContainsKey(newState) == false) { return; }
         
-        if(IsStateChangeable(newState)) { return; }
-        
+        if(!IsStateChangeable(newState))
+        {
+            Debug.LogWarning($"[{gameObject.name}] {newState} 상태로 전환 실패 (IsStateChangeable 차단)");
+            return;
+        }
+
         if (_currentState != null)
         {
             _currentState.ExitState(this);
         }
 
         _currentState = _states[newState];
+
+        Debug.Log($"<color=yellow>[FSM 상태 변경]</color> {gameObject.name} : {_currentStateEnum} -> {newState}");
+
         _currentState.EnterState(this);
         _currentStateEnum = newState;
     }
