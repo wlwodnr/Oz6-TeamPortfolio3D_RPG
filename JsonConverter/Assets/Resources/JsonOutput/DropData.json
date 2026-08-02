@@ -6,5 +6,29 @@
     "DropChance": 0.2,
     "MinCount": 1,
     "MaxCount": 1
+  },
+  {
+    "Id": "dropAttackDamageSkeleton",
+    "MonsterDataId": "mob_skeleton",
+    "ItemDataId": "Stat_02",
+    "DropChance": 0.2,
+    "MinCount": 1,
+    "MaxCount": 1
+  },
+  {
+    "Id": "dropAttackDamageSkeletonV2",
+    "MonsterDataId": "mob_skeletonv2",
+    "ItemDataId": "Stat_02",
+    "DropChance": 0.2,
+    "MinCount": 1,
+    "MaxCount": 1
+  },
+  {
+    "Id": "dropAttackDamageBoss",
+    "MonsterDataId": "mob_Boss",
+    "ItemDataId": "Stat_02",
+    "DropChance": 1.0,
+    "MinCount": 1,
+    "MaxCount": 1
   }
 ]
