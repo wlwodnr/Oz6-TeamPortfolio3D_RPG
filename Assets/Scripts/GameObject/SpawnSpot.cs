@@ -23,6 +23,12 @@ public class SpawnSpot : MonoBehaviour
     [Header("스폰 시작 설정")]
     [SerializeField] private bool _spawnOnStart = true;
 
+    [Header("단일 스폰 설정")]
+    [Tooltip("활성화하면 웨이브 대신 지정 위치에 오브젝트 하나만 생성하며 자동 재스폰하지 않습니다.")]
+    [SerializeField] private bool _useSingleSpawn;
+
+    [SerializeField] private SingleSpawnSpotExtension _singleSpawnSpotExtension = new SingleSpawnSpotExtension();
+
     [Header("웨이브 리스폰 설정")]
     [SerializeField] private bool _enableWaveRespawn = true;
 
@@ -87,6 +93,14 @@ public class SpawnSpot : MonoBehaviour
         get
         {
             return _isSpawnOperationActive;
+        }
+    }
+
+    public bool IsSingleSpawnEnabled
+    {
+        get
+        {
+            return _useSingleSpawn;
         }
     }
 
@@ -219,7 +233,7 @@ public class SpawnSpot : MonoBehaviour
             Debug.LogWarning($"SpawnSpot: [{gameObject.name}] GameObjectManager가 없어 웨이브를 생성할 수 없습니다.");
             return;
         }
-        if (_spawnEntryList == null || _spawnEntryList.Count == 0)
+        if (_useSingleSpawn == false && (_spawnEntryList == null || _spawnEntryList.Count == 0))
         {
             RefreshDebugState("생성 차단: SpawnEntry 없음");
 
@@ -233,10 +247,16 @@ public class SpawnSpot : MonoBehaviour
 
         if (_spawnedInstanceIdSet.Count > 0)
         {
-            RefreshDebugState($"생성 차단: 살아 있다고 기록된 몬스터 {_spawnedInstanceIdSet.Count}개");
+            RefreshDebugState($"생성 차단: 살아 있다고 기록된 오브젝트 {_spawnedInstanceIdSet.Count}개");
 
-            Debug.LogWarning($"SpawnSpot: [{gameObject.name}] 아직 살아 있는 몬스터가 있어 새 웨이브를 생성할 수 없습니다. " +
+            Debug.LogWarning($"SpawnSpot: [{gameObject.name}] 아직 활성 상태인 생성 오브젝트가 있어 새로 생성할 수 없습니다. " +
                 $"AliveCount: {_spawnedInstanceIdSet.Count}");
+            return;
+        }
+        if (_useSingleSpawn == true)
+        {
+            CancelRespawnTask();
+            RequestSingleSpawn();
             return;
         }
         if (IsWaitingRespawn == true)
@@ -325,6 +345,40 @@ public class SpawnSpot : MonoBehaviour
 
         Debug.Log($"SpawnSpot: [{gameObject.name}] 웨이브 생성 완료. 요청 수: {requestedSpawnCount}, 성공 수: {successfulSpawnCount}");
 
+        OnWaveSpawned?.Invoke(this);
+    }
+
+    private void RequestSingleSpawn()
+    {
+        if (_singleSpawnSpotExtension == null)
+        {
+            _hasActiveWave = false;
+            RefreshDebugState("단일 생성 실패: SingleSpawnSpotExtension 없음");
+            Debug.LogWarning($"SpawnSpot: [{gameObject.name}] SingleSpawnSpotExtension 설정이 없습니다.", this);
+            return;
+        }
+
+        Transform spawnPoint = GetSpawnPointCanBeNull(0);
+        int instanceId = _singleSpawnSpotExtension.RequestSpawn(this, spawnPoint);
+
+        if (instanceId < 0)
+        {
+            _hasActiveWave = false;
+            RefreshDebugState("단일 생성 실패");
+            return;
+        }
+
+        if (_spawnedInstanceIdSet.Add(instanceId) == false)
+        {
+            _hasActiveWave = false;
+            RefreshDebugState($"단일 생성 실패: InstanceId 중복 {instanceId}");
+            Debug.LogWarning($"SpawnSpot: [{gameObject.name}] 동일한 InstanceId가 중복 등록되었습니다. InstanceId: {instanceId}", this);
+            return;
+        }
+
+        _hasActiveWave = true;
+        RefreshDebugState($"단일 생성 성공: InstanceId {instanceId}");
+        Debug.Log($"SpawnSpot: [{gameObject.name}] 단일 오브젝트 생성 완료. InstanceId: {instanceId}", this);
         OnWaveSpawned?.Invoke(this);
     }
 
@@ -439,6 +493,12 @@ public class SpawnSpot : MonoBehaviour
         OnWaveCleared?.Invoke(this);
 
 
+        if (_useSingleSpawn == true)
+        {
+            RefreshDebugState("단일 생성 오브젝트 비활성화: 자동 재스폰 없음");
+            return;
+        }
+
         if (_enableWaveRespawn == false)
         {
             return;
@@ -480,6 +540,10 @@ public class SpawnSpot : MonoBehaviour
 
     private void StartRespawnTask()
     {
+        if (_useSingleSpawn == true)
+        {
+            return;
+        }
         if (_isSpawnOperationActive == false)
         {
             return;
@@ -528,6 +592,10 @@ public class SpawnSpot : MonoBehaviour
             return;
         }
         if (_enableWaveRespawn == false)
+        {
+            return;
+        }
+        if (_useSingleSpawn == true)
         {
             return;
         }
