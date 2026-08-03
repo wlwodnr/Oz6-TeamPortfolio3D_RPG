@@ -62,7 +62,8 @@ public class NetworkPlayerService
 
     public void RequestDamagePlayerHp(float dmg)
     {
-        _playerModel.Info.CurHp -= dmg;
+        float _dmg = -dmg;
+        _playerModel?.ChangeHp(_dmg);
     }
 
     public void RequestAddItem(string itemId)
