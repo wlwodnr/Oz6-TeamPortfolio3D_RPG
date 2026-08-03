@@ -64,6 +64,7 @@ public class PlayerController : MonoBehaviour
         InputManager.OnJumpPressed += HandleJumpPressed;
         InputManager.OnAttackPressed += HandleAttackPressed;
         InputManager.OnInteractPressed += HandleInteractPressed;
+        NetworkManager.Inst.LocalPlayerModel.OnPlayerStatsChanged += MoveSpeedHandler;
     }
 
     private void OnDisable()
@@ -438,5 +439,14 @@ public class PlayerController : MonoBehaviour
         Gizmos.matrix = rotationMatrix;
 
         Gizmos.DrawWireCube(Vector3.zero, boxSize);
+    }
+
+    private void MoveSpeedHandler(string type)
+    {
+        if(type == "MoveSpeed")
+        {
+            float value = NetworkManager.Inst.LocalPlayerModel.GetStatValue(StatType.MoveSpeed);
+            MoveSpeed = value;
+        }
     }
 }

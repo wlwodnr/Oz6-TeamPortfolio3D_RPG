@@ -38,6 +38,7 @@ public class Stats
         _baseStats[StatType.MaxHP] = playerStatData.HP;
         _baseStats[StatType.MaxMP] = playerStatData.MP;
         _baseStats[StatType.AttackSpeed] = playerStatData.AtkSpeed;
+        _baseStats[StatType.MoveSpeed] = 10f;
         NotifyAllStatsUpdated();
     }
 
