@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
-
 public class Stats
 {
     private Dictionary<StatType, float> _baseStats = new Dictionary<StatType, float>();
