@@ -3766,6 +3766,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 309289466}
   m_CullTransparentMesh: 1
+--- !u!4 &316109488 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6671284623490526297, guid: 7e7ffcc6059775e4db601488c2033e43, type: 3}
+  m_PrefabInstance: {fileID: 3969593101229807009}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &317916652
 GameObject:
   m_ObjectHideFlags: 0
@@ -5905,6 +5910,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 757c381d0f9bfd841a8ba7df6e8b4fea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DaniTech_DialogueUI
+  Layout_characterName: {fileID: 0}
+  Text_character: {fileID: 0}
+  Text_description: {fileID: 0}
+  Btn_next: {fileID: 0}
+  Btn_exit: {fileID: 0}
+  Btn_accept: {fileID: 0}
 --- !u!1 &545309074 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3140791455137669872, guid: 41cb9c2eee68cce45ae3417cb32ea040, type: 3}
@@ -26775,6 +26786,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 638447427}
     m_Modifications:
+    - target: {fileID: 1340300579541060989, guid: 41cb9c2eee68cce45ae3417cb32ea040, type: 3}
+      propertyPath: FloorTarget
+      value: 
+      objectReference: {fileID: 617421015}
+    - target: {fileID: 1340300579541060989, guid: 41cb9c2eee68cce45ae3417cb32ea040, type: 3}
+      propertyPath: ControllerDungeonFlow
+      value: 
+      objectReference: {fileID: 1566933312}
+    - target: {fileID: 1340300579541060989, guid: 41cb9c2eee68cce45ae3417cb32ea040, type: 3}
+      propertyPath: Transform_TargetPoint
+      value: 
+      objectReference: {fileID: 316109488}
     - target: {fileID: 1424129639714639469, guid: 41cb9c2eee68cce45ae3417cb32ea040, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.78
@@ -26859,6 +26882,10 @@ PrefabInstance:
       propertyPath: _spawnEntryList.Array.data[0].Prefab_Monster
       value: 
       objectReference: {fileID: 6282718999841074786, guid: 148263d40f2aa5b42891ed76199182ef, type: 3}
+    - target: {fileID: 6639849601650500601, guid: 41cb9c2eee68cce45ae3417cb32ea040, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
