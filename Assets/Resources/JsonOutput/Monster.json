@@ -24,7 +24,7 @@
     "DetectRange": 10,
     "AttackRange": 2,
     "DropEXP": 150,
-    "StopDistance": 1,
+    "StopDistance": 1.8,
     "DropGold": 300
   },
   {
@@ -38,7 +38,7 @@
     "DetectRange": 10,
     "AttackRange": 2,
     "DropEXP": 320,
-    "StopDistance": 1,
+    "StopDistance": 1.8,
     "DropGold": 700
   },
   {
@@ -50,9 +50,9 @@
     "BaseAttack": 20,
     "MoveSpeed": 4,
     "DetectRange": 10,
-    "AttackRange": 2,
+    "AttackRange": 4,
     "DropEXP": 500,
-    "StopDistance": 1,
+    "StopDistance": 3.8,
     "DropGold": 10000
   }
 ]
