@@ -72,7 +72,6 @@ public class EnemyAI : MonoBehaviour
             return;
         }
 
-        //혹시나 있을 이미 들어가있는 경우를 대비하여 빼고 넣기
         Status_Enemy.OnDeadEvent -= OnEnemyDead;
         Status_Enemy.OnDeadEvent += OnEnemyDead;
     }
@@ -114,6 +113,12 @@ public class EnemyAI : MonoBehaviour
         };
     }
 
+    private void Update()
+    {
+        if (Status_Enemy != null && Status_Enemy.IsDead) return;
+
+        _currentState?.UpdateState(this);
+    }
 
     public void InitEnemyInfo(int generatedId, string monsterDataId, SpawnSpot ownerSpot)
     {
@@ -406,16 +411,28 @@ public class EnemyAI : MonoBehaviour
 
     public void ChangeState(EnemyAIState newState)
     {
-        if(_states.ContainsKey(newState) == false) { return; }
+        if (_currentStateEnum == newState && newState != EnemyAIState.Attack && newState != EnemyAIState.RangeAttack && newState != EnemyAIState.SpecialAttack)
+        {
+            return;
+        }
+
+        if (_states.ContainsKey(newState) == false) { return; }
         
-        if(IsStateChangeable(newState)) { return; }
-        
+        if(!IsStateChangeable(newState))
+        {
+            Debug.LogWarning($"[{gameObject.name}] {newState} 상태로 전환 실패 (IsStateChangeable 차단)");
+            return;
+        }
+
         if (_currentState != null)
         {
             _currentState.ExitState(this);
         }
 
         _currentState = _states[newState];
+
+        Debug.Log($"<color=yellow>[FSM 상태 변경]</color> {gameObject.name} : {_currentStateEnum} -> {newState}");
+
         _currentState.EnterState(this);
         _currentStateEnum = newState;
     }
@@ -434,28 +451,7 @@ public class EnemyAI : MonoBehaviour
     }
 
 
-    // BT에서 호출할 메서드들
-
-    public void MoveToPosition(Vector3 targetPosition)
-    {
-
-        if (Status_Enemy.IsDead || Agent_NavMesh == null || !Agent_NavMesh.gameObject.activeInHierarchy) return;
-
-        if (Agent_NavMesh.isOnNavMesh)
-        {
-            Agent_NavMesh.isStopped = false;
-            Agent_NavMesh.SetDestination(targetPosition);
-        }
-    }
-
-    public void ChaseTarget()
-    {
-        if(_currentTarget != null)
-        {
-            MoveToPosition(_currentTarget.position);
-        }
-    }
-
+    
     public void RequestAttack()
     {
         if(Status_Enemy.IsDead) return;
@@ -480,37 +476,8 @@ public class EnemyAI : MonoBehaviour
         _currentTarget = null;
     }
 
-    public bool SearchTarget()
-    {
-        if(Status_Enemy.IsDead || _monsterData == null) return false;
 
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, _monsterData.DetectRange, Layer_Target);
-
-        if(hitColliders.Length > 0)
-        {
-            _currentTarget = hitColliders[0].transform;
-            return true;
-        }
-
-        return false;
-    }
-
-    public bool CheckAttackRange()
-    {
-        if (_currentTarget == null || _monsterData == null) return false;
-
-        float distance = Vector3.Distance(transform.position, _currentTarget.position);
-        return distance <= _monsterData.AttackRange;
-    }
-
-    //public bool CheckExceededSpawnLimit()
-    //{
-    //    if (_monsterData == null) return false;
-
-    //    float distanceFromHome = Vector3.Distance(transform.position, SpawnPosition);
-    //    return distanceFromHome > _monsterData.SpawnLimitRange;
-    //}
-
+   
 
 
 }

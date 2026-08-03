@@ -203,7 +203,7 @@ PrefabInstance:
     - target: {fileID: 5866666021909216657, guid: 63092c01ff7da3e4f9144278da01522f, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 5fd08979898279d47a95e93ffdd9402d, type: 2}
+      objectReference: {fileID: 9100000, guid: 69bc10fd509c3484f93c3f7bf5ff6be0, type: 2}
     - target: {fileID: 6187781394494386235, guid: 63092c01ff7da3e4f9144278da01522f, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -292,7 +292,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0038c16c34866b4f9e25c9c0dc0f7e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Behavior::Unity.Behavior.BehaviorGraphAgent
-  m_Graph: {fileID: 1181879012300508477, guid: 34d1ac917b729774f8e552fb0e54ddb5, type: 2}
+  m_Graph: {fileID: 1181879012300508477, guid: df4eff8511b763a468a16db4a0881841, type: 2}
   m_BlackboardVariableOverridesList:
   - rid: 6383305515553259757
   m_OriginalGraph: {fileID: 0}

@@ -71,11 +71,7 @@ public class NavigateAgent : MonoBehaviour
 
             }
 
-            if (IsAlwaysTargetPlayer == true)
-            {
-                //
-            }
-
+           
 
             yield return checkWait;
         }
@@ -90,7 +86,6 @@ public class NavigateAgent : MonoBehaviour
             if (_agent.isOnNavMesh)
             {
                 _agent.SetDestination(Transform_TargetObject.position);
-                //ChangeAnimation();
             }
 
             yield return updateWait;
@@ -121,32 +116,23 @@ public class NavigateAgent : MonoBehaviour
             {
                 if (_agent.isOnNavMesh == true)
                 {
-                    _agent.ResetPath(); // 목적지 초기화 (제자리 정지)
-                    //ChangeAnimation();
+                    _agent.ResetPath();
                 }
             }
 
-            Transform_TargetObject = null; // 타겟 오브젝트 초기화
+            Transform_TargetObject = null;
         }
     }
 
     private void ReturnToOrigin()
     {
-        //ChangeAnimation();
+
         if (_agent.isOnNavMesh)
         {
             _agent.ResetPath();
-           // SetDestinationWithCallback(_originPosition, OnDestinationArrived);
+
         }
     }
 
-    private void ChangeAnimation(EnemyAIState state)
-    {
-
-        //if (BattleAgent_StateChanger != null)
-        //{
-        //    BattleAgent_StateChanger.ChangeState(state);
-        //}
-    }
-
+    
 }

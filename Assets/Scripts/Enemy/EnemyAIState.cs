@@ -39,7 +39,11 @@ public class EnemyAIState_Idle : IEnemyAIState
 
     public void ExitState(EnemyAI entity)
     {
-
+        var animator = entity.GetEntityAnimator();
+        if (animator != null)
+        {
+            animator.SetBool("IsIdle", false);
+        }
     }
 
 }
@@ -54,8 +58,10 @@ public class EnemyAIState_Attack : IEnemyAIState
         {
             return;
         }
-
+        
+        animator.ResetTrigger("IsAttack");
         animator.SetTrigger("IsAttack");
+        Debug.Log($"[EnemyAI] 공격 상태 진입! Animator 참조 여부: {animator != null}");
     }
 
     public void UpdateState(EnemyAI entity)
@@ -65,7 +71,12 @@ public class EnemyAIState_Attack : IEnemyAIState
 
     public void ExitState(EnemyAI entity)
     {
-
+        var animator = entity.GetEntityAnimator();
+        if (animator == null)
+        {
+            return;
+        }
+        animator.ResetTrigger("IsAttack");
     }
 
 }
@@ -80,6 +91,7 @@ public class EnemyAIState_RangeAttack : IEnemyAIState
             return;
         }
 
+        animator.ResetTrigger("IsRangeAttack");
         animator.SetTrigger("IsRangeAttack");
     }
 
@@ -90,7 +102,12 @@ public class EnemyAIState_RangeAttack : IEnemyAIState
 
     public void ExitState(EnemyAI entity)
     {
-
+        var animator = entity.GetEntityAnimator();
+        if (animator == null)
+        {
+            return;
+        }
+        animator.ResetTrigger("IsRangeAttack");
     }
 
 }
@@ -105,6 +122,7 @@ public class EnemyAIState_SpecialAttack : IEnemyAIState
             return;
         }
 
+        animator.ResetTrigger("isSpecialAttack");
         animator.SetTrigger("IsSpecialAttack");
     }
 
@@ -115,7 +133,12 @@ public class EnemyAIState_SpecialAttack : IEnemyAIState
 
     public void ExitState(EnemyAI entity)
     {
-
+        var animator = entity.GetEntityAnimator();
+        if (animator == null)
+        {
+            return;
+        }
+        animator.ResetTrigger("IsSpecialAttack");
     }
 
 }
@@ -140,7 +163,11 @@ public class EnemyAIState_Dead : IEnemyAIState
 
     public void ExitState(EnemyAI entity)
     {
-
+        var animator = entity.GetEntityAnimator();
+        if (animator != null)
+        {
+            animator.SetBool("IsDead", false);
+        }
     }
 }
 
@@ -149,7 +176,13 @@ public class EnemyAIState_Walk : IEnemyAIState
 {
     public void EnterState(EnemyAI entity)
     {
-        ToggleWalkAnimation(entity, true);
+        var animator = entity.GetEntityAnimator();
+        if (animator == null)
+        {
+            return;
+        }
+
+        animator.SetBool("IsWalk", true);
     }
 
     public void UpdateState(EnemyAI entity)
@@ -159,17 +192,13 @@ public class EnemyAIState_Walk : IEnemyAIState
 
     public void ExitState(EnemyAI entity)
     {
-        ToggleWalkAnimation(entity, false);
-    }
-
-    private void ToggleWalkAnimation(EnemyAI entity, bool isActive)
-    {
         var animator = entity.GetEntityAnimator();
         if (animator == null)
         {
             return;
         }
 
-        animator.SetBool("IsWalk", isActive);
+        animator.SetBool("IsWalk", false);
     }
+
 }

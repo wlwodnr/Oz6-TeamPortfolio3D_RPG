@@ -85,9 +85,7 @@ public class EnemyStatus : MonoBehaviour, IDamageable
         Vector3 knockbackDir = Vector3.zero;
         knockbackDir = transform.forward;
         knockbackDir.y = 0f;
-        float knockbackForce = 0f;
-        knockbackForce = _monsterData.KnockBackForce;
-
+        float knockbackForce = 1f;
         IGameObjectEntity targetEntity = playerObject.GetComponentInParent<IGameObjectEntity>();
 
         float finalAtkDamage = _enemyAttack;
@@ -105,7 +103,6 @@ public class EnemyStatus : MonoBehaviour, IDamageable
             );
 
         GameObjectManager.Instance.RequestTakeDamage(targetEntity.InstanceId, dmgInfo);
-
 
     }
 
@@ -143,8 +140,6 @@ public class EnemyStatus : MonoBehaviour, IDamageable
         transform.GetComponent<Rigidbody>().AddForce(damageInfo.KnockbackDir * 10f, ForceMode.Impulse);
 
 
-
-
         if (_currentHp <= 0)
         {
             SetDead();
@@ -154,7 +149,6 @@ public class EnemyStatus : MonoBehaviour, IDamageable
 
     private void SetDead()
     {
-        //중복 로직 방지
         if (_isDead == true)
         {
             return;
@@ -182,10 +176,8 @@ public class EnemyStatus : MonoBehaviour, IDamageable
         }
         else
         {
-            //임시 최대 체력 사용
             _currentHp = Mathf.Max(_temporaryMaxHp);
         }
-        //
         Debug.Log($"[{gameObject.name}] 상태가 초기화되었습니다.");
     }
 
