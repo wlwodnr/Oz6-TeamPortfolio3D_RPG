@@ -194,9 +194,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2416506594928541141}
-  - component: {fileID: 1867585782485762551}
   m_Layer: 5
-  m_Name: SkillBarSlotUI
+  m_Name: SkillSlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -222,26 +221,11 @@ RectTransform:
   - {fileID: 6273556664761641053}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1867585782485762551
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2138398865110620691}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ceea172800b2d04396037f6d3e94c7d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SkillSlotUI
-  _iconImage: {fileID: 2322362579630169239}
-  _cooldownOverlay: {fileID: 2054787808467539134}
-  _cooldownText: {fileID: 8183070351368718864}
 --- !u!1 &3895752532921406111
 GameObject:
   m_ObjectHideFlags: 0
